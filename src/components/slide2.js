@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {IconContext} from 'react-icons';
 import {MdComputer} from 'react-icons/md';
 import {BiRupee} from 'react-icons/bi';
-import {BsTools} from 'react-icons/bs'
+import {BsTools} from 'react-icons/bs';
 
 
 

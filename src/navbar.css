@@ -1,9 +1,11 @@
 .navi-bar{
-    width: 1355px;
-    position:fixed;
+    width: 1370px;
+    position: fixed;
     background-color: hsl(206, 96%, 43%);
     
 }
+
+
 
 .title{
     font-weight: 700;
@@ -31,4 +33,25 @@ cursor: pointer;
     color: white;
     margin-left: 10px;
     margin-top: 2px;
+}
+.post-img{
+    width: 100px;
+    height: 100px;
+    display: inline-flex;
+    border-radius: 15px;
+}
+.post-title{
+    display: inline-flex;
+    margin-left: 10px;
+    padding-top: 20px;
+}
+.card-body{
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+
+}
+.details-post{
+    display: inline-flex;
 }
