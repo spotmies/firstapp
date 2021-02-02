@@ -5,7 +5,12 @@
     
 }
 
-
+#signup{
+    display: none;
+}
+.userhere{
+    margin-right: 4   0px;
+}
 
 .title{
     font-weight: 700;

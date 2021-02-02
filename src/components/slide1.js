@@ -7,7 +7,16 @@ import {BiRupee} from 'react-icons/bi';
 import {BsTools} from 'react-icons/bs';
 import firebase from '../firebase'
 
+var newpost="/signup"
+firebase.auth().onAuthStateChanged(function(user) {
 
+  if (user) {
+ newpost="/newpost"
+  }
+  else{ 
+  newpost="/signup"
+}
+})
 
 
 function Slide(){
@@ -29,7 +38,7 @@ function Slide(){
       id="input-group-dropdown-2"
     >
       
-      <Dropdown.Item onClick={() => setModalShow(true)}><Link to="/newpost">{location}</Link></Dropdown.Item>
+      <Dropdown.Item onClick={() => setModalShow(true)}><Link to={`${newpost}`}>{location}</Link></Dropdown.Item>
       
     </DropdownButton>
     {/* <MyVerticallyCenteredModal
@@ -45,32 +54,6 @@ function Slide(){
 }
 
 export default Slide;
-
-function MyVerticallyCenteredModal(props) {
-  var now = 0;
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-      {/* <Postjob range={now} close={props.onHide}/> */}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
-
 
 
 
