@@ -7,13 +7,22 @@ import {BsTools} from 'react-icons/bs';
 import firebase from '../firebase';
 import 'firebase/storage';
 import repair from '../images/repair.svg';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const db=firebase.firestore();
 const storage = firebase.storage();
 
 var imgarr=[];
 export default class Postjob extends Component{
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: new Date()
+    };
+    alert(this.state.count)
+  }
+  
   handleSubmit(event) {
     event.preventDefault();
     let name=document.querySelector('#nameofserv').value
@@ -22,6 +31,8 @@ export default class Postjob extends Component{
     let price=document.querySelector('.price').value
     if(cat=="true")alert("please select category")
     else{
+      cat=parseInt(cat);
+      price=parseInt(price);
       console.log(name,desc,cat,price,imgarr)
      const newpost= db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc()
      var d=new Date();
@@ -36,7 +47,9 @@ export default class Postjob extends Component{
         media:imgarr,
         request:"nothing",
         posttime:d,
-        views:0
+        views:0,
+        location:"seethammadhara",
+        schedule:new Date().toDateString()
       }).then(()=>{
         return db.collection('allads').doc(newpost.id).set({
           job:cat,
@@ -48,12 +61,15 @@ export default class Postjob extends Component{
           media:imgarr,
           request:"nothing",
           posttime:d,
-          views:0
+          views:0,
+          location:"seethammadhara",
+          schedule:new Date().toDateString()
         })
       })
     }
     
   }
+
    render(){
       return (
           <div>
@@ -82,7 +98,11 @@ export default class Postjob extends Component{
           <option>6</option>
         </Form.Control>
       </Form.Group>
-     
+     <Form.Label>
+        <Calendar
+
+      />
+     </Form.Label>
       <Form.Group controlId="exampleForm.ControlTextarea1">
         <Form.Label><b>DESCRIPTION</b></Form.Label>
         <Form.Control as="textarea" rows={3} className="desc"/>
