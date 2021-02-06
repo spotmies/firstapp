@@ -140,3 +140,12 @@ display: inline-flex;
     margin-left: -1270px;
    
   }
+  .datepicker{
+    /* border-color: rgb(39, 150, 241); */
+    margin-top: 30.5px;
+    padding-top: 6px;
+    border-radius: 3%;
+    border-color: rgb(211, 211, 211);
+    border-width: 1px;
+    border-top-color: rgb(255, 255, 255);
+  }
