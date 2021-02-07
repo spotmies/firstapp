@@ -149,3 +149,13 @@ display: inline-flex;
     border-width: 1px;
     border-top-color: rgb(255, 255, 255);
   }
+
+  .gallery{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .items{
+    width: 30%;
+    margin-top: 3%;
+  }

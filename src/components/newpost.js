@@ -6,8 +6,6 @@ import {BiRupee,BiArrowBack} from 'react-icons/bi';
 import {BsTools,BsCalendar, BsCalendarFill} from 'react-icons/bs';
 import firebase from '../firebase';
 import 'firebase/storage';
-import repair from '../images/repair.svg';
-
 import { createHashHistory } from "history";
 
 
@@ -25,6 +23,9 @@ const storage = firebase.storage();
 var imgarr=[];
 export default class Postjob extends Component{
 
+
+
+  
   //date picker code here
 
 constructor (props) {
@@ -92,7 +93,7 @@ handleChange(date) {
     
   }
   upldimg=(e)=>{  
-    alert(this.state.startDate)  
+  //  alert(this.state.startDate)  
     for (let i = 0; i < e.target.files.length; i++) {
     var file=e.target.files[i];
     console.log("fileis",file.name)
@@ -118,14 +119,14 @@ handleChange(date) {
   task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
     console.log('File available at', downloadURL);
   imgarr.push(downloadURL);
-   const imgdiv=document.querySelector('.imgdiv')
-     console.log("arrayrun")
-    const div=document.createElement('div');
-    div.innerHTML=`
-    <img  src=${downloadURL} alt="logo" width="100" height="50"/>
-    `;
-    imgdiv.append(div);
-  
+
+  const gallery=document.querySelector('.gallery')
+ // const html='';
+   var html = document.createElement("IMG");
+    html.setAttribute('src',downloadURL);
+    html.setAttribute('class',"items")
+
+  gallery.append(html)
   });
   }
   );
@@ -219,9 +220,14 @@ handleChange(date) {
       <progress value="0" max="100" id="uploaderb">0%</progress>
       <Form.Group>
         <div className="imgdiv">
- 
-      </div>
+      
+      <div className="gallery">
+        {/* <img className="items" src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" /> */}
 
+
+      
+      </div>
+      </div>
       </Form.Group>
      
       <Button variant="outline-info" type="submit" >Get Service</Button>

@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route,BrowserRouter } from "react-router-dom";
 import Navibar from "./components/navbar";
 import Firstslide from "./components/slide1";
 import Navbar2 from "./components/navbar2";
@@ -10,23 +10,48 @@ import Mybooks from "./components/mybooks";
 import newpost from "./components/newpost";
 import chat from "./components/chat";
 import signup from "./components/signup";
+import profile from './components/profile';
 
-function App() {
-  return (
- <React.Fragment>
-  <Navibar />
-    <Switch>
+
+const Routing = ()=>{
+return(
+      <Switch>
       <Route exact path="/" component={Firstslide} />
-      <Route path="/mybookings" component={Mybooks} />
+      <Route path="/mybookings"  ><Mybooks />
+      </Route>
       <Route path="/cart" component={productlist}/>
       <Route path="/newpost" component={newpost}/>
       <Route path="/chat" component={chat}/>
       <Route path="/signup" component={signup}/>
       <Route path="/signup/home" component={Firstslide}/>
+      <Route path="/profile" component={profile}/>
       
     </Switch>
+)
+
+}
+
+
+function App() {
+  return (
+//  <React.Fragment>
+<BrowserRouter>
+  <Navibar />
+  <Routing />
+  </BrowserRouter>
+    // {/* <Switch>
+    //   <Route exact path="/" component={Firstslide} />
+    //   <Route path="/mybookings" component={Mybooks} />
+    //   <Route path="/cart" component={productlist}/>
+    //   <Route path="/newpost" component={newpost}/>
+    //   <Route path="/chat" component={chat}/>
+    //   <Route path="/signup" component={signup}/>
+    //   <Route path="/signup/home" component={Firstslide}/>
+    //   <Route path="/profile" component={profile}/>
+      
+    // </Switch> */}
    
-    </React.Fragment>
+    // </React.Fragment>
    
   
   );

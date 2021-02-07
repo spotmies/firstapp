@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Button,NavDropdown,Navbar,Nav,Modal,Form,Card } from 'react-bootstrap';
 import firebase from '../firebase';
-import { Redirect } from "react-router-dom";
 import { createHashHistory } from "history";
 import '../index.css';
 const db=firebase.firestore();

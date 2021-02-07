@@ -21,6 +21,8 @@ import {HiOutlineCurrencyRupee} from 'react-icons/hi';
 
 firebase.auth().onAuthStateChanged(function(user) {
 
+
+
   if (user) {
     console.log("user login")
     // document.querySelector('.userhere').innerHTML=""
@@ -37,8 +39,16 @@ firebase.auth().onAuthStateChanged(function(user) {
 const db=firebase.firestore();
 var username="username";
 function Navibar(){
-
-    return <header><Navbar collapseOnSelect expand="lg"  variant="dark" className="navi-bar">
+   const[name,setName]=useState("undefined")
+   firebase.auth().onAuthStateChanged(function(user) {
+     if(user){
+      
+      db.collection('users').doc(firebase.auth().currentUser.uid).get().then(snap=>{
+         setName(snap.data().name)
+      })
+     }
+   })
+    return <Navbar collapseOnSelect expand="lg"  variant="dark" className="navi-bar">
       <IconContext.Provider value={{ size:"1.5em",className:"nav-icons"}}>
         <Link to="/">
     <Navbar.Brand className="title">Spotmies</Navbar.Brand></Link>
@@ -53,7 +63,7 @@ function Navibar(){
       <Link to="/chat"><Nav  className="chaticon" ><MdChat className="chaticon2" size="1.3em"/>  Chat</Nav></Link>
      
       <MdAccountCircle className="account-icon"/>
-      <NavDropdown title={username} id="collasible-nav-dropdown" className="userhere">
+      <NavDropdown title={name} id="collasible-nav-dropdown" className="userhere">
       <Link to="/account"><NavDropdown.Item href="#action/3"><MdAccountCircle  color="gray" size="1.4em" />   Account</NavDropdown.Item></Link>
       <Link to="/mybookings"><NavDropdown.Item href="#action/3.1" ><BsFillBriefcaseFill color="gray" size="1.1em"/>   My Bookings</NavDropdown.Item></Link>
           <Link to="/chat"><NavDropdown.Item href="#action/3.2" ><BsChatFill color="gray" size="1.1em"/>Chats</NavDropdown.Item></Link>
@@ -71,10 +81,9 @@ function Navibar(){
 
       </IconContext.Provider>
   </Navbar>
-  <div className="spacediv">
+  // <div className="spacediv">
     
-  </div>
-  </header>
+  // </div>
 }
 export default Navibar;
 
