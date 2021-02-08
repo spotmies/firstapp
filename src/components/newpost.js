@@ -140,7 +140,7 @@ handleChange(date) {
 
    render(){
       return (
-          <div>
+          <div style={{paddingTop:"0px"}}>
        <Link to="/" ><BiArrowBack className="back-arrow" size="1.6em"/></Link>
     <div className="postjob">
         

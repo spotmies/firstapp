@@ -48,7 +48,8 @@ function Navibar(){
       })
      }
    })
-    return <Navbar collapseOnSelect expand="lg"  variant="dark" className="navi-bar">
+    return <header>    
+    <Navbar collapseOnSelect expand="lg"  variant="dark" className="navi-bar">
       <IconContext.Provider value={{ size:"1.5em",className:"nav-icons"}}>
         <Link to="/">
     <Navbar.Brand className="title">Spotmies</Navbar.Brand></Link>
@@ -81,6 +82,7 @@ function Navibar(){
 
       </IconContext.Provider>
   </Navbar>
+  </header>
   // <div className="spacediv">
     
   // </div>

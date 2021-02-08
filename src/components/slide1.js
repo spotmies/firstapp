@@ -28,7 +28,7 @@ function Slide(){
       console.log(nap.id)
     });
   })
-    return <div className="slide1">
+    return <div className="slide1" style={{paddingTop:"80px"}}>
         <img  src={repair} alt="logo" width="900" height="500"/>
      <div className="areabg">   
     <DropdownButton

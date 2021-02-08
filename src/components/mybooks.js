@@ -4,7 +4,7 @@ import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Card } from 'react-bootstrap';
 import '../index.css';
-import {createHashHistory} from 'history'
+import { useHistory } from 'react-router-dom'
 
 //import icons
 import {BsEyeFill} from 'react-icons/bs';
@@ -13,7 +13,6 @@ import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
 
 const db=firebase.firestore();
-const history = createHashHistory();
 
 function useTimes(){
   const[times,setTimes]=useState([])
@@ -34,24 +33,34 @@ useEffect(()=>{
 return times
 }
 const Sekhar=()=> {
+
 const times=useTimes()
 // console.log(times[0].media)
-        return( <div className="responses">
+        return(
+         
+        <div className="responses">
+               
                 <Mybookings data={times}/>
-                </div>  
+                </div> 
         )
 }
 
 export default Sekhar;
-//"https://blog.hubspot.com/hubfs/image8-2.jpg"
+
+
 function Mybookings(props) {
+  const history = useHistory();
+
 const click =(prop)=>{
   console.log("click",prop)
+  history.push(`mybookings/id/${prop}`)
 }
-      return <div>
+      return <div style={{paddingTop:"80px"}}>
+        
 {
   props.data.map((cap)=>
-<div id={cap.id} onClick={(e)=>click(cap.id)}>
+<div id={cap.id} onClick={(e)=>click(cap.id)} style={{marginLeft:"22%"}}>
+  
   <Card 
   bg="primary"
   key="2"
@@ -59,7 +68,8 @@ const click =(prop)=>{
   style={{ width: '48rem',borderRadius: '1rem' }}
   className="mb-2 "
 >
-  <Card.Header >{cap.problem}</Card.Header>
+
+ <Card.Header >{cap.problem}</Card.Header>
   <Card.Body className="card-body">
     <Card.Title>
     <img className="post-img" src={cap.media[0]} alt="" />
@@ -69,10 +79,11 @@ const click =(prop)=>{
    <p><RiPinDistanceFill /> Distance: 105</p>
    <p><HiOutlineCurrencyRupee /> Money: {cap.price}</p>
    <p><BiTimeFive /> Time: 1hr</p>
+   <p><BiTimeFive />view this add</p>
    </div>
     </Card.Title>
   </Card.Body>
-</Card>  
+</Card>
 </div>
   )}
       </div>

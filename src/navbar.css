@@ -1,9 +1,16 @@
 .navi-bar{
-    width: 1370px;
+    width: 100%;
+    margin-bottom: 50px;
     position: fixed;
+    display: flex;
     background-color: hsl(206, 96%, 43%);
-    
+    z-index: 999;
+    margin-top: 0;
 }
+
+/* .scrolled {
+    position: fixed;
+} */
 
 #signup{
     display: none;
