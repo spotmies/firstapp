@@ -11,6 +11,7 @@ import newpost from "./components/newpost";
 import chat from "./components/chat";
 import signup from "./components/signup";
 import profile from './components/profile';
+import Editpost from './components/editpost'
 
 
 const Routing = ()=>{
@@ -25,7 +26,9 @@ return(
       <Route path="/signup" component={signup}/>
       <Route path="/signup/home" component={Firstslide}/>
       <Route path="/profile" component={profile}/>
+      <Route path="/mybookings/id/edit" component={Editpost}/>
       <Route path="/mybookings/id" component={postview}/>
+     
       
     </Switch>
 )
