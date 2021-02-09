@@ -39,6 +39,7 @@ margin-left: 10px;
 color:white;
 font-weight: 500;
 cursor: pointer;
+display: block;
 }
 .chaticon2{
     margin-right: 2px;

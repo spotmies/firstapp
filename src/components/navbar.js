@@ -28,10 +28,17 @@ firebase.auth().onAuthStateChanged(function(user) {
     // document.querySelector('.userhere').innerHTML=""
     username="sekhar"
     document.querySelector('.userhere').style.display="block";
+    document.querySelector('.account-icon').style.display="block"
+    document.querySelector("#mychats").style.display="block"
+    document.querySelector("#mybooks").style.display="block"
     document.getElementById('signup').style.display="none";
   }
   else{ console.log("user not login")
   document.querySelector('.userhere').style.display="none";
+  document.querySelector('.account-icon').style.display="none";
+  document.querySelector("#mychats").style.display="none"
+  document.querySelector("#mybooks").style.display="none"
+
   document.getElementById('signup').style.display="block";
 }
 })
@@ -60,8 +67,8 @@ function Navibar(){
       </Nav>
       <Nav>
       
-      <Link to="/mybookings"><Nav  className="chaticon" ><BsFillBriefcaseFill  className="chaticon2" size="1.2em"/> My Bookings</Nav></Link>
-      <Link to="/chat"><Nav  className="chaticon" ><MdChat className="chaticon2" size="1.3em"/>  Chat</Nav></Link>
+      <Link to="/mybookings"><Nav  className="chaticon" id="mybooks"><BsFillBriefcaseFill  className="chaticon2" size="1.2em"/> My Bookings</Nav></Link>
+      <Link to="/chat"><Nav  className="chaticon" id="mychats"><MdChat className="chaticon2" size="1.3em"/>  Chat</Nav></Link>
      
       <MdAccountCircle className="account-icon"/>
       <NavDropdown title={name} id="collasible-nav-dropdown" className="userhere">
