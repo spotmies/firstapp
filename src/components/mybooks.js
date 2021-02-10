@@ -11,6 +11,8 @@ import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
+import {MdDelete} from 'react-icons/md';
+import {AiFillEdit} from 'react-icons/ai';
 
 const db=firebase.firestore();
 
@@ -24,7 +26,6 @@ useEffect(()=>{
           id:doc.id,
           ...doc.data()
         }))
-        if(snap.docs.length<1)alert("nothing in your bookings");
         setTimes(newtimes)
       })
     }
@@ -55,11 +56,23 @@ const click =(prop)=>{
   console.log("click",prop)
   history.push(`mybookings/id/${prop}`)
 }
-      return <div style={{paddingTop:"80px"}}>
+
+const edit =(prop)=>{
+  
+  console.log("click",prop)
+  history.push(`mybookings/id/edit/${prop}`)
+}
+const delpost=(pro)=>{
+  db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(pro).delete()
+  .then(()=>{
+    alert("ad deleted succefully")
+  })
+}
+      return <div>
         
 {
   props.data.map((cap)=>
-<div id={cap.id} onClick={(e)=>click(cap.id)} style={{marginLeft:"22%"}}>
+<div id={cap.id} style={{marginLeft:"22%"}}>
   
   <Card 
   bg="primary"
@@ -74,12 +87,14 @@ const click =(prop)=>{
     <Card.Title>
     <img className="post-img" src={cap.media[0]} alt="" />
    <h3 className="post-title"  value="sekhar">{cap.problem}</h3> 
+   <h4 onClick={(e)=>click(cap.id)}>view post</h4>
    <div className="details-post">
    <p><BsEyeFill /> Views: {cap.views}</p>
    <p><RiPinDistanceFill /> Distance: 105</p>
    <p><HiOutlineCurrencyRupee /> Money: {cap.price}</p>
    <p><BiTimeFive /> Time: 1hr</p>
-   <p><BiTimeFive />view this add</p>
+   <p onClick={(e)=>edit(cap.orderid)}><AiFillEdit />edit</p>
+   <p onClick={(e)=>delpost(cap.orderid)}><MdDelete />delete</p>
    </div>
     </Card.Title>
   </Card.Body>

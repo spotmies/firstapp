@@ -23,7 +23,8 @@ function useTimes(){
 firebase.auth().onAuthStateChanged(function(user) {
     if(user) {
 let arr=[];
- 
+ avoid=0;
+ avoid2=0;
        var personId;
         // fetch(`http://localhost:3000/mybookings/id/`, {})
         // .then((res) =>{ res.json()})
@@ -36,8 +37,8 @@ let arr=[];
          db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(personId).get().then(snap=>{
              console.log(snap.data().posttime.toDate())
              setdata(snap.data())
-            arr.push((String(snap.data().posttime.toDate())).replace('GMT+0530 (India Standard Time)',''));
-            arr.push((String(snap.data().schedule.toDate())).replace('GMT+0530 (India Standard Time)',''));
+            arr.push(String(snap.data().posttime.toDate()));
+            arr.push((snap.data().schedule.toDate()));
             setposttime(arr)
             document.querySelector('#nameofserv').value=snap.data().problem;
             document.querySelector('.desc').value=snap.data().description;
@@ -59,24 +60,53 @@ let arr=[];
 
 
   let avoid=0;
+  let avoid2=0;
 const Editpost=()=>{
     const {postdata,posttime}=useTimes()
     const [startDate, setState] = useState('')
     console.log(postdata)
   
+if(posttime[1] && avoid2==0){
+  console.log(posttime[1])
+  setState(posttime[1])
+  avoid2=1;
+}
+
+
     function prevmed(){
     if(postdata.media && avoid==0){
 imgarr=postdata.media;
-console.log(imgarr)
 const gallery=document.querySelector('.gallery')
 imgarr.map((nap)=>{
 
   
-      var html = document.createElement("IMG");
-       html.setAttribute('src',nap);
-       html.setAttribute('class',"items")
+    //   var html = document.createElement("IMG");
+    //    html.setAttribute('src',nap);
+    //    html.setAttribute('class',"items")
    
-     gallery.append(html)
+    //  gallery.append(html)
+
+     var div=document.createElement('div')
+     var html = document.createElement("IMG");
+     var btn = document.createElement('p');
+      html.setAttribute('src',nap);
+      html.setAttribute('class',"items");
+      div.setAttribute('id',`i${nap}`)
+      btn.setAttribute('class','close')
+      btn.setAttribute('id',nap)
+      btn.innerHTML = "x";
+      btn.onclick = function(){
+        let imgid=btn.getAttribute('id')
+      //  alert(`del id is ${imgid}`);
+      console.log(imgarr)
+        imgarr = imgarr.filter(e => e !== imgid);
+        console.log(imgarr)
+        document.getElementById(`i${imgid}`).remove()
+      };
+    
+    div.append(html)
+    div.appendChild(btn) 
+    gallery.append(div)
 }
 )
 avoid=1;
@@ -86,6 +116,7 @@ prevmed();
 
    function handleChange(date) {
 setState(date)
+console.log(date)
       } 
 
     const  handleSubmit=(event)=> {
@@ -111,9 +142,6 @@ setState(date)
             userid:firebase.auth().currentUser.uid, 
             orderid:postdata.orderid,
             media:imgarr,
-            request:"nothing",
-            posttime:d,
-            views:0,
             location:"seethammadhara",
             schedule:schedule
           }).then(()=>{
@@ -125,14 +153,11 @@ setState(date)
               userid:firebase.auth().currentUser.uid, 
               orderid:postdata.orderid,
               media:imgarr,
-              request:"nothing",
-              posttime:d,
-              views:0,
               location:"seethammadhara",
               schedule:schedule
             })
           }).then(()=>{
-            alert("post added successfully")
+            alert("post edited successfully")
             // history.go(-1)
           })
         }
@@ -170,11 +195,27 @@ setState(date)
       
         const gallery=document.querySelector('.gallery')
        // const html='';
+       var div=document.createElement('div')
          var html = document.createElement("IMG");
+         var btn = document.createElement('p');
           html.setAttribute('src',downloadURL);
-          html.setAttribute('class',"items")
-      
-        gallery.append(html)
+          html.setAttribute('class',"items");
+          div.setAttribute('id',`i${downloadURL}`)
+          btn.setAttribute('class','close')
+          btn.setAttribute('id',downloadURL)
+          btn.innerHTML = "x";
+          btn.onclick = function(){
+            let imgid=btn.getAttribute('id')
+          //  alert(`del id is ${imgid}`);
+          console.log(imgarr)
+            imgarr = imgarr.filter(e => e !== imgid);
+            console.log(imgarr)
+            document.getElementById(`i${imgid}`).remove()
+          };
+        
+        div.append(html)
+        div.appendChild(btn) 
+        gallery.append(div)
         });
         }
         );
@@ -183,20 +224,6 @@ setState(date)
         
          }
       
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     return  <div style={{paddingTop:"80px"}}>
   
@@ -268,11 +295,12 @@ setState(date)
       <Form.Group>
         <div className="imgdiv">
       <div className="gallery">
+
       </div>
       </div>
       </Form.Group>
      
-      <Button variant="outline-info" type="submit" >Get Service</Button>
+      <Button variant="outline-info" type="submit" >Save changes</Button>
      
     </Form>
   
@@ -281,18 +309,4 @@ setState(date)
 
 </div>
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export default Editpost

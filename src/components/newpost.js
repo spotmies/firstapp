@@ -122,11 +122,32 @@ handleChange(date) {
 
   const gallery=document.querySelector('.gallery')
  // const html='';
-   var html = document.createElement("IMG");
-    html.setAttribute('src',downloadURL);
-    html.setAttribute('class',"items")
+  //  var html = document.createElement("IMG");
+  //   html.setAttribute('src',downloadURL);
+  //   html.setAttribute('class',"items")
 
-  gallery.append(html)
+  // gallery.append(html)
+  var div=document.createElement('div')
+  var html = document.createElement("IMG");
+  var btn = document.createElement('p');
+   html.setAttribute('src',downloadURL);
+   html.setAttribute('class',"items");
+   div.setAttribute('id',`i${downloadURL}`)
+   btn.setAttribute('class','close')
+   btn.setAttribute('id',downloadURL)
+   btn.innerHTML = "x";
+   btn.onclick = function(){
+     let imgid=btn.getAttribute('id')
+   //  alert(`del id is ${imgid}`);
+   console.log(imgarr)
+     imgarr = imgarr.filter(e => e !== imgid);
+     console.log(imgarr)
+     document.getElementById(`i${imgid}`).remove()
+   };
+ 
+ div.append(html)
+ div.appendChild(btn) 
+ gallery.append(div)
   });
   }
   );
@@ -140,7 +161,7 @@ handleChange(date) {
 
    render(){
       return (
-          <div style={{paddingTop:"0px"}}>
+          <div style={{paddingTop:"-20px"}}>
        <Link to="/" ><BiArrowBack className="back-arrow" size="1.6em"/></Link>
     <div className="postjob">
         

@@ -55,8 +55,8 @@ function Navibar(){
       })
      }
    })
-    return <header>    
-    <Navbar collapseOnSelect expand="lg"  variant="dark" className="navi-bar">
+    return <header style={{paddingBottom:"80px"}}>    
+    <Navbar collapseOnSelect expand="lg"  variant="dark" className="navi-bar" >
       <IconContext.Provider value={{ size:"1.5em",className:"nav-icons"}}>
         <Link to="/">
     <Navbar.Brand className="title">Spotmies</Navbar.Brand></Link>

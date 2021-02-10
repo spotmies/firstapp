@@ -12,9 +12,11 @@ firebase.auth().onAuthStateChanged(function(user) {
 
   if (user) {
  newpost="/newpost"
+ console.log("user exists")
   }
   else{ 
   newpost="/signup"
+  console.log("user didn't exixst")
 }
 })
 
@@ -28,7 +30,7 @@ function Slide(){
       console.log(nap.id)
     });
   })
-    return <div className="slide1" style={{paddingTop:"80px"}}>
+    return <div className="slide1" >
         <img  src={repair} alt="logo" width="900" height="500"/>
      <div className="areabg">   
     <DropdownButton
@@ -57,59 +59,3 @@ export default Slide;
 
 
 
-
-class Postjob extends React.Component{
-  
-  render(){
-    return (
-  
-  <div className="postjob">
-  <Form>
-    <Form.Group controlId="exampleForm.ControlInput1">
-    <InputGroup className="mb-2">
-          <InputGroup.Prepend>
-            <InputGroup.Text><BsTools /></InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl id="inlineFormInputGroup" placeholder="Name of service" />
-        </InputGroup>
-    </Form.Group>
-    <Form.Group controlId="exampleForm.ControlSelect1">
-      <Form.Label><b>CATEGORY</b></Form.Label>
-      <Form.Control as="select">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-      </Form.Control>
-    </Form.Group>
-   
-    <Form.Group controlId="exampleForm.ControlTextarea1">
-      <Form.Label><b>DESCRIPTION</b></Form.Label>
-      <Form.Control as="textarea" rows={3} />
-    </Form.Group>
-    <Form.Label><b>PRICE</b></Form.Label>
-    <InputGroup className="mb-2">
-          <InputGroup.Prepend>
-            <InputGroup.Text><BiRupee /></InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl id="inlineFormInputGroup" type="number" placeholder="Enter price here" />
-        </InputGroup>
-  
-        <Form.Label><b>UPLOAD ANY IMAGES</b></Form.Label>
-        <Form.File 
-      id="custom-file"
-      label="Custom file input"
-      custom
-    />
-    <br />
-    <ProgressBar now={this.props.range} label={`${this.props.range}%`} />
-  </Form>
-  <br />
-  <Button onClick={this.props.close} variant="outline-info" type="submit">Get Service</Button>
-  </div>
-  
-    )
-  }
-  
-  }

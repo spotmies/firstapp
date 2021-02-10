@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Carousel } from 'react-bootstrap';
 import react,{useState,useEffect} from "react";
 import {MdDelete} from 'react-icons/md';
-import {AiFillEdit} from 'react-icons/ai'
+import {AiFillEdit} from 'react-icons/ai';
 import { useHistory } from 'react-router-dom'
 
 const db=firebase.firestore();
@@ -74,7 +74,7 @@ const Navbar3=()=>{
   }
   
 return<div>
-  <div style={{height:"300px",width:"100%", paddingTop:"80px"}}>
+  <div style={{height:"300px",width:"100%"}}>
    <Carousel>
  {media.map((nap)=>
    <Carousel.Item>     

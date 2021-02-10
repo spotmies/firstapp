@@ -159,3 +159,6 @@ display: inline-flex;
     width: 30%;
     margin-top: 3%;
   }
+  .close{
+    margin-right: 100px;
+  }
