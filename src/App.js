@@ -25,7 +25,7 @@ return(
       <Route path="/chat" component={chat}/>
       <Route path="/signup" component={signup}/>
       <Route path="/signup/home" component={Firstslide}/>
-      <Route path="/profile" component={profile}/>
+      <Route path="/account" component={profile}/>
       <Route path="/mybookings/id/edit" component={Editpost}/>
       <Route path="/mybookings/id" component={postview}/>
      

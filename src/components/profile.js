@@ -1,28 +1,41 @@
 import React, { Component } from 'react'
 import pic from '../images/logo192.png'
- 
-class App extends Component {
-  render() {
-    
- 
-    return (
-        <div>
-            <div style={{
-               display:"flex",
-               justifyContent:"space-around",
-               
-              
-           }}>
-                <div>
-                <img style={{width:"160px",height:"160px",borderRadius:"80px"}}
-                   src={pic}
-                   />
-                   <h4>sekhar javvadi</h4>
-                </div>
-            </div>
-        </div>
-    )
-  }
+import firebase from '../firebase';
+import react,{useState,useEffect} from "react";
+
+const db=firebase.firestore();
+function profile() {
+  return (
+    <div>
+      <Account />
+    </div>
+  )
 }
- 
-export default App
+
+function useTimes(){
+  const[udata,setudata]=useState([])
+useEffect(()=>{
+  firebase.auth().onAuthStateChanged(function(user) {
+    if(user) {
+      db.collection('users').doc(firebase.auth().currentUser.uid).get().then((snap)=>{
+      
+       console.log(snap.id,snap.data())
+      })
+    }
+  })
+},[])
+return udata
+}
+
+
+function Account(){
+const{udata}=useTimes()
+console.log(udata)
+return<div>
+  <div>
+<h1>this is account page</h1>
+  </div>
+</div>
+
+ }
+export default profile
