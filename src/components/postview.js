@@ -22,23 +22,17 @@ firebase.auth().onAuthStateChanged(function(user) {
 let arr=[];
  
        var personId;
-        // fetch(`http://localhost:3000/mybookings/id/`, {})
-        // .then((res) =>{ res.json()})
-        // .then((response) => {
-        
-         // console.log(`http://localhost:3000/mybookings/id/${personId}`);
+    
          personId=window.location.pathname;
          personId=personId.replace('/mybookings/id/','');
          console.log(personId)
          db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(personId).get().then(snap=>{
-             console.log(snap.data().posttime.toDate())
              setdata(snap.data())
             arr.push((String(snap.data().posttime.toDate())).replace('GMT+0530 (India Standard Time)',''));
             arr.push((String(snap.data().schedule.toDate())).replace('GMT+0530 (India Standard Time)',''));
             setposttime(arr)
          })
-        // })
-        // .catch((error) => console.log(error));
+       
     }})
 //
 

@@ -80,7 +80,7 @@ function genotp(e){
         console.log("error while reading document")
       });
          
-      })
+      }).catch((err)=>{alert(err)})
       
   }
   
@@ -107,10 +107,14 @@ let userid=firebase.auth().currentUser.uid;
 if(name){
     db.collection('users').doc(userid).set({
         name:name,
-        phone:usrno
+        phone:usrno,
+        email:'',
+        pic:'https://www.sunsetlearning.com/wp-content/uploads/2019/09/User-Icon-Grey-300x300.png',
+        altnum:''
     }).then(()=>{
-        alert("data added")
-        history.go(-1)
+        // alert("data added")
+      
+        window.location.href = 'http://localhost:3000/';
     })
 }
 

@@ -48,8 +48,7 @@ let arr=[];
 
 
          })
-        // })
-        // .catch((error) => console.log(error));
+    
     }})
 //
 
@@ -80,11 +79,7 @@ const gallery=document.querySelector('.gallery')
 imgarr.map((nap)=>{
 
   
-    //   var html = document.createElement("IMG");
-    //    html.setAttribute('src',nap);
-    //    html.setAttribute('class',"items")
-   
-    //  gallery.append(html)
+
 
      var div=document.createElement('div')
      var html = document.createElement("IMG");
@@ -171,6 +166,7 @@ console.log(date)
           var file=e.target.files[i];
           console.log("fileis",file.name)
          var uploaderb=document.querySelector('#uploaderb');
+         uploaderb.style.display="block";
          // crate storage ref
         var storageref=storage.ref(`users/uid/profile/` + file.name);
         
@@ -216,10 +212,11 @@ console.log(date)
         div.append(html)
         div.appendChild(btn) 
         gallery.append(div)
+        uploaderb.style.display="none";
         });
         }
         );
-         }
+         }//
          console.log(imgarr)
         
          }

@@ -28,3 +28,10 @@ margin-left: 400px;
 
 }
 
+/* profile */
+.editpro{
+  display: none;
+}
+#uploaderb{
+  display: none;
+}

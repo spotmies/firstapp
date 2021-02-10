@@ -98,6 +98,7 @@ handleChange(date) {
     var file=e.target.files[i];
     console.log("fileis",file.name)
    var uploaderb=document.querySelector('#uploaderb');
+   uploaderb.style.display="block";
    // crate storage ref
   var storageref=storage.ref(`users/uid/profile/` + file.name);
   
@@ -148,6 +149,7 @@ handleChange(date) {
  div.append(html)
  div.appendChild(btn) 
  gallery.append(div)
+ uploaderb.style.display="none";
   });
   }
   );
