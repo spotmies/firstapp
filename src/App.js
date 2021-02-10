@@ -12,7 +12,7 @@ import chat from "./components/chat";
 import signup from "./components/signup";
 import profile from './components/profile';
 import Editpost from './components/editpost'
-
+import SimpleMap from './components/contact';
 
 const Routing = ()=>{
 return(
@@ -28,7 +28,7 @@ return(
       <Route path="/account" component={profile}/>
       <Route path="/mybookings/id/edit" component={Editpost}/>
       <Route path="/mybookings/id" component={postview}/>
-     
+      <Route path="/contact" component={SimpleMap}/>
       
     </Switch>
 )
