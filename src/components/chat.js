@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Card } from 'react-bootstrap';
+import {Card, Row, Col } from 'react-bootstrap';
 import '../index.css';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 //import icons
 import {BsEyeFill} from 'react-icons/bs';
@@ -41,13 +42,14 @@ const times=useTimes()
         return(
          
         <div className="responses">
-               
+                <Headings />
                 <Mybookings data={times}/>
                 </div> 
         )
 }
 
 export default Sekhar;
+
 
 
 function Mybookings(props) {
@@ -98,6 +100,17 @@ const click =(prop)=>{
  
   }
 
+
+  function Headings() {
+    return (
+     <div style={{display: "inline-flex", background: "#1687a7", color: "white", width: "100%", marginTop: "-50px", marginBottom: "30px"}}>
+       <Row style={{width: "100%", textAlign: "center"}}>
+       <Col style={{borderBottom: "3px solid white", marginBottom: "0"}}><Link to="/chat" style={{color: "white", textDecoration: "none"}}><h2>Responses</h2></Link></Col>
+       <Col><Link to="/chats-section" style={{color: "white", textDecoration: "none"}}><h2>Chats</h2></Link></Col>
+       </Row>
+     </div>
+    );
+  }
 
  
 firebase.auth().onAuthStateChanged(function(user) {

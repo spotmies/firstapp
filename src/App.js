@@ -11,8 +11,9 @@ import newpost from "./components/newpost";
 import chat from "./components/chat";
 import signup from "./components/signup";
 import profile from './components/profile';
-import Editpost from './components/editpost'
-
+import Editpost from './components/editpost';
+import SimpleMap from './components/contact';
+import chatssection from "./components/chats-section";
 
 const Routing = ()=>{
 return(
@@ -23,12 +24,13 @@ return(
       <Route path="/cart" component={productlist}/>
       <Route path="/newpost" component={newpost}/>
       <Route path="/chat" component={chat}/>
+      <Route path="/chats-section" component={chatssection}/>
       <Route path="/signup" component={signup}/>
       <Route path="/signup/home" component={Firstslide}/>
       <Route path="/account" component={profile}/>
       <Route path="/mybookings/id/edit" component={Editpost}/>
       <Route path="/mybookings/id" component={postview}/>
-     
+      <Route path="/contact" component={SimpleMap}/>
       
     </Switch>
 )
