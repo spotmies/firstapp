@@ -30,6 +30,7 @@ useEffect(()=>{
         }))
         setTimes(newtimes)
       })
+
     }
   })
 },[])
@@ -38,7 +39,7 @@ return times
 const Sekhar=()=> {
 
 const times=useTimes()
-// console.log(times[0].media)
+ console.log(times)
         return(
          
         <div className="responses">
