@@ -20,14 +20,18 @@ const db=firebase.firestore();
 
 
 function useTimes(){
-  const[times,setTimes]=useState([])
+  // const[times,setTimes]=useState([])
   const[chit,setchit]=useState([])
 useEffect(()=>{
   firebase.auth().onAuthStateChanged(function(user) {
     if(user) {
 
 var temp=[];
-      db.collection("messaging").where("userid", "==", firebase.auth().currentUser.uid)
+
+      db.collection("messaging")
+      .where("userid", "==", firebase.auth().currentUser.uid)
+      .where('chatbuild', '==', true)
+      .orderBy('createdAt','desc')
       .get()
       .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -112,7 +116,8 @@ function Chatarea(props){
     console.log("click",prop)
     let msg=document.getElementById('msgtext');
     db.collection('messaging').doc(prop).update({
-      body:firebase.firestore.FieldValue.arrayUnion(msg.value)
+      body:firebase.firestore.FieldValue.arrayUnion(msg.value+"u"),
+      createdAt:new Date()
     }).then(()=>{msg.value=''})
   }
 
@@ -121,7 +126,7 @@ return(
     {
 chat.body.map((nap)=>
     
-  <p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "#faf3e0", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap}</p>
+  <p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "#faf3e0", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
 )}
 <Form.Group style={{position: "absolute", bottom: "2px",width: "98%", margin: "0"}}>
     <Row style={{margin: "0"}}>

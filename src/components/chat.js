@@ -83,7 +83,7 @@ const click =(prop)=>{
     <Card.Title>
     <img className="post-img" src={cap.media} alt="" />
    <h3 className="post-title"  value="sekhar">{cap.problem}</h3> 
-   <h4 onClick={(e)=>click(cap.id)}>view post</h4>
+   <h4 onClick={(e)=>click(cap.orderid)}>view post</h4>
    <div className="details-post">
    <p><RiPinDistanceFill /> Distance: {cap.distance}km</p>
    <p><HiOutlineCurrencyRupee /> Money: {cap.money}</p>
