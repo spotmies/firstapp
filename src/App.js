@@ -14,6 +14,7 @@ import profile from './components/profile';
 import Editpost from './components/editpost';
 import SimpleMap from './components/contact';
 import chatssection from "./components/chats-section";
+import CardExampleCard from './components/bikerental';
 
 const Routing = ()=>{
 return(
@@ -31,6 +32,7 @@ return(
       <Route path="/mybookings/id/edit" component={Editpost}/>
       <Route path="/mybookings/id" component={postview}/>
       <Route path="/contact" component={SimpleMap}/>
+      <Route path='/rentals' component={CardExampleCard} />
       
     </Switch>
 )

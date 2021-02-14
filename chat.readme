@@ -1,0 +1,26 @@
+the chatting established using following steps
+when user post add that seen by the partner
+when the partner make a response or quote to the customer it create a one document in messaging collection
+with 1.partner id,
+2.partner photo,
+3.partner name,
+4.chatbuild (initially false),
+5.partner status(read,typing,offline),
+6.doc id,
+7.body(chattting is here) array
+that are initiated by partner
+
+when user recieves responses from partner 
+whenn click on particular response it asks for user to chat with the partner 
+if true in messaging collection and particular document
+update following
+1.username
+2.user id.
+3.user photo
+4.ustatus
+5.make chatbuild true 
+6.createdAt(timestamps)
+
+whenever the user or partner messaging to each other update createdAt with current time and date 
+all messages of user and partner contains in body array extension u when user send message extension p when parnter sends message.
+

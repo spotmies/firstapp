@@ -128,7 +128,7 @@ chat.body.map((nap)=>
     
   <p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "#faf3e0", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
 )}
-<Form.Group style={{position: "absolute", bottom: "2px",width: "98%", margin: "0"}}>
+<Form.Group style={{position: "center", bottom: "2px",width: "98%", margin: "0"}}>
     <Row style={{margin: "0"}}>
         <Col lg="10">
   <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
