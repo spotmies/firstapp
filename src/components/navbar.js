@@ -18,6 +18,7 @@ import {BsReverseLayoutTextSidebarReverse,BsChatFill,BsFillBriefcaseFill,BsChatD
 import {BiLogOutCircle,BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi';
+import {IoCarSport} from 'react-icons/io5';
 
 firebase.auth().onAuthStateChanged(function(user) {
 
@@ -68,7 +69,7 @@ function Navibar(){
 
       </Nav>
       <Nav>
-      
+      <Link to="/rentals"><Nav  className="chaticon" id="mybooks"><IoCarSport  className="chaticon2" size="1.2em"/> Rentals</Nav></Link>
       <Link to="/mybookings"><Nav  className="chaticon" id="mybooks"><BsFillBriefcaseFill  className="chaticon2" size="1.2em"/> My Bookings</Nav></Link>
       <Link to="/chat"><Nav  className="chaticon" id="mychats"><MdChat className="chaticon2" size="1.3em"/>  Chat</Nav></Link>
      

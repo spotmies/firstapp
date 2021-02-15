@@ -4,6 +4,8 @@ import { Card, Icon,Button,Header, Image, Modal } from 'semantic-ui-react'
 import '../rental.css';
 import {SiCoronaengine} from 'react-icons/si'
 import {BsFillGearFill} from 'react-icons/bs'
+import {IoSpeedometerOutline} from 'react-icons/io5'
+import {FaPeopleCarry} from 'react-icons/fa'
 import react,{useState,useEffect} from "react";
 import firebase from '../firebase';
 
@@ -20,7 +22,7 @@ function Rentals(){
             <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}}>
             <Card.Group>     
                 {times.map((nap,key)=>     
-  <Card className="rentcard" id={nap.id} key={key}> 
+  <Card className="rentcard" id={nap.id} key={key} style={{width:'350px'}}> 
     <Image src={nap.photo} wrapped ui={true} />
     <Card.Content>
       <Card.Header style={{textAlign:"center"}}>{nap.model}</Card.Header>
@@ -35,47 +37,83 @@ function Rentals(){
         <BsFillGearFill />
         &nbsp; {nap.geartype} 
         </a></p>
-        <p style={{marginLeft:"25px"}}><a>
+        <p style={{marginLeft:"20px"}}><a>
         <SiCoronaengine />
         &nbsp; {nap.toc} 
-                  </a></p>
-                  <p style={{marginLeft:"25px"}}> <a>
+                  </a>
+          </p>
+        <p style={{marginLeft:"20px"}}> <a>
         <Icon name='wheelchair' />
         {nap.seats}seats
        
       </a></p>
+      
+      <p style={{marginLeft:"20px"}}><a>
+        <IoSpeedometerOutline />
+        &nbsp;{nap.kmslimit} km
+        </a></p>
       </div>
     </Card.Content>
     <Button id={nap.id} onClick={(e)=>setOpen(true)}>Book now</Button>
-  </Card>
-)}
-</Card.Group>
-            </div>
-           {/* <ModalExampleModal state={open}/> */}
-           <Modal
+    <div>
+    <Modal
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
     >
       
-      <Modal.Header>Select a Photo</Modal.Header>
+      <Modal.Header>{nap.model}</Modal.Header>
       <Modal.Content image>
-        <Image size='medium' src='http://cdn.carbuzz.com/gallery-images/1600/523000/700/523781.jpg' wrapped />
+        <Image size='medium' src={nap.photo} wrapped />
         <Modal.Description>
-          <Header>Default Profile Image</Header>
+          <Header><h1>{nap.model}</h1></Header>
           <p>
-            We've found the following gravatar image associated with your e-mail
-            address.
+          <b> &#8377; {nap.price}/Day</b>
           </p>
-          <p>Is it okay to use this photo?</p>
+        <div style={{display:'inline-flex'}}> 
+        <p><a>
+          <SiCoronaengine />
+        &nbsp; {nap.toc} 
+        </a></p>
+
+        <p style={{marginLeft:"10px"}}><a>
+        <BsFillGearFill />
+        &nbsp; {nap.geartype} 
+        </a></p>
+
+        <p style={{marginLeft:"10px"}}> <a>
+        <Icon name='wheelchair' />
+        {nap.seats}seats
+      </a></p>
+
+      <p style={{marginLeft:"10px"}}><a>
+        <IoSpeedometerOutline />
+        &nbsp;{nap.kmslimit} km
+        </a></p>
+
+        {nap.fuelincl
+        ?<p style={{marginLeft:"10px"}}> <Icon name="tint" />fuel: include</p>
+        :<p style={{marginLeft:"10px"}}> <Icon name="tint" />fuel: exclude</p>
+        }
+        {nap.delivery
+        ?<p style={{marginLeft:"10px"}}><FaPeopleCarry />&nbsp;delivery: yes</p>
+        :<p style={{marginLeft:"10px"}}><FaPeopleCarry />delivery: no</p>
+        }
+        </div>
+        <p>
+          {nap.descr}
+        </p>
+        <div>
+
+        </div>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
         <Button color='black' onClick={() => setOpen(false)}>
-          Nope
+          Exit
         </Button>
         <Button
-          content="Yep, that's me"
+          content="Rent Now"
           labelPosition='right'
           icon='checkmark'
           onClick={() => setOpen(false)}
@@ -83,6 +121,14 @@ function Rentals(){
         />
       </Modal.Actions>
     </Modal>
+    </div>
+  </Card>
+  
+)}
+</Card.Group>
+            </div>
+           {/* <ModalExampleModal state={open}/> */}
+
         </div>
     </div>
 
