@@ -139,7 +139,9 @@ return(
     <div style={{height:'400px',overflow:'auto'}}>
     {
 chat.body.map((nap)=>
-<p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
+{if(nap[nap.length-1]=="u") return <p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
+else return <p className="chatList" style={{listStyle: "none", textAlign: "left", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
+}
 
 )}
 </div>
