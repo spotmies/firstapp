@@ -16,13 +16,14 @@ const db=firebase.firestore();
 function Rentals(){
   const times=useTimes()
   const [open, setOpen] = useState(false)
-  const [col,setcol]=useState('primary')
+  
 
     return <div>
         <div>
             <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}}>
             <Card.Group>     
                 {times.map((nap,key)=>     
+
   <Card className="rentcard" id={nap.id} key={key} style={{width:'370px'}}> 
     <Image src={nap.photo} wrapped ui={true} />
     <Card.Content>
@@ -56,7 +57,7 @@ function Rentals(){
       </div>
       <div>
       <Button.Group style={{width:'320px',marginTop:'10px'}}>
-    <Button primary> &#8377;{nap.price*50} <br /> <small> 50km  </small></Button>
+    <Button > &#8377;{nap.price*50} <br /> <small> 50km  </small></Button>
 
     <Button> &#8377;{nap.price*100}<br /> <small> 100km </small></Button>
     <Button>&#8377;{nap.price*150} <br />  <small> 150km </small></Button>
@@ -64,7 +65,11 @@ function Rentals(){
 
       </div>
     </Card.Content>
-    <Button id={nap.id} color="blue" onClick={(e)=>setOpen(true)}>Book now</Button>
+    {nap.status
+      ?<Button id={nap.id} color="blue" onClick={(e)=>setOpen(true)}>Book now</Button>
+      :<Button disabled id={nap.id} color="brown" onClick={(e)=>setOpen(true)}>Sold out</Button>
+    }
+    
     <div>
     <Modal
       onClose={() => setOpen(false)}
@@ -154,6 +159,7 @@ function Rentals(){
     </Modal>
     </div>
   </Card>
+
   
 )}
 </Card.Group>
@@ -165,7 +171,11 @@ function Rentals(){
 
 
 }
-
+function Empty(){
+  return <div>
+    <p>this is empalyt</p>
+  </div>
+}
 
 // function ModalExampleModal(props) {
 //   const [open, setOpen] = useState(props.state)
@@ -214,6 +224,7 @@ function useTimes(){
   const[times,setTimes]=useState([])
   useEffect(()=>{
     var newtimes;
+    let count=0;
     db.collection('rentals').get().then((snap)=>{
       snap.docs.forEach(nap=>{
         if(nap.data().permission){
@@ -222,14 +233,10 @@ function useTimes(){
               id:doc.id,
               ...doc.data()
             }))
-             setTimes(newtimes);
-            
+            setTimes(cap=>[...cap,...newtimes])
           })
         }
       })
-    })
-    .then(()=>{
-     // setTimes(newtimes);
     })
   },[])
   return times;
