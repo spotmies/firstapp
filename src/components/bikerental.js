@@ -1,6 +1,6 @@
 import React from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import { Card, Icon,Button,Header, Image, Modal,Step,Menu } from 'semantic-ui-react'
+import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown } from 'semantic-ui-react'
 import '../rental.css';
 import {SiCoronaengine} from 'react-icons/si'
 import {BsFillGearFill} from 'react-icons/bs'
@@ -12,19 +12,70 @@ import firebase from '../firebase';
 const db=firebase.firestore();
 
 
-
 function Rentals(){
-  const times=useTimes()
+  var times=useTimes()
 var arr=[];
 for(var i=0;i<=100;i++){
   arr.push(false)
 }
 const [open, setOpen] = useState(arr)
-//console.log(open)
+const[daty,setdaty]=useState([]);
+
+function getfilt(e){
+  const wdiv=document.querySelector('.newdiv')
+  document.querySelector('.maindiv').remove();
+  console.log(e.target.innerText,"filtering")
+  db.collection('rentals').get().then((snap)=>{
+    snap.docs.forEach(nap=>{
+      if(nap.data().permission){
+        db.collection('rentals').doc(nap.id).collection('products').where("cartype","==",e.target.innerText).get().then(snap=>{
+
+          snap.docs.forEach(nap=>{
+            const div=document.createElement('div');
+            div.setAttribute('class','maindiv')
+            div.innerHTML=`
+            <h1>${nap.data().model}</h1>
+            `;
+            wdiv.append(div);
+          })
+
+        })
+      }
+    })
+  })
+console.log(daty)
+}
+
+
  
     return <div>
         <div>
-            <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}}>
+          {/* < Filtering /> */}
+          <Dropdown
+    text='Filter'
+    icon='filter'
+    labeled
+    button
+    className='icon'
+    
+  >
+    <Dropdown.Menu onClick={getfilt}>
+      <Dropdown.Item>
+        <Icon name='attention' className='right floated' />
+        sport
+      </Dropdown.Item>
+      <Dropdown.Item>
+        <Icon name='comment' className='right floated' />
+        suv
+      </Dropdown.Item>
+      <Dropdown.Item>
+        <Icon name='conversation' className='right floated' />
+        sedan
+      </Dropdown.Item>
+    </Dropdown.Menu>
+  </Dropdown>
+  <div className="newdiv">
+            <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv">
             <Card.Group>     
                 {times.map((nap,key)=>     
 
@@ -168,6 +219,7 @@ const [open, setOpen] = useState(arr)
 )}
 </Card.Group>
             </div>
+            </div>
            {/* <ModalExampleModal state={open} /> */}
 
         </div>
@@ -179,6 +231,113 @@ function blynk(props,crops){
 }
 
 }
+
+
+
+
+// const Filtering = () => (
+//   <Dropdown
+//     text='Filter'
+//     icon='filter'
+//     labeled
+//     button
+//     className='icon'
+    
+//   >
+//     <Dropdown.Menu onClick={getfilt}>
+//       <Dropdown.Item>
+//         <Icon name='attention' className='right floated' />
+//         sport
+//       </Dropdown.Item>
+//       <Dropdown.Item>
+//         <Icon name='comment' className='right floated' />
+//         suv
+//       </Dropdown.Item>
+//       <Dropdown.Item>
+//         <Icon name='conversation' className='right floated' />
+//         sedan
+//       </Dropdown.Item>
+//     </Dropdown.Menu>
+//   </Dropdown>
+// )
+
+
+function useTimes(){
+  const[times,setTimes]=useState([])
+  useEffect(()=>{
+    var newtimes;
+    let count=0;
+    db.collection('rentals').get().then((snap)=>{
+      snap.docs.forEach(nap=>{
+        if(nap.data().permission){
+          db.collection('rentals').doc(nap.id).collection('products').get().then(snap=>{
+            newtimes=snap.docs.map((doc)=>({
+              id:doc.id,
+              ...doc.data()
+            }))
+            setTimes(cap=>[...cap,...newtimes])
+          })
+        }
+      })
+    })
+  },[])
+  return times;
+}
+
+
+
+
+function Empty(){
+  return <div>
+    <p>this is empalyt</p>
+  </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+export default Rentals
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // function ModalExampleModal(props) {
@@ -277,46 +436,3 @@ function blynk(props,crops){
 //   )
 // }
 
-
-function useTimes(){
-  const[times,setTimes]=useState([])
-  useEffect(()=>{
-    var newtimes;
-    let count=0;
-    db.collection('rentals').get().then((snap)=>{
-      snap.docs.forEach(nap=>{
-        if(nap.data().permission){
-          db.collection('rentals').doc(nap.id).collection('products').where("type","==","bike").get().then(snap=>{
-            newtimes=snap.docs.map((doc)=>({
-              id:doc.id,
-              ...doc.data()
-            }))
-            setTimes(cap=>[...cap,...newtimes])
-          })
-        }
-      })
-    })
-  },[])
-  return times;
-}
-
-
-
-
-function Empty(){
-  return <div>
-    <p>this is empalyt</p>
-  </div>
-}
-
-
-
-
-
-
-
-
-
-
-
-export default Rentals
