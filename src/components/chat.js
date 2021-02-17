@@ -62,6 +62,18 @@ const click =(prop)=>{
   console.log("click",prop)
   history.push(`mybookings/id/${prop}`)
 }
+const click2=(prope)=>{
+  console.log('click2',prope)
+  db.collection('messaging').doc(prope).update({
+    chatbuild:true,
+    userid:firebase.auth().currentUser.uid,
+    uname:uname,
+    upic:upic
+  }).then(()=>{
+    // alert("go to chat for make a conversation")
+    history.push('chats-section')
+  })
+}
 
 
       return <div>
@@ -84,6 +96,7 @@ const click =(prop)=>{
     <img className="post-img" src={cap.media} alt="" />
    <h3 className="post-title"  value="sekhar">{cap.problem}</h3> 
    <h4 onClick={(e)=>click(cap.orderid)}>view post</h4>
+   <h4 onClick={(e)=>click2(cap.msgid)}>chat with him</h4>
    <div className="details-post">
    <p><RiPinDistanceFill /> Distance: {cap.distance}km</p>
    <p><HiOutlineCurrencyRupee /> Money: {cap.money}</p>
@@ -113,9 +126,15 @@ const click =(prop)=>{
     );
   }
 
- 
+var uname;
+var upic;
 firebase.auth().onAuthStateChanged(function(user) {
   if(user) {
-
+    db.collection('users').doc(firebase.auth().currentUser.uid).get().then(snap=>{
+      if(snap.data()){
+      uname=snap.data().name;
+      upic=snap.data().pic
+      }
+    })
   }
 })
