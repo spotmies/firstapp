@@ -74,7 +74,12 @@ const click2=(prope)=>{
     history.push('chats-section')
   })
 }
-
+const delpost=(pro)=>{
+  db.collection('users').doc(firebase.auth().currentUser.uid).collection('response').doc(pro).delete()
+  .then(()=>{
+    alert("response deleted succefully")
+  })
+}
 
       return <div>
         
@@ -101,6 +106,7 @@ const click2=(prope)=>{
    <p><RiPinDistanceFill /> Distance: {cap.distance}km</p>
    <p><HiOutlineCurrencyRupee /> Money: {cap.money}</p>
    <p><BiTimeFive /> Time:{(String(cap.time.toDate())).replace('GMT+0530 (India Standard Time)','')}</p>
+   <p onClick={(e)=>delpost(cap.id)}><MdDelete />delete</p>
    
    </div>
     </Card.Title>

@@ -1,9 +1,9 @@
 import '../App.css';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import {Dropdown,DropdownButton,Modal,Button,InputGroup,Form,FormControl,ProgressBar} from 'react-bootstrap';
+import {Button,InputGroup,Form,FormControl} from 'react-bootstrap';
 import {BiRupee,BiArrowBack} from 'react-icons/bi';
-import {BsTools,BsCalendar, BsCalendarFill} from 'react-icons/bs';
+import {BsTools,BsCalendar} from 'react-icons/bs';
 import firebase from '../firebase';
 import 'firebase/storage';
 import { createHashHistory } from "history";
@@ -88,6 +88,7 @@ handleChange(date) {
       }).then(()=>{
         alert("post added successfully")
         history.go(-1)
+        imgarr=[];
       })
     }
     
