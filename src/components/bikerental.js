@@ -29,15 +29,25 @@ function getfilt(e){
     snap.docs.forEach(nap=>{
       if(nap.data().permission){
         db.collection('rentals').doc(nap.id).collection('products').where("cartype","==",e.target.innerText).get().then(snap=>{
-
+          const divm=document.createElement('div');
+          divm.setAttribute('class','maindiv ui cards');
           snap.docs.forEach(nap=>{
             const div=document.createElement('div');
-            div.setAttribute('class','maindiv')
+            div.setAttribute('id',`${nap.id}`)
             div.innerHTML=`
-            <h1>${nap.data().model}</h1>
-            `;
-            wdiv.append(div);
+            <div class="ui card"><div class="image">
+            <img src=${nap.data().photo} />
+            </div>
+            <div class="content">
+            <div class="header">Matthew</div>
+            <div class="meta"><span class="date">Joined in 2015</span>
+            </div><div class="description">Matthew is a musician living in Nashville.</div></div>
+            <div class="extra content"><a><i aria-hidden="true" class="user icon"></i>22 Friends</a>
+            </div></div>`;
+            divm.append(div);
+            wdiv.append(divm)
           })
+         
 
         })
       }
