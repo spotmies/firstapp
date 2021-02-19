@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import {Card } from 'react-bootstrap';
+import {Card } from 'react-bootstrap';
 import '../index.css';
 import { useHistory } from 'react-router-dom'
 
 import 'semantic-ui-css/semantic.min.css'
-import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown } from 'semantic-ui-react'
+//import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown } from 'semantic-ui-react'
 
 
 //import icons
@@ -75,7 +75,7 @@ const delpost=(pro)=>{
 }
       return <div>
         
-{/* {
+{
   props.data.map((cap)=>
 <div id={cap.id} style={{marginLeft:"22%"}}>
 <IconContext.Provider value={{ size:"1.5em"}}>
@@ -100,7 +100,7 @@ const delpost=(pro)=>{
    <div className="details-post">
    <p><BsEyeFill />&nbsp; Views: {cap.views}</p>
    <p><RiPinDistanceFill /> Distance: 105</p>
-   <p><HiOutlineCurrencyRupee /> Money: {cap.price}</p>
+   <p><HiOutlineCurrencyRupee /> Money: {cap.money}</p>
    <p><BiTimeFive /> Time: 1hr</p>
    <p ></p>
 
@@ -110,8 +110,8 @@ const delpost=(pro)=>{
 </Card>
 </IconContext.Provider>
 </div>
-  )} */}
-  <Card.Group>
+  )}
+  {/* <Card.Group>
     <Card>
       <Card.Content>
         <Image
@@ -136,7 +136,7 @@ const delpost=(pro)=>{
         </div>
       </Card.Content>
     </Card>
-    </Card.Group>
+    </Card.Group> */}
       </div>
       
  

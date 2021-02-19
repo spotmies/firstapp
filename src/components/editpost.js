@@ -43,7 +43,7 @@ let arr=[];
             document.querySelector('#nameofserv').value=snap.data().problem;
             document.querySelector('.desc').value=snap.data().description;
             document.querySelector('.cate').value=snap.data().job;
-            document.querySelector('.price').value=snap.data().price;
+            document.querySelector('.price').value=snap.data().money;
          }).then(()=>{
 
 

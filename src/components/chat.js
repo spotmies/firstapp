@@ -86,16 +86,16 @@ const delpost=(pro)=>{
 {
   props.data.map((cap)=>
 <div id={cap.id} style={{marginLeft:"22%"}}>
-  
-  <Card 
-  bg="primary"
+ 
+{
+(cap.request)?  <Card
+  bg="success"
   key="2"
   text="black"
   style={{ width: '48rem',borderRadius: '1rem' }}
-  className="mb-2 "
->
+  className="mb-2 ">
 
- <Card.Header >{cap.name}</Card.Header>
+ <Card.Header >{cap.pname} accepted your order </Card.Header>
   <Card.Body className="card-body">
     <Card.Title>
     <img className="post-img" src={cap.media} alt="" />
@@ -112,6 +112,33 @@ const delpost=(pro)=>{
     </Card.Title>
   </Card.Body>
 </Card>
+
+: <Card
+bg="primary"
+key="2"
+text="black"
+style={{ width: '48rem',borderRadius: '1rem' }}
+className="mb-2 ">
+
+<Card.Header >{cap.pname}</Card.Header>
+<Card.Body className="card-body">
+  <Card.Title>
+  <img className="post-img" src={cap.media} alt="" />
+ <h3 className="post-title"  value="sekhar">{cap.problem}</h3> 
+ <h4 onClick={(e)=>click(cap.orderid)}>view post</h4>
+ <h4 onClick={(e)=>click2(cap.msgid)}>chat with him</h4>
+ <div className="details-post">
+ <p><RiPinDistanceFill /> Distance: {cap.distance}km</p>
+ <p><HiOutlineCurrencyRupee /> Money: {cap.pmoney}</p>
+ <p><BiTimeFive /> Time:{(String(cap.time.toDate())).replace('GMT+0530 (India Standard Time)','')}</p>
+ <p onClick={(e)=>delpost(cap.id)}><MdDelete />delete</p>
+ 
+ </div>
+  </Card.Title>
+</Card.Body>
+</Card>
+}
+
 </div>
   )}
       </div>

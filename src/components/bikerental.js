@@ -1,6 +1,6 @@
 import React from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown } from 'semantic-ui-react'
+import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown,Checkbox } from 'semantic-ui-react'
 import '../rental.css';
 import {SiCoronaengine} from 'react-icons/si'
 import {BsFillGearFill} from 'react-icons/bs'
@@ -11,56 +11,102 @@ import firebase from '../firebase';
 
 const db=firebase.firestore();
 
-
 function Rentals(){
-  var times=useTimes()
+//  var times=useTimes()
+const[times,setTimes]=useState([])
+
+//trigger point
+// const keyboard={
+//   count:"true",
+//   count2:"true",
+//   count3:"true",
+//   count4:"true",
+//   ftype:"status",
+//   ftype2:"status",
+//   ftype3:"status",
+//   ftype4:"status"
+// }
+
+//cartype filter
+const[count,setcount]=useState("true");
+const[ftype,settype]=useState("status");
+
+//fuel filter
+const[count2,setcount2]=useState("true");
+const[ftype2,settype2]=useState("status");
+
+const[count3,setcount3]=useState("true");
+const[ftype3,settype3]=useState("status");
+
+const[count4,setcount4]=useState("true");
+const[ftype4,settype4]=useState("status");
+
+
+
+function newfunk(e){
+  // keys=1;
+  // console.log(keys)
+  setTimes([]);
+  setcount(e.target.innerText)
+  settype("cartype")
+}
+
+
+
+function fuelf(e){
+  setTimes([]);
+if(e.target.checked){
+  console.log("checked")
+  settype2("fuelincl");
+  setcount2("true");
+}
+else{ console.log("nockedk")
+settype2("fuelincl");
+setcount2("false");
+}
+}
+
+useEffect(() => {
+  console.log("useeffect")
+  let newtimes
+  db.collection('rentals').get().then((snap)=>{
+    snap.docs.forEach(nap=>{
+      if(nap.data().permission){
+        // if(keys==0){
+        db.collection('rentals').doc(nap.id).collection('products')
+        .where(ftype,"==",count)
+        .where(ftype2,"==",count2)
+        .where(ftype3,"==",count3)
+        .where(ftype4,"==",count4)
+        // .orderBy("price")
+        .get().then(snap=>{
+          newtimes=snap.docs.map((doc)=>({
+            id:doc.id,
+            ...doc.data()
+          }))
+          setTimes(cap=>[...cap,...newtimes])
+          // console.log(times)
+        })
+
+      }
+    })
+  })
+
+},[count,ftype,count2,ftype2,count3,ftype3,count4,ftype4])
+
+
+
+
 var arr=[];
 for(var i=0;i<=100;i++){
   arr.push(false)
 }
 const [open, setOpen] = useState(arr)
-const[daty,setdaty]=useState([]);
 
-function getfilt(e){
-  const wdiv=document.querySelector('.newdiv')
-  document.querySelector('.maindiv').remove();
-  console.log(e.target.innerText,"filtering")
-  db.collection('rentals').get().then((snap)=>{
-    snap.docs.forEach(nap=>{
-      if(nap.data().permission){
-        db.collection('rentals').doc(nap.id).collection('products').where("cartype","==",e.target.innerText).get().then(snap=>{
-          const divm=document.createElement('div');
-          divm.setAttribute('class','maindiv ui cards');
-          snap.docs.forEach(nap=>{
-            const div=document.createElement('div');
-            div.setAttribute('id',`${nap.id}`)
-            div.innerHTML=`
-            <div class="ui card"><div class="image">
-            <img src=${nap.data().photo} />
-            </div>
-            <div class="content">
-            <div class="header">Matthew</div>
-            <div class="meta"><span class="date">Joined in 2015</span>
-            </div><div class="description">Matthew is a musician living in Nashville.</div></div>
-            <div class="extra content"><a><i aria-hidden="true" class="user icon"></i>22 Friends</a>
-            </div></div>`;
-            divm.append(div);
-            wdiv.append(divm)
-          })
-         
-
-        })
-      }
-    })
-  })
-console.log(daty)
-}
-
-
- 
     return <div>
+     
         <div>
-          {/* < Filtering /> */}
+          {/* <  car Filtering /> */}
           <Dropdown
     text='Filter'
     icon='filter'
@@ -69,7 +115,7 @@ console.log(daty)
     className='icon'
     
   >
-    <Dropdown.Menu onClick={getfilt}>
+    <Dropdown.Menu id="filtmenu" onClick={newfunk}>
       <Dropdown.Item>
         <Icon name='attention' className='right floated' />
         sport
@@ -84,6 +130,29 @@ console.log(daty)
       </Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
+
+
+{/* price filtering */}
+  <Dropdown
+    text='Filter'
+    icon='filter'
+    labeled
+    button
+    className='icon'
+    
+  >
+    <Dropdown.Menu id="pricef">
+      <Dropdown.Item >
+        Low to High
+      </Dropdown.Item>
+      <Dropdown.Item>
+        High to Low
+      </Dropdown.Item>
+    </Dropdown.Menu>
+  </Dropdown>
+
+
+  <Checkbox toggle  style={{float:"right"}} onChange={fuelf} id="fuelid"/>
   <div className="newdiv">
             <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv">
             <Card.Group>     
@@ -245,31 +314,7 @@ function blynk(props,crops){
 
 
 
-// const Filtering = () => (
-//   <Dropdown
-//     text='Filter'
-//     icon='filter'
-//     labeled
-//     button
-//     className='icon'
-    
-//   >
-//     <Dropdown.Menu onClick={getfilt}>
-//       <Dropdown.Item>
-//         <Icon name='attention' className='right floated' />
-//         sport
-//       </Dropdown.Item>
-//       <Dropdown.Item>
-//         <Icon name='comment' className='right floated' />
-//         suv
-//       </Dropdown.Item>
-//       <Dropdown.Item>
-//         <Icon name='conversation' className='right floated' />
-//         sedan
-//       </Dropdown.Item>
-//     </Dropdown.Menu>
-//   </Dropdown>
-// )
+
 
 
 function useTimes(){
