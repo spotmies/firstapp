@@ -1,6 +1,6 @@
 import React from 'react'
 import 'semantic-ui-css/semantic.min.css'
-import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown,Checkbox } from 'semantic-ui-react'
+import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown,Checkbox,Segment } from 'semantic-ui-react'
 import '../rental.css';
 import {SiCoronaengine} from 'react-icons/si'
 import {BsFillGearFill} from 'react-icons/bs'
@@ -35,6 +35,7 @@ const[ftype,settype]=useState("status");
 const[count2,setcount2]=useState("true");
 const[ftype2,settype2]=useState("status");
 
+//transmission filter automatic and manual geartype
 const[count3,setcount3]=useState("true");
 const[ftype3,settype3]=useState("status");
 
@@ -43,31 +44,76 @@ const[ftype4,settype4]=useState("status");
 
 
 
-function newfunk(e){
-  // keys=1;
-  // console.log(keys)
-  setTimes([]);
-  setcount(e.target.innerText)
-  settype("cartype")
+function newfunk(){
+if(ftype=="status") setTimes([]);
+  
+  // setcount(e.target.innerText)
+  // settype("cartype")
+  // if(e.target.checked)
+  // {
+  //   console.log(e.target.value,"is checked")
+  //  // setTimes([]);
+  //   setcount(e.target.value)
+  //   settype("cartype")
+  // }
+  // else{
+  //   console.log("not chekd")
+  //      setTimes([]);
+  //     //  setcount(e.target.value)
+  //     //  settype("cartype")
+  // }
+  for(var i=0;i<=2;i++){
+    let ctype=document.getElementById(`type${i}`)
+
+    if(ctype.checked){
+     
+
+      console.log(ctype.value,"is checked")  
+      //  setTimes([]);
+        settype("cartype")
+         setcount(ctype.value)
+         console.log(count)
+
+    }
+    else{
+  
+      console.log(ctype.value,"nocheck")
+
+     
+
+    } 
+  }
 }
 
 
-
+//fuel filter
 function fuelf(e){
   setTimes([]);
 if(e.target.checked){
-  console.log("checked")
   settype2("fuelincl");
   setcount2("true");
 }
-else{ console.log("nockedk")
+else{
 settype2("fuelincl");
 setcount2("false");
 }
 }
 
+//tranmission filter
+function transfilt(e){
+  setTimes([]);
+  settype3("geartype");
+  setcount3(e.target.innerText);
+
+}
+function satish(e){
+  if(!e.target.checked){
+     setTimes([]);
+     newfunk()
+  }
+}
+
 useEffect(() => {
-  console.log("useeffect")
   let newtimes
   db.collection('rentals').get().then((snap)=>{
     snap.docs.forEach(nap=>{
@@ -95,7 +141,7 @@ useEffect(() => {
 },[count,ftype,count2,ftype2,count3,ftype3,count4,ftype4])
 
 
-
+console.log(times)
 
 var arr=[];
 for(var i=0;i<=100;i++){
@@ -103,11 +149,11 @@ for(var i=0;i<=100;i++){
 }
 const [open, setOpen] = useState(arr)
 
-    return <div>
+    return <div >
      
-        <div>
+        <div style={{display:"inline-flex"}}>
           {/* <  car Filtering /> */}
-          <Dropdown
+          {/* <Dropdown
     text='Filter'
     icon='filter'
     labeled
@@ -129,11 +175,11 @@ const [open, setOpen] = useState(arr)
         sedan
       </Dropdown.Item>
     </Dropdown.Menu>
-  </Dropdown>
+  </Dropdown> */}
 
 
 {/* price filtering */}
-  <Dropdown
+  {/* <Dropdown
     text='Filter'
     icon='filter'
     labeled
@@ -141,16 +187,20 @@ const [open, setOpen] = useState(arr)
     className='icon'
     
   >
-    <Dropdown.Menu id="pricef">
+    <Dropdown.Menu id="pricef" onClick={transfilt}>
       <Dropdown.Item >
-        Low to High
+        automatic
       </Dropdown.Item>
       <Dropdown.Item>
-        High to Low
+        manual
       </Dropdown.Item>
     </Dropdown.Menu>
-  </Dropdown>
-
+  </Dropdown> */}
+    <Segment compact onClick={newfunk} id="segmttype">
+      <Checkbox label="sport" id="type0" value="sport" onClick={satish}/><br/>
+      <Checkbox label="suv" id="type1" value="suv" onClick={satish}/><br/>
+      <Checkbox label="sedan" id="type2" value="sedan" onClick={satish}/><br/>
+    </Segment>
 
   <Checkbox toggle  style={{float:"right"}} onChange={fuelf} id="fuelid"/>
   <div className="newdiv">
