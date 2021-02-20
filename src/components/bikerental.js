@@ -44,45 +44,33 @@ const[ftype4,settype4]=useState("status");
 
 
 
-function newfunk(){
-if(ftype=="status") setTimes([]);
-  
+function newfunk(e){
+//if(ftype=="status") setTimes([]);
+setTimes([])
+settype("cartype")
+settype2("status");
+setcount2("true");
+settype3("status");
+setcount3("true");
   // setcount(e.target.innerText)
   // settype("cartype")
-  // if(e.target.checked)
-  // {
-  //   console.log(e.target.value,"is checked")
-  //  // setTimes([]);
-  //   setcount(e.target.value)
-  //   settype("cartype")
+setcount(e.target.innerText)
+
+  // for(var i=0;i<=2;i++){
+  //   let ctype=document.getElementById(`type${i}`)
+  //   if(ctype.checked){
+  //     console.log(ctype.value,"is checked")  
+  //     //  setTimes([]);
+  //       settype("cartype")
+  //        setcount(ctype.value)
+  //        console.log(count)
+  //   }
+  //   else{
+  //     console.log(ctype.value,"nocheck")
+  //   } 
   // }
-  // else{
-  //   console.log("not chekd")
-  //      setTimes([]);
-  //     //  setcount(e.target.value)
-  //     //  settype("cartype")
-  // }
-  for(var i=0;i<=2;i++){
-    let ctype=document.getElementById(`type${i}`)
 
-    if(ctype.checked){
-     
 
-      console.log(ctype.value,"is checked")  
-      //  setTimes([]);
-        settype("cartype")
-         setcount(ctype.value)
-         console.log(count)
-
-    }
-    else{
-  
-      console.log(ctype.value,"nocheck")
-
-     
-
-    } 
-  }
 }
 
 
@@ -109,8 +97,22 @@ function transfilt(e){
 function satish(e){
   if(!e.target.checked){
      setTimes([]);
-     newfunk()
+  
   }
+  else{
+   
+  }
+  console.log("stish")
+}
+
+function seatfil(e){
+  setTimes([]);
+if(e.target.checked)console.log("checkd",e.target.value)
+if(document.getElementById("seat0").checked && document.getElementById("seat1").checked) {
+  settype3("status");
+  setcount3("true")
+}
+else{settype3("seats");setcount3(e.target.value)}
 }
 
 useEffect(() => {
@@ -123,7 +125,7 @@ useEffect(() => {
         .where(ftype,"==",count)
         .where(ftype2,"==",count2)
         .where(ftype3,"==",count3)
-        .where(ftype4,"==",count4)
+        //.where(ftype4,"==",count4)
         // .orderBy("price")
         .get().then(snap=>{
           newtimes=snap.docs.map((doc)=>({
@@ -141,7 +143,7 @@ useEffect(() => {
 },[count,ftype,count2,ftype2,count3,ftype3,count4,ftype4])
 
 
-console.log(times)
+//console.log(times)
 
 var arr=[];
 for(var i=0;i<=100;i++){
@@ -151,9 +153,9 @@ const [open, setOpen] = useState(arr)
 
     return <div >
      
-        <div style={{display:"inline-flex"}}>
+        <div>
           {/* <  car Filtering /> */}
-          {/* <Dropdown
+          <Dropdown
     text='Filter'
     icon='filter'
     labeled
@@ -175,34 +177,29 @@ const [open, setOpen] = useState(arr)
         sedan
       </Dropdown.Item>
     </Dropdown.Menu>
-  </Dropdown> */}
+  </Dropdown>
 
 
-{/* price filtering */}
-  {/* <Dropdown
-    text='Filter'
-    icon='filter'
-    labeled
-    button
-    className='icon'
-    
-  >
-    <Dropdown.Menu id="pricef" onClick={transfilt}>
-      <Dropdown.Item >
-        automatic
-      </Dropdown.Item>
-      <Dropdown.Item>
-        manual
-      </Dropdown.Item>
-    </Dropdown.Menu>
-  </Dropdown> */}
-    <Segment compact onClick={newfunk} id="segmttype">
+    {/* <Segment compact 
+    onClick={newfunk} 
+    id="segmttype">
       <Checkbox label="sport" id="type0" value="sport" onClick={satish}/><br/>
-      <Checkbox label="suv" id="type1" value="suv" onClick={satish}/><br/>
-      <Checkbox label="sedan" id="type2" value="sedan" onClick={satish}/><br/>
-    </Segment>
+      <Checkbox label="sedan" id="type1" value="sedan" onClick={satish}/><br/>
+      <Checkbox label="suv" id="type2" value="suv" onClick={satish}/><br/>
+    </Segment> */}
 
-  <Checkbox toggle  style={{float:"right"}} onChange={fuelf} id="fuelid"/>
+  <Checkbox toggle  style={{float:"right"}} onChange={fuelf} id="fuelid" label="petrol"/>
+
+      <Segment compact 
+    onClick={seatfil} 
+    id="segmttype">
+      <Checkbox label="5seats" id="seat0" value="5" 
+     // onClick={satish}
+      /><br/>
+      <Checkbox label="7seats" id="seat1" value="7" 
+    //  onClick={satish}
+      /><br/>
+    </Segment>
   <div className="newdiv">
             <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv">
             <Card.Group>     
