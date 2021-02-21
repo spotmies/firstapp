@@ -15,17 +15,6 @@ function Rentals(){
 //  var times=useTimes()
 const[times,setTimes]=useState([])
 
-//trigger point
-// const keyboard={
-//   count:"true",
-//   count2:"true",
-//   count3:"true",
-//   count4:"true",
-//   ftype:"status",
-//   ftype2:"status",
-//   ftype3:"status",
-//   ftype4:"status"
-// }
 
 //cartype filter
 const[count,setcount]=useState("true");
@@ -256,10 +245,10 @@ const [open, setOpen] = useState(arr)
     onClick={seatfil} 
     id="segmttype">
       <Checkbox label="5seats" id="seat0" value="5" className="check1"
-     // onClick={satish}
+  
       /><br/>
       <Checkbox label="7seats" id="seat1" value="7" className="check2"
-    //  onClick={satish}
+  
       /><br/>
     </Segment>
 
