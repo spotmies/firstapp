@@ -35,23 +35,46 @@ const[ftype,settype]=useState("status");
 const[count2,setcount2]=useState("true");
 const[ftype2,settype2]=useState("status");
 
-//transmission filter automatic and manual geartype
+//seats filter
 const[count3,setcount3]=useState("true");
 const[ftype3,settype3]=useState("status");
 
+//gear type
 const[count4,setcount4]=useState("true");
 const[ftype4,settype4]=useState("status");
 
+//toc filter typ of car petrol or diesel
+const[count5,setcount5]=useState("true");
+const[ftype5,settype5]=useState("status");
 
+
+const[checkt,setcheck]=useState(true)
+
+function uncheckall(){
+  setTimes([])
+  settype("cartype")
+  settype2("status");
+  setcount2("true");
+  settype3("status");
+  setcount3("true");
+  settype4("status");
+  setcount4("true");
+  settype5("status");
+  setcount5("true");
+
+  var box=document.querySelector(".check1")
+  box.isChecked=true;
+  setcheck(false)
+  // for(var i=0;i<=2;i++){
+  //   let box=document.querySelector(`.check${i}`)
+  //   box.checked=false;
+  // }
+}
 
 function newfunk(e){
 //if(ftype=="status") setTimes([]);
-setTimes([])
-settype("cartype")
-settype2("status");
-setcount2("true");
-settype3("status");
-setcount3("true");
+
+uncheckall()
   // setcount(e.target.innerText)
   // settype("cartype")
 setcount(e.target.innerText)
@@ -90,10 +113,39 @@ setcount2("false");
 //tranmission filter
 function transfilt(e){
   setTimes([]);
-  settype3("geartype");
-  setcount3(e.target.innerText);
-
+  settype4("geartype")
+//if(e.target.checked)console.log("checkd",e.target.value)
+if((document.getElementById("trans1").checked && document.getElementById("trans2").checked) || (!document.getElementById("trans1").checked && !document.getElementById("trans2").checked) ) {
+  settype4("status");
+  setcount4("true")
 }
+else{
+    if(document.getElementById("trans1").checked)setcount4("automatic")
+    else if(document.getElementById("trans2").checked)setcount4("manual")
+  
+}
+}
+
+
+//type of car filter petrol or diesel fitelr
+function toc(e){
+  setTimes([]);
+  settype5("toc")
+//if(e.target.checked)console.log("checkd",e.target.value)
+if((document.getElementById("toc1").checked && document.getElementById("toc2").checked) || (!document.getElementById("toc1").checked && !document.getElementById("toc2").checked)) {
+  settype5("status");
+  setcount5("true")
+}
+else{
+    if(document.getElementById("toc1").checked){setcount5("petrol");console.log("petr");}
+    else if(document.getElementById("toc2").checked)setcount5("diesel")
+  
+}
+}
+
+
+
+
 function satish(e){
   if(!e.target.checked){
      setTimes([]);
@@ -107,12 +159,21 @@ function satish(e){
 
 function seatfil(e){
   setTimes([]);
+  settype3("seats")
 if(e.target.checked)console.log("checkd",e.target.value)
-if(document.getElementById("seat0").checked && document.getElementById("seat1").checked) {
+if((document.getElementById("seat0").checked && document.getElementById("seat1").checked)  || (!document.getElementById("seat0").checked && !document.getElementById("seat1").checked) ) {
   settype3("status");
-  setcount3("true")
+  setcount3("true");
 }
-else{settype3("seats");setcount3(e.target.value)}
+else{
+  if(e.target.checked){
+  settype3("seats");setcount3(e.target.value)
+  }
+  else{
+    if(document.getElementById("seat0").checked)setcount3("5")
+    else if(document.getElementById("seat1").checked)setcount3("7")
+  }
+}
 }
 
 useEffect(() => {
@@ -125,7 +186,8 @@ useEffect(() => {
         .where(ftype,"==",count)
         .where(ftype2,"==",count2)
         .where(ftype3,"==",count3)
-        //.where(ftype4,"==",count4)
+        .where(ftype4,"==",count4)
+        .where(ftype5,"==",count5)      
         // .orderBy("price")
         .get().then(snap=>{
           newtimes=snap.docs.map((doc)=>({
@@ -140,7 +202,7 @@ useEffect(() => {
     })
   })
 
-},[count,ftype,count2,ftype2,count3,ftype3,count4,ftype4])
+},[count,ftype,count2,ftype2,count3,ftype3,count4,ftype4,count5,ftype5])
 
 
 //console.log(times)
@@ -188,18 +250,34 @@ const [open, setOpen] = useState(arr)
       <Checkbox label="suv" id="type2" value="suv" onClick={satish}/><br/>
     </Segment> */}
 
-  <Checkbox toggle  style={{float:"right"}} onChange={fuelf} id="fuelid" label="petrol"/>
+  <Checkbox toggle  style={{float:"right"}} onChange={fuelf} id="fuelid" label="petrol"  className="check0"/>
 
       <Segment compact 
     onClick={seatfil} 
     id="segmttype">
-      <Checkbox label="5seats" id="seat0" value="5" 
+      <Checkbox label="5seats" id="seat0" value="5" className="check1"
      // onClick={satish}
       /><br/>
-      <Checkbox label="7seats" id="seat1" value="7" 
+      <Checkbox label="7seats" id="seat1" value="7" className="check2"
     //  onClick={satish}
       /><br/>
     </Segment>
+
+    <Segment compact 
+    onClick={transfilt} 
+    id="segmttype2">
+      <Checkbox label="Automatic" id="trans1" value="automatic"/><br />
+      <Checkbox label="Manual" id="trans2" value="manual"/><br />
+    </Segment>
+
+    <Segment compact 
+    onClick={toc} 
+    id="segmttype3">
+      <Checkbox label="Petrol" id="toc1" value="petrol"/><br />
+      <Checkbox label="Diesel" id="toc2" value="diesel"/><br />
+    </Segment>
+
+
   <div className="newdiv">
             <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv">
             <Card.Group>     
@@ -287,7 +365,7 @@ const [open, setOpen] = useState(arr)
         &nbsp;{nap.kmslimit} km
         </a></p>
 
-        {nap.fuelincl
+        {nap.fuelincl=="true"
         ?<p style={{marginLeft:"20px"}}> <Icon name="tint" />fuel: include</p>
         :<p style={{marginLeft:"20px"}}> <Icon name="tint" />fuel: exclude</p>
         }
@@ -352,7 +430,7 @@ const [open, setOpen] = useState(arr)
     </div>
 function blynk(props,crops){
   arr[props]=crops;
-  console.log(arr)
+ // console.log(arr)
   setOpen(arr)
 }
 
