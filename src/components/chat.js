@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Card, Row, Col } from 'react-bootstrap';
+import {Row, Col } from 'react-bootstrap';
+import { Button, Card, Image } from 'semantic-ui-react'
 import '../index.css';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -87,7 +88,7 @@ const delpost=(pro)=>{
   props.data.map((cap)=>
 <div id={cap.id} style={{marginLeft:"22%"}}>
  
-{
+{/* {
 (cap.request)?  <Card
   bg="success"
   key="2"
@@ -137,7 +138,42 @@ className="mb-2 ">
   </Card.Title>
 </Card.Body>
 </Card>
-}
+} */}
+
+{/* sematic ui react */}
+<Card.Group>
+<Card>
+      <Card.Content>
+        <Image
+          floated='left'
+          size='mini'
+          src={cap.ppic}
+          bordered
+        />
+        <Card.Header>{cap.pname}</Card.Header>
+        <Card.Meta>Friends of Elliot</Card.Meta>
+        <Card.Description>
+         <strong>{cap.problem}</strong>
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+      <div className='ui two buttons'>
+          <Button basic color='green'>
+            Approve
+          </Button>
+          <Button basic color='red'>
+            Decline
+          </Button>
+        </div>
+      </Card.Content>
+    </Card>
+    </Card.Group>
+
+
+
+
+
+
 
 </div>
   )}
