@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Row, Col, Form, Button } from 'react-bootstrap';
+import {Row, Col, Form} from 'react-bootstrap';
+import { Button } from 'semantic-ui-react'
 import '../index.css';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -122,6 +123,13 @@ const[chat,setchat]=useState([]);
 
 
 function Chatarea(props){
+  const[ordst,setordst]=useState();
+db.collection('users').doc(firebase.auth().currentUser.uid)
+  .collection('adpost').doc(props.chat.orderid)
+  .get().then(snap=>{
+setordst(snap.data().orderstate);
+  })
+
   let chat=[]
   chat=props.chat;
 
@@ -134,11 +142,36 @@ function Chatarea(props){
     }).then(()=>{msg.value=''})
   }
 
+function orderstatus(e){
+  console.log(e.target.innerText,e.target.parentElement.id)
+  console.log(ordst);
+  
+}
+
 return(
-  <div style={{float: "right", width: "100%",marginTop:"50px"}}>
+  <div style={{float: "right", width: "100%",marginTop:"50px",overflowY:"auto"}}>
+    <List horizontal>
+      <List.Item>
+      <Image avatar src={props.chat.ppic} />
+      <List.Content>
+        <List.Header>{props.chat.pname}</List.Header>
+       computer technician
+      </List.Content>
+    </List.Item>
+    </List>
+    {ordst==0
+    ?  <Button.Group style={{width:"100%"}} onClick={orderstatus} id={props.chat.id}>
+    <Button >Cancel partner</Button>
+    <Button.Or  />
+    <Button primary>Confirm partner</Button>
+    </Button.Group>
+    :<p></p>
+    }
+
     <div style={{height:'400px',overflow:'auto'}}>
     {
 chat.body.map((nap)=>
+
 {if(nap[nap.length-1]=="u") return <p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
 else return <p className="chatList" style={{listStyle: "none", textAlign: "left", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
 }
@@ -150,7 +183,7 @@ else return <p className="chatList" style={{listStyle: "none", textAlign: "left"
         <Col lg="10">
   <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
   <Col lg="2">
-  <Button variant="primary" className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
+  <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
   </Row>
 </Form.Group>
 </div>
@@ -159,7 +192,7 @@ else return <p className="chatList" style={{listStyle: "none", textAlign: "left"
 
   function Headings() {
     return (
-     <div style={{display: "inline-flex", background: "#1687a7", color: "white", width: "100%", marginTop: "-50px", marginBottom: "0"}}>
+     <div style={{display: "inline-flex", background: "#1681a7", color: "white", width: "100%", marginTop: "-50px", marginBottom: "0"}}>
        <Row style={{width: "100%", textAlign: "center"}}>
        <Col><Link to="/chat" style={{color: "white", textDecoration: "none"}}><h2 >Responses</h2></Link></Col>
        <Col style={{borderBottom: "3px solid white", marginBottom: "0"}}><Link to="/chats-section" style={{color: "white", textDecoration: "none"}}><h2>Chats</h2></Link></Col>

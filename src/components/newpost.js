@@ -69,7 +69,8 @@ handleChange(date) {
         posttime:d,
         views:0,
         location:"seethammadhara",
-        schedule:schedule
+        schedule:schedule,
+        orderstate:null
       }).then(()=>{
         return db.collection('allads').doc(newpost.id).set({
           job:cat,
@@ -83,7 +84,8 @@ handleChange(date) {
           posttime:d,
           views:0,
           location:"seethammadhara",
-          schedule:schedule
+          schedule:schedule,
+          orderstate:null
         })
       }).then(()=>{
         alert("post added successfully")

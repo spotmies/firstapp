@@ -39,9 +39,10 @@ const[ftype5,settype5]=useState("status");
 
 const[checkt,setcheck]=useState(true)
 
-function uncheckall(){
+function uncheckall(data){
   setTimes([])
-  settype("cartype")
+  if(data=="ctype")settype("cartype")
+  else{settype("status");setcount("true")}
   settype2("status");
   setcount2("true");
   settype3("status");
@@ -63,7 +64,7 @@ function uncheckall(){
 function newfunk(e){
 //if(ftype=="status") setTimes([]);
 
-uncheckall()
+uncheckall("ctype")
   // setcount(e.target.innerText)
   // settype("cartype")
 setcount(e.target.innerText)
@@ -229,7 +230,7 @@ const [open, setOpen] = useState(arr)
       </Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
-
+<Button onClick={(e)=>uncheckall("all")}>Show me all cars</Button>
 
     {/* <Segment compact 
     onClick={newfunk} 
