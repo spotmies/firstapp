@@ -3,7 +3,7 @@ import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col } from 'react-bootstrap';
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Button, Card, Image,Menu,Dropdown,Icon } from 'semantic-ui-react'
 import '../index.css';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -142,29 +142,43 @@ className="mb-2 ">
 
 {/* sematic ui react */}
 <Card.Group>
-<Card>
-      <Card.Content>
+<Card
+style={{backgroundColor:"#0e76a8",width:"90%"}}
+>
+<Card.Content>
+  
+  <Dropdown item icon='wrench' backgroundColor="white" simple>
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={(e)=>click2(cap.msgid)}>chat with partner</Dropdown.Item>
+          <Dropdown.Item onClick={(e)=>click(cap.orderid)}>view job</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item onClick={(e)=>delpost(cap.id)}>Delete</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      
         <Image
+        style={{borderRadius:"15%"}}
           floated='left'
           size='mini'
           src={cap.ppic}
-          bordered
+        
         />
-        <Card.Header>{cap.pname}</Card.Header>
-        <Card.Meta>Friends of Elliot</Card.Meta>
-        <Card.Description>
-         <strong>{cap.problem}</strong>
+        <Card.Header style={{color:"white"}}>{cap.pname}
+        </Card.Header>
+        <Card.Meta style={{color:"white"}}>Friends of Elliot
+        </Card.Meta>
+        <Card.Description style={{color:"white",marginLeft:"5%"}}>
+          <div style={{display:"inline-flex"}}>
+        <p> Money: <strong>&#8377; {cap.pmoney}</strong> </p>
+         <p>Away: <strong> 1km</strong></p>
+        </div>
         </Card.Description>
       </Card.Content>
       <Card.Content extra>
-      <div className='ui two buttons'>
-          <Button basic color='green'>
-            Approve
-          </Button>
-          <Button basic color='red'>
-            Decline
-          </Button>
-        </div>
+      <div>
+    <Button content='Aprove' color="green"  />
+    <Button onClick={(e)=>delpost(cap.id)} content='Decline' color="red" floated="right"/>
+  </div>
       </Card.Content>
     </Card>
     </Card.Group>
