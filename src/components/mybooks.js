@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Card } from 'react-bootstrap';
+//import {Card } from 'react-bootstrap';
+import { Button, Card, Image,Label,Menu,Dropdown } from 'semantic-ui-react'
 import '../index.css';
 import { useHistory } from 'react-router-dom'
 
@@ -75,7 +76,7 @@ const delpost=(pro)=>{
 }
       return <div>
         
-{
+{/* {
   props.data.map((cap)=>
 <div id={cap.id} style={{marginLeft:"22%"}}>
 <IconContext.Provider value={{ size:"1.5em"}}>
@@ -110,33 +111,8 @@ const delpost=(pro)=>{
 </Card>
 </IconContext.Provider>
 </div>
-  )}
-  {/* <Card.Group>
-    <Card>
-      <Card.Content>
-        <Image
-          floated='right'
-          size='mini'
-          src='https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8aHVtYW58ZW58MHx8MHw%3D&ixlib=rb-1.2.1&w=1000&q=80'
-        />
-        <Card.Header style={{color:"red"}}>Steve Sanders <MdDelete /></Card.Header>
-        <Card.Meta>Friends of Elliot</Card.Meta>
-        <Card.Description>
-          Steve wants to add you to the group <strong>best friends</strong>
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <div className='ui two buttons'>
-          <Button basic color='green'>
-            Approve
-          </Button>
-          <Button basic color='red'>
-            Decline
-          </Button>
-        </div>
-      </Card.Content>
-    </Card>
-    </Card.Group> */}
+  )} */}
+   <Sematiccard data={props.data}/>
       </div>
       
  
@@ -144,7 +120,76 @@ const delpost=(pro)=>{
   }
 
 
- 
+ function Sematiccard(props){
+  const history = useHistory();
+  const click =(prop)=>{
+    console.log("click",prop)
+    history.push(`mybookings/id/${prop}`)
+  }
+  
+  const edit =(prop)=>{
+    
+    console.log("click",prop)
+    history.push(`mybookings/id/edit/${prop}`)
+  }
+  const delpost=(pro)=>{
+    db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(pro).delete()
+    .then(()=>{
+      alert("ad deleted succefully")
+    })
+  }
+
+   return <div>
+   {  props.data.map((cap)=>
+     <Card.Group>
+     <Card style={{width:"70%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}} centered fluid color='blue'>
+      <Card.Content>
+      <Card.Meta style={{display:'inline-flex'}}>{String(cap.posttime.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
+      <Dropdown item placeholder="more" simple style={{float:"right"}}>
+        <Dropdown.Menu>
+  
+          <Dropdown.Item onClick={(e)=>click(cap.id)}>View post</Dropdown.Item>
+          <Dropdown.Item onClick={(e)=>edit(cap.orderid)}>Edit post</Dropdown.Item>
+          <Dropdown.Item onClick={(e)=>delpost(cap.orderid)}>Delete</Dropdown.Item>
+
+        </Dropdown.Menu>
+      </Dropdown>
+    
+      </Card.Content>
+      <Card.Content extra style={{display:"inline-block"}}>
+      <Image
+      className="post-img" 
+      style={{width:"100px",height:"80px",borderRadius:"1rem",cursor:"pointer"}}
+      onClick={(e)=>click(cap.id)}
+          floated='left'
+          src={cap.media[0]} />  
+
+        <Card.Header style={{paddingBottom:"10px",cursor:"pointer"}} onClick={(e)=>click(cap.id)}>{cap.problem}</Card.Header>
+        <div style={{display:"inline-flex"}}>
+          <div style={{paddingRight:"30px"}}>
+   <p><BsEyeFill /> Views: {cap.views}</p>
+   <p><RiPinDistanceFill /> Distance: 1km</p>
+   </div>
+   <div>
+   <p><HiOutlineCurrencyRupee /> Money: &#8377;{cap.money}</p>
+   <p><BiTimeFive /> Time: 1hr</p>
+   </div>
+
+   </div>
+      </Card.Content>
+      <Card.Content style={{display:"inline-flex"}}>
+        <p onClick={(e)=>click(cap.id)} style={{cursor:"pointer"}}><u>View post</u></p>
+        <Label color="blue" attached='bottom right' style={{marginRight:"10px",marginBottom:"10px",borderRadius:"0.7rem"}}>&nbsp;&nbsp;Active&nbsp;&nbsp;</Label>
+      </Card.Content>
+   
+    </Card>
+    </Card.Group>
+   )}
+   </div>
+ }
+
+
+
 firebase.auth().onAuthStateChanged(function(user) {
   if(user) {
 

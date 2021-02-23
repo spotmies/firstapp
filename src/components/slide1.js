@@ -43,13 +43,8 @@ function Slide(){
       <Dropdown.Item onClick={() => setModalShow(true)}><Link to={`${newpost}`}>{location}</Link></Dropdown.Item>
       
     </DropdownButton>
-    {/* <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      /> */}
-      <div>
-        <h1>this is heading</h1>
-      </div>
+
+
     </div>
     </div>
     
