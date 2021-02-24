@@ -156,7 +156,7 @@ style={{width:"80%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}}>
  <Card.Content>
       <Card.Meta style={{display:'inline-flex'}}>{String(cap.time.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
       
-      <Dropdown item icon='wrench' backgroundColor="white" simple  style={{float:"right"}} color="white">
+      <Dropdown item icon='ellipsis horizontal' backgroundColor="white" simple  style={{float:"right"}} color="white">
         <Dropdown.Menu>
         <Dropdown.Item onClick={(e)=>click2(cap.msgid)}>Technician details</Dropdown.Item>
           <Dropdown.Item onClick={(e)=>click2(cap.msgid)}>chat with partner</Dropdown.Item>

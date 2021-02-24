@@ -25,11 +25,6 @@ function Slide(){
   let location="seethamadahar";
   const db=firebase.firestore();
   const [modalShow, setModalShow] = React.useState(false);
-  db.collection('users').get().then(snap=>{
-    snap.forEach(nap => {
-      console.log(nap.id)
-    });
-  })
     return <div className="slide1" >
         <img  src={repair} alt="logo" width="900" height="500"/>
      <div className="areabg">   

@@ -19,6 +19,7 @@ import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
 import {MdDelete} from 'react-icons/md';
 import {AiFillEdit} from 'react-icons/ai';
+import {FiMoreHorizontal} from 'react-icons/fi'
 
 const db=firebase.firestore();
 
@@ -145,7 +146,7 @@ const delpost=(pro)=>{
      <Card style={{width:"70%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}} centered fluid color='blue'>
       <Card.Content>
       <Card.Meta style={{display:'inline-flex'}}>{String(cap.posttime.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
-      <Dropdown item placeholder="more" simple style={{float:"right"}}>
+      <Dropdown item icon="ellipsis horizontal" simple style={{float:"right"}}>
         <Dropdown.Menu>
   
           <Dropdown.Item onClick={(e)=>click(cap.id)}>View post</Dropdown.Item>
