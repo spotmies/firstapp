@@ -2,6 +2,8 @@ import react,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button,NavDropdown,Navbar,Nav,Modal,Form,Card } from 'react-bootstrap';
+import { Dropdown ,Image} from 'semantic-ui-react'
+
 import '../navbar.css';
 import logo from '../logo.svg';
 import firebase from '../firebase'
@@ -29,7 +31,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     // document.querySelector('.userhere').innerHTML=""
     username="sekhar"
     document.querySelector('.userhere').style.display="block";
-    document.querySelector('.account-icon').style.display="block"
+   // document.querySelector('.account-icon').style.display="block"
     document.querySelector("#mychats").style.display="block"
     document.querySelector("#mybooks").style.display="block"
     document.getElementById('signup').style.display="none";
@@ -48,12 +50,13 @@ const db=firebase.firestore();
 var username="username";
 function Navibar(){
    const[name,setName]=useState("undefined")
+   const[pic,setpic]=useState("https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png")
    firebase.auth().onAuthStateChanged(function(user) {
      if(user){
       
       db.collection('users').doc(firebase.auth().currentUser.uid).get().then(snap=>{
         if(!snap.data())setName("demouser")
-        else setName(snap.data().name)
+        else{ setName(snap.data().name); setpic(snap.data().pic)}
         // setName(snap.data().name)
       })
      }
@@ -68,22 +71,23 @@ function Navibar(){
       <Nav className="mr-auto">
 
       </Nav>
-      <Nav>
+      <Nav style={{display:"inline-flex"}}>
       <Link to="/rentals"><Nav  className="chaticon" id="mybooks"><IoCarSport  className="chaticon2" size="1.2em"/> Rentals</Nav></Link>
       <Link to="/mybookings"><Nav  className="chaticon" id="mybooks"><BsFillBriefcaseFill  className="chaticon2" size="1.2em"/> My Bookings</Nav></Link>
       <Link to="/chat"><Nav  className="chaticon" id="mychats"><MdChat className="chaticon2" size="1.3em"/>  Chat</Nav></Link>
-     
-      <MdAccountCircle className="account-icon"/>
-      <NavDropdown title={name} id="collasible-nav-dropdown" className="userhere">
+    
+     <div style={{display:"inline-flex"}}>
+      <img src={pic} style={{height:"20px",width:'20px',borderRadius:"1rem",marginTop:"10px",marginLeft:"6px"}}/>
+      
+      <NavDropdown title={name} id="collasible-nav-dropdown" className="userhere" active>
       <Link to="/account"><NavDropdown.Item href="#action/3"><MdAccountCircle  color="gray" size="1.4em" />   Account</NavDropdown.Item></Link>
       <Link to="/mybookings"><NavDropdown.Item href="#action/3.1" ><BsFillBriefcaseFill color="gray" size="1.1em"/>   My Bookings</NavDropdown.Item></Link>
           <Link to="/chat"><NavDropdown.Item href="#action/3.2" ><BsChatFill color="gray" size="1.1em"/>Chats</NavDropdown.Item></Link>
-          <Link to="/settings"><NavDropdown.Item href="#action/3.3" ><MdSettings  color="gray" size="1.1em"/>   Settings</NavDropdown.Item></Link>
+          <Link to="/account"><NavDropdown.Item href="#action/3.3" ><MdSettings  color="gray" size="1.1em"/>   Settings</NavDropdown.Item></Link>
           <NavDropdown.Divider />
           <NavDropdown.Item onClick={userlogout}><BiLogOutCircle color="gray" size="1.1em" /> Logout</NavDropdown.Item>
         </NavDropdown>
-   
-
+        </div>
 
         <Link to="/signup"><Nav className="chaticon" id="signup"> <MdAccountCircle /> Signup/Login</Nav></Link>
 

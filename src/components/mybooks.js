@@ -3,7 +3,7 @@ import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import {Card } from 'react-bootstrap';
-import { Button, Card, Image,Label,Menu,Dropdown } from 'semantic-ui-react'
+import {  Card, Image,Label,Dropdown } from 'semantic-ui-react'
 import '../index.css';
 import { useHistory } from 'react-router-dom'
 

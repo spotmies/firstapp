@@ -3,7 +3,13 @@ import pic from '../images/logo192.png'
 import firebase from '../firebase';
 import {useState,useEffect} from "react";
 import {Button,Form,InputGroup,FormControl } from 'react-bootstrap';
+import { Card, Icon, Image,Dropdown } from 'semantic-ui-react'
+
 import '../index.css';
+
+
+import { MdAccountCircle,MdPhone,MdEmail,MdSmartphone} from 'react-icons/md';
+
 
 var availuser=false;
 
@@ -146,7 +152,8 @@ task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
   </Button>
 </Form>
         </div>
-        <div id={uid}>
+
+        {/* <div id={uid} style={{textAlign:"center"}}>
         <img className="post-img" src={profile.pic} alt="" />
      <h1>name:{profile.name}</h1>
      <h3>phone number: {profile.phone}</h3>
@@ -155,9 +162,44 @@ task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
      <Button variant="outline-primary" size="sm" onClick={editdet}>edit profile</Button>
      </div>
 
-      <Button variant="outline-dark"onClick={userlogout} size="sm">Logout</Button>
+      <Button variant="outline-dark"onClick={userlogout} size="sm">Logout</Button> */}
      </div>
-     <Button variant="outline-danger" size="sm" onClick={delmyac}>Delete my account</Button>
+     {/* <Button variant="outline-danger" size="sm" onClick={delmyac}>Delete my account</Button> */}
+
+
+     <div style={{marginTop:"5%"}}>
+     <Card centered color="blue" style={{borderRadius:"1rem"}}>
+    <Image src={profile.pic} wrapped ui={false} />
+    <Card.Content style={{textAlign:"center"}}>
+      <Card.Header><h2><MdAccountCircle />  {profile.name}</h2></Card.Header>
+      <Card.Meta>
+        <span ><small><MdSmartphone /> {profile.phone}</small></span>
+        <span ><small><MdPhone /> {profile.altnum}</small></span>
+        <span ><small><MdEmail /> {profile.email}</small></span>
+      </Card.Meta>
+      <Card.Description>
+        {profile.desc}
+      </Card.Description>
+    </Card.Content>
+    <Card.Content extra>
+      <a onClick={userlogout}>
+        <Icon name='sign-out' />
+        Logout
+      </a>
+     <a style={{float:"right"}}><Icon name='setting'/><Dropdown text='Settings' >
+    <Dropdown.Menu>
+      <Dropdown.Item text='Edit my profile' onClick={editdet}/>
+      <Dropdown.Item text='Delete my account' onClick={delmyac}/>
+
+    </Dropdown.Menu>
+  </Dropdown>
+  </a>
+    </Card.Content>
+  </Card>
+     </div>
+
+
+
     </div>
   )
   function delmyac(){

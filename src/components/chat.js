@@ -13,7 +13,7 @@ import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import {MdDelete} from 'react-icons/md';
+import {MdDelete,MdStar} from 'react-icons/md';
 import {AiFillEdit} from 'react-icons/ai';
 
 const db=firebase.firestore();
@@ -82,8 +82,17 @@ const delpost=(pro)=>{
   })
 }
 
-      return <div>
-        
+const copy=(prop)=>{
+  let data;
+  db.collection('request').doc('pRxd1QTwQEyIIMr68n4p').get().then(snap=>{
+    data=snap.data()
+  }).then(()=>{
+    db.collection('users').doc(firebase.auth().currentUser.uid).collection('response').doc('pRxd1QTwQEyIIMr68n4p').set(data)
+
+  })
+}
+
+      return <div>   
 {
   props.data.map((cap)=>
 <div id={cap.id} style={{marginLeft:"22%"}}>
@@ -142,37 +151,37 @@ className="mb-2 ">
 
 {/* sematic ui react */}
 <Card.Group>
-<Card
-style={{backgroundColor:"#0e76a8",width:"90%"}}
->
-<Card.Content>
-  
-  <Dropdown item icon='wrench' backgroundColor="white" simple>
+<Card color="blue"
+style={{width:"80%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}}>
+ <Card.Content>
+      <Card.Meta style={{display:'inline-flex'}}>{String(cap.time.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
+      
+      <Dropdown item icon='wrench' backgroundColor="white" simple  style={{float:"right"}} color="white">
         <Dropdown.Menu>
+        <Dropdown.Item onClick={(e)=>click2(cap.msgid)}>Technician details</Dropdown.Item>
           <Dropdown.Item onClick={(e)=>click2(cap.msgid)}>chat with partner</Dropdown.Item>
           <Dropdown.Item onClick={(e)=>click(cap.orderid)}>view job</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item onClick={(e)=>delpost(cap.id)}>Delete</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-      
+
+      </Card.Content>
+<Card.Content>  
         <Image
-        style={{borderRadius:"15%"}}
-          floated='left'
+style={{width:"60px",height:"60px",borderRadius:"1rem",cursor:"pointer"}}     
+     floated='left'
           size='mini'
-          src={cap.ppic}
-        
-        />
-        <Card.Header style={{color:"white"}}>{cap.pname}
+          src={cap.ppic}/>
+        <Card.Header><u>{cap.pname}</u>
         </Card.Header>
-        <Card.Meta style={{color:"white"}}>Friends of Elliot
+        <Card.Meta><small>computer</small> | <small>4.5</small><MdStar color="gold"/>
         </Card.Meta>
-        <Card.Description style={{color:"white",marginLeft:"5%"}}>
-          <div style={{display:"inline-flex"}}>
+          <div style={{display:"inline-flex",fontSize:"22px", paddingLeft:"15%"}}>
         <p> Money: <strong>&#8377; {cap.pmoney}</strong> </p>
-         <p>Away: <strong> 1km</strong></p>
+         <p style={{marginLeft:"30px"}}>Away: <strong> 1km</strong></p>
         </div>
-        </Card.Description>
+      
       </Card.Content>
       <Card.Content extra>
       <div>
