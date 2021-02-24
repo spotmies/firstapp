@@ -1,7 +1,7 @@
 import React from 'react'
 import 'semantic-ui-css/semantic.min.css'
 import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown,Checkbox,Segment } from 'semantic-ui-react'
-import '../rental.css';
+import './rental.css';
 import {SiCoronaengine} from 'react-icons/si'
 import {BsFillGearFill} from 'react-icons/bs'
 import {IoSpeedometerOutline} from 'react-icons/io5'
@@ -207,6 +207,7 @@ const [open, setOpen] = useState(arr)
      
         <div>
           {/* <  car Filtering /> */}
+          <div className="filter-div">
           <Dropdown
     text='Filter'
     icon='filter'
@@ -229,8 +230,8 @@ const [open, setOpen] = useState(arr)
         sedan
       </Dropdown.Item>
     </Dropdown.Menu>
-  </Dropdown>
-<Button onClick={(e)=>uncheckall("all")}>Show me all cars</Button>
+  </Dropdown><br/>
+<Button onClick={(e)=>uncheckall("all")} style={{marginTop: "20px"}}>Show me all cars</Button><br/>
 
     {/* <Segment compact 
     onClick={newfunk} 
@@ -240,7 +241,7 @@ const [open, setOpen] = useState(arr)
       <Checkbox label="suv" id="type2" value="suv" onClick={satish}/><br/>
     </Segment> */}
 
-  <Checkbox toggle  style={{float:"right"}} onChange={fuelf} id="fuelid" label="petrol"  className="check0"/>
+  <Checkbox toggle style={{marginTop: "20px"}} onChange={fuelf} id="fuelid" label="petrol"  className="check0"/>
 
       <Segment compact 
     onClick={seatfil} 
@@ -266,7 +267,7 @@ const [open, setOpen] = useState(arr)
       <Checkbox label="Petrol" id="toc1" value="petrol"/><br />
       <Checkbox label="Diesel" id="toc2" value="diesel"/><br />
     </Segment>
-
+    </div>
 
   <div className="newdiv">
             <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv">
