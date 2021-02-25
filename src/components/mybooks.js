@@ -17,7 +17,7 @@ import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import {MdDelete} from 'react-icons/md';
+import {MdDelete,MdCheckCircle} from 'react-icons/md';
 import {AiFillEdit} from 'react-icons/ai';
 import {FiMoreHorizontal} from 'react-icons/fi'
 
@@ -157,15 +157,15 @@ const delpost=(pro)=>{
       </Dropdown>
     
       </Card.Content>
-      <Card.Content extra style={{display:"inline-block"}}>
+      <Card.Content extra style={{display:"inline-block",cursor:"pointer"}} onClick={(e)=>click(cap.id)}>
       <Image
       className="post-img" 
       style={{width:"100px",height:"80px",borderRadius:"1rem",cursor:"pointer"}}
-      onClick={(e)=>click(cap.id)}
+      
           floated='left'
           src={cap.media[0]} />  
 
-        <Card.Header style={{paddingBottom:"10px",cursor:"pointer"}} onClick={(e)=>click(cap.id)}>{cap.problem}</Card.Header>
+        <Card.Header style={{paddingBottom:"10px",cursor:"pointer"}} >{cap.problem}</Card.Header>
         <div style={{display:"inline-flex"}}>
           <div style={{paddingRight:"30px"}}>
    <p><BsEyeFill /> Views: {cap.views}</p>
@@ -180,7 +180,10 @@ const delpost=(pro)=>{
       </Card.Content>
       <Card.Content style={{display:"inline-flex"}}>
         <p onClick={(e)=>click(cap.id)} style={{cursor:"pointer"}}><u>View post</u></p>
-        <Label color="blue" attached='bottom right' style={{marginRight:"10px",marginBottom:"10px",borderRadius:"0.7rem"}}>&nbsp;&nbsp;Active&nbsp;&nbsp;</Label>
+        {cap.orderstate==2
+        ?<Label color="green" attached='bottom right' style={{marginRight:"10px",marginBottom:"10px",borderRadius:"0.7rem"}}><MdCheckCircle /> Completed</Label>
+        :<Label color="blue" attached='bottom right' style={{marginRight:"10px",marginBottom:"10px",borderRadius:"0.7rem"}}>Active</Label>
+        }
       </Card.Content>
    
     </Card>

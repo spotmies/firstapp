@@ -2,11 +2,13 @@ import React ,{Component} from 'react'
 import firebase from '../firebase';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Carousel } from 'react-bootstrap';
-import { Card, Icon, Image,Dropdown } from 'semantic-ui-react'
+import { Card, Icon, Image,Dropdown,Label,Step,Button,Rating } from 'semantic-ui-react'
 import react,{useState,useEffect} from "react";
-import {MdDelete,MdLocationOn} from 'react-icons/md';
+import {MdDelete,MdLocationOn,MdAccessTime,MdWatchLater,MdCheckCircle,MdAssignmentTurnedIn,MdBuild,MdThumbDown,MdAccountCircle,MdSmartphone,MdPhone,MdEmail} from 'react-icons/md';
 import {AiFillEdit} from 'react-icons/ai';
-import {RiUserSettingsFill} from 'react-icons/ri'
+import {RiUserSettingsFill,RiTimeFill} from 'react-icons/ri'
+import {HiCurrencyRupee} from 'react-icons/hi'
+import {FaTools} from 'react-icons/fa'
 import { useHistory } from 'react-router-dom'
 
 const db=firebase.firestore();
@@ -27,7 +29,6 @@ let arr=[];
     
          personId=window.location.pathname;
          personId=personId.replace('/mybookings/id/','');
-         console.log(personId)
          db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(personId).get().then(snap=>{
              setdata(snap.data())
             arr.push((String(snap.data().posttime.toDate())).replace('GMT+0530 (India Standard Time)',''));
@@ -97,7 +98,7 @@ return<div>
   <MdDelete color="red" onClick={(e)=>delpost(postdata.orderid)}/>
  
 </div> */}
-<div>
+<div style={{paddingBottom:"10px"}}>
 <Card centered color="blue" style={{width:"80%",marginBottom:"50px",borderRadius:"1rem"}}>
   <Card.Content>
   <Card.Meta style={{display:'inline-flex'}}><Icon name="time" />{posttime[0]}</Card.Meta>
@@ -108,7 +109,7 @@ return<div>
         </Dropdown.Menu>
       </Dropdown>
   </Card.Content>
-  <Card.Content extra>
+  <Card.Content >
   <Carousel>
  {media.map((nap)=>
    <Carousel.Item>     
@@ -124,53 +125,125 @@ return<div>
 </Card.Content>
 <Card.Content>
 <Card.Header textAlign="center">Title: <u>{postdata.problem}</u></Card.Header>
+
   </Card.Content>
   
   <div style={{display:"inline-flex",marginBottom:"20px"}}>
-    <Card.Group style={{display:"inline-flex",
-    marginLeft:"2%"}}>
+    <Card.Group style={{display:"inline-flex", marginLeft:"2%"}}>
 <Card style={{borderRadius:"1rem"}} color="blue">
   <Card.Content>
     <Card.Meta><Icon name="sticky note"/> Descrition</Card.Meta>
-  </Card.Content>
-  <Card.Content extra>
     <Card.Description>
-    {postdata.description}
+    <h3>{postdata.description}</h3>
     </Card.Description>
   </Card.Content>
-</Card>
 
-<Card style={{borderRadius:"1rem"}} color="orange">
-  <Card.Content>
-    <Card.Meta><Icon name="info circle" /> Details</Card.Meta>
-  </Card.Content>
-  <Card.Content extra>
-    <Card.Description>
-   <MdLocationOn /> Location: {postdata.location} <br />
-   <RiUserSettingsFill /> category : {postdata.job}
-    </Card.Description>
-  </Card.Content>
+
 </Card>
 
 <Card style={{borderRadius:"1rem"}} color="green">
   <Card.Content>
-    <Card.Meta>Descrition</Card.Meta>
+    <Card.Meta><Icon name="rupee sign" />Price</Card.Meta>
+    <h2 style={{textAlign:"center"}}><Icon name="rupee sign" />{postdata.money}</h2>
   </Card.Content>
-  <Card.Content extra>
+  <Card.Content >
+    {postdata.orderstate==2
+  ?<Label color="green" attached='bottom right' size="mini" style={{marginRight:"10px",marginBottom:"2%",borderRadius:"0.5rem"}}><MdCheckCircle /> Paid</Label>
+  :<Label color="blue" attached='bottom right' size="mini" style={{marginRight:"10px",marginBottom:"2%",borderRadius:"0.5rem"}}><MdWatchLater /> Not paid</Label>
+
+}
+  </Card.Content>
+  
+</Card> 
+
+
+<Card style={{borderRadius:"1rem",float:"right"}} color="orange">
+  <Card.Content>
+    <Card.Meta><Icon name="info circle" /> Details</Card.Meta>
+</Card.Content>
+<Card.Content>
     <Card.Description>
-      kjadsljlcdholkjsdkksjdfhksabiuhsandhcccccccccccccccccccccccccccccccccccccuhkjxzciujasbcukjbaisucjbyiwaudskf
+  <h4> <MdLocationOn /> Location: {postdata.location}</h4> 
+   <h4><RiUserSettingsFill /> category : {postdata.job}</h4> 
+   <h4><RiTimeFill />posted time: {posttime[0]}</h4>
     </Card.Description>
   </Card.Content>
 </Card>
+
+
 </Card.Group>
   </div>
+
+  <Step.Group centered>
+    <Step>
+      <MdAssignmentTurnedIn size="2.8rem"/>
+      <Step.Content>
+        <Step.Title> Adpost</Step.Title>
+        <Step.Description>@ {posttime[0]}</Step.Description>
+      </Step.Content>
+    </Step>
+{postdata.orderstate==2
+?<Step >
+<MdBuild size="2.8rem"/>
+<Step.Content>
+  <Step.Title> Service completed</Step.Title>
+  <Step.Description>{postdata.servcmpld}</Step.Description>
+</Step.Content>
+</Step>
+:<Step >
+<MdBuild size="2.8rem"/>
+<Step.Content>
+  <Step.Title> Service pending</Step.Title>
+  <Step.Description>please confirm when service completed</Step.Description>
+</Step.Content>
+</Step>
+
+}
+    
+{postdata.orderstate==2
+?<Step completed >
+<Icon name='info' />
+<Step.Content>
+  <Step.Title>Order completed</Step.Title>
+</Step.Content>
+</Step>
+:<Step  >
+<Icon name='info' />
+<Step.Content>
+  <Step.Title>Order pending</Step.Title>
+</Step.Content>
+</Step>
+
+}
+    
+  </Step.Group>
+{postdata.orderstate!=2
+?<Cnfbtn />
+:<span></span>
+}
+
+{postdata.fback==0
+?<Fback />
+:<span></span>
+}
+{postdata.partnerid
+?<Partdetail id={postdata.partnerid} />
+:<span></span>
+
+}
+
+
   <Card.Content extra>
 <a onClick={(e)=>click(postdata.orderid)}>
-<Icon name="edit" />Edit post
+<Icon name="edit" />
+</a>&nbsp;
+<a onClick={(e)=>delpost(postdata.orderid)}>
+<Icon name="trash" />
 </a>
-<a onClick={(e)=>delpost(postdata.orderid)} style={{float:"right"}}>
-<Icon name="trash" /> Delete
-</a>
+{postdata.orderstate==2
+?<Label color="green" attached='bottom right' style={{marginRight:"10px",marginBottom:"5px",borderRadius:"0.5rem"}}><MdCheckCircle /> Completed</Label>
+:<Label color="blue" attached='bottom right' style={{marginRight:"10px",marginBottom:"5px",borderRadius:"0.5rem"}}><MdWatchLater /> Pending</Label>
+}
   </Card.Content>
 </Card>
 </div>
@@ -179,3 +252,89 @@ return<div>
 }
 
 export default Navbar3
+
+
+
+
+
+
+
+
+
+
+class Cnfbtn extends React.Component {
+  render() {
+    return  <Button.Group style={{width:"70%",display:"flex",justifyContent:"center",alignItems:"center"}} > 
+    <Button><MdThumbDown size="1.6rem"/> Pending</Button>
+    <Button.Or />
+    <Button color="blue"><MdCheckCircle size="1.6rem"/> Completed</Button>
+  </Button.Group>;
+  }
+}
+
+class Fback extends React.Component{
+
+  state = {}
+
+  handleRate = (e, { rating, maxRating }) =>{
+    this.setState({ rating, maxRating });
+    console.log(this.state.rating)
+  }
+    
+
+  render(){
+    return (
+      <Rating maxRating={5}  clearable size="massive" style={{width:"30%"}} onRate={this.handleRate}/>
+    )
+  }
+}
+
+
+function Partdetail(props){
+const[pdata,setpdata]=useState([])
+console.log(props.id)
+useEffect(() => {
+db.collection("partner").doc(props.id).collection("ProfileInfo").doc(props.id).get().then(snap=>{
+setpdata(snap.data())
+}).then(()=>{console.log(pdata)})
+}, [])
+
+
+return  <div style={{paddingBottom:"50px"}}>
+
+ <Card centered color="blue" style={{borderRadius:"1rem",width:"60%"}}>
+  <Card.Content>
+    <Card.Header style={{textAlign:"center"}}><Card.Meta><MdAccountCircle size="2rem"/> Technician Details</Card.Meta></Card.Header>
+  </Card.Content>
+  <Card.Content>
+<img src={pdata.profilepic} style={{width:"100%",borderRadius:"1rem",height:"100%"}}/>
+</Card.Content>
+<Card.Content style={{textAlign:"center"}}>
+ <Card.Header><h2><MdAccountCircle />  {pdata.name}</h2></Card.Header>
+ <Card.Meta>
+   <span ><small><MdSmartphone /> {pdata.phone}</small></span>
+   <span ><small><MdPhone /> {pdata.altNum}</small></span>
+   <span ><small><MdEmail /> {pdata.email}</small></span>
+ </Card.Meta>
+ <Card.Description>
+   {pdata.desc}
+ </Card.Description>
+</Card.Content>
+<Card.Content extra>
+ <a>
+   <Icon name='sign-out' />
+   Logout
+ </a>
+<a style={{float:"right"}}><Icon name='setting'/><Dropdown text='Settings' >
+<Dropdown.Menu>
+ <Dropdown.Item text='Edit my profile' />
+ <Dropdown.Item text='Delete my account' />
+
+</Dropdown.Menu>
+</Dropdown>
+</a>
+</Card.Content>
+</Card> 
+</div>
+
+}

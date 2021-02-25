@@ -153,23 +153,18 @@ task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
 </Form>
         </div>
 
-        {/* <div id={uid} style={{textAlign:"center"}}>
-        <img className="post-img" src={profile.pic} alt="" />
-     <h1>name:{profile.name}</h1>
-     <h3>phone number: {profile.phone}</h3>
-     <h4>alternative number:{profile.altnum}</h4>
-     <h5>email:{profile.email}</h5>
-     <Button variant="outline-primary" size="sm" onClick={editdet}>edit profile</Button>
+
      </div>
 
-      <Button variant="outline-dark"onClick={userlogout} size="sm">Logout</Button> */}
-     </div>
-     {/* <Button variant="outline-danger" size="sm" onClick={delmyac}>Delete my account</Button> */}
 
-
-     <div style={{marginTop:"5%"}}>
-     <Card centered color="blue" style={{borderRadius:"1rem"}}>
-    <Image src={profile.pic} wrapped ui={false} />
+     <div style={{paddingBottom:"50px"}}>
+     <Card centered color="blue" style={{borderRadius:"1rem",width:"60%"}}>
+       <Card.Content>
+         <Card.Header style={{textAlign:"center"}}><Card.Meta><MdAccountCircle size="2rem"/> Account Details</Card.Meta></Card.Header>
+       </Card.Content>
+       <Card.Content>
+    <img src={profile.pic} style={{width:"100%",borderRadius:"1rem"}}/>
+    </Card.Content>
     <Card.Content style={{textAlign:"center"}}>
       <Card.Header><h2><MdAccountCircle />  {profile.name}</h2></Card.Header>
       <Card.Meta>
