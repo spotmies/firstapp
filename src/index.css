@@ -16,8 +16,12 @@ code {
 }
 
 .signupform{
-width: 500px;
-margin-left: 400px;
+/* width: 500px;
+margin-left: 400px; */
+/* margin: auto;
+width: 50%;
+padding: 10px; */
+margin-top: 8%;
 
 }
 .post-img{
@@ -35,3 +39,5 @@ margin-left: 400px;
 #uploaderb{
   display: none;
 }
+
+

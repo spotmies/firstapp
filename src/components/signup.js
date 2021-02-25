@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Button,NavDropdown,Navbar,Nav,Modal,Form,Card } from 'react-bootstrap';
+import { Button,Form } from 'react-bootstrap'
+import { Card } from 'semantic-ui-react'
 import firebase from '../firebase';
 import { createHashHistory } from "history";
 import '../index.css';
+
+
+//import icons
+import {MdAccountCircle,MdSmartphone,MdHttps,MdTagFaces} from 'react-icons/md';
+import {RiLockPasswordFill} from 'react-icons/ri'
+
 const db=firebase.firestore();
 var usrno;
 const history = createHashHistory();
@@ -12,22 +19,33 @@ export default class signup extends Component {
     render() {
         return (
             <div className="signupform">
+              <Card centered color="blue" style={{width:"400px"}}>
+                <Card.Content>
+                  <Card.Header>
+                    <MdAccountCircle size="2rem"/><u>Signup or Login</u>
+                  </Card.Header>
+                </Card.Content>
+                <Card.Content extra>
                 <Form>
+                  
             <Form.Group controlId="formBasicEmail">
-                <Form.Label style={{marginTop: "120px"}}>Enter your Mobile number</Form.Label>
+                <Form.Label><MdSmartphone /><b>Enter your Mobile number</b></Form.Label>
                 <Form.Control type="phone" placeholder="phone number" id="phno" required />
                
             </Form.Group>
             <Button variant="outline-info" type="button" onClick={genotp}>Get Otp</Button>
-            <div id="recaptcha-container"></div>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Label>Enter otp here</Form.Label>
-                <Form.Control type="number" placeholder="otp" id="otp" required/>
+            <div id="recaptcha-container" style={{marginTop:"10px"}}></div>
+            
+            <Form.Group controlId="formBasicPassword"  id="otpdiv" style={{marginTop:"10px",display:"none"}}>
+                <Form.Label><MdHttps /><b>Enter otp here</b></Form.Label>
+                <Form.Control type="number" placeholder="OTP" id="otp" required/>
+                <br />
+                <Button variant="outline-info" type="button" onClick={vrfyotp}>Verify</Button>
+
             </Form.Group>
-            <Button variant="outline-info" type="button" onClick={vrfyotp}>Verify</Button>
 
             <Form.Group controlId="username" style={{display:"none"}} className="username">
-                <Form.Label>Enter your name here</Form.Label>
+                <Form.Label><MdTagFaces /><b>Enter your name here</b></Form.Label>
                 <Form.Control type="text" placeholder="sweetname here" id="username" required/>
             </Form.Group>
 
@@ -35,6 +53,8 @@ export default class signup extends Component {
                 Submit
             </Button>
             </Form>
+            </Card.Content>
+            </Card>
             </div>
         )
     }
@@ -50,10 +70,7 @@ function genotp(e){
       window.confirmationResult = confirmationResult;
       console.log(confirmationResult);
       document.querySelector('#recaptcha-container').style.display="none";
-     
-  
-  
-  
+      document.querySelector("#otpdiv").style.display="block";  
     }).catch(function(error){alert(error)});
   }
   

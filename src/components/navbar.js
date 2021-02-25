@@ -22,11 +22,14 @@ import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi';
 import {IoCarSport} from 'react-icons/io5';
 
+var newpost;
+
 firebase.auth().onAuthStateChanged(function(user) {
 
 
 
   if (user) {
+    newpost="/newpost"
     console.log("user login")
     // document.querySelector('.userhere').innerHTML=""
     username="sekhar"
@@ -36,12 +39,13 @@ firebase.auth().onAuthStateChanged(function(user) {
     document.getElementById('signup').style.display="none";
     document.querySelector('.userdp').style.display="block";
   }
-  else{ console.log("user not login")
+  else{ 
+    newpost="/signup"
+    console.log("user not login")
   document.querySelector('.userhere').style.display="none";
   document.querySelector("#mychats").style.display="none"
   document.querySelector("#mybooks").style.display="none"
-  document.querySelector('.userdp').style.display="block";
-  document.querySelector('.userdp').style.display="block";
+  document.querySelector('.userdp').style.display="none";
   document.getElementById('signup').style.display="block";
 }
 })
@@ -73,13 +77,13 @@ function Navibar(){
       </Nav>
       <Nav style={{display:"inline-flex"}}>
       <Link to="/rentals"><Nav  className="chaticon" id="mybooks"><IoCarSport  className="chaticon2" size="1.2em"/> Rentals</Nav></Link>
-      <Link to="/mybookings"><Nav  className="chaticon" id="mybooks"><BsFillBriefcaseFill  className="chaticon2" size="1.2em"/> My Bookings</Nav></Link>
+      <Link to="/mybookings" ><Nav  className="chaticon" id="mybooks"><BsFillBriefcaseFill  className="chaticon2" size="1.2em"/> My Bookings</Nav></Link>
       <Link to="/chat"><Nav  className="chaticon" id="mychats"><MdChat className="chaticon2" size="1.3em"/>  Chat</Nav></Link>
     
      <div style={{display:"inline-flex"}}>
-      <img src={pic} className="userdp" style={{height:"20px",width:'20px',borderRadius:"1rem",marginTop:"10px",marginLeft:"6px"}} />
+      <img src={pic} className="userdp" style={{height:"20px",width:'20px',borderRadius:"1rem",marginTop:"10px",marginLeft:"6px",display:"none"}} />
       
-      <NavDropdown title={name} id="collasible-nav-dropdown" className="userhere" active>
+      <NavDropdown title={name} id="collasible-nav-dropdown" className="userhere" active >
       <Link to="/account"><NavDropdown.Item href="#action/3"><MdAccountCircle  color="gray" size="1.4em" />   Account</NavDropdown.Item></Link>
       <Link to="/mybookings"><NavDropdown.Item href="#action/3.1" ><BsFillBriefcaseFill color="gray" size="1.1em"/>   My Bookings</NavDropdown.Item></Link>
           <Link to="/chat"><NavDropdown.Item href="#action/3.2" ><BsChatFill color="gray" size="1.1em"/>Chats</NavDropdown.Item></Link>
@@ -88,8 +92,8 @@ function Navibar(){
           <NavDropdown.Item onClick={userlogout}><BiLogOutCircle color="gray" size="1.1em" /> Logout</NavDropdown.Item>
         </NavDropdown>
         </div>
-
         <Link to="/signup"><Nav className="chaticon" id="signup"> <MdAccountCircle /> Signup/Login</Nav></Link>
+        <Link to={`${newpost}`}> <Nav className="chaticon"><b>Ad post</b></Nav></Link>
 
       </Nav>
     </Navbar.Collapse> 

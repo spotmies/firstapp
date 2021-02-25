@@ -85,8 +85,7 @@ const[chat,setchat]=useState([]);
 
       return (<div style={{height:'100%'}}>
         <Grid>
-    <Grid.Column floated='left' width={4}>
-      {/* <Image src='https://www.india.com/wp-content/uploads/2020/10/whatsapp-web.jpg' /> */}
+    <Grid.Column floated='left' width={4} >
       <div style={{position:"-webkit-sticky"}}>
  <List celled>
  { props.data.map((nap)=>
@@ -128,6 +127,7 @@ db.collection('users').doc(firebase.auth().currentUser.uid)
   .collection('adpost').doc(props.chat.orderid)
   .get().then(snap=>{
 setordst(snap.data().orderstate);
+//console.log(snap.data())
   })
 
   let chat=[]
