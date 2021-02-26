@@ -19,7 +19,10 @@ import {
 const db=firebase.firestore();
 const storage = firebase.storage();
 
+//var imgarr=['https://www.w3schools.com/howto/img_snow.jpg','https://www.w3schools.com/howto/img_snow.jpg'];
+
 var imgarr=[];
+var sekharimg;
 
 var jobcate;
 
@@ -72,7 +75,8 @@ class Postform extends Component {
     super(props)
     this.state = {
       startDate: "",
-      sekcate:""
+      sekcate:"",
+      arrayvar:[]
     };
     this.handleChange2 = this.handleChange2.bind(this);
   }
@@ -82,11 +86,17 @@ class Postform extends Component {
       startDate: date
     })
   }
+
+  sekhararr=()=>{
+    this.setState({ 
+      arrayvar: this.state.arrayvar.concat(['https://www.w3schools.com/howto/img_snow.jpg'])
+    })
+  }
   
   
     handleSubmit=(event)=> {
       event.preventDefault();
-      console.log(this.state.sekcate)
+      console.log(this.state.arrayvar)
       let schedule=this.state.startDate
       let name=document.querySelector('#nameofserv').value
       let desc=document.querySelector('#sdesc').value
@@ -140,6 +150,7 @@ class Postform extends Component {
       
     }
     upldimg=(e)=>{  
+
     //  alert(this.state.startDate)  
       for (let i = 0; i < e.target.files.length; i++) {
       var file=e.target.files[i];
@@ -164,9 +175,14 @@ class Postform extends Component {
     },
     function complete(){
     console.log("adhar back uploaded successfully ")
+
     task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
       console.log('File available at', downloadURL);
     imgarr.push(downloadURL);
+    sekharimg=downloadURL
+    
+  
+    
   
     const gallery=document.querySelector('.gallery')
    // const html='';
@@ -193,12 +209,21 @@ class Postform extends Component {
        document.getElementById(`i${imgid}`).remove()
      };
    
-   div.append(html)
-   div.appendChild(btn) 
-   gallery.append(div)
+  //  div.append(html)
+  //  div.appendChild(btn) 
+  //  gallery.append(div)
    uploaderb.style.display="none";
+   return 'https://www.w3schools.com/howto/img_snow.jpg';
     });
-    }
+    },
+
+    storageref.getDownloadURL().then((url)=>{
+      this.setState({ 
+        arrayvar: this.state.arrayvar.concat([url])
+      })
+    })
+
+
     );
      }
      console.log(imgarr)
@@ -226,7 +251,7 @@ newfunk=(e)=>{
             />
             <Form.Field>
   <Dropdown text='File'>
-    <Dropdown.Menu onClick={this.newfunk}>
+    <Dropdown.Menu onClick={this.sekhararr}>
     <Dropdown.Item id="1">new </Dropdown.Item>
     <Dropdown.Item id="2"> open </Dropdown.Item>
 
@@ -289,22 +314,32 @@ newfunk=(e)=>{
             </Form.Field>
             <progress value="0" max="100" id="uploaderb">0%</progress>
 
-            {/* <div className="imgdiv">
+            <div className="imgdiv">
       
       <div className="gallery">
 
 
       
       </div>
-      </div> */}
+      </div>
 
 
+<div>
+
+<Image.Group size='small'>
+ 
+
+{
+  this.state.arrayvar.map((nap)=>
+  
+  <Image src={nap} />
+
+  )}
+
+</Image.Group>
+</div>
 
 
-          {/* <Form.Field
-            control={Checkbox}
-            label='I agree to the Terms and Conditions'
-          /> */}
           <Form.Field control={Button} style={{textAlign:"Center"}} type="submit" centered>Submit</Form.Field>
         </Form>
       )
