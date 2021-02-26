@@ -2,6 +2,7 @@ import '../App.css';
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import {Button,InputGroup,Form,FormControl} from 'react-bootstrap';
+import { Card } from 'semantic-ui-react'
 import {BiRupee,BiArrowBack} from 'react-icons/bi';
 import {BsTools,BsCalendar} from 'react-icons/bs';
 import firebase from '../firebase';
@@ -166,6 +167,7 @@ handleChange(date) {
 
    render(){
       return (
+        
           <div style={{paddingTop:"-20px"}}>
        <Link to="/" ><BiArrowBack className="back-arrow" size="1.6em"/></Link>
     <div className="postjob">
@@ -262,6 +264,7 @@ handleChange(date) {
   
    
     </div>
+  
     </div>
     
       )
@@ -271,4 +274,4 @@ handleChange(date) {
 
  
 
-    
+  

@@ -8,7 +8,7 @@ import {MdDelete,MdLocationOn,MdAccessTime,MdWatchLater,MdCheckCircle,MdAssignme
 import {AiFillEdit} from 'react-icons/ai';
 import {RiUserSettingsFill,RiTimeFill} from 'react-icons/ri'
 import {HiCurrencyRupee} from 'react-icons/hi'
-import {FaTools} from 'react-icons/fa'
+import {FaTools,FaAddressCard} from 'react-icons/fa'
 import { useHistory } from 'react-router-dom'
 
 const db=firebase.firestore();
@@ -29,7 +29,7 @@ let arr=[];
     
          personId=window.location.pathname;
          personId=personId.replace('/mybookings/id/','');
-         db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(personId).get().then(snap=>{
+         db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(personId).onSnapshot(snap=>{
              setdata(snap.data())
             arr.push((String(snap.data().posttime.toDate())).replace('GMT+0530 (India Standard Time)',''));
             arr.push((String(snap.data().schedule.toDate())).replace('GMT+0530 (India Standard Time)',''));
@@ -72,36 +72,11 @@ const Navbar3=()=>{
   
 return<div>
   <div>
-   {/* <Carousel>
- {media.map((nap)=>
-   <Carousel.Item>     
-      <video src={nap} poster={nap} width="100%" 
-           height="350" autoPlay loop/>
-     <Carousel.Caption>
-     </Carousel.Caption>
-   </Carousel.Item>
-
- )
-
-}
-</Carousel> */}
-{/* <div>
-  <p>Title:{postdata.problem}</p>
-  <p> location: {postdata.location}</p>
-  <p> Description: {postdata.description}</p>
-  <p>Category: {postdata.job}</p>
-  <p>Price: {postdata.price}</p>
-  <p>time of post: {posttime[0]}</p>
-  <p>service start at: {posttime[1]}</p>
-  <p>views: {postdata.views}</p>
-  <AiFillEdit color="gray" onClick={(e)=>click(postdata.orderid)}/>
-  <MdDelete color="red" onClick={(e)=>delpost(postdata.orderid)}/>
- 
-</div> */}
+   
 <div style={{paddingBottom:"10px"}}>
 <Card centered color="blue" style={{width:"80%",marginBottom:"50px",borderRadius:"1rem"}}>
   <Card.Content>
-  <Card.Meta style={{display:'inline-flex'}}><Icon name="time" />{posttime[0]}</Card.Meta>
+  <Card.Meta style={{display:'inline-flex'}}><Icon name="time" /> {posttime[0]}</Card.Meta>
   <Dropdown item icon="ellipsis horizontal" simple style={{float:"right"}}>
         <Dropdown.Menu>
           <Dropdown.Item onClick={(e)=>click(postdata.orderid)}><Icon name="edit" />Edit post</Dropdown.Item>
@@ -218,7 +193,7 @@ return<div>
     
   </Step.Group>
 {postdata.orderstate!=2
-?<Cnfbtn />
+?<Cnfbtn id={postdata.orderid}/>
 :<span></span>
 }
 
@@ -263,12 +238,26 @@ export default Navbar3
 
 
 class Cnfbtn extends React.Component {
+
+pending=(e)=>{
+console.log(e.target.parentElement.parentElement.id)
+document.getElementById(e.target.parentElement.parentElement.id).style.display="none"
+}
+completed=(e)=>{
+console.log(this.props.id)
+db.collection("users").doc(firebase.auth().currentUser.uid).collection("adpost").doc(this.props.id).update({
+  orderstate:2,
+  fback:0
+})
+}
   render() {
-    return  <Button.Group style={{width:"70%",display:"flex",justifyContent:"center",alignItems:"center"}} > 
-    <Button><MdThumbDown size="1.6rem"/> Pending</Button>
+    return <div id="cnfbutton" style={{alignContent:"center",alignItems:"center",alignSelf:"center",textAlign:"center"}}> 
+      <Button.Group style={{width:"70%",display:"flex",justifyContent:"center",alignItems:"center"}} > 
+    <Button onClick={this.pending}><MdThumbDown size="1.6rem"/> Pending</Button>
     <Button.Or />
-    <Button color="blue"><MdCheckCircle size="1.6rem"/> Completed</Button>
-  </Button.Group>;
+    <Button color="blue" onClick={this.completed}><MdCheckCircle size="1.6rem"/> Completed</Button>
+  </Button.Group>
+  </div>
   }
 }
 
@@ -284,7 +273,10 @@ class Fback extends React.Component{
 
   render(){
     return (
+      <div style={{alignContent:"center",textAlign:"center"}}>
+      <h3>Please rate the service</h3>
       <Rating maxRating={5}  clearable size="massive" style={{width:"30%"}} onRate={this.handleRate}/>
+      </div>
     )
   }
 }
@@ -299,10 +291,11 @@ setpdata(snap.data())
 }).then(()=>{console.log(pdata)})
 }, [])
 
+var dhref="tel: +91 "+pdata.phone; 
 
-return  <div style={{paddingBottom:"50px"}}>
+return  <div style={{paddingBottom:"50px",paddingTop:"40px"}}>
 
- <Card centered color="blue" style={{borderRadius:"1rem",width:"60%"}}>
+ <Card centered color="blue" style={{borderRadius:"1rem",width:"80%"}}>
   <Card.Content>
     <Card.Header style={{textAlign:"center"}}><Card.Meta><MdAccountCircle size="2rem"/> Technician Details</Card.Meta></Card.Header>
   </Card.Content>
@@ -320,15 +313,27 @@ return  <div style={{paddingBottom:"50px"}}>
    {pdata.desc}
  </Card.Description>
 </Card.Content>
+
+<Card centered color="orange" style={{borderRadius:"1rem"}}>
+  <Card.Content>
+  <Card.Header>
+   <FaAddressCard /> Technician address
+  </Card.Header>
+  </Card.Content>
+  <Card.Content>
+    <Card.Description>{pdata.addrs}</Card.Description>
+  </Card.Content>
+</Card>
 <Card.Content extra>
- <a>
-   <Icon name='sign-out' />
-   Logout
+ <a href={dhref}>
+ <MdPhone size="1.3rem"/>
+   Call
+  
  </a>
-<a style={{float:"right"}}><Icon name='setting'/><Dropdown text='Settings' >
+<a style={{float:"right"}}><Icon name='setting'/><Dropdown text='more' >
 <Dropdown.Menu>
- <Dropdown.Item text='Edit my profile' />
- <Dropdown.Item text='Delete my account' />
+ <Dropdown.Item text='Raise complaint' />
+ <Dropdown.Item text='Report' />
 
 </Dropdown.Menu>
 </Dropdown>

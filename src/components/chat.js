@@ -63,6 +63,9 @@ const click =(prop)=>{
   console.log("click",prop)
   history.push(`mybookings/id/${prop}`)
 }
+const pdet =(prop)=>{
+  history.push(`pdetails/${prop}`)
+}
 const click2=(prope)=>{
   console.log('click2',prope)
   db.collection('messaging').doc(prope).update({
@@ -158,7 +161,7 @@ style={{width:"80%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}}>
       
       <Dropdown item icon='ellipsis horizontal' backgroundColor="white" simple  style={{float:"right"}} color="white">
         <Dropdown.Menu>
-        <Dropdown.Item onClick={(e)=>click2(cap.msgid)}>Technician details</Dropdown.Item>
+        <Dropdown.Item onClick={(e)=>pdet(cap.partnerid)}>Technician details</Dropdown.Item>
           <Dropdown.Item onClick={(e)=>click2(cap.msgid)}>chat with partner</Dropdown.Item>
           <Dropdown.Item onClick={(e)=>click(cap.orderid)}>view job</Dropdown.Item>
           <Dropdown.Divider />

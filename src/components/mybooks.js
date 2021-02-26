@@ -3,7 +3,7 @@ import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import {Card } from 'react-bootstrap';
-import {  Card, Image,Label,Dropdown } from 'semantic-ui-react'
+import {  Card, Image,Label,Dropdown,Icon } from 'semantic-ui-react'
 import '../index.css';
 import { useHistory } from 'react-router-dom'
 
@@ -145,7 +145,7 @@ const delpost=(pro)=>{
      <Card.Group>
      <Card style={{width:"70%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}} centered fluid color='blue'>
       <Card.Content>
-      <Card.Meta style={{display:'inline-flex'}}>{String(cap.posttime.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
+      <Card.Meta style={{display:'inline-flex'}}><Icon name="time" /> {String(cap.posttime.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
       <Dropdown item icon="ellipsis horizontal" simple style={{float:"right"}}>
         <Dropdown.Menu>
   

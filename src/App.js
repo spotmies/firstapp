@@ -15,6 +15,8 @@ import Editpost from './components/editpost';
 import SimpleMap from './components/contact';
 import chatssection from "./components/chats-section";
 import CardExampleCard from './components/bikerental';
+import pdetails from './components/pdetails';
+import newpost2 from './components/newpost2'
 
 const Routing = ()=>{
 return(
@@ -24,6 +26,7 @@ return(
       </Route>
       <Route path="/cart" component={productlist}/>
       <Route path="/newpost" component={newpost}/>
+      <Route path="/newpost2" component={newpost2}/>
       <Route path="/chat" component={chat}/>
       <Route path="/chats-section" component={chatssection}/>
       <Route path="/signup" component={signup}/>
@@ -33,6 +36,7 @@ return(
       <Route path="/mybookings/id" component={postview}/>
       <Route path="/contact" component={SimpleMap}/>
       <Route path='/rentals' component={CardExampleCard} />
+      <Route path="/pdetails" component={pdetails} />
       
     </Switch>
 )
