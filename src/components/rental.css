@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.filter-div {
+   width: 20%;
+   height: 100%;
+   overflow: auto;
+   margin-top: 0;
+   padding: 20px;
+   background: rgb(248, 248, 245);
+   align-items: center;
+   box-shadow: 1px 1px 5px rgb(77, 76, 76);
+   position: fixed;
+}
+
+.maindiv {
+    float: right;
+    width: 80%;
+    justify-items: center;
+}

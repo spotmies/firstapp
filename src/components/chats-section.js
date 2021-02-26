@@ -192,13 +192,13 @@ else return <p className="chatList" style={{listStyle: "none", textAlign: "left"
 
   function Headings() {
     return (
-     <div style={{display: "inline-flex", background: "#1681a7", color: "white", width: "100%", marginTop: "-50px", marginBottom: "0"}}>
-       <Row style={{width: "100%", textAlign: "center"}}>
-       <Col><Link to="/chat" style={{color: "white", textDecoration: "none"}}><h2 >Responses</h2></Link></Col>
-       <Col style={{borderBottom: "3px solid white", marginBottom: "0"}}><Link to="/chats-section" style={{color: "white", textDecoration: "none"}}><h2>Chats</h2></Link></Col>
-       
-      </Row>
-     </div>
+      <div style={{display: "inline-flex", background: "#f6f6f6", color: "white", width: "100%", height: "70px",paddingTop: "28px", marginTop: "-20px", marginBottom: "0"}}>
+      <Row style={{width: "100%", textAlign: "center"}}>
+      <Col><Link to="/chat" style={{color: "black", textDecoration: "none"}}><h2 >Responses</h2></Link></Col>
+      <Col style={{borderBottom: "3px solid #007bff", marginBottom: "0"}}><Link to="/chats-section" style={{color: "black", textDecoration: "none"}}><h2>Chats</h2></Link></Col>
+      
+     </Row>
+    </div>
     );
   }
 

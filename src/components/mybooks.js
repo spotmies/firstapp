@@ -140,7 +140,7 @@ const delpost=(pro)=>{
     })
   }
 
-   return <div>
+   return <div style={{paddingTop:"30px"}}>
    {  props.data.map((cap)=>
      <Card.Group>
      <Card style={{width:"70%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}} centered fluid color='blue'>
