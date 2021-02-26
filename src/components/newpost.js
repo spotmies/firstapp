@@ -14,6 +14,7 @@ import { createHashHistory } from "history";
 import DatePicker from 'react-datepicker';
  
 import "react-datepicker/dist/react-datepicker.css";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const history = createHashHistory();
@@ -22,6 +23,7 @@ const db=firebase.firestore();
 const storage = firebase.storage();
 
 var imgarr=[];
+
 export default class Postjob extends Component{
 
 

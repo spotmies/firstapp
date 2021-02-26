@@ -14,7 +14,8 @@ import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import {MdDelete,MdSend} from 'react-icons/md';
+import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdList,MdFeaturedPlayList,MdSend} from 'react-icons/md';
+
 import {AiFillEdit} from 'react-icons/ai';
 import {RiSendPlaneLine} from 'react-icons/ri'
 
@@ -194,8 +195,8 @@ else return <p className="chatList" style={{listStyle: "none", textAlign: "left"
     return (
       <div style={{display: "inline-flex", background: "#f6f6f6", color: "white", width: "100%", height: "70px",paddingTop: "28px", marginTop: "-20px", marginBottom: "0"}}>
       <Row style={{width: "100%", textAlign: "center"}}>
-      <Col><Link to="/chat" style={{color: "black", textDecoration: "none"}}><h2 >Responses</h2></Link></Col>
-      <Col style={{borderBottom: "3px solid #007bff", marginBottom: "0"}}><Link to="/chats-section" style={{color: "black", textDecoration: "none"}}><h2>Chats</h2></Link></Col>
+      <Col><Link to="/chat" style={{color: "gray", textDecoration: "none"}}><h2><MdFeaturedPlayList size="2.1rem" color="gray"/> Responses</h2></Link></Col>
+      <Col style={{borderBottom: "3px solid gray", marginBottom: "0"}}><Link to="/chats-section" style={{color: "gray", textDecoration: "none"}}><h2> <MdChatBubble size="2.1rem" color="gray"/> Chats</h2></Link></Col>
       
      </Row>
     </div>

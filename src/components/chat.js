@@ -13,7 +13,7 @@ import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import {MdDelete,MdStar} from 'react-icons/md';
+import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdList,MdFeaturedPlayList,MdCheckCircle,MdCancel} from 'react-icons/md';
 import {AiFillEdit} from 'react-icons/ai';
 
 const db=firebase.firestore();
@@ -100,64 +100,14 @@ const copy=(prop)=>{
   props.data.map((cap)=>
 <div id={cap.id} style={{marginLeft:"22%"}}>
  
-{/* {
-(cap.request)?  <Card
-  bg="success"
-  key="2"
-  text="black"
-  style={{ width: '48rem',borderRadius: '1rem' }}
-  className="mb-2 ">
 
- <Card.Header >{cap.pname} accepted your order </Card.Header>
-  <Card.Body className="card-body">
-    <Card.Title>
-    <img className="post-img" src={cap.media} alt="" />
-   <h3 className="post-title"  value="sekhar">{cap.problem}</h3> 
-   <h4 onClick={(e)=>click(cap.orderid)}>view post</h4>
-   <h4 onClick={(e)=>click2(cap.msgid)}>chat with him</h4>
-   <div className="details-post">
-   <p><RiPinDistanceFill /> Distance: {cap.distance}km</p>
-   <p><HiOutlineCurrencyRupee /> Money: {cap.money}</p>
-   <p><BiTimeFive /> Time:{(String(cap.time.toDate())).replace('GMT+0530 (India Standard Time)','')}</p>
-   <p onClick={(e)=>delpost(cap.id)}><MdDelete />delete</p>
-   
-   </div>
-    </Card.Title>
-  </Card.Body>
-</Card>
-
-: <Card
-bg="primary"
-key="2"
-text="black"
-style={{ width: '48rem',borderRadius: '1rem' }}
-className="mb-2 ">
-
-<Card.Header >{cap.pname}</Card.Header>
-<Card.Body className="card-body">
-  <Card.Title>
-  <img className="post-img" src={cap.media} alt="" />
- <h3 className="post-title"  value="sekhar">{cap.problem}</h3> 
- <h4 onClick={(e)=>click(cap.orderid)}>view post</h4>
- <h4 onClick={(e)=>click2(cap.msgid)}>chat with him</h4>
- <div className="details-post">
- <p><RiPinDistanceFill /> Distance: {cap.distance}km</p>
- <p><HiOutlineCurrencyRupee /> Money: {cap.pmoney}</p>
- <p><BiTimeFive /> Time:{(String(cap.time.toDate())).replace('GMT+0530 (India Standard Time)','')}</p>
- <p onClick={(e)=>delpost(cap.id)}><MdDelete />delete</p>
- 
- </div>
-  </Card.Title>
-</Card.Body>
-</Card>
-} */}
 
 {/* sematic ui react */}
 <Card.Group>
 <Card color="blue"
 style={{width:"80%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}}>
  <Card.Content>
-      <Card.Meta style={{display:'inline-flex'}}>{String(cap.time.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
+      <Card.Meta style={{display:'inline-flex'}}><Icon name="time" /> {String(cap.time.toDate()).replace('GMT+0530 (India Standard Time)','')}</Card.Meta>
       
       <Dropdown item icon='ellipsis horizontal' backgroundColor="white" simple  style={{float:"right"}} color="white">
         <Dropdown.Menu>
@@ -188,8 +138,8 @@ style={{width:"60px",height:"60px",borderRadius:"1rem",cursor:"pointer"}}
       </Card.Content>
       <Card.Content extra>
       <div>
-    <Button content='Aprove' color="green"  />
-    <Button onClick={(e)=>delpost(cap.id)} content='Decline' color="red" floated="right"/>
+    <Button  color="blue"  >Aprove  <MdCheckCircle /></Button>
+    <Button onClick={(e)=>delpost(cap.id)}  color="gray" floated="right" style={{display:"inline-flex"}}>Decline <MdCancel /></Button>
   </div>
       </Card.Content>
     </Card>
@@ -214,8 +164,8 @@ style={{width:"60px",height:"60px",borderRadius:"1rem",cursor:"pointer"}}
     return (
       <div style={{display: "inline-flex", background: "#f6f6f6", color: "white", width: "100%", height: "70px", paddingTop: "28px", marginTop: "-20px", marginBottom: "30px"}}>
       <Row style={{width: "100%", textAlign: "center"}}>
-      <Col style={{borderBottom: "3px solid #007bff", marginBottom: "0"}}><Link to="/chat" style={{color: "black", textDecoration: "none"}}><h2>Responses</h2></Link></Col>
-      <Col><Link to="/chats-section" style={{color: "black", textDecoration: "none"}}><h2>Chats</h2></Link></Col>
+      <Col style={{borderBottom: "3px solid gray", marginBottom: "0"}}><Link to="/chat" style={{color: "gray", textDecoration: "none"}}><h2><MdFeaturedPlayList size="2.1rem" color="gray"/> Responses</h2></Link></Col>
+      <Col><Link to="/chats-section" style={{color: "gray", textDecoration: "none"}}><h2><MdChatBubble size="2.1rem" color="gray"/> Chats</h2></Link></Col>
       </Row>
     </div>
     );
