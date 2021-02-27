@@ -174,7 +174,7 @@ const delpost=(pro)=>{
    <div>
      {String(cap.money)!="NaN"
      ?<p><HiOutlineCurrencyRupee /> Money: &#8377;{cap.money}</p>
-     :<p><HiOutlineCurrencyRupee /> Money: -</p>
+     :<p><HiOutlineCurrencyRupee /> Money: &#8377;--</p>
 
      }
    
