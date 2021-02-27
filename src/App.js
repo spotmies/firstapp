@@ -25,8 +25,8 @@ return(
       <Route exact path="/mybookings"  ><Mybooks />
       </Route>
       <Route path="/cart" component={productlist}/>
-      <Route path="/newpost" component={newpost}/>
-      <Route path="/newpost2" component={newpost2}/>
+      <Route path="/newpost" component={newpost2}/>
+      {/* <Route path="/newpost2" component={newpost2}/> */}
       <Route path="/chat" component={chat}/>
       <Route path="/chats-section" component={chatssection}/>
       <Route path="/signup" component={signup}/>

@@ -172,7 +172,12 @@ const delpost=(pro)=>{
    <p><RiPinDistanceFill /> Distance: 1km</p>
    </div>
    <div>
-   <p><HiOutlineCurrencyRupee /> Money: &#8377;{cap.money}</p>
+     {String(cap.money)!="NaN"
+     ?<p><HiOutlineCurrencyRupee /> Money: &#8377;{cap.money}</p>
+     :<p><HiOutlineCurrencyRupee /> Money: -</p>
+
+     }
+   
    <p><BiTimeFive /> Time: 1hr</p>
    </div>
 

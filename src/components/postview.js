@@ -118,8 +118,11 @@ return<div>
 
 <Card style={{borderRadius:"1rem"}} color="green">
   <Card.Content>
-    <Card.Meta><Icon name="rupee sign" />Price</Card.Meta>
-    <h2 style={{textAlign:"center"}}><Icon name="rupee sign" />{postdata.money}</h2>
+    <Card.Meta><Icon name="rupee sign" />Prics</Card.Meta>
+    {String(postdata.money)!="NaN"
+    ?<h2 style={{textAlign:"center"}}><Icon name="rupee sign" />{postdata.money}</h2>
+    :<h2 style={{textAlign:"center"}}><Icon name="rupee sign" />-</h2>
+    }
   </Card.Content>
   <Card.Content >
     {postdata.orderstate==2

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import {
-    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown
+    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown, ImageGroup,Grid,Modal,Header
   } from 'semantic-ui-react'
 
   import {InputGroup} from 'react-bootstrap';
@@ -23,7 +23,6 @@ const storage = firebase.storage();
 
 var imgarr=[];
 var sekharimg;
-
 var jobcate;
 
   const options = [
@@ -55,9 +54,11 @@ return <div style={{paddingTop:"20px"}}>
     </Card.Content>
     <Card.Content>
         <Postform />
+        
     </Card.Content>
     
     </Card>
+    <ModalExampleModal />  
 </div>
 }
  var src='https://www.w3schools.com/howto/img_snow.jpg'
@@ -76,7 +77,8 @@ class Postform extends Component {
     this.state = {
       startDate: "",
       sekcate:"",
-      arrayvar:[]
+      arrayvar:[],
+      mopen:false,
     };
     this.handleChange2 = this.handleChange2.bind(this);
   }
@@ -87,11 +89,7 @@ class Postform extends Component {
     })
   }
 
-  sekhararr=()=>{
-    this.setState({ 
-      arrayvar: this.state.arrayvar.concat(['https://www.w3schools.com/howto/img_snow.jpg'])
-    })
-  }
+
   
   
     handleSubmit=(event)=> {
@@ -103,6 +101,7 @@ class Postform extends Component {
      // let cat=document.querySelector('#scate').value
      let cat=jobcate;
       let price=document.querySelector('#sprice').value
+      if(desc==NaN)desc='';
       if(cat=="true")alert("please select category")
       else{
         cat=parseInt(cat);
@@ -118,13 +117,14 @@ class Postform extends Component {
           money:price,
           userid:firebase.auth().currentUser.uid, 
           orderid:newpost.id,
-          media:imgarr,
+          media:this.state.arrayvar,
           request:"nothing",
           posttime:d,
           views:0,
           location:"seethammadhara",
           schedule:schedule,
-          orderstate:null
+          orderstate:null,
+          fback:null
         }).then(()=>{
           return db.collection('allads').doc(newpost.id).set({
             job:cat,
@@ -133,13 +133,14 @@ class Postform extends Component {
             money:price,
             userid:firebase.auth().currentUser.uid, 
             orderid:newpost.id,
-            media:imgarr,
+            media:this.state.arrayvar,
             request:"nothing",
             posttime:d,
             views:0,
             location:"seethammadhara",
             schedule:schedule,
-            orderstate:null
+            orderstate:null,
+            fback:null
           })
         }).then(()=>{
           alert("post added successfully")
@@ -178,42 +179,8 @@ class Postform extends Component {
 
     task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
       console.log('File available at', downloadURL);
-    imgarr.push(downloadURL);
-    sekharimg=downloadURL
-    
-  
-    
-  
-    const gallery=document.querySelector('.gallery')
-   // const html='';
-    //  var html = document.createElement("IMG");
-    //   html.setAttribute('src',downloadURL);
-    //   html.setAttribute('class',"items")
-  
-    // gallery.append(html)
-    var div=document.createElement('div')
-    var html = document.createElement("IMG");
-    var btn = document.createElement('p');
-     html.setAttribute('src',downloadURL);
-     html.setAttribute('class',"items");
-     div.setAttribute('id',`i${downloadURL}`)
-     btn.setAttribute('class','close')
-     btn.setAttribute('id',downloadURL)
-     btn.innerHTML = "x";
-     btn.onclick = function(){
-       let imgid=btn.getAttribute('id')
-     //  alert(`del id is ${imgid}`);
-     console.log(imgarr)
-       imgarr = imgarr.filter(e => e !== imgid);
-       console.log(imgarr)
-       document.getElementById(`i${imgid}`).remove()
-     };
-   
-  //  div.append(html)
-  //  div.appendChild(btn) 
-  //  gallery.append(div)
+ 
    uploaderb.style.display="none";
-   return 'https://www.w3schools.com/howto/img_snow.jpg';
     });
     },
 
@@ -232,10 +199,22 @@ class Postform extends Component {
 
 newfunk=(e)=>{
   console.log(e.target.id)
-  jobcate=e.target.id;
+  this.setState({jobcate:e.target.id})
+  this.setState({mopen:true})
 }
 
-
+sekhararr=(e)=>{
+  // this.setState({ 
+  //   arrayvar: this.state.arrayvar.concat(['https://www.w3schools.com/howto/img_snow.jpg'])
+  // })
+  console.log(e.target.parentElement.parentElement.id)
+  var array = [...this.state.arrayvar]; // make a separate copy of the array
+  var index = array.indexOf(e.target.parentElement.parentElement.id)
+  if (index !== -1) {
+    array.splice(index, 1);
+    this.setState({arrayvar: array});
+  }
+}
 
   
     render() {
@@ -244,23 +223,12 @@ newfunk=(e)=>{
         <Form className="postjobb" onSubmit={this.handleSubmit}>
           <Form.Group widths='equal'>
             <Form.Field
+            required
               control={Input}
               label='First name'
               placeholder='enter name of service'
               id="nameofserv" className="nameofser"
             />
-            <Form.Field>
-  <Dropdown text='File'>
-    <Dropdown.Menu onClick={this.sekhararr}>
-    <Dropdown.Item id="1">new </Dropdown.Item>
-    <Dropdown.Item id="2"> open </Dropdown.Item>
-
-
-    </Dropdown.Menu>
-  </Dropdown>
-            
-            </Form.Field>
-
 
           </Form.Group>
 
@@ -273,7 +241,7 @@ newfunk=(e)=>{
           <Form.Field>
             Enter Amount             
             <Input labelPosition='right' type='number' id="sprice" placeholder='Amount'>
-            <Label basic>$</Label>
+            <Label basic>₹</Label>
             <input />
             <Label>.00</Label>
             </Input>
@@ -332,11 +300,18 @@ newfunk=(e)=>{
 {
   this.state.arrayvar.map((nap)=>
   
-  <Image src={nap} />
+  <Image
+  fluid
+  id={nap}
+  label={{ as: 'a', corner: 'right', icon: 'trash',onClick: this.sekhararr}}
+  src={nap}
+ 
+/>
 
   )}
 
 </Image.Group>
+
 </div>
 
 
@@ -344,4 +319,44 @@ newfunk=(e)=>{
         </Form>
       )
     }
+  }
+
+  function ModalExampleModal() {
+    const [open, setOpen] = React.useState(true)
+  function click(e){
+console.log(e.target.dataset.txt);
+jobcate=e.target.dataset.txt;
+setOpen(false);
+  }
+    return (
+      <Modal size="small"
+      style={{marginLeft:"auto",marginRight:"auto",display:"block"}}
+      onOpen={() => setOpen(true)}
+        open={open}
+      >
+        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Content >
+ <h1   
+  data-txt="1" onClick={click} >category1</h1>
+ <h1 data-txt="2" onClick={click}>category2</h1>
+
+ <h1 data-txt="3" onClick={click}>category3</h1>
+
+ <h1 data-txt="4" onClick={click}>category4</h1>
+ <h1 data-txt="5" onClick={click}>category5</h1>
+        </Modal.Content>
+        {/* <Modal.Actions>
+          <Button color='black' onClick={() => setOpen(false)}>
+            Nope
+          </Button>
+          <Button
+            content="Yep, that's me"
+            labelPosition='right'
+            icon='checkmark'
+                onClick={() => setOpen(false)}
+            positive
+          />
+        </Modal.Actions> */}
+      </Modal>
+    )
   }
