@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 
 import {
-    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown, ImageGroup,Grid,Modal,Header
+    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown, ImageGroup,Grid,Modal,Header,Feed,Menu
   } from 'semantic-ui-react'
 
   import {InputGroup} from 'react-bootstrap';
   import DatePicker from 'react-datepicker';
 
   import {BsTools,BsCalendar} from 'react-icons/bs';
+  import {MdAlarmAdd} from 'react-icons/md'
   import firebase from '../firebase';
   import 'firebase/storage';
   import { createHashHistory } from "history";
@@ -308,42 +309,77 @@ sekhararr=(e)=>{
     }
   }
 
+
+
+
+
+
+
+
+
+
+
   function ModalExampleModal() {
+    var imgsrc="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorgraphit.com%2Ffree-svg-illustrations-for-your-next-website-or-blog%2Famp&psig=AOvVaw28FMPvsnbckOWg5KwrbFDM&ust=1614586813687000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDUruGSjO8CFQAAAAAdAAAAABAJ"
     const [open, setOpen] = React.useState(true)
+
   function click(e){
-console.log(e.target.dataset.txt);
-jobcate=e.target.dataset.txt;
-setOpen(false);
+// console.log(e.target.dataset.txt);
+// jobcate=e.target.dataset.txt;
+// setOpen(false);
+
+console.log(e)
   }
+  let cati={0:"ac service",1:"computer service"}
+  Object.keys(cati).forEach(function(key){
+    console.log(cati[key])
+  })
     return (
+    <>
       <Modal size="small"
-      style={{marginLeft:"auto",marginRight:"auto",display:"block"}}
+      style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%"}}
       onOpen={() => setOpen(true)}
         open={open}
       >
-        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Header>Select Job Category</Modal.Header>
         <Modal.Content >
- <h1   
-  data-txt="1" onClick={click} >category1</h1>
- <h1 data-txt="2" onClick={click}>category2</h1>
+ {/* <h1 data-txt="0" onClick={click} >ac serivce</h1>
+ <h1 data-txt="1" onClick={click} >computer</h1>
+ <h1 data-txt="2" onClick={click}>tv repair</h1>
 
- <h1 data-txt="3" onClick={click}>category3</h1>
+ <h1 data-txt="3" onClick={click}>development</h1>
 
- <h1 data-txt="4" onClick={click}>category4</h1>
- <h1 data-txt="5" onClick={click}>category5</h1>
+ <h1 data-txt="4" onClick={click}>tutor</h1>
+ <h1 data-txt="5" onClick={click}>beuty</h1>
+ <h1 data-txt="6" onClick={click} >photography</h1>
+ <h1 data-txt="7" onClick={click}>driver</h1>
+
+ <h1 data-txt="8" onClick={click}>events</h1> */}
+ {
+     Object.keys(cati).forEach(function(key){
+      return  <h1 data-txt="6" onClick={click} >{cati[key]}</h1>
+
+    })
+ }
+
         </Modal.Content>
-        {/* <Modal.Actions>
-          <Button color='black' onClick={() => setOpen(false)}>
-            Nope
-          </Button>
-          <Button
-            content="Yep, that's me"
-            labelPosition='right'
-            icon='checkmark'
-                onClick={() => setOpen(false)}
-            positive
-          />
-        </Modal.Actions> */}
+        <Card centered>
+    <Card.Content>
+      <Card.Header>Select Category here</Card.Header>
+    </Card.Content>
+    <Card.Content>
+    <Menu fluid vertical centered>
+          <Menu.Item className='header' style={{display:"inline-flex",cursor:"pointer",textAlign:"center"}} onClick={(e)=>{alert("lksjd")}}><MdAlarmAdd /> Dogs</Menu.Item>
+          <Menu.Item>Poodle</Menu.Item>
+          <Menu.Item>Cockerspaniel</Menu.Item>
+        </Menu>
+    </Card.Content>
+  </Card>
       </Modal>
+
+      </>
     )
   }
+
+
+
