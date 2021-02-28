@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col, Form} from 'react-bootstrap';
 import { Button } from 'semantic-ui-react'
 import '../index.css';
+import './chats.css';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Image, List ,Grid } from 'semantic-ui-react'
@@ -90,20 +91,20 @@ const[chat,setchat]=useState([]);
       <div style={{position:"-webkit-sticky"}}>
  <List celled>
  { props.data.map((nap)=>
-    <List.Item id={nap.id} onClick={(e)=>click(nap.id)}>
-      <Image avatar src={nap.ppic} />
-      <List.Content>
-        <List.Header as='a'>{nap.pname}</List.Header>
+    <List.Item as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
+      <div style={{display: "inline-flex"}}><Image avatar src={nap.ppic} />
+      {/* <List.Content> */}
+        <List.Header >{nap.pname}</List.Header></div>
         <List.Description>
             {(nap.body[nap.body.length-1]).slice(0,-1)}
         </List.Description>
-      </List.Content>
+      {/* </List.Content> */}
     </List.Item>
     )}
   </List>
  </div>
     </Grid.Column>
-    <Grid.Column floated='right' width={12} centered>
+    <Grid.Column floated='right' width={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
   
       <div>
 {chat.body
@@ -150,7 +151,7 @@ function orderstatus(e){
 }
 
 return(
-  <div style={{float: "right", width: "100%",marginTop:"50px",overflowY:"auto"}}>
+  <div style={{float: "right", width: "100%",marginTop:"0px",overflowY:"auto"}}>
     <List horizontal>
       <List.Item>
       <Image avatar src={props.chat.ppic} />
@@ -169,21 +170,21 @@ return(
     :<p></p>
     }
 
-    <div style={{height:'400px',overflow:'auto'}}>
+    <div style={{height:'440px',overflow:'auto'}}>
     {
 chat.body.map((nap)=>
 
-{if(nap[nap.length-1]=="u") return <p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
-else return <p className="chatList" style={{listStyle: "none", textAlign: "left", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
+{if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
+else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
 }
 
 )}
 </div>
-<Form.Group style={{position: "sticky", bottom: "2px",width: "98%", margin: "0"}}>
+<Form.Group style={{position: "fixed", bottom: "2px",width: "80%", margin: "0"}}>
     <Row style={{margin: "0"}}>
-        <Col lg="10">
+        <Col lg="10" style={{marginRight: "0"}}>
   <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
-  <Col lg="2">
+  <Col lg="2" style={{marginRight: "0"}}>
   <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
   </Row>
 </Form.Group>
