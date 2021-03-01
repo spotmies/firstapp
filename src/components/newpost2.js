@@ -342,7 +342,7 @@ sekhararr=(e)=>{
     return (
     <>
       <Modal size="small"
-      style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%"}}
+      style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%",overflowY:"auto"}}
       onOpen={() => setOpen(true)}
         open={open}
       >

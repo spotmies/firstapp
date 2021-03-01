@@ -143,28 +143,73 @@ setordst(snap.data().orderstate);
     }).then(()=>{msg.value=''})
   }
 
+
+  //this function didn't tested yet
 function orderstatus(e){
-  console.log(e.target.innerText,e.target.parentElement.id)
-  console.log(ordst);
-  
+  console.log(e.target.dataset.txt)
+  console.log(`partner id is ${props.chat.partnerid}`)
+  let orderid=props.chat.orderid;
+  let partnerid=props.chat.partnerid
+//  console.log(e.target.parentElement.id);
+
+//order accept confim in user addpost
+db.collection('users').doc(firebase.auth().currentUser.uid).collection('adpost').doc(orderid).update({
+  orderstate:2,
+  partnerid:partnerid
+}).then(()=>{
+  //update in allads collections
+  return db.collection("allads").doc(orderid).update({
+    orderstate:2
+
+  })
+})
+//update in messagin collections
+db.collection('messaging').doc(e.target.parentElement.id).update({
+  orderstate:2,
+  body:firebase.firestore.FieldValue.arrayUnion("Order Accepted by useru"),
+  createdAt:new Date()
+
+})
+
+//update all request to "order confirmed by another patner"
+updatereq(orderid,partnerid)
+
+db.collection('partner').doc(partnerid).collection('orders').doc(orderid).update({
+  orderstate:2
+})
+}
+
+// async function updatereq(id,pid){
+//   await db.collection('request').where('orderid','==',id).where('partnerid','!=',pid).update({
+//     orderstate:5
+//   })
+// }
+
+async function updatereq(id,pid){
+  await db.collection("request").where('orderid','==',id).get().then((snap)=>{
+    snap.forEach(doc=>{
+      console.log(`requests is ${doc.id}`)
+    })
+  })
 }
 
 return(
   <div style={{float: "right", width: "100%",marginTop:"50px",overflowY:"auto"}}>
     <List horizontal>
-      <List.Item>
+      <List.Item style={{display:"inline-flex"}}>
       <Image avatar src={props.chat.ppic} />
       <List.Content>
         <List.Header>{props.chat.pname}</List.Header>
        computer technician
       </List.Content>
+
     </List.Item>
     </List>
     {ordst==0
     ?  <Button.Group style={{width:"100%"}} onClick={orderstatus} id={props.chat.id}>
-    <Button >Cancel partner</Button>
+    <Button data-txt="0">Cancel partner</Button>
     <Button.Or  />
-    <Button primary>Confirm partner</Button>
+    <Button primary data-txt="1">Confirm partner</Button>
     </Button.Group>
     :<p></p>
     }
