@@ -42,7 +42,9 @@
 /* first slide */
 .slide1{
 display: inline-flex; 
-width: 50%;
+width: 100%;
+position:absolute;
+
 }
 .getlocation{
   width: 150px;

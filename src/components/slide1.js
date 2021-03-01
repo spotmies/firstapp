@@ -26,7 +26,7 @@ function Slide(){
   const db=firebase.firestore();
   const [modalShow, setModalShow] = React.useState(false);
     return <div className="slide1" >
-        <img  src={repair} alt="logo" width="900" height="500"/>
+        <img  src={repair} alt="logo" style={{width:"100%",height:"100%"}}/>
 
     </div>
     

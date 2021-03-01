@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 
 import {
-    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown, ImageGroup,Grid,Modal,Header
+    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown, ImageGroup,Grid,Modal,Header,Menu
   } from 'semantic-ui-react'
 
   import {InputGroup} from 'react-bootstrap';
   import DatePicker from 'react-datepicker';
 
-  import {BsTools,BsCalendar} from 'react-icons/bs';
+  import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdEvent,MdDriveEta,MdFace} from 'react-icons/md'
+  import {BiCodeBlock} from 'react-icons/bi'
+  import{FaChalkboardTeacher,FaTools} from 'react-icons/fa'
+  import{IoCameraSharp} from 'react-icons/io5'
   import firebase from '../firebase';
   import 'firebase/storage';
   import { createHashHistory } from "history";
@@ -275,7 +278,7 @@ const handleSubmit=(event)=> {
         <Form.Field >
         <InputGroup className="mb-2">
             <InputGroup.Prepend className="nameofser">
-              <InputGroup.Text> <BsCalendar size="1.3em"/></InputGroup.Text>
+              <InputGroup.Text> <MdEvent size="1.3em"/></InputGroup.Text>
             </InputGroup.Prepend>
             <DatePicker className="datepicker"
               selected={ startDate }
@@ -360,32 +363,51 @@ const handleSubmit=(event)=> {
 
 
 
+function ModalExampleModal() {
+  var imgsrc="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorgraphit.com%2Ffree-svg-illustrations-for-your-next-website-or-blog%2Famp&psig=AOvVaw28FMPvsnbckOWg5KwrbFDM&ust=1614586813687000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDUruGSjO8CFQAAAAAdAAAAABAJ"
+  const [open, setOpen] = React.useState(true)
 
-  function ModalExampleModal() {
-    const [open, setOpen] = React.useState(true)
-  function click(e){
+function click(e){
 console.log(e.target.dataset.txt);
 jobcate=e.target.dataset.txt;
 setOpen(false);
-  }
-    return (
-      <Modal size="small"
-      style={{marginLeft:"auto",marginRight:"auto",display:"block"}}
-      onOpen={() => setOpen(true)}
-        open={open}
-      >
-        <Modal.Header>Select a Photo</Modal.Header>
-        <Modal.Content >
- <h1   
-  data-txt="1" onClick={click} >category1</h1>
- <h1 data-txt="2" onClick={click}>category2</h1>
+}
 
- <h1 data-txt="3" onClick={click}>category3</h1>
+  return (
+  <>
+    <Modal size="small"
+    style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%"}}
+    onOpen={() => setOpen(true)}
+      open={open}
+    >
+      <Modal.Header>Select Job Category</Modal.Header>
+      <Modal.Content >
 
- <h1 data-txt="4" onClick={click}>category4</h1>
- <h1 data-txt="5" onClick={click}>category5</h1>
-        </Modal.Content>
 
-      </Modal>
-    )
-  }
+      </Modal.Content>
+      <Card centered id="jobcate">
+  <Card.Content>
+    <Card.Header>Select Category here</Card.Header>
+  </Card.Content>
+  <Card.Content>
+  <Menu  vertical centered style={{width:"auto"}}>
+        <Menu.Item link data-txt="0" onClick={click}><FaTools size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Ac Service</Menu.Item>
+        <Menu.Item link data-txt="1" onClick={click}><MdLaptopMac size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Computer/Laptop Service</Menu.Item>
+        <Menu.Item link data-txt="2" onClick={click}><MdTv size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Tv Repair</Menu.Item>
+        <Menu.Item link data-txt="3" onClick={click}><BiCodeBlock size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Development</Menu.Item>
+        <Menu.Item link data-txt="4" onClick={click}><FaChalkboardTeacher size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Tutor</Menu.Item>
+        <Menu.Item link data-txt="5" onClick={click}><MdFace size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Beuty</Menu.Item>
+        <Menu.Item link data-txt="6" onClick={click}><IoCameraSharp size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Photographer</Menu.Item>
+        <Menu.Item link data-txt="7" onClick={click}><MdDriveEta size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Driver</Menu.Item>
+        <Menu.Item link data-txt="8" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Events</Menu.Item>
+      </Menu>
+  </Card.Content>
+</Card>
+    </Modal>
+
+    </>
+  )
+}
+
+
+

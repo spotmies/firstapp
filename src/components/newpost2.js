@@ -8,7 +8,17 @@ import {
   import DatePicker from 'react-datepicker';
 
   import {BsTools,BsCalendar} from 'react-icons/bs';
-  import {MdAlarmAdd} from 'react-icons/md'
+
+
+
+  import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdDriveEta,MdFace} from 'react-icons/md'
+  import {BiCodeBlock} from 'react-icons/bi'
+  import{FaChalkboardTeacher,FaTools} from 'react-icons/fa'
+  import{IoCameraSharp} from 'react-icons/io5'
+
+
+
+
   import firebase from '../firebase';
   import 'firebase/storage';
   import { createHashHistory } from "history";
@@ -324,16 +334,11 @@ sekhararr=(e)=>{
     const [open, setOpen] = React.useState(true)
 
   function click(e){
-// console.log(e.target.dataset.txt);
-// jobcate=e.target.dataset.txt;
-// setOpen(false);
-
-console.log(e)
+ console.log(e.target.dataset.txt);
+ jobcate=e.target.dataset.txt;
+ setOpen(false);
   }
-  let cati={0:"ac service",1:"computer service"}
-  Object.keys(cati).forEach(function(key){
-    console.log(cati[key])
-  })
+
     return (
     <>
       <Modal size="small"
@@ -343,35 +348,24 @@ console.log(e)
       >
         <Modal.Header>Select Job Category</Modal.Header>
         <Modal.Content >
- {/* <h1 data-txt="0" onClick={click} >ac serivce</h1>
- <h1 data-txt="1" onClick={click} >computer</h1>
- <h1 data-txt="2" onClick={click}>tv repair</h1>
-
- <h1 data-txt="3" onClick={click}>development</h1>
-
- <h1 data-txt="4" onClick={click}>tutor</h1>
- <h1 data-txt="5" onClick={click}>beuty</h1>
- <h1 data-txt="6" onClick={click} >photography</h1>
- <h1 data-txt="7" onClick={click}>driver</h1>
-
- <h1 data-txt="8" onClick={click}>events</h1> */}
- {
-     Object.keys(cati).forEach(function(key){
-      return  <h1 data-txt="6" onClick={click} >{cati[key]}</h1>
-
-    })
- }
+ 
 
         </Modal.Content>
-        <Card centered>
+        <Card centered id="jobcate">
     <Card.Content>
       <Card.Header>Select Category here</Card.Header>
     </Card.Content>
     <Card.Content>
-    <Menu fluid vertical centered>
-          <Menu.Item className='header' style={{display:"inline-flex",cursor:"pointer",textAlign:"center"}} onClick={(e)=>{alert("lksjd")}}><MdAlarmAdd /> Dogs</Menu.Item>
-          <Menu.Item>Poodle</Menu.Item>
-          <Menu.Item>Cockerspaniel</Menu.Item>
+    <Menu  vertical centered style={{width:"auto"}}>
+          <Menu.Item link data-txt="0" onClick={click}><FaTools size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Ac Service</Menu.Item>
+          <Menu.Item link data-txt="1" onClick={click}><MdLaptopMac size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Computer/Laptop Service</Menu.Item>
+          <Menu.Item link data-txt="2" onClick={click}><MdTv size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Tv Repair</Menu.Item>
+          <Menu.Item link data-txt="3" onClick={click}><BiCodeBlock size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Development</Menu.Item>
+          <Menu.Item link data-txt="4" onClick={click}><FaChalkboardTeacher size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Tutor</Menu.Item>
+          <Menu.Item link data-txt="5" onClick={click}><MdFace size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Beuty</Menu.Item>
+          <Menu.Item link data-txt="6" onClick={click}><IoCameraSharp size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Photographer</Menu.Item>
+          <Menu.Item link data-txt="7" onClick={click}><MdDriveEta size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Driver</Menu.Item>
+          <Menu.Item link data-txt="8" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Events</Menu.Item>
         </Menu>
     </Card.Content>
   </Card>
