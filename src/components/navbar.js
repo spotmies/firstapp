@@ -29,7 +29,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
   if (user) {
-    newpost="/newpost"
+  
     console.log("user login")
     // document.querySelector('.userhere').innerHTML=""
     username="sekhar"
@@ -40,7 +40,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     document.querySelector('.userdp').style.display="block";
   }
   else{ 
-    newpost="/signup"
+
     console.log("user not login")
   document.querySelector('.userhere').style.display="none";
   document.querySelector("#mychats").style.display="none"
@@ -93,7 +93,7 @@ function Navibar(){
         </NavDropdown>
         </div>
         <Link to="/signup"><Nav className="chaticon" id="signup"> <MdAccountCircle /> Signup/Login</Nav></Link>
-        <Link to={`${newpost}`}> <Nav className="chaticon"><b>Ad post</b></Nav></Link>
+        <Link to="/newpost"> <Nav className="chaticon"><b>Ad post</b></Nav></Link>
 
       </Nav>
     </Navbar.Collapse> 

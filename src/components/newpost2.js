@@ -223,7 +223,7 @@ sekhararr=(e)=>{
             <Form.Field
             required
               control={Input}
-              label='First name'
+              label='Name of Service'
               placeholder='enter name of service'
               id="nameofserv" className="nameofser"
             />
@@ -313,7 +313,7 @@ sekhararr=(e)=>{
 </div>
 
 
-          <Form.Field control={Button} style={{textAlign:"Center"}} type="submit" centered>Submit</Form.Field>
+          <Form.Field control={Button} style={{textAlign:"Center"}} type="submit" centered color="primary">Submit</Form.Field>
         </Form>
       )
     }
@@ -377,3 +377,11 @@ sekhararr=(e)=>{
 
 
 
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+    //  history.go('/login')
+      console.log("user login")
+    }
+
+  })
+  
