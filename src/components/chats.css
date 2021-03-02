@@ -46,10 +46,10 @@
 } */
 
 @media screen and (max-width: 420px) {
-    .chatlogs {
+    /* .chatlogs {
         display: none;
-        /* background: black; */
-    }
+        /* background: black; 
+    } */
 
     .chatboxes {
         width: 100%;

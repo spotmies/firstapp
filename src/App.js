@@ -17,7 +17,8 @@ import chatssection from "./components/chats-section";
 import CardExampleCard from './components/bikerental';
 import pdetails from './components/pdetails';
 import newpost2 from './components/newpost2';
-import editpost2 from './components/editpost2'
+import editpost2 from './components/editpost2';
+import chatroom from './components/chatroom';
 
 const Routing = ()=>{
 return(
@@ -33,6 +34,7 @@ return(
       <Route path="/signup" component={signup}/>
       <Route path="/signup/home" component={Firstslide}/>
       <Route path="/account" component={profile}/>
+      <Route path="/chatroom" component={chatroom}/>
       {/* <Route path="/mybookings/id/edit" component={Editpost}/> */}
       <Route path="/mybookings/id/edit" component={editpost2}/>
       <Route path="/mybookings/id" component={postview}/>

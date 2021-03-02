@@ -99,26 +99,26 @@ const[chat,setchat]=useState([]);
 
       return (<div style={{height:'100%'}}> 
         <Grid>
-        <div className="chatboxes">
+        {/* <div className="chatboxes">
              <Grid.Column floated='left' width={16} >
       <div style={{position:"-webkit-sticky"}}>
- <Link to="/chatroom"><List celled>
+ <List celled>
  { props.data.map((nap)=>
     <List.Item as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
       <div style={{display: "inline-flex"}}><Image avatar src={nap.ppic} />
       {/* <List.Content> */}
-        <List.Header >{nap.pname}</List.Header></div>
-        <List.Description>
-            {(nap.body[nap.body.length-1]).slice(0,-1)}
-        </List.Description>
+        {/* <List.Header >{nap.pname}</List.Header></div> */}
+        {/* <List.Description> */}
+            {/* {(nap.body[nap.body.length-1]).slice(0,-1)} */}
+        {/* </List.Description> */}
       {/* </List.Content> */}
-    </List.Item>
-    )}
-  </List></Link>
- </div>
-    </Grid.Column>
-    </div>
-    {/* <div className="chatlogs">
+    {/* </List.Item> */}
+    {/* )} */}
+  {/* </List> */}
+ {/* </div> */}
+    {/* </Grid.Column> */}
+    {/* </div> */} 
+    <div className="chatlogs">
     <Grid.Column floated='right' width={16} centered style={{padding: "14px 0 0 0", height: "90%"}}>
   
       <div>
@@ -128,7 +128,7 @@ const[chat,setchat]=useState([]);
 }
 </div>
     </Grid.Column>
-    </div> */}
+    </div>
   </Grid>  
 
 
@@ -166,46 +166,46 @@ function orderstatus(e){
   
 }
 
-// return(
-//   <div style={{float: "right", width: "100%",marginTop:"0px",overflowY:"auto"}}>
-//     <List horizontal>
-//       <List.Item>
-//       <Image avatar src={props.chat.ppic} />
-//       <List.Content>
-//         <List.Header>{props.chat.pname}</List.Header>
-//        computer technician
-//       </List.Content>
-//     </List.Item>
-//     </List>
-//     {ordst==0
-//     ?  <Button.Group style={{width:"100%"}} onClick={orderstatus} id={props.chat.id}>
-//     <Button >Cancel partner</Button>
-//     <Button.Or  />
-//     <Button primary>Confirm partner</Button>
-//     </Button.Group>
-//     :<p></p>
-//     }
-//     <div style={{height: "500px"}}>
-//     <div style={{height:'100%',overflow:'auto'}}>
-//     {
-// chat.body.map((nap)=>
+return(
+  <div style={{float: "right", width: "100%",marginTop:"0px",overflowY:"auto"}}>
+    <List horizontal>
+      <List.Item>
+      <Image avatar src={props.chat.ppic} />
+      <List.Content>
+        <List.Header>{props.chat.pname}</List.Header>
+       computer technician
+      </List.Content>
+    </List.Item>
+    </List>
+    {ordst==0
+    ?  <Button.Group style={{width:"100%"}} onClick={orderstatus} id={props.chat.id}>
+    <Button >Cancel partner</Button>
+    <Button.Or  />
+    <Button primary>Confirm partner</Button>
+    </Button.Group>
+    :<p></p>
+    }
+    <div style={{height: "500px"}}>
+    <div style={{height:'100%',overflow:'auto'}}>
+    {
+chat.body.map((nap)=>
 
-// {if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
-// else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
-// }
+{if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
+else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
+}
 
-// )}
-// </div></div>
-// <Form.Group style={{position: "fixed", bottom: "2px",width: "80%", margin: "0"}}>
-//     <Row style={{margin: "0"}}>
-//         <Col lg="10" style={{marginRight: "0"}}>
-//   <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
-//   <Col lg="2" style={{marginRight: "0"}}>
-//   <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
-//   </Row>
-// </Form.Group>
-// </div>
-// )
+)}
+</div></div>
+<Form.Group style={{position: "fixed", bottom: "2px",width: "80%", margin: "0"}}>
+    <Row style={{margin: "0"}}>
+        <Col lg="10" style={{marginRight: "0"}}>
+  <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
+  <Col lg="2" style={{marginRight: "0"}}>
+  <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
+  </Row>
+</Form.Group>
+</div>
+)
 }
 
   function Headings() {
