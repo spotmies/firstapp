@@ -22,6 +22,19 @@ import {RiSendPlaneLine} from 'react-icons/ri'
 
 const db=firebase.firestore();
 
+// function useWindowSize() {
+//   const [size, setsize] = useState([window.innerHeight, window.innerWidth]);
+//   useEffect(()=> {
+//     const handleResize = () => {
+//       setsize = [window.innerHeight, window.innerWidth];
+//     }
+//     window.addEventListener("resize", handleResize);
+//     return () => {
+//       window.removeEventListener("resize", handleResize);
+//     }
+//   }, []);
+//   return size;
+// }
 
 function useTimes(){
   // const[times,setTimes]=useState([])
@@ -84,10 +97,10 @@ const[chat,setchat]=useState([]);
     })
   }
 
-
-      return (<div style={{height:'100%'}}>
+      return (<div style={{height:'100%'}}> 
         <Grid>
-    <Grid.Column floated='left' width={4} >
+        <div className="chatboxes" onClick={clickShow()}>
+             <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
       <div style={{position:"-webkit-sticky"}}>
  <List celled>
  { props.data.map((nap)=>
@@ -104,7 +117,9 @@ const[chat,setchat]=useState([]);
   </List>
  </div>
     </Grid.Column>
-    <Grid.Column floated='right' width={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
+    </div>
+    <div className="chatlogs">
+    <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
   
       <div>
 {chat.body
@@ -113,6 +128,7 @@ const[chat,setchat]=useState([]);
 }
 </div>
     </Grid.Column>
+    </div>
   </Grid>  
 
 
@@ -169,8 +185,8 @@ return(
     </Button.Group>
     :<p></p>
     }
-
-    <div style={{height:'440px',overflow:'auto'}}>
+    <div style={{height: "500px"}}>
+    <div style={{height:'100%',overflow:'auto'}}>
     {
 chat.body.map((nap)=>
 
@@ -179,7 +195,7 @@ else return <div className= "in-chat"><div className="in-chatbox"><p className="
 }
 
 )}
-</div>
+</div></div>
 <Form.Group style={{position: "fixed", bottom: "2px",width: "80%", margin: "0"}}>
     <Row style={{margin: "0"}}>
         <Col lg="10" style={{marginRight: "0"}}>
@@ -204,9 +220,15 @@ else return <div className= "in-chat"><div className="in-chatbox"><p className="
     );
   }
 
- 
+  function clickShow() {
+    var chatboxes = document.querySelector(".chatboxes");
+    var chatlogs = document.querySelector(".chatlogs");
 
+    
+     chatlogs.style.display = "block";
+     chatboxes.style.display = "none";
 
+  }
 
 
 function Empty(){
