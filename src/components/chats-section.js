@@ -88,7 +88,8 @@ export default Sekhar;
 
 function Mybookings(props) {
   const history = useHistory();
-const[chat,setchat]=useState([]);
+  const[chat,setchat]=useState([]);
+  const [showChat, setShowChat] = useState(false);
 
   const click =(prop)=>{
     console.log("click",prop)
@@ -97,14 +98,22 @@ const[chat,setchat]=useState([]);
     })
   }
 
+  function settrue() {
+    setShowChat(true);
+  }
+
+  function setfalse() {
+    setShowChat(false);
+  }
+
       return (<div style={{height:'100%'}}> 
         <Grid>
-             <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
+          {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
       <div style={{position:"-webkit-sticky"}}>
  <List celled>
  { props.data.map((nap)=>
     <List.Item as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
-      <div style={{display: "inline-flex"}}><Image avatar src={nap.ppic} />
+      <div style={{display: "inline-flex"}} onClick={()=> {settrue()}}><Image avatar src={nap.ppic} />
       {/* <List.Content> */}
         <List.Header >{nap.pname}</List.Header></div>
         <List.Description>
@@ -115,16 +124,17 @@ const[chat,setchat]=useState([]);
     )}
   </List>
  </div>
-    </Grid.Column>
+    </Grid.Column>: null}
+    {showChat ?
     <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
-  
+  <button onClick={()=> {setfalse()}}>Goback</button>
       <div>
 {chat.body
     ?< Chatarea chat={chat}/>
     :<Empty />
 }
 </div>
-    </Grid.Column>
+    </Grid.Column> : null}
   </Grid>  
 
 
