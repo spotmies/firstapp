@@ -7,6 +7,7 @@ import { Card, Icon, Image,Dropdown } from 'semantic-ui-react'
 
 import '../index.css';
 
+import imageCompression from "browser-image-compression";
 
 import { MdAccountCircle,MdPhone,MdEmail,MdSmartphone} from 'react-icons/md';
 
@@ -68,18 +69,33 @@ function editpro(e){
   })
 }
 
-function upldimg(e){
- // alert("upload")
+async function upldimg(e){
+  const options = {
+    maxSizeMB: 0.05,
+    maxWidthOrHeight: 800,
+    useWebWorker: true
+  };
+  let cfile;
+
  var file=e.target.files[0];
-//var file=document.getElementById('fileid').files[0];
+
+ await imageCompression(file, options).then(x => {
+  cfile = x;
+}).catch(function (error) {
+  console.log(error.message);
+});
+
+
+
+
  console.log("fileis",file.name)
 var uploaderb=document.querySelector('#uploaderb');
 uploaderb.style.display="block";
 // crate storage ref
-var storageref=storage.ref(`users/uid/profile/` + file.name);
+var storageref=storage.ref(`users/${firebase.auth().currentUser.uid}/profile/` + cfile.name);
 
   //upload file
-var task=storageref.put(file);
+var task=storageref.put(cfile);
 
    //update progress bar
 task.on('state_changed',

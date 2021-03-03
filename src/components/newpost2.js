@@ -79,6 +79,9 @@ class Postform extends Component {
       sekcate:"",
       arrayvar:[],
       mopen:false,
+      image:[],
+      imgurl:"",
+      valprogress:0
     };
     this.handleChange2 = this.handleChange2.bind(this);
   }
@@ -152,8 +155,10 @@ class Postform extends Component {
       }
       
     }
-     upldimg=async(e)=>{ 
-       let logicc=0 
+
+
+
+    handleChangeg = e => {
       const options = {
         maxSizeMB: 0.05,
         maxWidthOrHeight: 800,
@@ -161,57 +166,137 @@ class Postform extends Component {
       };
       let cfile;
 
-    //  for (let i = 0; i < e.target.files.length; i++) {
-      var file=e.target.files[0];
-      console.log("fileis",file.name)
-      await imageCompression(file, options).then(x => {
-        cfile = x;
-      }).catch(function (error) {
-        console.log(error.message);
-      });
-     var uploaderb=document.querySelector('#uploaderb');
-     uploaderb.style.display="block";
-     // crate storage ref
-    var storageref=storage.ref(`users/uid/profile/` + file.name);
-    
-       //upload file
-     var task=storageref.put(cfile);
-    
-        //update progress bar
-    task.on('state_changed',
-    function progress(snapshot){
-      var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
-       uploaderb.value=percentage;
-    
-    },
-      function error(err){
-      console.log(err)
-    },
-      function complete(){
-    console.log("adhar back uploaded successfully ")
 
-     task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-      console.log('File available at', downloadURL);
+      for(var i=0;i<e.target.files.length;i++){
+        let k=Number(i)
+
+         imageCompression(e.target.files[k], options).then(x => {
+          cfile = x;
+          this.setState({ 
+            image: this.state.image.concat([cfile])
+                })
+          document.getElementById('upldbtn').style.display="block"
+        }).catch(function (error) {
+          console.log(error.message);
+        });
+
+
+      }
+      
+    };
+
+
+     handleUpload = () => {
+       document.getElementById("uploaderb").style.display="block"
+       document.getElementById('upldbtn').style.display="none"
+       const options = {
+        maxSizeMB: 0.05,
+        maxWidthOrHeight: 800,
+        useWebWorker: true
+      };
+      let cfile;
+
+       console.log(this.state.image.length)
+       for(var i=0;i<this.state.image.length;i++){
+         let k=Number(i)
+      const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/adpost/${this.state.image[k].name}`).put(this.state.image[k]);
+      uploadTask.on(
+        "state_changed",
+        snapshot => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+         // setProgress(progress);
+         this.setState({valprogress:progress})
+        },
+        error => {
+          console.log(error);
+        },
+        () => {
+          storage
+            .ref("images")
+            .child(this.state.image[k].name)
+            .getDownloadURL()
+            .then(url => {
+              //setUrl(url);
+              console.log(url)
+
+                    this.setState({ 
+              arrayvar: this.state.arrayvar.concat([url])
+                  })
+
+            });
+        }
+      )
+       }
+       document.getElementById("uploaderb").style.display="none"       
+    }
+
+
+
+
+
+
+  //    upldimg=async(e)=>{ 
+  //      let logicc=0 
+      // const options = {
+      //   maxSizeMB: 0.05,
+      //   maxWidthOrHeight: 800,
+      //   useWebWorker: true
+      // };
+      // let cfile;
+
+  //   //  for (let i = 0; i < e.target.files.length; i++) {
+  //     var file=e.target.files[0];
+  //     console.log("fileis",file.name)
+      // await imageCompression(file, options).then(x => {
+      //   cfile = x;
+      // }).catch(function (error) {
+      //   console.log(error.message);
+      // });
+  //    var uploaderb=document.querySelector('#uploaderb');
+  //    uploaderb.style.display="block";
+  //    // crate storage ref
+  //   var storageref=storage.ref(`users/uid/profile/` + file.name);
+    
+  //      //upload file
+  //    var task=storageref.put(cfile);
+    
+  //       //update progress bar
+  //   task.on('state_changed',
+  //   function progress(snapshot){
+  //     var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
+  //      uploaderb.value=percentage;
+    
+  //   },
+  //     function error(err){
+  //     console.log(err)
+  //   },
+  //     function complete(){
+  //   console.log("adhar back uploaded successfully ")
+
+  //    task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  //     console.log('File available at', downloadURL);
  
-   uploaderb.style.display="none";
-   logicc=1;
-    }).catch((err)=>{console.log(err)});
-    },
-     task.snapshot.ref.getDownloadURL().then((url)=>{
-      console.log("download linked set")
-      this.setState({ 
-        arrayvar: this.state.arrayvar.concat([url])
-      })
-    }).catch((err)=>{console.log(err)})
+  //  uploaderb.style.display="none";
+  //  logicc=1;
+  //   }).catch((err)=>{console.log(err)});
+  //   },
+  //    task.snapshot.ref.getDownloadURL().then((url)=>{
+  //     console.log("download linked set")
+  //     this.setState({ 
+  //       arrayvar: this.state.arrayvar.concat([url])
+  //     })
+  //   }).catch((err)=>{console.log(err)})
   
 
 
-    )
+  //   )
 
-    // }
-     console.log(imgarr)
+  //   // }
+  //    console.log(imgarr)
     
-     }
+  //    }
 
 newfunk=(e)=>{
   console.log(e.target.id)
@@ -293,12 +378,18 @@ sekhararr=(e)=>{
             iconPosition='Right'
               type="file"
               placeholder='Enter tags'
-              onChange={this.upldimg}
+             // onChange={this.upldimg}
               accept=".gif,.jpg,.jpeg,.png,.doc,.docx"
-              
+              onChange={this.handleChangeg}
+              multiple
                  />
+                
             </Form.Field>
-            <progress value="0" max="100" id="uploaderb">0%</progress>
+            <Form.Field control={Button} color="green" id="upldbtn" type="button" onClick={this.handleUpload}>
+              upload images
+            </Form.Field>
+            {/* <button onClick={this.handleUpload}>upload</button> */}
+            <progress value={this.state.valprogress} max="100" id="uploaderb">progress</progress>
 
             <div className="imgdiv">
       
