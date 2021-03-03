@@ -144,7 +144,7 @@ function Mybookings(props) {
     </Grid.Column>: null}
     {showChat ?
     <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
-  <button onClick={()=> {setfalse()}}>Goback</button>
+  <Button primaary style={{marginLeft: "20px"}} onClick={()=> {setfalse()}}>Goback</Button>
       <div>
 {chat.body
     ?< Chatarea chat={chat}/>
@@ -229,7 +229,7 @@ return(
   <div style={{float: "right", width: "100%",marginTop:"0px",overflowY:"auto"}}>
     <List horizontal>
       <List.Item>
-      <Image avatar src={props.chat.ppic} />
+      <Image avatar src={props.chat.ppic} style={{marginLeft:"20px"}}/>
       <List.Content>
         <List.Header>{props.chat.pname}</List.Header>
        computer technician
@@ -257,9 +257,9 @@ else return <div className= "in-chat"><div className="in-chatbox"><p className="
 </div></div>
 <Form.Group style={{position: "fixed", bottom: "2px",width: "80%", margin: "0"}}>
     <Row style={{margin: "0"}}>
-        <Col lg="10" style={{marginRight: "0"}}>
+        <Col lg={10} md={8} sm={8} style={{marginRight: "0"}}>
   <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
-  <Col lg="2" style={{marginRight: "0"}}>
+  <Col lg={2} md={4} sm={4} style={{marginRight: "0"}}>
   <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
   </Row>
 </Form.Group>
