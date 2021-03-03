@@ -99,7 +99,6 @@ const[chat,setchat]=useState([]);
 
       return (<div style={{height:'100%'}}> 
         <Grid>
-        <div className="chatboxes" onClick={clickShow()}>
              <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
       <div style={{position:"-webkit-sticky"}}>
  <List celled>
@@ -117,8 +116,6 @@ const[chat,setchat]=useState([]);
   </List>
  </div>
     </Grid.Column>
-    </div>
-    <div className="chatlogs">
     <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
   
       <div>
@@ -128,7 +125,6 @@ const[chat,setchat]=useState([]);
 }
 </div>
     </Grid.Column>
-    </div>
   </Grid>  
 
 
@@ -185,7 +181,7 @@ return(
     </Button.Group>
     :<p></p>
     }
-    <div style={{height: "500px"}}>
+    <div style={{height: "420px"}}>
     <div style={{height:'100%',overflow:'auto'}}>
     {
 chat.body.map((nap)=>
@@ -219,17 +215,6 @@ else return <div className= "in-chat"><div className="in-chatbox"><p className="
     </div>
     );
   }
-
-  function clickShow() {
-    var chatboxes = document.querySelector(".chatboxes");
-    var chatlogs = document.querySelector(".chatlogs");
-
-    
-     chatlogs.style.display = "block";
-     chatboxes.style.display = "none";
-
-  }
-
 
 function Empty(){
   return <div></div>
