@@ -36,6 +36,20 @@ const db=firebase.firestore();
 //   return size;
 // }
 
+function useWindowSize() {
+  const [size, setSize] = useState([window.innerHeight, window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => {
+      setSize([window.innerHeight, window.innerWidth]);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+  return size;
+}
+
 function useTimes(){
   // const[times,setTimes]=useState([])
   const[chit,setchit]=useState([])
@@ -90,6 +104,7 @@ function Mybookings(props) {
   const history = useHistory();
   const[chat,setchat]=useState([]);
   const [showChat, setShowChat] = useState(false);
+  const [heights, widths] = useWindowSize();
 
   const click =(prop)=>{
     console.log("click",prop)
@@ -106,6 +121,8 @@ function Mybookings(props) {
     setShowChat(false);
   }
 
+  if(widths <= 420){
+    console.log("below 420px");
       return (<div style={{height:'100%'}}> 
         <Grid>
           {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
@@ -141,7 +158,43 @@ function Mybookings(props) {
 
 
 </div>
-  );
+  );}
+  else {
+    console.log("above 420px");
+    return (<div style={{height:'100%'}}> 
+    <Grid>
+        <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
+  <div style={{position:"-webkit-sticky"}}>
+<List celled>
+{ props.data.map((nap)=>
+<List.Item as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
+  <div style={{display: "inline-flex"}}><Image avatar src={nap.ppic} />
+  {/* <List.Content> */}
+    <List.Header >{nap.pname}</List.Header></div>
+    <List.Description>
+        {(nap.body[nap.body.length-1]).slice(0,-1)}
+    </List.Description>
+  {/* </List.Content> */}
+</List.Item>
+)}
+</List>
+</div>
+</Grid.Column>
+<Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
+  <div>
+{chat.body
+?< Chatarea chat={chat}/>
+:<Empty />
+}
+</div>
+</Grid.Column>
+</Grid>  
+
+
+
+
+</div>
+    );}
   }
 
 
