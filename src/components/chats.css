@@ -44,3 +44,12 @@
         padding: 3px;
         width: fit-content;
 } */
+.chat-form {
+    width: 80%;
+}
+
+@media screen and (max-width: 420px) {
+    .chat-form {
+        width: 100%;
+    }
+}

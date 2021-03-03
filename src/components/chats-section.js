@@ -255,11 +255,11 @@ else return <div className= "in-chat"><div className="in-chatbox"><p className="
 
 )}
 </div></div>
-<Form.Group style={{position: "fixed", bottom: "2px",width: "80%", margin: "0"}}>
+<Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
     <Row style={{margin: "0"}}>
-        <Col lg={10} md={8} sm={8} style={{marginRight: "0"}}>
+        <Col xs={8} style={{marginRight: "0"}}>
   <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
-  <Col lg={2} md={4} sm={4} style={{marginRight: "0"}}>
+  <Col xs={4} style={{marginRight: "0"}}>
   <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
   </Row>
 </Form.Group>
