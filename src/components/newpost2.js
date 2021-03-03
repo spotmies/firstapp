@@ -9,6 +9,7 @@ import {
 
   import {BsTools,BsCalendar} from 'react-icons/bs';
   import { Link } from "react-router-dom";
+  import imageCompression from "browser-image-compression";
 
 
 
@@ -83,6 +84,8 @@ class Postform extends Component {
   }
   
   handleChange2(date) {
+    console.log(this.state.arrayvar)
+
     this.setState({
       startDate: date
     })
@@ -149,19 +152,30 @@ class Postform extends Component {
       }
       
     }
-    upldimg=(e)=>{  
+     upldimg=async(e)=>{ 
+       let logicc=0 
+      const options = {
+        maxSizeMB: 0.05,
+        maxWidthOrHeight: 800,
+        useWebWorker: true
+      };
+      let cfile;
 
-    //  alert(this.state.startDate)  
-      for (let i = 0; i < e.target.files.length; i++) {
-      var file=e.target.files[i];
+    //  for (let i = 0; i < e.target.files.length; i++) {
+      var file=e.target.files[0];
       console.log("fileis",file.name)
+      await imageCompression(file, options).then(x => {
+        cfile = x;
+      }).catch(function (error) {
+        console.log(error.message);
+      });
      var uploaderb=document.querySelector('#uploaderb');
      uploaderb.style.display="block";
      // crate storage ref
     var storageref=storage.ref(`users/uid/profile/` + file.name);
     
        //upload file
-     var task=storageref.put(file);
+     var task=storageref.put(cfile);
     
         //update progress bar
     task.on('state_changed',
@@ -173,25 +187,28 @@ class Postform extends Component {
       function error(err){
       console.log(err)
     },
-    function complete(){
+      function complete(){
     console.log("adhar back uploaded successfully ")
 
-    task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+     task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
       console.log('File available at', downloadURL);
  
    uploaderb.style.display="none";
-    });
+   logicc=1;
+    }).catch((err)=>{console.log(err)});
     },
-
-    storageref.getDownloadURL().then((url)=>{
+     task.snapshot.ref.getDownloadURL().then((url)=>{
+      console.log("download linked set")
       this.setState({ 
         arrayvar: this.state.arrayvar.concat([url])
       })
-    })
+    }).catch((err)=>{console.log(err)})
+  
 
 
-    );
-     }
+    )
+
+    // }
      console.log(imgarr)
     
      }
@@ -277,6 +294,8 @@ sekhararr=(e)=>{
               type="file"
               placeholder='Enter tags'
               onChange={this.upldimg}
+              accept=".gif,.jpg,.jpeg,.png,.doc,.docx"
+              
                  />
             </Form.Field>
             <progress value="0" max="100" id="uploaderb">0%</progress>
@@ -297,10 +316,11 @@ sekhararr=(e)=>{
  
 
 {
-  this.state.arrayvar.map((nap)=>
+  this.state.arrayvar.map((nap,key)=>
   
   <Image
   fluid
+  key={key}
   id={nap}
   label={{ as: 'a', corner: 'right', icon: 'trash',onClick: this.sekhararr}}
   src={nap}
