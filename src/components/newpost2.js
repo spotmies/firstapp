@@ -8,6 +8,7 @@ import {
   import DatePicker from 'react-datepicker';
 
   import {BsTools,BsCalendar} from 'react-icons/bs';
+  import { Link } from "react-router-dom";
 
 
 
@@ -314,6 +315,7 @@ sekhararr=(e)=>{
 
 
           <Form.Field control={Button} style={{textAlign:"Center"}} type="submit" centered color="primary">Submit</Form.Field>
+
         </Form>
       )
     }
@@ -330,6 +332,18 @@ sekhararr=(e)=>{
 
 
   function ModalExampleModal() {
+
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+      //  history.go('/login')
+        console.log("user login")
+        document.getElementById('redirectsignup').click()
+      }
+  
+    })
+
+
     var imgsrc="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorgraphit.com%2Ffree-svg-illustrations-for-your-next-website-or-blog%2Famp&psig=AOvVaw28FMPvsnbckOWg5KwrbFDM&ust=1614586813687000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDUruGSjO8CFQAAAAAdAAAAABAJ"
     const [open, setOpen] = React.useState(true)
 
@@ -367,6 +381,8 @@ sekhararr=(e)=>{
           <Menu.Item link data-txt="7" onClick={click}><MdDriveEta size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Driver</Menu.Item>
           <Menu.Item link data-txt="8" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Events</Menu.Item>
         </Menu>
+        <Link to="/signup" style={{display:"none"}} ><p  id="redirectsignup">signup</p></Link>
+
     </Card.Content>
   </Card>
       </Modal>
@@ -377,11 +393,5 @@ sekhararr=(e)=>{
 
 
 
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-    //  history.go('/login')
-      console.log("user login")
-    }
 
-  })
   
