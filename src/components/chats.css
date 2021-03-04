@@ -48,6 +48,11 @@
     width: 80%;
 }
 
+.chatdiv {
+    height: calc(100vh - 220px);
+    /* color: rgb(141, 139, 139); */
+}
+
 @media screen and (max-width: 420px) {
     .chat-form {
         width: 100%;

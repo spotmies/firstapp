@@ -8,7 +8,8 @@ import '../index.css';
 import './chats.css';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { Image, List ,Grid } from 'semantic-ui-react'
+import { Image, List ,Grid } from 'semantic-ui-react';
+import ReactScrollableFeed from 'react-scrollable-feed';
 
 //import icons
 import {BsEyeFill} from 'react-icons/bs';
@@ -125,7 +126,7 @@ function Mybookings(props) {
     console.log("below 420px");
       return (<div style={{height:'100%'}}> 
         <Grid>
-          {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
+          {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4}>
       <div style={{position:"-webkit-sticky"}}>
  <List celled>
  { props.data.map((nap)=>
@@ -163,7 +164,7 @@ function Mybookings(props) {
     console.log("above 420px");
     return (<div style={{height:'100%'}}> 
     <Grid>
-        <Grid.Column floated='left' mobile={16} tablet={16} computer={4} >
+        <Grid.Column floated='left' mobile={16} tablet={16} computer={4} style={{marginTop: "20px",border: "0 1px 0 0", boxShadow: "0px 0px 1px rgb(141, 139, 139)"}}>
   <div style={{position:"-webkit-sticky"}}>
 <List celled>
 { props.data.map((nap)=>
@@ -225,6 +226,10 @@ function orderstatus(e){
   
 }
 
+// const [heights, widths] = useWindowSize();
+// const mod = 80;
+// const chatheight = Math.round((mod / 100) * heights);
+// console.log(chatheight);
 return(
   <div style={{float: "right", width: "100%",marginTop:"0px",overflowY:"auto"}}>
     <List horizontal>
@@ -244,8 +249,10 @@ return(
     </Button.Group>
     :<p></p>
     }
-    <div style={{height: "420px"}}>
-    <div style={{height:'100%',overflow:'auto'}}>
+
+    {/* <div style={{ position: "sticky"}}> */}
+    <div className="chatdiv" style={{overflow:'auto'}}>
+   <ReactScrollableFeed>
     {
 chat.body.map((nap)=>
 
@@ -253,8 +260,8 @@ chat.body.map((nap)=>
 else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
 }
 
-)}
-</div></div>
+)}</ReactScrollableFeed>
+</div>
 <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
     <Row style={{margin: "0"}}>
         <Col xs={8} style={{marginRight: "0"}}>
