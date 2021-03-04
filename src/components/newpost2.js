@@ -166,7 +166,7 @@ class Postform extends Component {
       };
       let cfile;
 
-
+      this.setState({image:[]})
       for(var i=0;i<e.target.files.length;i++){
         let k=Number(i)
 
@@ -189,12 +189,7 @@ class Postform extends Component {
      handleUpload = () => {
        document.getElementById("uploaderb").style.display="block"
        document.getElementById('upldbtn').style.display="none"
-       const options = {
-        maxSizeMB: 0.05,
-        maxWidthOrHeight: 800,
-        useWebWorker: true
-      };
-      let cfile;
+
 
        console.log(this.state.image.length)
        for(var i=0;i<this.state.image.length;i++){
@@ -214,7 +209,7 @@ class Postform extends Component {
         },
         () => {
           storage
-            .ref("images")
+            .ref(`users/${firebase.auth().currentUser.uid}/adpost/`)
             .child(this.state.image[k].name)
             .getDownloadURL()
             .then(url => {
@@ -371,7 +366,7 @@ sekhararr=(e)=>{
           </InputGroup>
         </Form.Field>
 
-
+<div style={{display:"inline-flex"}}>
         <Form.Field>
             <Input
             icon='photo'
@@ -379,15 +374,16 @@ sekhararr=(e)=>{
               type="file"
               placeholder='Enter tags'
              // onChange={this.upldimg}
-              accept=".gif,.jpg,.jpeg,.png,.doc,.docx"
+              accept=".gif,.jpg,.jpeg,.png"
               onChange={this.handleChangeg}
               multiple
                  />
                 
             </Form.Field>
-            <Form.Field control={Button} color="green" id="upldbtn" type="button" onClick={this.handleUpload}>
+            <Form.Field control={Button} color="green"  id="upldbtn" type="button" onClick={this.handleUpload}>
               upload images
             </Form.Field>
+            </div>
             {/* <button onClick={this.handleUpload}>upload</button> */}
             <progress value={this.state.valprogress} max="100" id="uploaderb">progress</progress>
 

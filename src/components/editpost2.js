@@ -6,6 +6,7 @@ import {
 
   import {InputGroup} from 'react-bootstrap';
   import DatePicker from 'react-datepicker';
+  import imageCompression from "browser-image-compression";
 
   import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdEvent,MdDriveEta,MdFace} from 'react-icons/md'
   import {BiCodeBlock} from 'react-icons/bi'
@@ -124,6 +125,8 @@ const{postdata,posttime}=useTimes();
 console.log(postdata)
 const [startDate, setState] = useState('')
 const[arrayvar,setarrayvar]=useState([])
+const[image,setimage]=useState([]);
+const [progress,setprogress]=useState(0);
 //console.log(postdata)
 
 if(posttime[1] && avoid2==0){
@@ -183,7 +186,81 @@ const handleSubmit=(event)=> {
       })
     }
     
-  }     
+  }    
+  
+  
+
+ const handleChangeg = e => {
+    const options = {
+      maxSizeMB: 0.08,
+      maxWidthOrHeight: 800,
+      useWebWorker: true
+    };
+    let cfile;
+
+    setimage([]);
+    for(var i=0;i<e.target.files.length;i++){
+      let k=Number(i)
+
+       imageCompression(e.target.files[k], options).then(x => {
+        cfile = x;
+
+   //     setimage(image.concat([cfile]))
+        setimage(nap=>[...nap,cfile])
+        document.getElementById('upldbtn').style.display="block"
+      }).catch(function (error) {
+        console.log(error.message);
+      });
+
+
+    }
+    
+  };
+
+
+ const handleUpload = () => {
+    document.getElementById("uploaderb").style.display="block"
+    document.getElementById('upldbtn').style.display="none"
+
+
+    for(var i=0;i<image.length;i++){
+      let k=Number(i)
+   const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/adpost/${image[k].name}`).put(image[k]);
+   uploadTask.on(
+     "state_changed",
+     snapshot => {
+       const progress = Math.round(
+         (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+       );
+       setprogress(progress);
+     },
+     error => {
+       console.log(error);
+     },
+     () => {
+       storage
+         .ref(`users/${firebase.auth().currentUser.uid}/adpost/`)
+         .child(image[k].name)
+         .getDownloadURL()
+         .then(url => {
+           console.log(url)
+           setarrayvar(nap=>[...nap,url])
+         }).catch((err)=>console.log(err))
+     }
+   )
+    }
+    document.getElementById("uploaderb").style.display="none"       
+ }
+
+
+
+
+
+
+
+
+
+
           
         const  upldimg=(e)=>{  
             // console.log(this.state.arrayvar)
@@ -221,6 +298,7 @@ const handleSubmit=(event)=> {
      
          storageref.getDownloadURL().then((url)=>{
            setarrayvar(nap=>[...nap,url])
+           console.log(url)
          })
      
      
@@ -302,10 +380,16 @@ const handleSubmit=(event)=> {
             iconPosition='Right'
               type="file"
               placeholder='Enter tags'
-                onChange={upldimg}
+             //   onChange={upldimg}
+             accept=".gif,.jpg,.jpeg,.png"
+             onChange={handleChangeg}
+             multiple
                  />
             </Form.Field>
-            <progress value="0" max="100" id="uploaderb">0%</progress>
+            <Form.Field control={Button} color="green" id="upldbtn" type="button" onClick={handleUpload}>
+              upload images
+            </Form.Field>
+            <progress value={progress} max="100" id="uploaderb">progress</progress>
 
             <div className="imgdiv">
       
@@ -323,10 +407,11 @@ const handleSubmit=(event)=> {
  
 
 {
-  arrayvar.map((nap)=>
+  arrayvar.map((nap,key)=>
   
   <Image
   fluid
+  key={key}
   id={nap}
   label={{ as: 'a', corner: 'right', icon: 'trash',onClick: sekhararr}}
   src={nap}
