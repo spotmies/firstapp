@@ -262,51 +262,6 @@ const handleSubmit=(event)=> {
 
 
           
-        const  upldimg=(e)=>{  
-            // console.log(this.state.arrayvar)
-         //  alert(this.state.startDate)  
-           for (let i = 0; i < e.target.files.length; i++) {
-           var file=e.target.files[i];
-           console.log("fileis",file.name)
-          var uploaderb=document.querySelector('#uploaderb');
-          uploaderb.style.display="block";
-          // crate storage ref
-         var storageref=storage.ref(`users/uid/profile/` + file.name);
-         
-            //upload file
-          var task=storageref.put(file);
-         
-             //update progress bar
-         task.on('state_changed',
-         function progress(snapshot){
-           var percentage=(snapshot.bytesTransferred / snapshot.totalBytes)*100;
-            uploaderb.value=percentage;
-         
-         },
-           function error(err){
-           console.log(err)
-         },
-         function complete(){
-         console.log("adhar back uploaded successfully ")
-     
-         task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-           console.log('File available at', downloadURL);
-      
-        uploaderb.style.display="none";
-         });
-         },
-     
-         storageref.getDownloadURL().then((url)=>{
-           setarrayvar(nap=>[...nap,url])
-           console.log(url)
-         })
-     
-     
-         );
-          }
-          console.log(imgarr)
-         
-          }
 
         const sekhararr=(e)=>{
 
