@@ -160,7 +160,7 @@ class Postform extends Component {
 
     handleChangeg = e => {
       const options = {
-        maxSizeMB: 0.05,
+        maxSizeMB: 0.15,
         maxWidthOrHeight: 800,
         useWebWorker: true
       };

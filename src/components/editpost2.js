@@ -192,7 +192,7 @@ const handleSubmit=(event)=> {
 
  const handleChangeg = e => {
     const options = {
-      maxSizeMB: 0.08,
+      maxSizeMB: 0.15,
       maxWidthOrHeight: 800,
       useWebWorker: true
     };

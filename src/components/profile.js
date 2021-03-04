@@ -71,7 +71,7 @@ function editpro(e){
 
 async function upldimg(e){
   const options = {
-    maxSizeMB: 0.08,
+    maxSizeMB: 0.2,
     maxWidthOrHeight: 800,
     useWebWorker: true
   };
