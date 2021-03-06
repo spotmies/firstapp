@@ -39,6 +39,8 @@ const[ftype5,settype5]=useState("status");
 
 const[checkt,setcheck]=useState(true)
 
+ // filter function
+
 function uncheckall(data){
   setTimes([])
   if(data=="ctype")settype("cartype")
@@ -202,11 +204,18 @@ for(var i=0;i<=100;i++){
   arr.push(false)
 }
 const [open, setOpen] = useState(arr)
+const [menu, setMenu] = useState(true);
+
+  function settrue() {
+  setMenu(!menu);
+}
 
     return <div >
      
         <div>
           {/* <  car Filtering /> */}
+   <Button primary onClick={() => {settrue()} } style={{position: "fixed", zIndex: "200"}}>Filters</Button>
+          {menu ? 
           <div className="filter-div">
           <Dropdown
     text='Filter'
@@ -267,7 +276,10 @@ const [open, setOpen] = useState(arr)
       <Checkbox label="Petrol" id="toc1" value="petrol"/><br />
       <Checkbox label="Diesel" id="toc2" value="diesel"/><br />
     </Segment>
-    </div>
+    </div>: null
+}
+
+                    {/* car display cards */}
 
   <div className="newdiv">
             <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv">
