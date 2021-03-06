@@ -91,6 +91,8 @@ export default Sekhar;
 function Mybookings(props) {
   const history = useHistory();
 const[chat,setchat]=useState([]);
+const [showChat,setShowChat] = useState(false);
+const [heights, widths] = useWindowSize();
 
   const click =(prop)=>{
     console.log("click",prop)
@@ -127,6 +129,7 @@ if(widths <= 420){
   </List>
  </div>
     </Grid.Column>: null}
+    {showChat ?
    <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
   <Button primaary style={{marginLeft: "20px"}} onClick={()=> {setfalse()}}>Goback</Button>
     
@@ -136,7 +139,7 @@ if(widths <= 420){
     :<Empty />
 }
 </div>
-    </Grid.Column>: null}
+    </Grid.Column> : null}
   </Grid>  
 
 
