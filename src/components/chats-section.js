@@ -5,9 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col, Form} from 'react-bootstrap';
 import { Button } from 'semantic-ui-react'
 import '../index.css';
+import './chats.css';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { Image, List ,Grid } from 'semantic-ui-react'
+import { Image, List ,Grid } from 'semantic-ui-react';
+import ReactScrollableFeed from 'react-scrollable-feed';
 
 //import icons
 import {BsEyeFill} from 'react-icons/bs';
@@ -20,6 +22,20 @@ import {AiFillEdit} from 'react-icons/ai';
 import {RiSendPlaneLine} from 'react-icons/ri'
 
 const db=firebase.firestore();
+
+function useWindowSize() {
+  const [size, setSize] = useState([window.innerHeight, window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => {
+      setSize([window.innerHeight, window.innerWidth]);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+  return size;
+}
 
 
 function useTimes(){
@@ -82,12 +98,20 @@ const[chat,setchat]=useState([]);
       setchat(snap.data())
     })
   }
+  
+  function settrue() {
+    setShowChat(true);
+  }
 
+  function setfalse() {
+    setShowChat(false);
+  }
 
+if(widths <= 420){
       return (<div style={{height:'100%'}}>
         <Grid>
-    <Grid.Column floated='left' width={4} >
-      <div style={{position:"-webkit-sticky"}}>
+              {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4}>
+      <div style={{position:"-webkit-sticky"}}  onClick={()=> {settrue()}}>
  <List celled>
  { props.data.map((nap)=>
     <List.Item id={nap.id} onClick={(e)=>click(nap.id)}>
@@ -102,16 +126,17 @@ const[chat,setchat]=useState([]);
     )}
   </List>
  </div>
-    </Grid.Column>
-    <Grid.Column floated='right' width={12} centered>
-  
+    </Grid.Column>: null}
+   <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
+  <Button primaary style={{marginLeft: "20px"}} onClick={()=> {setfalse()}}>Goback</Button>
+    
       <div>
 {chat.body
     ?< Chatarea chat={chat}/>
     :<Empty />
 }
 </div>
-    </Grid.Column>
+    </Grid.Column>: null}
   </Grid>  
 
 
@@ -120,6 +145,39 @@ const[chat,setchat]=useState([]);
 </div>
   );
   }
+   else {
+    return (<div style={{height:'100%'}}> 
+    <Grid>
+        <Grid.Column floated='left' mobile={16} tablet={16} computer={4} style={{marginTop: "20px",border: "0 1px 0 0", boxShadow: "0px 0px 1px rgb(141, 139, 139)"}}>
+  <div style={{position:"-webkit-sticky"}}>
+<List celled>
+{ props.data.map((nap)=>
+<List.Item as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
+  <div style={{display: "inline-flex"}}><Image avatar src={nap.ppic} />
+  {/* <List.Content> */}
+    <List.Header >{nap.pname}</List.Header></div>
+    <List.Description>
+        {(nap.body[nap.body.length-1]).slice(0,-1)}
+    </List.Description>
+  {/* </List.Content> */}
+</List.Item>
+)}
+</List>
+</div>
+</Grid.Column>
+<Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
+  <div>
+{chat.body
+?< Chatarea chat={chat}/>
+:<Empty />
+}
+</div>
+</Grid.Column>
+</Grid>  
+</div>
+    );}
+  }
+
 
 
 function Chatarea(props){
@@ -169,21 +227,24 @@ return(
     :<p></p>
     }
 
-    <div style={{height:'400px',overflow:'auto'}}>
+    
+  <div className="chatdiv" style={{overflow:'auto'}}>
+   <ReactScrollableFeed>
     {
 chat.body.map((nap)=>
 
-{if(nap[nap.length-1]=="u") return <p className="chatList" style={{listStyle: "none", textAlign: "right", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
-else return <p className="chatList" style={{listStyle: "none", textAlign: "left", marginTop: "10px", background: "white", borderRadius: "20px", fontSize: "20px", padding: "6px"}}>{nap.slice(0, -1)}</p>
+{if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
+else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
 }
 
-)}
+
+)}</ReactScrollableFeed>
 </div>
-<Form.Group style={{position: "sticky", bottom: "2px",width: "98%", margin: "0"}}>
+  <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
     <Row style={{margin: "0"}}>
-        <Col lg="10">
+        <Col xs={8} style={{marginRight: "0"}}>
   <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
-  <Col lg="2">
+ <Col xs={4} style={{marginRight: "0"}}>
   <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
   </Row>
 </Form.Group>
