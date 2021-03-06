@@ -1,0 +1,60 @@
+.chatList, .chatListP{
+    margin-top: 5px; 
+    float: right;
+    color: #646464; 
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 5px 10px 5px 12px;
+    width: fit-content;
+    }
+
+    .out-chat, .in-chat {
+        display: inline-block;
+        padding: 0 0 0 10px;
+        vertical-align: top;
+        width: 92%;
+    }
+
+    .out-chat {
+        float: left;
+        width: 46%;
+        margin-left: 45%;
+    }
+
+    .in-chatbox {
+        width: 52%;
+    }
+
+    .chatListP {
+        float: left;
+        background: #efefef none repeat scroll 0 0;
+    }
+
+    .chatList {
+        background: #007bff none repeat scroll 0 0;
+        color: #fff;
+    }
+
+ /* {
+        margin-top: 5px;
+        float: left;
+        background: rgb(252, 250, 223);
+        border-radius: 20px;
+        font-size: 18px;
+        padding: 3px;
+        width: fit-content;
+} */
+.chat-form {
+    width: 80%;
+}
+
+.chatdiv {
+    height: calc(100vh - 220px);
+    /* color: rgb(141, 139, 139); */
+}
+
+@media screen and (max-width: 420px) {
+    .chat-form {
+        width: 100%;
+    }
+}
