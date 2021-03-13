@@ -14,3 +14,13 @@
 #upldbtn{
     display: none;
 }
+
+
+
+#book-card{ 
+    border-top-style: solid;
+    border-top-color: rgb(22, 148, 231);
+    border-radius: 1.5rem;
+    width: 70%;
+    background-color: #F9F9F9;
+}

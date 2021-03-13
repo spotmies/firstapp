@@ -15,7 +15,7 @@ import firebase from '../firebase'
 
 //react icons
 import {IconContext} from 'react-icons';
-import { MdAccountCircle,MdChat,MdSettings} from 'react-icons/md';
+import { MdAccountCircle,MdChat,MdSettings,MdChatBubble,MdWork,MdControlPoint,MdAddCircle} from 'react-icons/md';
 import {BsReverseLayoutTextSidebarReverse,BsChatFill,BsFillBriefcaseFill,BsChatDotsFill,BsEyeFill} from 'react-icons/bs';
 import {BiLogOutCircle,BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
@@ -52,6 +52,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 const db=firebase.firestore();
 var username="username";
+
 function Navibar(){
    const[name,setName]=useState("undefined")
    const[pic,setpic]=useState("https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png")
@@ -76,24 +77,26 @@ function Navibar(){
 
       </Nav>
       <Nav style={{display:"inline-flex"}}>
-      <Link to="/rentals"><Nav  className="chaticon" id="mybooks"><IoCarSport  className="chaticon2" size="1.2em"/> Rentals</Nav></Link>
-      <Link to="/mybookings" ><Nav  className="chaticon" id="mybooks"><BsFillBriefcaseFill  className="chaticon2" size="1.2em"/> My Bookings</Nav></Link>
-      <Link to="/chat"><Nav  className="chaticon" id="mychats"><MdChat className="chaticon2" size="1.3em"/>  Chat</Nav></Link>
+      <Link to="/rentals"><Nav  className="chaticon" id="mybooks"><b>Rentals</b></Nav></Link>
+      <Link to="/mybookings" ><Nav  className="chaticon" id="mybooks"><MdWork  className="chaticon2" size="1.3em"/><b>My Bookings</b></Nav></Link>
+      <Link to="/chat"><Nav  className="chaticon" id="mychats"><MdChatBubble className="chaticon2" size="1.3em"/> <b>Chat</b></Nav></Link>
     
      <div style={{display:"inline-flex"}}>
       <img src={pic} className="userdp" style={{height:"20px",width:'20px',borderRadius:"1rem",marginTop:"10px",marginLeft:"6px",display:"none"}} />
       
       <NavDropdown title={name} id="collasible-nav-dropdown" className="userhere" active >
-      <Link to="/account"><NavDropdown.Item href="#action/3"><MdAccountCircle  color="gray" size="1.4em" />   Account</NavDropdown.Item></Link>
-      <Link to="/mybookings"><NavDropdown.Item href="#action/3.1" ><BsFillBriefcaseFill color="gray" size="1.1em"/>   My Bookings</NavDropdown.Item></Link>
-          <Link to="/chat"><NavDropdown.Item href="#action/3.2" ><BsChatFill color="gray" size="1.1em"/>Chats</NavDropdown.Item></Link>
-          <Link to="/account"><NavDropdown.Item href="#action/3.3" ><MdSettings  color="gray" size="1.1em"/>   Settings</NavDropdown.Item></Link>
+      <Link to="/account"><NavDropdown.Item href="#action/3"><MdAccountCircle  color="gray" size="1.5em" /><b> Account</b> </NavDropdown.Item></Link>
+      <Link to="/mybookings"><NavDropdown.Item href="#action/3.1" ><MdWork color="gray" size="1.5em"/><b> My Bookings</b></NavDropdown.Item></Link>
+          <Link to="/chat"><NavDropdown.Item href="#action/3.2" ><MdChatBubble color="gray" size="1.5em"/><b> Chats</b></NavDropdown.Item></Link>
+          <Link to="/account"><NavDropdown.Item href="#action/3.3" ><MdSettings  color="gray" size="1.5em"/><b> Settings</b></NavDropdown.Item></Link>
+          <Link to="/newpost"><NavDropdown.Item href="#action/3.4" ><MdAddCircle  color="gray" size="1.5em"/><b> Ad Post</b></NavDropdown.Item></Link>
+
           <NavDropdown.Divider />
-          <NavDropdown.Item onClick={userlogout}><BiLogOutCircle color="gray" size="1.1em" /> Logout</NavDropdown.Item>
+          <NavDropdown.Item onClick={userlogout}><BiLogOutCircle color="gray" size="1.3em" /> Logout</NavDropdown.Item>
         </NavDropdown>
         </div>
-        <Link to="/signup"><Nav className="chaticon" id="signup"> <MdAccountCircle /> Signup/Login</Nav></Link>
-        <Link to="/newpost"> <Nav className="chaticon"><b>Ad post</b></Nav></Link>
+        <Link to="/signup"><Nav className="chaticon" id="signup"> <MdAccountCircle size="1.7em"/><b> Signup/Login</b></Nav></Link>
+        <Link to="/newpost"> <Nav className="chaticon"><MdAddCircle size="1.7em" /><b> Ad Post</b></Nav></Link>
 
       </Nav>
     </Navbar.Collapse> 

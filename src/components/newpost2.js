@@ -13,7 +13,7 @@ import {
 
 
 
-  import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdDriveEta,MdFace} from 'react-icons/md'
+  import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdDriveEta,MdFace,MdCheckCircle,MdFileUpload} from 'react-icons/md'
   import {BiCodeBlock} from 'react-icons/bi'
   import{FaChalkboardTeacher,FaTools} from 'react-icons/fa'
   import{IoCameraSharp} from 'react-icons/io5'
@@ -366,7 +366,7 @@ sekhararr=(e)=>{
           </InputGroup>
         </Form.Field>
 
-<div style={{display:"inline-flex"}}>
+<div style={{display:"inline-block"}}>
         <Form.Field>
             <Input
             icon='photo'
@@ -380,11 +380,10 @@ sekhararr=(e)=>{
                  />
                 
             </Form.Field>
-            <Form.Field control={Button} color="green"  id="upldbtn" type="button" onClick={this.handleUpload}>
-              upload images
+            <Form.Field control={Button} color="green"  id="upldbtn" type="button" onClick={this.handleUpload} style={{marginBottom:"10px"}}>
+            <MdFileUpload />  upload images
             </Form.Field>
             </div>
-            {/* <button onClick={this.handleUpload}>upload</button> */}
             <progress value={this.state.valprogress} max="100" id="uploaderb">progress</progress>
 
             <div className="imgdiv">
@@ -421,7 +420,7 @@ sekhararr=(e)=>{
 </div>
 
 
-          <Form.Field control={Button} style={{textAlign:"Center"}} type="submit" centered color="primary">Submit</Form.Field>
+          <Form.Field control={Button}  type="submit" centered color="primary"><MdCheckCircle size="1.3rem" style={{textAlign:"left"}}  />Submit</Form.Field>
 
         </Form>
       )
@@ -462,8 +461,10 @@ sekhararr=(e)=>{
 
     return (
     <>
+    <div >
       <Modal size="small"
-      style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%"}}
+     // style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%"}}
+     
       onOpen={() => setOpen(true)}
         open={open}
       >
@@ -493,7 +494,7 @@ sekhararr=(e)=>{
     </Card.Content>
   </Card>
       </Modal>
-
+      </div>
       </>
     )
   }
