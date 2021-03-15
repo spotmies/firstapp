@@ -479,15 +479,22 @@ sekhararr=(e)=>{
     </Card.Content>
     <Card.Content>
     <Menu  vertical centered style={{width:"auto"}}>
-          <Menu.Item link data-txt="0" onClick={click}><FaTools size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Ac Service</Menu.Item>
+          <Menu.Item link data-txt="0" onClick={click}><FaTools size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Ac/Refrigirator Service</Menu.Item>
           <Menu.Item link data-txt="1" onClick={click}><MdLaptopMac size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Computer/Laptop Service</Menu.Item>
           <Menu.Item link data-txt="2" onClick={click}><MdTv size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Tv Repair</Menu.Item>
+          <Menu.Item link data-txt="9" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Electrician</Menu.Item>
+          <Menu.Item link data-txt="12" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Interior Design</Menu.Item>
+          <Menu.Item link data-txt="13" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Design</Menu.Item>
           <Menu.Item link data-txt="3" onClick={click}><BiCodeBlock size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Development</Menu.Item>
+          <Menu.Item link data-txt="8" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Events</Menu.Item>
+          <Menu.Item link data-txt="5" onClick={click}><MdFace size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Beauty</Menu.Item>
           <Menu.Item link data-txt="4" onClick={click}><FaChalkboardTeacher size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Tutor</Menu.Item>
-          <Menu.Item link data-txt="5" onClick={click}><MdFace size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Beuty</Menu.Item>
           <Menu.Item link data-txt="6" onClick={click}><IoCameraSharp size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Photographer</Menu.Item>
           <Menu.Item link data-txt="7" onClick={click}><MdDriveEta size="1.5rem"/>&nbsp;&nbsp;&nbsp;&nbsp; Driver</Menu.Item>
-          <Menu.Item link data-txt="8" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Events</Menu.Item>
+          <Menu.Item link data-txt="10" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Carpenter</Menu.Item>
+          <Menu.Item link data-txt="11" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Plumber</Menu.Item>
+          <Menu.Item link data-txt="14" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; CC Tv Installation</Menu.Item>
+          <Menu.Item link data-txt="15" onClick={click}><MdEventNote size="1.5rem" />&nbsp;&nbsp;&nbsp;&nbsp; Catering</Menu.Item>
         </Menu>
         <Link to="/signup" style={{display:"none"}} ><p  id="redirectsignup">signup</p></Link>
 

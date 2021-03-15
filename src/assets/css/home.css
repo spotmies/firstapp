@@ -1,0 +1,48 @@
+.slide1 {
+    display: block;
+    margin-top: -20px;
+    background: linear-gradient(30deg,rgb(243, 227, 182),rgb(161, 198, 247),rgb(241, 158, 186));
+}
+
+.home-section {
+    display: inline-flex;
+    padding: 100px;
+    height: 500px;
+    width: 100%;
+}
+
+.home-textBox{
+    width: 50%;
+    justify-self: center;
+    text-align: center;
+}
+
+.home-photos, .home-photos1 {
+    width: 50%;
+    justify-items: center;
+}
+
+.home-photos img {
+    margin-left: 30%;
+    transform: rotate(30deg);
+}
+
+.home-photos1 img {
+    margin-left: 30%;
+    transform: rotate(-30deg);
+}
+
+@media screen and (max-width: 800px) {
+    .home-section {
+        display: block;
+        text-align: center;
+    }
+
+    .home-textBox, .home-photos, .home-photos1 {
+        width: 100%;
+    }
+
+    .home-photos img, .home-photos1 img {
+        margin-left: 15%;
+    }
+}

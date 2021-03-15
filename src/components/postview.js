@@ -10,6 +10,7 @@ import {RiUserSettingsFill,RiTimeFill} from 'react-icons/ri'
 import {HiCurrencyRupee} from 'react-icons/hi'
 import {FaTools,FaAddressCard} from 'react-icons/fa'
 import { useHistory } from 'react-router-dom'
+import '../assets/css/postView.css'
 
 const db=firebase.firestore();
 
@@ -74,7 +75,7 @@ return<div>
   <div>
    
 <div style={{paddingBottom:"10px"}}>
-<Card centered color="blue" style={{width:"80%",marginBottom:"50px",borderRadius:"1rem"}}>
+<Card centered color="blue" className="wholeCard" style={{width:"80%",marginBottom:"50px",borderRadius:"1rem"}}>
   <Card.Content>
   <Card.Meta style={{display:'inline-flex'}}><Icon name="time" /> {posttime[0]}</Card.Meta>
   <Dropdown item icon="ellipsis horizontal" simple style={{float:"right"}}>
@@ -88,7 +89,7 @@ return<div>
   <Carousel>
  {media.map((nap)=>
    <Carousel.Item>     
-      <video src={nap} poster={nap}  autoPlay loop style={{width:"100%",height:"100%",borderRadius:"1rem"}} />
+      <video centered className="postImg" src={nap} poster={nap}  autoPlay loop style={{borderRadius:"1rem"}} />
      <Carousel.Caption>
      </Carousel.Caption>
    </Carousel.Item>
@@ -103,9 +104,9 @@ return<div>
 
   </Card.Content>
   
-  <div style={{display:"inline-flex",marginBottom:"20px"}}>
-    <Card.Group style={{display:"inline-flex", marginLeft:"2%"}}>
-<Card style={{borderRadius:"1rem"}} color="blue">
+  <div style={{marginBottom:"20px"}}>
+    <Card.Group className="cardHolder" style={{margin:"0 auto", width: "fit-content", justifyContent: "center"}}>
+<Card className="postCard" style={{borderRadius:"1rem"}} color="blue">
   <Card.Content>
     <Card.Meta><Icon name="sticky note"/> Descrition</Card.Meta>
     <Card.Description>
@@ -116,7 +117,7 @@ return<div>
 
 </Card>
 
-<Card style={{borderRadius:"1rem"}} color="green">
+<Card className="postCard" style={{borderRadius:"1rem"}} color="green">
   <Card.Content>
     <Card.Meta><Icon name="rupee sign" />Prics</Card.Meta>
     {String(postdata.money)!="NaN"
@@ -135,7 +136,7 @@ return<div>
 </Card> 
 
 
-<Card style={{borderRadius:"1rem",float:"right"}} color="orange">
+<Card className="postCard" style={{borderRadius:"1rem",float:"right"}} color="orange">
   <Card.Content>
     <Card.Meta><Icon name="info circle" /> Details</Card.Meta>
 </Card.Content>
@@ -254,7 +255,7 @@ db.collection("users").doc(firebase.auth().currentUser.uid).collection("adpost")
 })
 }
   render() {
-    return <div id="cnfbutton" style={{alignContent:"center",alignItems:"center",alignSelf:"center",textAlign:"center"}}> 
+    return <div id="cnfbutton" className="cnfButton"> 
       <Button.Group style={{width:"70%",display:"flex",justifyContent:"center",alignItems:"center"}} > 
     <Button onClick={this.pending}><MdThumbDown size="1.6rem"/> Pending</Button>
     <Button.Or />

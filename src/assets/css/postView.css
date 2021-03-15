@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.postCard {
+    width: 350px;
+    height: 200px;
+}
+
+.postImg {
+    margin: 0 0 0 15%;
+    width:"100%";
+    height:"70%";
+}
+
+.cardHolder {
+    display:"inline-flex";
+    margin: 0 auto;
+    justify-items: center;
+}
+
+.cnfButton {
+    /* align-content: center; */
+    /* align-items: center; */
+    margin-left: 10%;
+    align-self: center;
+    text-align: center;
+}
+
+@media screen and (max-width: 420px) {
+    .postCard {
+       margin: 0 auto;
+       width: 100%;
+    }
+
+    .postImg {
+        height: 100%;
+        margin-left: 0;
+    }
+
+    .cardHolder {
+        display: block;
+        justify-items: center;
+    }
+
+    .cnfButton {
+        margin-left: 22%;
+    }
+}

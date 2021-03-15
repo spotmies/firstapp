@@ -18,6 +18,7 @@ import CardExampleCard from './components/bikerental';
 import pdetails from './components/pdetails';
 import newpost2 from './components/newpost2';
 import editpost2 from './components/editpost2'
+import nav2 from './components/nav2'
 
 const Routing = ()=>{
 return(
@@ -39,6 +40,7 @@ return(
       <Route path="/contact" component={SimpleMap}/>
       <Route path='/rentals' component={CardExampleCard} />
       <Route path="/pdetails" component={pdetails} />
+      <Route path="/nav2" component={nav2} />
       
     </Switch>
 )
