@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button,NavDropdown,Navbar,Nav,Modal,Form,Card, Container } from 'react-bootstrap';
 import { Dropdown ,Image} from 'semantic-ui-react'
-
+import { toast,ToastContainer } from "react-toast";
 import '../navbar.css';
 import logo from '../logo.svg';
 import firebase from '../firebase'
@@ -22,7 +22,7 @@ import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi';
 import {IoCarSport} from 'react-icons/io5';
 
-var newpost;
+
 
 firebase.auth().onAuthStateChanged(function(user) {
 
@@ -40,7 +40,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     document.querySelector('.userdp').style.display="block";
   }
   else{ 
-
+    toast("Morning! Have a good day.");
     console.log("user not login")
   document.querySelector('.userhere').style.display="none";
   document.querySelector("#mychats").style.display="none"
@@ -54,6 +54,7 @@ const db=firebase.firestore();
 var username="username";
 
 function Navibar(){
+  toast("Morning! Have a good day.");
    const[name,setName]=useState("undefined")
    const[pic,setpic]=useState("https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png")
    firebase.auth().onAuthStateChanged(function(user) {
@@ -66,6 +67,7 @@ function Navibar(){
       })
      }
    })
+   
     return <div style={{paddingBottom:"80px"}}>
     <header className="navi-bar"> 
     <Container>  
@@ -80,7 +82,7 @@ function Navibar(){
       </Nav>
       <Nav className="nav-linkList" style={{color: 'black', display:"inline-flex"}}>
       <Link className="nav-links" to="/rentals"><Nav  className="chaticon" id="mybooks"><b>Rentals</b></Nav></Link>
-      <Link className="nav-links" to="/mybookings" ><Nav  className="chaticon" id="mybooks"><MdWork className="chaticon2"/><b>My Bookings</b></Nav></Link>
+      <Link className="nav-links" to="/mybookings" ><Nav  className="chaticon" id="mybooks" style={{display:name=="undefined"?"none":"block"}}><MdWork className="chaticon2"/><b>My Bookings</b></Nav></Link>
       <Link className="nav-links" to="/chat"><Nav  className="chaticon" id="mychats"><MdChatBubble className="chaticon2"/> <b>Chat</b></Nav></Link>
     
      <div className="nav-links" style={{display:"inline-flex", color: "black", marginRight: "0"}}>
@@ -105,6 +107,7 @@ function Navibar(){
 
       </IconContext.Provider>
   </Navbar>
+  <ToastContainer delay={3000} />
   </Container> 
   </header>
   </div>

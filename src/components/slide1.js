@@ -10,6 +10,8 @@ import firebase from '../firebase';
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
 import "../assets/css/home.css"
+import macbook from "../assets/css/iphone.png"
+
 
 var newpost="/signup"
 firebase.auth().onAuthStateChanged(function(user) {
@@ -44,7 +46,7 @@ function Slide(){
         </Zoom>
         <Fade right>
          <div className="home-photos">
-           <img src={"../assets/css/iphone.png"} style={{width: "150px", height: "250px"}} />
+           <img src={macbook} style={{width: "150px", height: "250px"}} />
          </div>
         </Fade>
       </section>

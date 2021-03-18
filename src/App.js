@@ -19,6 +19,7 @@ import pdetails from './components/pdetails';
 import newpost2 from './components/newpost2';
 import editpost2 from './components/editpost2'
 import nav2 from './components/nav2'
+import { ToastContainer } from "react-toast";
 
 const Routing = ()=>{
 return(
@@ -53,6 +54,7 @@ function App() {
 //  <React.Fragment>
 <BrowserRouter>
   <Navibar />
+  <ToastContainer delay={2000} />
   <Routing />
   </BrowserRouter>
     // {/* <Switch>
