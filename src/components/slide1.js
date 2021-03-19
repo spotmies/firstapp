@@ -46,7 +46,7 @@ function Slide(){
         </Zoom>
         <Fade right>
          <div className="home-photos">
-           <img src={macbook} style={{width: "150px", height: "250px"}} />
+           <img src={macbook} style={{width: "200px", height: "250px"}} />
          </div>
         </Fade>
       </section>
@@ -54,7 +54,7 @@ function Slide(){
       <section className="home-section">
       <Fade left>
          <div className="home-photos1">
-           <img src={"../assets/css/iphone.png"} style={{width: "150px", height: "250px"}} />
+           <img src={macbook} style={{width: "200px", height: "250px"}} />
          </div>
         </Fade>
         <Zoom>
@@ -75,7 +75,7 @@ function Slide(){
         </Zoom>
         <Fade right>
          <div className="home-photos">
-           <img src={"../assets/css/iphone.png"} style={{width: "150px", height: "250px"}} />
+           <img src={macbook} style={{width: "200px", height: "250px"}} />
          </div>
         </Fade>
       </section>
@@ -83,7 +83,7 @@ function Slide(){
       <section className="home-section">
         <Fade left>
          <div className="home-photos1">
-           <img src={"../assets/css/iphone.png"} style={{width: "150px", height: "250px"}} />
+           <img src={macbook} style={{width: "200px", height: "250px"}} />
          </div>
         </Fade>
         <Zoom>
