@@ -211,7 +211,7 @@ function orderstatus(e){
 }
 
 return(
-  <div style={{float: "right", width: "100%",marginTop:"50px",overflowY:"auto"}}>
+  <div style={{float: "right", width: "100%",overflowY:"auto"}}>
     <List horizontal>
       <List.Item>
       <Image avatar src={props.chat.ppic} />

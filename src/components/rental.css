@@ -26,6 +26,23 @@ body {
     justify-items: center;
 }
 
+.priceBar {
+    width: 320px;
+    margin-top: 10px;
+}
+
+/*newpost2 styling*/
+
+.categoryModal {
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    height: 600px;
+    overflow: auto;
+
+}
+
 @media screen and (max-width: 420px) {
 
     .filter-div {
@@ -35,5 +52,10 @@ body {
 
     .maindiv {
         width:  100%;
+    }
+
+    .priceBar {
+        width: 80%;
+        margin-left: 10px;
     }
 }

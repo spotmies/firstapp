@@ -204,7 +204,7 @@ for(var i=0;i<=100;i++){
   arr.push(false)
 }
 const [open, setOpen] = useState(arr)
-const [menu, setMenu] = useState(true);
+const [menu, setMenu] = useState(false);
 
   function settrue() {
   setMenu(!menu);
@@ -214,7 +214,7 @@ const [menu, setMenu] = useState(true);
      
         <div>
           {/* <  car Filtering /> */}
-   <Button primary onClick={() => {settrue()} } style={{position: "fixed", zIndex: "200"}}>Filters</Button>
+   <Button primary onClick={() => {settrue()} } style={{position: "fixed", zIndex: "200", margin: "10px 0 0 17px"}}>Filters</Button>
           {menu ? 
           <div className="filter-div">
           <Dropdown
@@ -223,7 +223,7 @@ const [menu, setMenu] = useState(true);
     labeled
     button
     className='icon'
-    
+    style={{marginTop: "40px"}}
   >
     <Dropdown.Menu id="filtmenu" onClick={newfunk}>
       <Dropdown.Item>
@@ -318,7 +318,7 @@ const [menu, setMenu] = useState(true);
         </a></p>
       </div>
       <div>
-      <Button.Group style={{width:'320px',marginTop:'10px'}}>
+      <Button.Group className="priceBar">
     <Button > &#8377;{nap.price*50} <br /> <small> 50km  </small></Button>
 
     <Button> &#8377;{nap.price*100}<br /> <small> 100km </small></Button>
@@ -337,6 +337,7 @@ const [menu, setMenu] = useState(true);
       onClose={() => setOpen({key:false})}
       onOpen={() => setOpen({key:true})}
       open={open[key]}
+      className="categoryModal"
     >
       
       <Modal.Header>{nap.model}</Modal.Header>
@@ -393,7 +394,7 @@ const [menu, setMenu] = useState(true);
           {nap.descr}
         </p>
         <div>
-      <Button.Group style={{width:'320px',marginTop:'10px'}}>
+      <Button.Group className="priceBar">
     <Button> &#8377;{nap.price*50} <br /> <small> 50km  </small></Button>
 
     <Button> &#8377;{nap.price*100}<br /> <small> 100km </small></Button>

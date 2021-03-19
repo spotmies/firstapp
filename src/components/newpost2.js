@@ -10,7 +10,7 @@ import {
   import {BsTools,BsCalendar} from 'react-icons/bs';
   import { Link } from "react-router-dom";
   import imageCompression from "browser-image-compression";
-
+  import './rental.css';
 
 
   import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdDriveEta,MdFace,MdCheckCircle,MdFileUpload} from 'react-icons/md'
@@ -463,8 +463,9 @@ sekhararr=(e)=>{
     <>
     <div >
       <Modal size="small"
+      centered
      // style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%"}}
-     
+     className="categoryModal"
       onOpen={() => setOpen(true)}
         open={open}
       >
