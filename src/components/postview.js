@@ -75,7 +75,7 @@ return<div>
   <div>
    
 <div style={{paddingBottom:"10px"}}>
-<Card centered color="blue" className="wholeCard" style={{width:"80%",marginBottom:"50px",borderRadius:"1rem"}}>
+<Card centered color="blue" className="wholeCard" style={{width: "80%", marginBottom:"50px",borderRadius:"1rem"}}>
   <Card.Content>
   <Card.Meta style={{display:'inline-flex'}}><Icon name="time" /> {posttime[0]}</Card.Meta>
   <Dropdown item icon="ellipsis horizontal" simple style={{float:"right"}}>

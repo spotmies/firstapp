@@ -7,14 +7,14 @@
 .home-section {
     display: inline-flex;
     padding: 100px;
-    height: 500px;
+    /* height: 500px; */
     width: 100%;
 }
 
 .home-textBox{
     width: 50%;
-    justify-self: center;
-    text-align: center;
+    margin: 50px auto;
+    text-align: left;
 }
 
 .home-photos, .home-photos1 {
@@ -25,11 +25,15 @@
 .home-photos img {
     margin-left: 30%;
     transform: rotate(30deg);
+    width: 300px;
+    height: 350px;
 }
 
 .home-photos1 img {
-    margin-left: 30%;
+    margin-left: 20%;
     transform: rotate(-30deg);
+    width: 300px;
+    height: 350px;
 }
 
 @media screen and (max-width: 800px) {
@@ -38,11 +42,17 @@
         text-align: center;
     }
 
+    .home-textBox{
+        margin: 0px auto;
+    }
+
     .home-textBox, .home-photos, .home-photos1 {
         width: 100%;
     }
 
     .home-photos img, .home-photos1 img {
         margin-left: 15%;
+        width: 150px;
+        height: 200px;
     }
 }

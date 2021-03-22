@@ -11,6 +11,7 @@ import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
 import "../assets/css/home.css"
 import macbook from "../assets/css/iphone.png"
+import {useSpring, animated} from 'react-spring'
 
 
 var newpost="/signup"
@@ -33,20 +34,21 @@ function Slide(){
    // window.location.href = 'https://modernsilpi.com';
    window.open("https://modernsilpi.com",'_blank')
   }
-  let location="seethamadahar";
+  // let location="seethamadahar";
   const db=firebase.firestore();
-  const [modalShow, setModalShow] = React.useState(false);
+  // const [modalShow, setModalShow] = React.useState(false);
+  
     return <div className="slide1">
       <section className="home-section">
         <Zoom>
           <div className="home-textBox">
-          <h2>This is the main Heading</h2>
-          <p>Markup that will be revealed on scroll</p>
+          <h1>This is the main Heading</h1>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
           </div>         
         </Zoom>
         <Fade right>
          <div className="home-photos">
-           <img src={macbook} style={{width: "200px", height: "250px"}} />
+           <img src={macbook} />
          </div>
         </Fade>
       </section>
@@ -54,13 +56,13 @@ function Slide(){
       <section className="home-section">
       <Fade left>
          <div className="home-photos1">
-           <img src={macbook} style={{width: "200px", height: "250px"}} />
+           <img src={macbook} />
          </div>
         </Fade>
         <Zoom>
           <div className="home-textBox">
           <h2>This is the main Heading</h2>
-          <p>Markup that will be revealed on scroll</p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
           </div>         
         </Zoom>
         
@@ -70,12 +72,12 @@ function Slide(){
         <Zoom>
           <div className="home-textBox">
           <h2>This is the main Heading</h2>
-          <p>Markup that will be revealed on scroll</p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
           </div>         
         </Zoom>
         <Fade right>
          <div className="home-photos">
-           <img src={macbook} style={{width: "200px", height: "250px"}} />
+           <img src={macbook} />
          </div>
         </Fade>
       </section>
@@ -83,13 +85,13 @@ function Slide(){
       <section className="home-section">
         <Fade left>
          <div className="home-photos1">
-           <img src={macbook} style={{width: "200px", height: "250px"}} />
+           <img src={macbook} />
          </div>
         </Fade>
         <Zoom>
           <div className="home-textBox">
           <h2>This is the main Heading</h2>
-          <p>Markup that will be revealed on scroll</p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
           </div>         
         </Zoom>
       </section>
