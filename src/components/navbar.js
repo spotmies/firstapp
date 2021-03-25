@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button,NavDropdown,Navbar,Nav,Modal,Form,Card, Container } from 'react-bootstrap';
 import { Dropdown ,Image} from 'semantic-ui-react'
-import { toast,ToastContainer } from "react-toast";
+import { toast } from 'react-toastify';
 import '../navbar.css';
 import logo from '../logo.svg';
 import firebase from '../firebase'
@@ -40,7 +40,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     document.querySelector('.userdp').style.display="block";
   }
   else{ 
-    toast("Morning! Have a good day.");
+   
     console.log("user not login")
   document.querySelector('.userhere').style.display="none";
   document.querySelector("#mychats").style.display="none"
@@ -54,7 +54,6 @@ const db=firebase.firestore();
 var username="username";
 
 function Navibar(){
-  toast("Morning! Have a good day.");
    const[name,setName]=useState("undefined")
    const[pic,setpic]=useState("https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png")
    firebase.auth().onAuthStateChanged(function(user) {
@@ -107,7 +106,7 @@ function Navibar(){
 
       </IconContext.Provider>
   </Navbar>
-  <ToastContainer delay={3000} />
+ 
   </Container> 
   </header>
   </div>
@@ -117,10 +116,11 @@ function Navibar(){
 }
 export default Navibar;
 
-function userlogout(){
-  firebase.auth().signOut().then(function() {
-    alert("logout successfully")
-    window.location.reload();
+async function userlogout(){
+  await firebase.auth().signOut().then(function() {
+    //alert("logout successfully")
+   toast.info("Logout successfully")
+   
   })
-
+  window.location.reload();
 }

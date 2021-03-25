@@ -19,7 +19,8 @@ import pdetails from './components/pdetails';
 import newpost2 from './components/newpost2';
 import editpost2 from './components/editpost2'
 import nav2 from './components/nav2'
-import { ToastContainer } from "react-toast";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Routing = ()=>{
 return(
@@ -54,7 +55,17 @@ function App() {
 //  <React.Fragment>
 <BrowserRouter>
   <Navibar />
-  <ToastContainer delay={2000} />
+  <ToastContainer 
+position="top-right"
+autoClose={2000}
+hideProgressBar={true}
+newestOnTop
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+ />
   <Routing />
   </BrowserRouter>
     // {/* <Switch>
