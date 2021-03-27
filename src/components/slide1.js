@@ -97,10 +97,12 @@ function Slide(){
       </section>
 
       <section className="home-textBox">
+        <Fade top>
         <div>
           <h2>Wanna join your business?</h2>
           <Link to="/partnerRegistration"><Button>Join here</Button></Link>
-        </div>  
+        </div> 
+        </Fade> 
       </section>
        
        <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
