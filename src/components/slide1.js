@@ -95,6 +95,13 @@ function Slide(){
           </div>         
         </Zoom>
       </section>
+
+      <section className="home-textBox">
+        <div>
+          <h2>Wanna join your business?</h2>
+          <Link to="/partnerRegistration"><Button>Join here</Button></Link>
+        </div>  
+      </section>
        
        <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
           <FaGooglePlay style={{marginTop: "20px"}} />

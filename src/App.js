@@ -21,6 +21,7 @@ import editpost2 from './components/editpost2'
 import nav2 from './components/nav2'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import partnerRegistration from './components/partnerRegistration'
 
 const Routing = ()=>{
 return(
@@ -43,6 +44,7 @@ return(
       <Route path='/rentals' component={CardExampleCard} />
       <Route path="/pdetails" component={pdetails} />
       <Route path="/nav2" component={nav2} />
+      <Route path="/partnerRegistration" component={partnerRegistration}/>
       
     </Switch>
 )
