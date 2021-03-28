@@ -1,0 +1,57 @@
+.pslide1 {
+    display: block;
+    margin-top: -20px;
+    background: linear-gradient(50deg,#f3e5ba,rgb(138, 222, 228),rgb(161, 222, 243),#dadada);
+}
+
+/* .home-section {
+    display: inline-flex;
+    padding: 100px;
+
+    width: 100%;
+}
+
+.home-textBox{
+    width: 50%;
+    margin: 50px auto;
+    text-align: left;
+}
+
+.home-photos, .home-photos1 {
+    width: 50%;
+    margin-top: -50px;
+   
+}
+
+.home-photos img {
+   
+    width: 500px;
+    height: 550px;
+}
+
+.home-photos1 img {
+    
+    width: 500px;
+    height: 550px;
+}
+
+@media screen and (max-width: 800px) {
+    .home-section {
+        display: block;
+        text-align: center;
+    }
+
+    .home-textBox{
+        margin: 0px auto;
+    }
+
+    .home-textBox, .home-photos, .home-photos1 {
+        width: 100%;
+    }
+
+    .home-photos img, .home-photos1 img {
+        margin-left: 15%;
+        width: 150px;
+        height: 200px;
+    }
+} */
