@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import React,{useState, useEffect} from 'react';
 import {Dropdown,DropdownButton,Modal,Button,InputGroup,Form,FormControl,ProgressBar} from 'react-bootstrap';
 import {BiRupee} from 'react-icons/bi';
-import {BsTools} from 'react-icons/bs';
+import {BsTools, BsFillLockFill, BsFillUnlockFill} from 'react-icons/bs';
 import {FaGooglePlay} from 'react-icons/fa';
 import firebase from '../firebase';
 import Zoom from 'react-reveal/Zoom';
@@ -131,10 +131,19 @@ function Slide(){
       <Zoom>
         <div className="home-textBox" style={{marginTop: "-100px", marginBottom: "100px"}}>
         <h1 >Get your service done at your door steps.</h1>
-        {/* <p>.</p> */}
+      
         </div>         
       </Zoom>
     
+    </section>
+
+    <section className="home-textBox" id="joinBtn">
+      <Fade top>
+      <div>
+
+        <h1>Privacy by default</h1>
+      </div> 
+      </Fade> 
     </section>
 
     <section className="home-textBox" id="joinBtn">

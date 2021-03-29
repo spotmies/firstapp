@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Button, Checkbox, Form } from 'semantic-ui-react'
+import { Button, Checkbox, Form,Card } from 'semantic-ui-react'
 import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
 import macbook from "../assets/css/iphone.png"
@@ -11,6 +11,12 @@ import location from "../images/undraw_Destination_re_sr74.svg";
 import getquote from "../images/undraw_people_search_wctu.svg"
 import service from "../images/undraw_coffee_break_h3uu.svg";
 import about from "../images/undraw_researching_22gp.svg";
+import firebase from '../firebase';
+import { toast } from 'react-toastify';
+const db=firebase.firestore();
+const contactdb=db.collection("contactus");
+
+
 
 const options = [
   { key: 'a', text: 'Ac/Refrigirator services', value: 'ac repairs' },
@@ -47,12 +53,81 @@ function useWindowSize() {
 }
 
 function PartnerRegistration() {
+  const[pcate,spcate]=useState(null);
+  const[pname,spname]=useState(null);
+  const[pnum,spnum]=useState(null);
   
   const redirect=()=>{
     // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com",'_blank')
    }
+
+   const handleChange=(e)=> {
+     const re = /^[0-9\b]+$/;
+     console.log("change")
+     const name=e.target.name==undefined?e.target.parentElement.id:e.target.name;
+     const value=e.target.value;
+    
+
+     switch (name) {
+       case "pname":
+         spname(value)
+         break;
+         case "pnum":
+           if (e.target.value === '' || re.test(e.target.value)) {
+           spnum(value);
+           }
+          break;
+
+       default:
+        console.log("pcate",e.target.innerText)
+        spcate(e.target.innerText);
+         break;
+     }
+    
+
+  }
+
+  const maxLengthCheck = (object) => {
+    if (object.target.value.length > object.target.maxLength) {
+     object.target.value = object.target.value.slice(0, object.target.maxLength)
+      }
+    }
    
+
+    const formsubmit =(e)=>{
+      let details=null;
+      // e.preventDefault();
+      console.log("submit")
+      console.log(pname,pnum,pcate)
+      if(pnum.length==10 && pcate!==null){
+      details={pname,pnum,pcate}
+      partprereg(details)
+      spcate(null);spnum(null);spname(null);
+      }
+      else{
+        if(pnum.length<10)toast.warning("enter valid number");
+        else if(pcate==null)toast.warning("please select your profession");
+      }
+    }
+    const clearfield=()=>{
+      spcate(null);
+      spnum(null);
+      spname(null);
+      document.getElementById("pname").value="";
+      document.getElementById("pnum").value="";
+      document.getElementById("pcate").value=null;
+    }
+    function partprereg(details){
+      console.log(details); 
+  //   toast.success("Thank you we will contact you soon")
+     contactdb.doc().set(details).then(()=>{
+       toast.success("Thank you we will contact you soon...");
+       clearfield();
+     })
+    }
+    
+
    const [height1, width1] = useWindowSize();
    if(width1 <= 800) {
     return (
@@ -163,37 +238,19 @@ function PartnerRegistration() {
      
     </section>
 
-         <Form style={{height: "300px", width: "80%", margin: "0 auto"}}>
-         <Form.Select options={options} placeholder='Type of profession' />
-           <Form.Field>
+    <Form style={{height: "300px", width: "80%", margin: "0 auto"}} onSubmit={formsubmit}>
+         <label><b>Select Your Proffesion</b></label>
+         <Form.Select name="pcate" id="pcate" onChange={handleChange} options={options} placeholder='Type of profession' required/>
+           <Form.Field >
              <label>First Name</label>
-             <input placeholder='First Name' />
+             <input placeholder='First Name' id="pname" name="pname" value={pname} onChange={handleChange} maxLength="15" required/>
            </Form.Field>
            <Form.Field>
              <label>Mobile Number</label>
-             <input placeholder='Mobile Numer' />
+             <input  value={pnum} 
+             onClick={handleChange} name="pnum" id="pnum" onChange={handleChange} placeholder='Mobile Numer' maxLength = "10" required/>
            </Form.Field>
-          
-           {/* <Form.Field>
-             <label>Profile picture</label>
-             <input type="file" />
-           </Form.Field>
-           <Form.Field>
-             <label>Profession</label>
-             <input placeholder='Last Name' />
-           </Form.Field>
-           <Form.Field>
-             <label>Experience</label>
-             <input placeholder='Last Name' />
-           </Form.Field>
-           <Form.Group widths='equal'>
-              <Form.Input type="file" fluid label='Aadhaar front' placeholder='Front' />
-              <Form.Input type="file" fluid label='Aadhaar back' placeholder='back' />
-           </Form.Group>    */}
-           <Form.Field>
-             <Checkbox label='I agree to the Terms and Conditions' />
-           </Form.Field>
-             <Button type='submit'>Submit</Button>
+             <Button primary type='submit'>Submit</Button>
          </Form>
 
          <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
@@ -314,37 +371,19 @@ function PartnerRegistration() {
        </Fade>
     </section>
 
-         <Form style={{height: "300px", width: "80%", margin: "0 auto"}}>
-         <Form.Select options={options} placeholder='Type of profession' />
-           <Form.Field>
+         <Form style={{height: "300px", width: "40%", margin: "0 auto"}} onSubmit={formsubmit}>
+         <label><b>Select Your Proffesion</b></label>
+         <Form.Select name="pcate" id="pcate" onChange={handleChange} options={options} placeholder='Type of profession' required/>
+           <Form.Field >
              <label>First Name</label>
-             <input placeholder='First Name' />
+             <input placeholder='First Name' id="pname" name="pname" value={pname} onChange={handleChange} maxLength="15" required/>
            </Form.Field>
            <Form.Field>
              <label>Mobile Number</label>
-             <input placeholder='Mobile Numer' />
+             <input  value={pnum} 
+             onClick={handleChange} name="pnum" id="pnum" onChange={handleChange} placeholder='Mobile Numer' maxLength = "10" required/>
            </Form.Field>
-          
-           {/* <Form.Field>
-             <label>Profile picture</label>
-             <input type="file" />
-           </Form.Field>
-           <Form.Field>
-             <label>Profession</label>
-             <input placeholder='Last Name' />
-           </Form.Field>
-           <Form.Field>
-             <label>Experience</label>
-             <input placeholder='Last Name' />
-           </Form.Field>
-           <Form.Group widths='equal'>
-              <Form.Input type="file" fluid label='Aadhaar front' placeholder='Front' />
-              <Form.Input type="file" fluid label='Aadhaar back' placeholder='back' />
-           </Form.Group>    */}
-           <Form.Field>
-             <Checkbox label='I agree to the Terms and Conditions' />
-           </Form.Field>
-             <Button type='submit'>Submit</Button>
+             <Button primary type='submit'>Submit</Button>
          </Form>
 
          <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
