@@ -64,7 +64,7 @@ function Slide(){
   if(swidths1 < 800){
     return <div className="slide1">
     <section className="home-section">
-    <Fade right>
+    <Fade top>
        <div className="home-photos">
          <img src={about} />
        </div>
@@ -79,7 +79,7 @@ function Slide(){
     </section>
 
     <section className="home-section">
-    <Fade left>
+    <Fade top>
        <div className="home-photos1" id="takepic">
          <img src={takepic} />
        </div>
@@ -94,7 +94,7 @@ function Slide(){
     </section>
 
     <section className="home-section">
-    <Fade right>
+    <Fade top>
        <div className="home-photos locationpic">
          <img src={location} />
        </div>
@@ -109,7 +109,7 @@ function Slide(){
     </section>
      
     <section className="home-section">
-      <Fade left>
+      <Fade top>
        <div className="home-photos1">
          <img src={getquote} />
        </div>
@@ -123,7 +123,7 @@ function Slide(){
     </section>
 
     <section className="home-section">
-    <Fade right>
+    <Fade top>
        <div className="home-photos" id="servicepic">
          <img src={service} />
        </div>
