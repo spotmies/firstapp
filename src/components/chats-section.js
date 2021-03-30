@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,useCallback } from 'react';
 import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -106,7 +106,7 @@ function settrue() {
 function Mybookings(props) {
   const history = useHistory();
 const[chat,setchat]=useState([]);
-// var [showChat,setShowChat] = useState(false);
+const [showChat,setShowChat] = useState(false);
 const [heights, widths] = useWindowSize();
 // const [heads, setHeads] = chatHead();
 
@@ -117,13 +117,13 @@ const [heights, widths] = useWindowSize();
     })
   }
   
-  // function settrue() {
-  //  return setShowChat(true);
-  // }
+  function settrue() {
+   return setShowChat(true);
+  }
 
-  // function setfalse() {
-  // return  setShowChat(false);
-  // }
+  const setfalse=()=> {
+  return  setShowChat(false);
+  }
 
   // head data fetching
 
@@ -159,7 +159,7 @@ if(widths <= 420){
       
       <div>
 {chat.body
-    ?< Chatarea chat={chat}/>
+    ?< Chatarea chat={chat} onNameChange={setShowChat}/>
     :<Empty />
 }
 </div>
@@ -228,6 +228,7 @@ setordst(snap.data().orderstate);
 
   let chat=[]
   chat=props.chat;
+  let onNameChange=props.onNameChange;
 
   const click =(prop)=>{
     console.log("click",prop)
@@ -244,17 +245,22 @@ function orderstatus(e){
   
 }
 
-// function setfalse() {
-//  return setShowChat(false);
-// }
+function setfalse() {
+console.log("close icon");
+console.log(onNameChange)
+}
+
+const handleInputChange = useCallback(event => {
+  onNameChange(false)
+}, [onNameChange])
 
 if(widths <= 420) {
   return(
     <div style={{float: "right", width: "100%",overflowY:"auto"}}>
-      {showChat ? 
+      {/* {showChat ?  */}
       <List className="chatHead" horizontal>
       <List.Item>
-     <BiArrowBack style={{width: "50px", fontSize: "24px", background: "rgba(255, 255, 255, 0.92)"}} onClick={()=> {setfalse()}} />
+     <BiArrowBack style={{width: "50px", fontSize: "24px", background: "rgba(255, 255, 255, 0.92)"}} onClick={handleInputChange} />
       <Image avatar src={props.chat.ppic} />
       <List.Content>
         <List.Header>{props.chat.pname}</List.Header>
@@ -262,7 +268,7 @@ if(widths <= 420) {
       </List.Content>
     </List.Item>
     </List>
-     : null}
+     {/* : null} */}
     
      
      {ordst==0

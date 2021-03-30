@@ -8,6 +8,7 @@ import {IoSpeedometerOutline} from 'react-icons/io5'
 import {FaPeopleCarry} from 'react-icons/fa'
 import {useState,useEffect} from "react";
 import firebase from '../firebase';
+import ScrollEvent from 'react-onscroll';
 
 const db=firebase.firestore();
 
@@ -15,6 +16,21 @@ function Rentals(){
 //  var times=useTimes()
 const[times,setTimes]=useState([])
 
+
+function useWindowSize() {
+  
+  const [size, setSize] = useState([window.innerHeight, window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => {
+      setSize([window.innerHeight, window.innerWidth]);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
+  }, []);
+  return size;
+}
 
 //cartype filter
 const[count,setcount]=useState("true");
@@ -37,7 +53,9 @@ const[count5,setcount5]=useState("true");
 const[ftype5,settype5]=useState("status");
 
 
-const[checkt,setcheck]=useState(true)
+const[checkt,setcheck]=useState(true);
+
+const[scr,setscr]=useState(true);
 
  // filter function
 
@@ -209,15 +227,27 @@ const [menu, setMenu] = useState(false);
   function settrue() {
   setMenu(!menu);
 }
+const scrollevent=()=>{
+  // console.log("scroll")
+  setscr(false);
+  setTimeout(() => {
+    console.log("scroll")
+    setscr(true);
+  }, 500);
+}
 
+const [heights, widths] = useWindowSize();
     return <div >
-      <div className="comingSoon">
+      {/* <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+        </div> */}
      
         <div >
           {/* <  car Filtering /> */}
-   <Button primary onClick={() => {settrue()} } style={{position: "fixed", zIndex: "200", margin: "10px 0 0 17px"}}>Filters</Button>
+          {scr
+          ?<Button primary onClick={() => {settrue()} } style={{position: "fixed", zIndex: "200", margin: "10px 0 0 17px"}}>Filters</Button>
+          :null
+          }
           {menu ? 
           <div className="filter-div">
           <Dropdown
@@ -284,9 +314,14 @@ const [menu, setMenu] = useState(false);
 
                     {/* car display cards */}
 
-  <div className="newdiv">
-            <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv">
-            <Card.Group>     
+  <div className="newdiv" >
+            <div style={{padding:"10px",marginLeft:"auto",marginRight:"auto"}} className="maindiv" id="scrollcard" >
+            {widths<=420
+            ?<ScrollEvent handleScrollCallback={scrollevent} />
+            :null
+            }
+            
+            <Card.Group >     
                 {times.map((nap,key)=>     
 
   <Card className="rentcard" id={nap.id} key={key} > 
