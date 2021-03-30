@@ -8,6 +8,16 @@
     width: fit-content;
     }
 
+    /*chatbox head*/
+
+    .chatHead {
+        background: rgba(240, 240, 240, 0.925);
+        box-shadow: 1px 1px 7px rgb(124, 124, 124);
+        width: 100%;
+        height: 50px;
+        padding: 7px !important;
+    }
+
     .out-chat, .in-chat {
         display: inline-block;
         padding: 0 0 0 10px;
@@ -46,15 +56,32 @@
 } */
 .chat-form {
     width: 80%;
+    margin-top: 10px !important;
 }
 
 .chatdiv {
-    height: calc(100vh - 220px);
+    height: calc(100vh - 230px);
     /* color: rgb(141, 139, 139); */
+}
+
+.resHead {
+    display: "inline-flex";
+    background: #f6f6f6;
+    color: white;
+    width: 100%;
+    height: 70px !important;
+    padding-top: 28px !important;
+    margin-top: -20px;
+    margin-bottom: 0;
 }
 
 @media screen and (max-width: 420px) {
     .chat-form {
         width: 100%;
+        
+    }
+
+    .chatdiv {
+        height: calc(100vh - 210px);
     }
 }

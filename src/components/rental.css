@@ -8,6 +8,48 @@ body {
     padding: 0;
 }
 
+.comingSoon {
+    height: 100%;
+    width: 100%;
+    margin-top: -20px;
+    position: fixed;
+    color: rgb(0, 0, 0);
+    background: rgba(255, 244, 244, 0.863);
+    z-index: 999 !important;
+}
+
+.soonText {
+    text-align: center;
+    margin-top: 250px !important;
+}
+
+.rentcard {
+    width: 320px;
+    height: 380px;
+    /* border: 1px solid rgb(155, 155, 155) !important; */
+    box-shadow: 1px 1px 10px rgb(136, 136, 136) !important;
+}
+
+.rentcard:hover {
+    box-shadow: 1px 1px 3px rgb(131, 131, 131) !important;
+}
+
+/* .carPic {
+    width: 100%;
+    height: 150px;
+} */
+
+.carBtn {
+    width: 100%;
+    padding: 0;
+    
+}
+
+.carContent {
+    margin-left: 15px !important;
+    font-size: 14px;
+}
+
 .filter-div {
    width: 20%;
    height: 100%;
@@ -16,7 +58,7 @@ body {
    padding: 20px;
    background: rgb(248, 248, 245);
    align-items: center;
-   box-shadow: 1px 1px 5px rgb(77, 76, 76);
+   box-shadow: 1px 1px 10px rgb(194, 194, 194);
    position: fixed;
 }
 
@@ -27,7 +69,7 @@ body {
 }
 
 .priceBar {
-    width: 320px;
+    width: 100%;
     margin-top: 10px;
 }
 
@@ -54,8 +96,16 @@ body {
         width:  100%;
     }
 
+    .rentcard {
+       top: auto;
+       bottom: auto;
+       left: auto;
+       right: auto;
+       margin: 20px auto !important;
+    }
+
     .priceBar {
-        width: 80%;
+        width: 100%;
         margin-left: 10px;
     }
 }

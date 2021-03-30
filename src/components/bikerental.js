@@ -211,8 +211,11 @@ const [menu, setMenu] = useState(false);
 }
 
     return <div >
+      <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
      
-        <div>
+        <div >
           {/* <  car Filtering /> */}
    <Button primary onClick={() => {settrue()} } style={{position: "fixed", zIndex: "200", margin: "10px 0 0 17px"}}>Filters</Button>
           {menu ? 
@@ -286,35 +289,35 @@ const [menu, setMenu] = useState(false);
             <Card.Group>     
                 {times.map((nap,key)=>     
 
-  <Card className="rentcard" id={nap.id} key={key} style={{width:'370px'}}> 
-    <Image src={nap.photo} wrapped ui={true} />
+  <Card className="rentcard" id={nap.id} key={key} > 
+    <Image className="carPic" src={nap.photo} wrapped ui={true} />
     <Card.Content>
-      <Card.Header style={{textAlign:"center"}}>{nap.model}</Card.Header>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}>{nap.model}</Card.Header>
 
-      <Card.Description>
-     {/* <b> &#8377; {nap.price}/Day</b> */}
-      </Card.Description>
+      {/* <Card.Description>
+     <b> &#8377; {nap.price}/Day</b>
+      </Card.Description> */}
     </Card.Content>
-    <Card.Content extra>
+    <Card.Content className="carBtn" extra>
       <div style={{display:"inline-flex"}}>
-      <p ><a>
+      <p className="carContent"><a>
         <BsFillGearFill />
         &nbsp; {nap.geartype} 
         </a></p>
-        <p style={{marginLeft:"20px"}}><a>
+        <p className="carContent"><a>
         <SiCoronaengine />
         &nbsp; {nap.toc} 
                   </a>
           </p>
-        <p style={{marginLeft:"20px"}}> <a>
+        <p className="carContent"> <a>
         <Icon name='wheelchair' />
-        {nap.seats}seats
+        {nap.seats}&nbsp;seats
        
       </a></p>
       
-      <p style={{marginLeft:"20px"}}><a>
-        <IoSpeedometerOutline />
-        &nbsp;{nap.kmslimit} km
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+        {nap.kmslimit}&nbsp;km
         </a></p>
       </div>
       <div>

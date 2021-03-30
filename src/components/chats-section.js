@@ -6,6 +6,7 @@ import {Row, Col, Form} from 'react-bootstrap';
 import { Button } from 'semantic-ui-react'
 import '../index.css';
 import './chats.css';
+import { BiArrowBack } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Image, List ,Grid } from 'semantic-ui-react';
@@ -22,8 +23,9 @@ import {AiFillEdit} from 'react-icons/ai';
 import {RiSendPlaneLine} from 'react-icons/ri'
 
 const db=firebase.firestore();
-
+var showChat = false;
 function useWindowSize() {
+  
   const [size, setSize] = useState([window.innerHeight, window.innerWidth]);
   useEffect(() => {
     const handleResize = () => {
@@ -36,6 +38,11 @@ function useWindowSize() {
   }, []);
   return size;
 }
+
+// function chatHead() {
+//   const [showChat,setShowChat] = useState(false);
+//   return showChat;
+// }
 
 
 function useTimes(){
@@ -86,13 +93,22 @@ console.log(chit)}
 
 export default Sekhar;
 
+// function settrue() {
+//   return setShowChat(true);
+//  }
 
+function settrue() {
+   showChat = true;
+   return showChat;
+  }
 
+  
 function Mybookings(props) {
   const history = useHistory();
 const[chat,setchat]=useState([]);
-const [showChat,setShowChat] = useState(false);
+// var [showChat,setShowChat] = useState(false);
 const [heights, widths] = useWindowSize();
+// const [heads, setHeads] = chatHead();
 
   const click =(prop)=>{
     console.log("click",prop)
@@ -101,13 +117,21 @@ const [heights, widths] = useWindowSize();
     })
   }
   
-  function settrue() {
-    setShowChat(true);
-  }
+  // function settrue() {
+  //  return setShowChat(true);
+  // }
 
-  function setfalse() {
-    setShowChat(false);
-  }
+  // function setfalse() {
+  // return  setShowChat(false);
+  // }
+
+  // head data fetching
+
+  // db.collection('users').doc(firebase.auth().currentUser.uid)
+  // .collection('adpost').doc(props.chat.orderid)
+
+  // let chat1=[]
+  // chat=props.chat1;
 
 if(widths <= 420){
       return (<div style={{height:'100%'}}>
@@ -131,8 +155,8 @@ if(widths <= 420){
     </Grid.Column>: null}
     {showChat ?
    <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
-  <Button primaary style={{marginLeft: "20px"}} onClick={()=> {setfalse()}}>Goback</Button>
-    
+     
+      
       <div>
 {chat.body
     ?< Chatarea chat={chat}/>
@@ -155,10 +179,10 @@ if(widths <= 420){
   <div style={{position:"-webkit-sticky"}}>
 <List celled>
 { props.data.map((nap)=>
-<List.Item as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
+<List.Item className="" as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
   <div style={{display: "inline-flex"}}><Image avatar src={nap.ppic} />
   {/* <List.Content> */}
-    <List.Header >{nap.pname}</List.Header></div>
+    <List.Header style={{marginTop: "5px", marginLeft: "5px"}}>{nap.pname}</List.Header></div>
     <List.Description>
         {(nap.body[nap.body.length-1]).slice(0,-1)}
     </List.Description>
@@ -181,10 +205,20 @@ if(widths <= 420){
     );}
   }
 
+  function setfalse() {
+  //   console.log(showChat);
+  //  const [showChat, setshowChat] = useState(false);
+    return showChat;
+   
+   }
 
+   
 
 function Chatarea(props){
   const[ordst,setordst]=useState();
+  const [heights, widths] = useWindowSize();
+  // var [showChat,setShowChat] = useState(false);
+
 db.collection('users').doc(firebase.auth().currentUser.uid)
   .collection('adpost').doc(props.chat.orderid)
   .get().then(snap=>{
@@ -210,10 +244,17 @@ function orderstatus(e){
   
 }
 
-return(
-  <div style={{float: "right", width: "100%",overflowY:"auto"}}>
-    <List horizontal>
+// function setfalse() {
+//  return setShowChat(false);
+// }
+
+if(widths <= 420) {
+  return(
+    <div style={{float: "right", width: "100%",overflowY:"auto"}}>
+      {showChat ? 
+      <List className="chatHead" horizontal>
       <List.Item>
+     <BiArrowBack style={{width: "50px", fontSize: "24px", background: "rgba(255, 255, 255, 0.92)"}} onClick={()=> {setfalse()}} />
       <Image avatar src={props.chat.ppic} />
       <List.Content>
         <List.Header>{props.chat.pname}</List.Header>
@@ -221,43 +262,92 @@ return(
       </List.Content>
     </List.Item>
     </List>
-    {ordst==0
-    ?  <Button.Group style={{width:"100%"}} onClick={orderstatus} id={props.chat.id}>
-    <Button >Cancel partner</Button>
-    <Button.Or  />
-    <Button primary>Confirm partner</Button>
-    </Button.Group>
-    :<p></p>
-    }
-
+     : null}
     
-  <div className="chatdiv" style={{overflow:'auto'}}>
-   <ReactScrollableFeed>
-    {
-chat.body.map((nap)=>
-
-{if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
-else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
+     
+     {ordst==0
+      ?  <Button.Group style={{width:"100%"}} onClick={orderstatus} id={props.chat.id}>
+      <Button >Cancel partner</Button>
+      <Button.Or  />
+      <Button primary>Confirm partner</Button>
+      </Button.Group>
+      : null
+      }
+      
+    <div className="chatdiv" style={{overflow:'auto'}}>
+     <ReactScrollableFeed style={{paddingRight: "0"}}>
+      {
+  chat.body.map((nap)=>
+  
+  {if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
+  else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
+  }
+  
+  
+  )}</ReactScrollableFeed>
+  </div>
+    <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
+      <Row style={{margin: "0"}}>
+          <Col xs={8} style={{marginRight: "0"}}>
+    <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
+   <Col xs={4} style={{marginRight: "0"}}>
+   <a href="#lastmsg"> <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></a></Col>
+    </Row>
+  </Form.Group>
+  </div>
+  )
 }
 
-
-)}</ReactScrollableFeed>
-</div>
-  <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
-    <Row style={{margin: "0"}}>
-        <Col xs={8} style={{marginRight: "0"}}>
-  <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
- <Col xs={4} style={{marginRight: "0"}}>
-  <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
-  </Row>
-</Form.Group>
-</div>
-)
+else {
+  return(
+    <div style={{float: "right", width: "100%",overflowY:"auto"}}>
+      <List className="chatHead" horizontal>
+        <List.Item>
+        <Image avatar src={props.chat.ppic} />
+        <List.Content>
+          <List.Header>{props.chat.pname}</List.Header>
+         computer technician
+        </List.Content>
+      </List.Item>
+      </List>
+      {ordst==0
+      ?  <Button.Group style={{width:"100%"}} onClick={orderstatus} id={props.chat.id}>
+      <Button >Cancel partner</Button>
+      <Button.Or  />
+      <Button primary>Confirm partner</Button>
+      </Button.Group>
+      : null
+      }
+  
+      
+    <div className="chatdiv" style={{overflow:'auto'}}>
+     <ReactScrollableFeed style={{paddingRight: "0"}}>
+      {
+  chat.body.map((nap)=>
+  
+  {if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
+  else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
+  }
+  
+  
+  )}</ReactScrollableFeed>
+  </div>
+    <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
+      <Row style={{margin: "0"}}>
+          <Col xs={8} style={{marginRight: "0"}}>
+    <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
+   <Col xs={4} style={{marginRight: "0"}}>
+    <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
+    </Row>
+  </Form.Group>
+  </div>
+  )
+}
 }
 
   function Headings() {
     return (
-      <div style={{display: "inline-flex", background: "#f6f6f6", color: "white", width: "100%", height: "70px",paddingTop: "28px", marginTop: "-20px", marginBottom: "0"}}>
+      <div className="resHead">
       <Row style={{width: "100%", textAlign: "center"}}>
       <Col><Link to="/chat" style={{color: "gray", textDecoration: "none"}}><h2><MdFeaturedPlayList size="2.1rem" color="gray"/> Responses</h2></Link></Col>
       <Col style={{borderBottom: "3px solid gray", marginBottom: "0"}}><Link to="/chats-section" style={{color: "gray", textDecoration: "none"}}><h2> <MdChatBubble size="2.1rem" color="gray"/> Chats</h2></Link></Col>
