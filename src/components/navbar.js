@@ -68,7 +68,7 @@ function Navibar(){
    })
    
     return <div style={{paddingBottom:"80px"}}>
-    <header className="navi-bar"> 
+    <header style={{zIndex: "9999"}} className="navi-bar"> 
     <Container>  
     <Navbar collapseOnSelect expand="lg"  variant="light"  >
       <IconContext.Provider value={{ size:"1.5em",className:"nav-icons"}}>

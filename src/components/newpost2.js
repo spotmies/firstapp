@@ -41,6 +41,9 @@ var jobcate;
 export default function newpost2() {
     return (
         <div>
+          <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
             <Postnew />
         </div>
     )

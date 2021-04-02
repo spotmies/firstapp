@@ -238,9 +238,9 @@ const scrollevent=()=>{
 
 const [heights, widths] = useWindowSize();
     return <div >
-      {/* <div className="comingSoon">
+      <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div> */}
+        </div>
      
         <div >
           {/* <  car Filtering /> */}

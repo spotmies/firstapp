@@ -49,7 +49,9 @@ const times=useTimes()
         return(
          
         <div className="responses">
-               
+               <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
                 <Mybookings data={times}/>
                 </div> 
         )

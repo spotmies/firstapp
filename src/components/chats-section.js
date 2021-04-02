@@ -1,6 +1,6 @@
 import React, { Component,useCallback } from 'react';
 import firebase from '../firebase';
-import react,{useState,useEffect} from "react";
+import react,{useState,useEffect,useRef} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col, Form} from 'react-bootstrap';
 import { Button } from 'semantic-ui-react'
@@ -17,7 +17,7 @@ import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdList,MdFeaturedPlayList,MdSend} from 'react-icons/md';
+import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdList,MdFeaturedPlayList,MdSend,MdArrowDropDownCircle} from 'react-icons/md';
 
 import {AiFillEdit} from 'react-icons/ai';
 import {RiSendPlaneLine} from 'react-icons/ri'
@@ -82,6 +82,9 @@ console.log(chit)}
         return(
          
         <div className="responses">
+          <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
                 <Headings />
                 {chit  
                  ?<Mybookings data={chit}/> 
@@ -121,9 +124,9 @@ const [heights, widths] = useWindowSize();
    return setShowChat(true);
   }
 
-  const setfalse=()=> {
-  return  setShowChat(false);
-  }
+  // const setfalse=()=> {
+  // return  setShowChat(false);
+  // }
 
   // head data fetching
 
@@ -216,6 +219,8 @@ if(widths <= 420){
 
 function Chatarea(props){
   const[ordst,setordst]=useState();
+  
+  const divRef = useRef(null);
   const [heights, widths] = useWindowSize();
   // var [showChat,setShowChat] = useState(false);
 
@@ -226,9 +231,23 @@ setordst(snap.data().orderstate);
 //console.log(snap.data())
   })
 
+
+
+
+
   let chat=[]
   chat=props.chat;
   let onNameChange=props.onNameChange;
+
+  useEffect(() => {
+    if(document.getElementById("scrollbtn")){
+     document.getElementById("scrollbtn").click();
+     console.log("new message");
+    }
+    
+  }, [chat.body])
+
+
 
   const click =(prop)=>{
     console.log("click",prop)
@@ -253,6 +272,8 @@ console.log(onNameChange)
 const handleInputChange = useCallback(event => {
   onNameChange(false)
 }, [onNameChange])
+
+
 
 if(widths <= 420) {
   return(
@@ -280,8 +301,8 @@ if(widths <= 420) {
       : null
       }
       
-    <div className="chatdiv" style={{overflow:'auto'}}>
-     <ReactScrollableFeed style={{paddingRight: "0"}}>
+    <div className="chatdiv"  style={{overflow:'auto'}}>
+    
       {
   chat.body.map((nap)=>
   
@@ -290,14 +311,15 @@ if(widths <= 420) {
   }
   
   
-  )}</ReactScrollableFeed>
+  )}
+
   </div>
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
           <Col xs={8} style={{marginRight: "0"}}>
     <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
    <Col xs={4} style={{marginRight: "0"}}>
-   <a href="#lastmsg"> <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></a></Col>
+   <a href="#scrolltobottom"> <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Senxzds<MdSend /></Button></a></Col>
     </Row>
   </Form.Group>
   </div>
@@ -327,23 +349,26 @@ else {
   
       
     <div className="chatdiv" style={{overflow:'auto'}}>
-     <ReactScrollableFeed style={{paddingRight: "0"}}>
+    
       {
-  chat.body.map((nap)=>
+  chat.body.map((nap,key)=>
   
-  {if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
-  else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
+  {if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
+  else return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
   }
   
   
-  )}</ReactScrollableFeed>
+  )}
+
+<a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right"}}/></a>
   </div>
+
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
           <Col xs={8} style={{marginRight: "0"}}>
     <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
    <Col xs={4} style={{marginRight: "0"}}>
-    <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
+    <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Sends<MdSend /></Button></Col>
     </Row>
   </Form.Group>
   </div>
