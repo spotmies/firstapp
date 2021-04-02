@@ -41,9 +41,9 @@ var jobcate;
 export default function newpost2() {
     return (
         <div>
-          <div className="comingSoon">
+          {/* <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+        </div> */}
             <Postnew />
         </div>
     )
@@ -51,7 +51,7 @@ export default function newpost2() {
 
 function Postnew(){
 return <div style={{paddingTop:"20px"}}>
-    <Card centered id="formcard">
+    <Card centered id="formcard" className="postjobb1">
     <Card.Content>
         <Card.Header style={{textAlign:"center"}}>New Post</Card.Header>
     </Card.Content>
@@ -338,7 +338,7 @@ sekhararr=(e)=>{
             placeholder='Tell us more about your problem or any note here...'
           />
           <Form.Field>
-            Enter Amount             
+           <b style={{fontWeight: "800"}}> Enter Amount </b>            
             <Input labelPosition='right' type='number' id="sprice" placeholder='Amount'>
             <Label basic>₹</Label>
             <input />
@@ -384,7 +384,7 @@ sekhararr=(e)=>{
                 
             </Form.Field>
             <Form.Field control={Button} color="green"  id="upldbtn" type="button" onClick={this.handleUpload} style={{marginBottom:"10px"}}>
-            <MdFileUpload />  upload images
+            <MdFileUpload /> <b> upload images </b>
             </Form.Field>
             </div>
             <progress value={this.state.valprogress} max="100" id="uploaderb">progress</progress>
@@ -472,7 +472,7 @@ sekhararr=(e)=>{
       onOpen={() => setOpen(true)}
         open={open}
       >
-        <Modal.Header>Select Job Category</Modal.Header>
+        <Modal.Header className="categoryMheader">Select Job Category</Modal.Header>
         <Modal.Content >
  
 

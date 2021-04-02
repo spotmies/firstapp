@@ -23,6 +23,11 @@ body {
     height:"100%";
 }
 
+.postjobb1 {
+    width: 50% !important;
+    box-shadow: 1px 1px 10px rgb(139, 139, 139) !important;
+}
+
 .cardHolder {
     display:"inline-flex";
     margin: 0 auto;
@@ -55,6 +60,11 @@ body {
         height: 100%;
         width: 100%;
         margin-left: 0;
+    }
+
+    .postjobb1 {
+        width: 95% !important;
+        box-shadow: 1px 1px 10px rgb(139, 139, 139) !important;
     }
 
     .cardHolder {
