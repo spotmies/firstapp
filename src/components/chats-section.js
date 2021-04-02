@@ -9,15 +9,20 @@ import './chats.css';
 import { BiArrowBack } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { Image, List ,Grid } from 'semantic-ui-react';
+import { Image, List ,Grid,Input } from 'semantic-ui-react';
 import ReactScrollableFeed from 'react-scrollable-feed';
+import imageCompression from "browser-image-compression";
+
+//micro service
+import {handleUpload, temp} from "../mservices/upldmedia";
+
 
 //import icons
 import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdList,MdFeaturedPlayList,MdSend,MdArrowDropDownCircle} from 'react-icons/md';
+import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdAddToPhotos,MdList,MdFeaturedPlayList,MdSend,MdArrowDropDownCircle} from 'react-icons/md';
 
 import {AiFillEdit} from 'react-icons/ai';
 import {RiSendPlaneLine} from 'react-icons/ri'
@@ -82,9 +87,9 @@ console.log(chit)}
         return(
          
         <div className="responses">
-          <div className="comingSoon">
+          {/* <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+        </div> */}
                 <Headings />
                 {chit  
                  ?<Mybookings data={chit}/> 
@@ -219,7 +224,10 @@ if(widths <= 420){
 
 function Chatarea(props){
   const[ordst,setordst]=useState();
-  
+  const[image,setimage]=useState([]);
+  const[image2,setimage2]=useState([]);
+
+  const[upld,setupld]=useState(false);
   const divRef = useRef(null);
   const [heights, widths] = useWindowSize();
   // var [showChat,setShowChat] = useState(false);
@@ -274,6 +282,60 @@ const handleInputChange = useCallback(event => {
 }, [onNameChange])
 
 
+const inputFile = useRef(null);
+
+const mediashare=(e)=>{
+  inputFile.current.click();
+console.log(image);
+}
+
+useEffect(() => {
+  if(image.length>0){
+    console.log(image);
+ 
+
+  }
+
+}, [image])
+
+
+
+ async function compressimage(e){
+    const options = {
+      maxSizeMB: 0.15,
+      maxWidthOrHeight: 800,
+      useWebWorker: true
+    };
+    let cfile;
+    setimage([]);
+
+     for(var i=0;i<e.target.files.length;i++){
+      let k=Number(i)
+
+       imageCompression(e.target.files[k], options).then(x => {
+        cfile = x;     
+        setimage(temp=>[...temp,cfile]);
+
+        
+         })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+console.log(i)
+
+    }
+   // setimage(temp=>[...temp,"dummy"]);
+    
+    
+  }
+async function uploadmedia(e){
+compressimage(e);
+setimage((state) => {
+  console.log(state); // "React is awesome!"
+  
+  return state;
+});
+}
 
 if(widths <= 420) {
   return(
@@ -365,10 +427,16 @@ else {
 
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
-          <Col xs={8} style={{marginRight: "0"}}>
+      <input type='file' id='upldfile' ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/>
+
+ 
+
+    <Col xs={2} > <MdAddToPhotos onClick={mediashare} size="2rem" color="gray"/></Col>
+          <Col xs={8} style={{marginRight: "0"}}>          
     <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
-   <Col xs={4} style={{marginRight: "0"}}>
-    <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Sends<MdSend /></Button></Col>
+   <Col xs={2} style={{marginRight: "0"}}>
+     
+    <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
     </Row>
   </Form.Group>
   </div>
