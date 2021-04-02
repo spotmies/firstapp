@@ -13,6 +13,8 @@ import service from "../images/undraw_coffee_break_h3uu.svg";
 import about from "../images/undraw_researching_22gp.svg";
 import firebase from '../firebase';
 import { toast } from 'react-toastify';
+// import { withRouter } from 'react-router-dom';
+
 const db=firebase.firestore();
 const contactdb=db.collection("contactus");
 
@@ -61,7 +63,7 @@ function PartnerRegistration() {
     // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com",'_blank')
    }
-
+  
    const handleChange=(e)=> {
      const re = /^[0-9\b]+$/;
      console.log("change")
@@ -132,7 +134,7 @@ function PartnerRegistration() {
    if(width1 <= 800) {
     return (
       <div className="pslide1">
-
+<p id="partnerTop"></p>
 
 <section className="home-section">
 <Fade right>
@@ -400,4 +402,4 @@ function PartnerRegistration() {
     
 }
 
-export default PartnerRegistration
+export default PartnerRegistration;
