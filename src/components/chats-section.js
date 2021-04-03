@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 import { Image, List ,Grid,Input } from 'semantic-ui-react';
 import ReactScrollableFeed from 'react-scrollable-feed';
 import imageCompression from "browser-image-compression";
-
+import 'firebase/storage';
 //micro service
-import {handleUpload, temp} from "../mservices/upldmedia";
+import {handleUpload, temp,getlink} from "../mservices/upldmedia";
 
 
 //import icons
@@ -28,6 +28,8 @@ import {AiFillEdit} from 'react-icons/ai';
 import {RiSendPlaneLine} from 'react-icons/ri'
 
 const db=firebase.firestore();
+const storage = firebase.storage();
+var chatid;
 var showChat = false;
 function useWindowSize() {
   
@@ -226,6 +228,7 @@ function Chatarea(props){
   const[ordst,setordst]=useState();
   const[image,setimage]=useState([]);
   const[image2,setimage2]=useState([]);
+  const[chid,setchid]=useState("");
 
   const[upld,setupld]=useState(false);
   const divRef = useRef(null);
@@ -238,7 +241,6 @@ db.collection('users').doc(firebase.auth().currentUser.uid)
 setordst(snap.data().orderstate);
 //console.log(snap.data())
   })
-
 
 
 
@@ -266,6 +268,14 @@ setordst(snap.data().orderstate);
     }).then(()=>{msg.value=''})
   }
 
+  const click2=(id,msg)=>{
+   
+    db.collection('messaging').doc(id).update({
+      body:firebase.firestore.FieldValue.arrayUnion(msg+"um"),
+      createdAt:new Date()
+    }).then(()=>{})
+  }
+
 function orderstatus(e){
   console.log(e.target.innerText,e.target.parentElement.id)
   console.log(ordst);
@@ -287,18 +297,58 @@ const inputFile = useRef(null);
 const mediashare=(e)=>{
   inputFile.current.click();
 console.log(image);
+console.log(image2);
+setchid(props.chat.id);
+
 }
 
+// useEffect(async() => {
+//   if(image.length>0){
+//   await handleUpload(image.slice(-1));
+//      console.log("use effect");
+// let res2= await getlink(image.slice(-1));
+// console.log(res2)
+
+
+//   }
+
+// }, [image])
+
+
+
+
+
 useEffect(() => {
-  if(image.length>0){
-    console.log(image);
- 
+  let image3=[];
+  image3=image.slice(-1);
+  for(var i=0;i<image3.length;i++){
+    let k=Number(i)
+ const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/chat/${image3[k].name}`).put(image3[k]);
+let upldtask= uploadTask.on("state_changed",snapshot => {},
+   error => {
+     console.log(error);
+   },
+   () => {
+     storage
+       .ref(`users/${firebase.auth().currentUser.uid}/chat/`)
+       .child(image3[k].name)
+       .getDownloadURL()
+       .then(url => {
+console.log(url);
+    setimage2(temp=>[...temp,url]);
 
+       });
+   }
+ )
   }
-
 }, [image])
 
-
+useEffect(() => {
+console.log(image2);
+if(image2.length>0){
+click2(chid,image2[image2.length-1]);
+}
+}, [image2])
 
  async function compressimage(e){
     const options = {
@@ -329,12 +379,10 @@ console.log(i)
     
   }
 async function uploadmedia(e){
+  setimage([]);
+  setimage2([]);
 compressimage(e);
-setimage((state) => {
-  console.log(state); // "React is awesome!"
-  
-  return state;
-});
+
 }
 
 if(widths <= 420) {
@@ -416,8 +464,11 @@ else {
   chat.body.map((nap,key)=>
   
   {if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
-  else return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
-  }
+  else if(nap[nap.length-1]=="p") return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
+   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" src={nap.slice(0,-2)} size='small' /> </div>
+   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" src={nap.slice(0,-2)} size='small' /> </div>
+
+}
   
   
   )}
@@ -427,7 +478,7 @@ else {
 
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
-      <input type='file' id='upldfile' ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/>
+      <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/>
 
  
 
