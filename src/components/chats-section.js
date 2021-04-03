@@ -256,7 +256,7 @@ function Chatarea(props){
   const[chid,setchid]=useState("");
 
   const[upld,setupld]=useState(false);
-  const divRef = useRef(null);
+ 
   const [heights, widths] = useWindowSize();
   // var [showChat,setShowChat] = useState(false);
 
@@ -266,6 +266,17 @@ db.collection('users').doc(firebase.auth().currentUser.uid)
 setordst(snap.data().orderstate);
 //console.log(snap.data())
   })
+
+  const divRef = useRef(null);
+ const onKeyDownHandler = e => {
+    if (e.keyCode === 13) {
+      // this.sendMessage();
+      console.log("enter key")
+     // document.getElementById(props.chat.id).click();
+     // divRef.current.click();
+     click(props.chat.id);
+    }
+  };
 
 
 
@@ -501,7 +512,7 @@ else {
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right"}}/></a>
   </div>
 
-    <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
+    <Form.Group className="chat-form" onKeyDown={onKeyDownHandler}  style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
       <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/>
 
@@ -512,7 +523,7 @@ else {
     <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
    <Col xs={2} style={{marginRight: "0"}}>
      
-    <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
+    <Button primary className="chatSend" id={props.chat.id} ref={divRef} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
     </Row>
   </Form.Group>
   </div>
