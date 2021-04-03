@@ -9,7 +9,7 @@ import './chats.css';
 import { BiArrowBack } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { Image, List ,Grid,Input } from 'semantic-ui-react';
+import { Image, List ,Grid,Input,Modal,ImageGroup } from 'semantic-ui-react';
 import ReactScrollableFeed from 'react-scrollable-feed';
 import imageCompression from "browser-image-compression";
 import 'firebase/storage';
@@ -230,7 +230,10 @@ function Chatarea(props){
   const[image2,setimage2]=useState([]);
   const[chid,setchid]=useState("");
 
-  const[upld,setupld]=useState(false);
+  const[mimage,setmimage]=useState(null);
+  const[mflag,setmflag]=useState(false);
+  const[tempimg,settempimg]=useState([]);
+  const[upload,setupload]=useState(false);
   const divRef = useRef(null);
   const [heights, widths] = useWindowSize();
   // var [showChat,setShowChat] = useState(false);
@@ -260,10 +263,20 @@ setordst(snap.data().orderstate);
 
 
   const click =(prop)=>{
+    let newbody=[];
+    newbody=chat.body;
+    
     console.log("click",prop)
     let msg=document.getElementById('msgtext');
+    console.log(msg.value);
+    newbody.push(msg.value+"u");
+    // db.collection('messaging').doc(prop).update({
+    //   body:firebase.firestore.FieldValue.arrayUnion(msg.value+"u"),
+    //   createdAt:new Date()
+    // }).then(()=>{msg.value=''})
+
     db.collection('messaging').doc(prop).update({
-      body:firebase.firestore.FieldValue.arrayUnion(msg.value+"u"),
+      body:newbody,
       createdAt:new Date()
     }).then(()=>{msg.value=''})
   }
@@ -282,10 +295,7 @@ function orderstatus(e){
   
 }
 
-function setfalse() {
-console.log("close icon");
-console.log(onNameChange)
-}
+
 
 const handleInputChange = useCallback(event => {
   onNameChange(false)
@@ -301,22 +311,6 @@ console.log(image2);
 setchid(props.chat.id);
 
 }
-
-// useEffect(async() => {
-//   if(image.length>0){
-//   await handleUpload(image.slice(-1));
-//      console.log("use effect");
-// let res2= await getlink(image.slice(-1));
-// console.log(res2)
-
-
-//   }
-
-// }, [image])
-
-
-
-
 
 useEffect(() => {
   let image3=[];
@@ -344,6 +338,40 @@ console.log(url);
 }, [image])
 
 useEffect(() => {
+if(upload==true){
+  console.log("uploading..");
+uitf();
+}
+}, [upload])
+
+async function uitf(){
+  let image3=tempimg;
+  for(var i=0;i<image3.length;i++){
+    let k=Number(i)
+ const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/chat/${image3[k].name}`).put(image3[k]);
+let upldtask= uploadTask.on("state_changed",snapshot => {},
+   error => {
+     console.log(error);
+   },
+   () => {
+     storage
+       .ref(`users/${firebase.auth().currentUser.uid}/chat/`)
+       .child(image3[k].name)
+       .getDownloadURL()
+       .then(url => {
+console.log(url);
+    setimage2(temp=>[...temp,url]);
+
+       });
+   }
+ )
+  }
+}
+
+
+
+
+useEffect(() => {
 console.log(image2);
 if(image2.length>0){
 click2(chid,image2[image2.length-1]);
@@ -364,8 +392,8 @@ click2(chid,image2[image2.length-1]);
 
        imageCompression(e.target.files[k], options).then(x => {
         cfile = x;     
-        setimage(temp=>[...temp,cfile]);
-
+       // setimage(temp=>[...temp,cfile]);
+        settempimg(temp=>[...temp,cfile]);
         
          })
       .catch(function (error) {
@@ -383,6 +411,19 @@ async function uploadmedia(e){
   setimage2([]);
 compressimage(e);
 
+}
+function uploadmediatemp(e){
+console.log(e)
+compressimage(e);
+}
+
+const showimage=(e)=>{
+setmflag(true);
+setmimage(e.target.src);
+console.log(e);
+}
+const hideimage=(e)=>{
+setmflag(false);
 }
 
 if(widths <= 420) {
@@ -465,8 +506,8 @@ else {
   
   {if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
   else if(nap[nap.length-1]=="p") return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
-   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" src={nap.slice(0,-2)} size='small' /> </div>
-   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" src={nap.slice(0,-2)} size='small' /> </div>
+   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
+   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
 
 }
   
@@ -478,7 +519,8 @@ else {
 
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
-      <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/>
+      {/* <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/> */}
+      <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmediatemp} style={{display: 'none'}} multiple/>
 
  
 
@@ -490,6 +532,8 @@ else {
     <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
     </Row>
   </Form.Group>
+  <ImageModal image={mimage} setflag={setmimage}/>
+  <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg}/>
   </div>
   )
 }
@@ -508,6 +552,210 @@ else {
   }
 
  
+
+  function ImageModal(props) {
+    const [open, setOpen] = useState(false);
+    var image=props.image;
+    var setflag=props.setflag;
+
+    const handleInputChange = useCallback(event => {
+      setflag(false)
+    }, [setflag])
+
+    const closemodal=()=>{
+      handleInputChange();
+      setOpen(false);
+
+    }
+  useEffect(() => {
+if(image!=false && image!=null){setOpen(true)}
+console.log(image);
+
+  }, [image])
+
+    return (
+      <Modal
+        onClose={closemodal}
+        onOpen={() => setOpen(true)}
+        open={open}
+        size="mini"
+       // trigger={<Button>Show Modal</Button>}
+      >
+        <Modal.Header>Upload image</Modal.Header>
+        <Modal.Content image>
+          <Image size='large' src={image} wrapped />
+          <Modal.Description>
+            <p>Would you like to upload this image?</p>
+          </Modal.Description>
+        </Modal.Content>
+        <Modal.Actions>
+          {/* <Button onClick={closemodal}>Cancel</Button>
+          <Button onClick={closemodal} positive>
+            Ok
+          </Button> */}
+        </Modal.Actions>
+      </Modal>
+    )
+  }
+
+
+  
+ class ImageModal2 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date(),
+      open: false,
+      image:[],
+      flag:false
+    };
+  }
+
+componentDidMount(){
+  this.setState({
+    image:this.props.image
+  })
+  console.log("didmount");
+}
+componentDidUpdate(){
+  console.log("didupdate")
+
+  if(this.props.image != this.state.image){
+  this.setState({
+    image:this.props.image,open:true,flag:this.props.flag
+  })
+
+}
+
+console.log(this.state.image)
+}
+sendpic=(e)=>{
+  alert("pic")
+  this.setState({
+    flag:true
+  })
+  
+  }
+    render() {
+      return (
+        <div>
+           <Modal
+        onClose={()=>this.setState({open:false})}
+        onOpen={() => this.setState({open:true})}
+        open={this.state.open}
+        size="large"
+       // trigger={<Button>Show Modal</Button>}
+      >
+        <Modal.Header>Upload image</Modal.Header>
+{
+  this.state.image.length>0
+  ?<Image.Group size='small'>
+  {
+    this.state.image.map((nap,key)=>
+    
+    <Image fluid key={key} id={key}
+     label={{ as: 'a', corner: 'right', icon: 'trash' }}
+    src={URL.createObjectURL(nap)}/>
+  
+    )}
+  
+  </Image.Group>
+  :null
+}
+        <Modal.Actions>
+          <Button onClick={()=>this.setState({open:false})}>Cancel</Button>
+          <Button onClick={this.sendpic} positive>
+            Ok
+          </Button>
+        </Modal.Actions>
+      </Modal>
+
+        </div>
+      )
+    }
+  }
+  
+
+// function ImageModal2(props) {
+//     const [open, setOpen] = useState(false);
+//     const[image,setimage] =useState([]);
+//    // var image=props.image;
+   
+   
+
+// useEffect(() => {
+//   setimage(props.image);
+ 
+// }, [props.image])
+
+//     useEffect(() => {
+// if(image.length>0)setOpen(true);
+//  console.log(image);
+//     }, [image])
+
+//     const handleInputChange = useCallback(event => {
+//       props.flag(true);
+//       setOpen(false);
+//     }, [props.flag])
+
+
+//     function removeElement(array, elem) {
+//       var index = array.indexOf(elem);
+//       if (index > -1) {
+//           array.splice(index, 1);
+//       }
+//   }
+  
+
+
+//   const sekhararr=(e)=>{
+
+
+//      console.log(e.target.parentElement.parentElement.id)
+//      let ritem=image[e.target.parentElement.parentElement.id];
+//      let array=image;
+//      removeElement(array, ritem);
+//      console.log(array);
+//      setimage(array);
+
+
+
+
+      
+//     }
+//     return (
+//       <Modal
+//         onClose={()=>setOpen(false)}
+//         onOpen={() => setOpen(true)}
+//         open={open}
+//         size="large"
+//        // trigger={<Button>Show Modal</Button>}
+//       >
+//         <Modal.Header>Upload image</Modal.Header>
+// {
+//   image.length>0
+//   ?<Image.Group size='small'>
+//   {
+//     image.map((nap,key)=>
+    
+//     <Image fluid key={key} id={key}
+//      label={{ as: 'a', corner: 'right', icon: 'trash', onClick:sekhararr }}
+//     src={URL.createObjectURL(nap)}/>
+  
+//     )}
+  
+//   </Image.Group>
+//   :null
+// }
+//         <Modal.Actions>
+//           <Button onClick={()=>{setOpen(false)}}>Cancel</Button>
+//           <Button onClick={handleInputChange} positive>
+//             Ok
+//           </Button>
+//         </Modal.Actions>
+//       </Modal>
+//     )
+//   }
 
 
 
