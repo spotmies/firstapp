@@ -321,46 +321,413 @@ const [heights, widths] = useWindowSize();
             :null
             }
             {times.length==0 ?    
-           <Row>
-   <Col xs={12} lg={4}> <Segment className="rentcard">
-      <Dimmer active inverted>
-        <Loader size='large'>Loading</Loader>
-      </Dimmer>
+//            <Row>
+//    <Col xs={12} lg={4}> <Segment className="rentcard">
+//       <Dimmer active inverted>
+//         <Loader size='large'>Loading</Loader>
+//       </Dimmer>
 
-      <Image src='/images/wireframe/paragraph.png' />
-    </Segment></Col>
+//       <Image src='/images/wireframe/paragraph.png' />
+//     </Segment></Col>
     
-   <Col xs={12} lg={4}> <Segment className="rentcard">
-    <Dimmer active inverted>
-      <Loader size='large'>Loading</Loader>
-    </Dimmer>
+//    <Col xs={12} lg={4}> <Segment className="rentcard">
+//     <Dimmer active inverted>
+//       <Loader size='large'>Loading</Loader>
+//     </Dimmer>
 
-    <Image src='/images/wireframe/paragraph.png' />
-  </Segment></Col>
+//     <Image src='/images/wireframe/paragraph.png' />
+//   </Segment></Col>
   
-       <Col xs={12} lg={4}>  <Segment className="rentcard">
-         <Dimmer active inverted>
-          <Loader size='large'>Loading</Loader>
-         </Dimmer>
+//        <Col xs={12} lg={4}>  <Segment className="rentcard">
+//          <Dimmer active inverted>
+//           <Loader size='large'>Loading</Loader>
+//          </Dimmer>
 
-  <Image src='/images/wireframe/paragraph.png' />
-</Segment></Col>
+//   <Image src='/images/wireframe/paragraph.png' />
+// </Segment></Col>
 
-        <Col xs={12} lg={4}> <Segment className="rentcard">
-           <Dimmer active inverted>
+//         <Col xs={12} lg={4}> <Segment className="rentcard">
+//            <Dimmer active inverted>
+//                <Loader size='large'>Loading</Loader>
+//            </Dimmer>
+
+//              <Image src='/images/wireframe/paragraph.png' />
+//           </Segment></Col>
+
+//           <Col xs={12} lg={4}> <Segment className="rentcard">
+//             <Dimmer active inverted>
+//               <Loader size='large'>Loading</Loader>
+//             </Dimmer>
+
+//             <Image src='/images/wireframe/paragraph.png' />
+//            </Segment></Col></Row>
+           <Card.Group>
+           <Card className="rentcard" > 
+    <Segment className="loaderSegment">
+             <Dimmer active inverted>
                <Loader size='large'>Loading</Loader>
-           </Dimmer>
+             </Dimmer>
 
-             <Image src='/images/wireframe/paragraph.png' />
-          </Segment></Col>
+             <Image className="loaderImg" src='/images/wireframe/paragraph.png' />
+            </Segment>
+    <Card.Content>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}></Card.Header>
 
-          <Col xs={12} lg={4}> <Segment className="rentcard">
-            <Dimmer active inverted>
-              <Loader size='large'>Loading</Loader>
-            </Dimmer>
+     
+    </Card.Content>
 
-            <Image src='/images/wireframe/paragraph.png' />
-           </Segment></Col></Row>:  
+    <Card.Content className="carBtn" extra>
+      <div style={{display:"inline-flex"}}>
+      <p className="carContent"><a>
+        <BsFillGearFill />
+       -- &nbsp; 
+        </a></p>
+        <p className="carContent"><a>
+        <SiCoronaengine />
+        --&nbsp; 
+                  </a>
+          </p>
+        <p className="carContent"> <a>
+        <Icon name='wheelchair' />
+        --&nbsp;seats
+       
+      </a></p>
+      
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+       --&nbsp;km
+        </a></p>
+      </div>
+      <div>
+      <Button.Group className="priceBar">
+    <Button > &#8377; <br /> <small> 50km  </small></Button>
+
+    <Button> &#8377;<br /> <small> 100km </small></Button>
+    <Button>&#8377; <br />  <small> 150km </small></Button>
+  </Button.Group>
+
+      </div>
+    </Card.Content>
+   
+      <Button  color="blue">Book now</Button>
+    
+  </Card>
+
+
+<Card className="rentcard" > 
+    <Segment className="loaderSegment">
+             <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image className="loaderImg" src='/images/wireframe/paragraph.png' />
+            </Segment>
+    <Card.Content>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}></Card.Header>
+
+     
+    </Card.Content>
+
+    <Card.Content className="carBtn" extra>
+      <div style={{display:"inline-flex"}}>
+      <p className="carContent"><a>
+        <BsFillGearFill />
+       -- &nbsp; 
+        </a></p>
+        <p className="carContent"><a>
+        <SiCoronaengine />
+        --&nbsp; 
+                  </a>
+          </p>
+        <p className="carContent"> <a>
+        <Icon name='wheelchair' />
+        --&nbsp;seats
+       
+      </a></p>
+      
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+       --&nbsp;km
+        </a></p>
+      </div>
+      <div>
+      <Button.Group className="priceBar">
+    <Button > &#8377; <br /> <small> 50km  </small></Button>
+
+    <Button> &#8377;<br /> <small> 100km </small></Button>
+    <Button>&#8377; <br />  <small> 150km </small></Button>
+  </Button.Group>
+
+      </div>
+    </Card.Content>
+   
+      <Button  color="blue">Book now</Button>
+    
+  </Card>
+
+
+<Card className="rentcard" > 
+    <Segment className="loaderSegment">
+             <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image className="loaderImg" src='/images/wireframe/paragraph.png' />
+            </Segment>
+    <Card.Content>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}></Card.Header>
+
+     
+    </Card.Content>
+
+    <Card.Content className="carBtn" extra>
+      <div style={{display:"inline-flex"}}>
+      <p className="carContent"><a>
+        <BsFillGearFill />
+       -- &nbsp; 
+        </a></p>
+        <p className="carContent"><a>
+        <SiCoronaengine />
+        --&nbsp; 
+                  </a>
+          </p>
+        <p className="carContent"> <a>
+        <Icon name='wheelchair' />
+        --&nbsp;seats
+       
+      </a></p>
+      
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+       --&nbsp;km
+        </a></p>
+      </div>
+      <div>
+      <Button.Group className="priceBar">
+    <Button > &#8377; <br /> <small> 50km  </small></Button>
+
+    <Button> &#8377;<br /> <small> 100km </small></Button>
+    <Button>&#8377; <br />  <small> 150km </small></Button>
+  </Button.Group>
+
+      </div>
+    </Card.Content>
+   
+      <Button  color="blue">Book now</Button>
+    
+  </Card>
+
+
+<Card className="rentcard" > 
+    <Segment className="loaderSegment">
+             <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image className="loaderImg" src='/images/wireframe/paragraph.png' />
+            </Segment>
+    <Card.Content>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}></Card.Header>
+
+     
+    </Card.Content>
+
+    <Card.Content className="carBtn" extra>
+      <div style={{display:"inline-flex"}}>
+      <p className="carContent"><a>
+        <BsFillGearFill />
+       -- &nbsp; 
+        </a></p>
+        <p className="carContent"><a>
+        <SiCoronaengine />
+        --&nbsp; 
+                  </a>
+          </p>
+        <p className="carContent"> <a>
+        <Icon name='wheelchair' />
+        --&nbsp;seats
+       
+      </a></p>
+      
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+       --&nbsp;km
+        </a></p>
+      </div>
+      <div>
+      <Button.Group className="priceBar">
+    <Button > &#8377; <br /> <small> 50km  </small></Button>
+
+    <Button> &#8377;<br /> <small> 100km </small></Button>
+    <Button>&#8377; <br />  <small> 150km </small></Button>
+  </Button.Group>
+
+      </div>
+    </Card.Content>
+   
+      <Button  color="blue">Book now</Button>
+    
+  </Card>
+
+
+<Card className="rentcard" > 
+    <Segment className="loaderSegment">
+             <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image className="loaderImg" src='/images/wireframe/paragraph.png' />
+            </Segment>
+    <Card.Content>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}></Card.Header>
+
+     
+    </Card.Content>
+
+    <Card.Content className="carBtn" extra>
+      <div style={{display:"inline-flex"}}>
+      <p className="carContent"><a>
+        <BsFillGearFill />
+       -- &nbsp; 
+        </a></p>
+        <p className="carContent"><a>
+        <SiCoronaengine />
+        --&nbsp; 
+                  </a>
+          </p>
+        <p className="carContent"> <a>
+        <Icon name='wheelchair' />
+        --&nbsp;seats
+       
+      </a></p>
+      
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+       --&nbsp;km
+        </a></p>
+      </div>
+      <div>
+      <Button.Group className="priceBar">
+    <Button > &#8377; <br /> <small> 50km  </small></Button>
+
+    <Button> &#8377;<br /> <small> 100km </small></Button>
+    <Button>&#8377; <br />  <small> 150km </small></Button>
+  </Button.Group>
+
+      </div>
+    </Card.Content>
+   
+      <Button  color="blue">Book now</Button>
+    
+  </Card>
+
+
+<Card className="rentcard" > 
+    <Segment className="loaderSegment">
+             <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image className="loaderImg" src='/images/wireframe/paragraph.png' />
+            </Segment>
+    <Card.Content>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}></Card.Header>
+
+     
+    </Card.Content>
+
+    <Card.Content className="carBtn" extra>
+      <div style={{display:"inline-flex"}}>
+      <p className="carContent"><a>
+        <BsFillGearFill />
+       -- &nbsp; 
+        </a></p>
+        <p className="carContent"><a>
+        <SiCoronaengine />
+        --&nbsp; 
+                  </a>
+          </p>
+        <p className="carContent"> <a>
+        <Icon name='wheelchair' />
+        --&nbsp;seats
+       
+      </a></p>
+      
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+       --&nbsp;km
+        </a></p>
+      </div>
+      <div>
+      <Button.Group className="priceBar">
+    <Button > &#8377; <br /> <small> 50km  </small></Button>
+
+    <Button> &#8377;<br /> <small> 100km </small></Button>
+    <Button>&#8377; <br />  <small> 150km </small></Button>
+  </Button.Group>
+
+      </div>
+    </Card.Content>
+   
+      <Button  color="blue">Book now</Button>
+    
+  </Card>
+
+
+<Card className="rentcard" > 
+    <Segment className="loaderSegment">
+             <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image className="loaderImg" src='/images/wireframe/paragraph.png' />
+            </Segment>
+    <Card.Content>
+      <Card.Header style={{textAlign:"center", height: "fit-content"}}></Card.Header>
+
+     
+    </Card.Content>
+
+    <Card.Content className="carBtn" extra>
+      <div style={{display:"inline-flex"}}>
+      <p className="carContent"><a>
+        <BsFillGearFill />
+       -- &nbsp; 
+        </a></p>
+        <p className="carContent"><a>
+        <SiCoronaengine />
+        --&nbsp; 
+                  </a>
+          </p>
+        <p className="carContent"> <a>
+        <Icon name='wheelchair' />
+        --&nbsp;seats
+       
+      </a></p>
+      
+      <p className="carContent"><a>
+        <IoSpeedometerOutline /><br/>
+       --&nbsp;km
+        </a></p>
+      </div>
+      <div>
+      <Button.Group className="priceBar">
+    <Button > &#8377; <br /> <small> 50km  </small></Button>
+
+    <Button> &#8377;<br /> <small> 100km </small></Button>
+    <Button>&#8377; <br />  <small> 150km </small></Button>
+  </Button.Group>
+
+      </div>
+    </Card.Content>
+   
+      <Button  color="blue">Book now</Button>
+    
+  </Card></Card.Group>
+
+           
+           
+           :  
 
           //  real cars card appearance
             <Card.Group >     

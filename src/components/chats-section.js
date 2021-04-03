@@ -3,7 +3,7 @@ import firebase from '../firebase';
 import react,{useState,useEffect,useRef} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col, Form} from 'react-bootstrap';
-import { Button } from 'semantic-ui-react'
+import { Button, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import '../index.css';
 import './chats.css';
 import { BiArrowBack } from 'react-icons/bi'
@@ -143,6 +143,31 @@ const [heights, widths] = useWindowSize();
 
 if(widths <= 420){
       return (<div style={{height:'100%'}}>
+      {props.data==0 ?  <Grid>
+              {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4}>
+      <div style={{position:"-webkit-sticky"}} >
+ <List celled>
+    <List.Item>
+    <Segment className="post-img">
+            <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image src='/images/wireframe/paragraph.png' />
+            </Segment>
+      <List.Content>
+        <List.Header as='a'></List.Header>
+        <List.Description>
+           
+        </List.Description>
+      </List.Content>
+    </List.Item>
+  </List>
+ </div>
+    </Grid.Column>: null}
+  </Grid>  
+ : 
+// original data
         <Grid>
               {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4}>
       <div style={{position:"-webkit-sticky"}}  onClick={()=> {settrue()}}>
@@ -173,7 +198,7 @@ if(widths <= 420){
 </div>
     </Grid.Column> : null}
   </Grid>  
-
+}
 
 
 
