@@ -30,7 +30,7 @@ class SimpleMap extends Component {
             text="SpotMiess"
           />
         </GoogleMapReact>
-        <div style={{marginTop: "30px"}}>
+        <div style={{marginTop: "30px"}} className="contactAddress">
             <h2>Our Phones are waiting for your call!</h2>
             <hr></hr>
             <h3>Email:</h3>
@@ -41,7 +41,7 @@ class SimpleMap extends Component {
             <p>D.No: 58-38-10,<br></br> KRM Colony,<br></br> Visakhapatnam,<br></br> Andhra Pradesh,<br></br> 530027.</p>
         </div>
         <hr></hr>
-        <Form style={{width: '50%', justifySelf: 'center', margin: '30px 0 30px 0', paddingBottom: '30px' }}>
+        <Form className="contactForm">
             <h2>Wanna say something?</h2>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Email address</Form.Label>

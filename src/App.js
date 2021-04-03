@@ -23,9 +23,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import partnerRegistration from './components/partnerRegistration';
 import scroll from './components/scroll';
+import ScrollToTop from './scrolltotop';
 
 const Routing = ()=>{
-return(
+return(<>
+      <ScrollToTop />
       <Switch>
       <Route exact path="/" component={Firstslide} />
       <Route exact path="/firstapp" component={Firstslide} />
@@ -50,6 +52,7 @@ return(
       <Route path="/scroll" component={scroll} />
       
     </Switch>
+    </>
 )
 
 }
