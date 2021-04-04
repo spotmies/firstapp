@@ -525,7 +525,8 @@ if(widths <= 1000) {
   </div>
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row className="align-items-center" noGutters>
-      <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/>
+      {/* <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/> */}
+      <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmediatemp} style={{display: 'none'}} multiple/>
 
      <Col className="chatformicons" xs={2} > <MdAddToPhotos style={{marginLeft: "20px"}} onClick={mediashare} size="2rem" color="gray"/></Col>
           <Col xs={6} >
