@@ -271,7 +271,8 @@ data= await getpdetailsbyid(props.chat.partnerid);
 console.log(data);
 setpdetails(data);
 }, [props.chat.partnerid])
-  const divRef = useRef(null);
+
+  //const divRef = useRef(null);
  const onKeyDownHandler = e => {
     if (e.keyCode === 13) {
       // this.sendMessage();
