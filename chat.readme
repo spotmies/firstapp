@@ -25,3 +25,7 @@ whenever the user or partner messaging to each other update createdAt with curre
 all messages of user and partner contains in body array extension u when user send message extension p when parnter sends message.
 
 ..
+
+link for pagination:
+
+https://academind.com/tutorials/reactjs-pagination/

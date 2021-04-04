@@ -161,7 +161,7 @@ if(widths <= 420){
   </Grid>  
  : 
 // original data
-        <Grid style={{marginRight: "0"}} className="gridHead">
+        <Grid style={{marginRight: "0"}} fluid={true} className="gridHead">
               {!showChat?   <Grid.Column className="gridHead" floated='left' mobile={16} tablet={16} computer={4}>
       <div style={{position:"-webkit-sticky"}}  onClick={()=> {settrue()}}>
  <List celled>
@@ -200,7 +200,7 @@ if(widths <= 420){
   }
    else {
     return (<div style={{height:'100%'}}> 
-    <Grid>
+    <Grid fluid={true}>
         <Grid.Column floated='left' mobile={16} tablet={16} computer={4} style={{marginTop: "20px",border: "0 1px 0 0", boxShadow: "0px 0px 1px rgb(141, 139, 139)"}}>
   <div style={{position:"-webkit-sticky"}}>
 <List celled>
@@ -584,8 +584,8 @@ else {
   
   {if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
   else if(nap[nap.length-1]=="p") return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
-   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
-   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
+   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
+   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
 
 }
   
@@ -610,7 +610,7 @@ else {
     <Button primary className="chatSend" id={props.chat.id} ref={divRef} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
     </Row>
   </Form.Group>
-  <ImageModal image={mimage} setflag={setmimage}/>
+  <ImageModal className="uploadModal" image={mimage} setflag={setmimage}/>
   <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} addmore={mediashare} removeitems={removeitems}/>
   </div>
   )
@@ -660,14 +660,15 @@ console.log(image);
         onClose={closemodal}
         onOpen={() => setOpen(true)}
         open={open}
-        size="mini"
+        size="small"
+        className="uploadModal"
        // trigger={<Button>Show Modal</Button>}
       >
-        <Modal.Header>Upload image</Modal.Header>
+        <Modal.Header>Photo</Modal.Header>
         <Modal.Content image>
-          <Image size='large' src={image} wrapped />
+          <Image size='medium' centered src={image} wrapped />
           <Modal.Description>
-            <p>Would you like to upload this image?</p>
+            {/* <p>Would you like to upload this image?</p> */}
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
@@ -727,6 +728,7 @@ if(image.length<=0)setOpen(false);
         onOpen={() => setOpen(true)}
         open={open}
         size="large"
+        className="uploadModal"
        // trigger={<Button>Show Modal</Button>}
       >
         <Modal.Header>Upload image</Modal.Header>
