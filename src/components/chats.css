@@ -6,6 +6,9 @@
     font-size: 18px;
     padding: 5px 10px 5px 12px;
     width: fit-content;
+    max-width: 150%;
+    overflow-wrap: break-word;
+    /* position: absolute; */
     }
 
     /*chatbox head*/
@@ -22,13 +25,14 @@
         display: inline-block;
         padding: 0 0 0 10px;
         vertical-align: top;
+        margin-top: 5px;
         width: 92%;
     }
 
     .out-chat {
         float: left;
         width: 46%;
-        margin-left: 45%;
+        margin-left: 53%;
     }
 
     .in-chatbox {
@@ -43,6 +47,8 @@
     .chatList {
         background: #007bff none repeat scroll 0 0;
         color: #fff;
+        border-bottom-width: 110%;
+        border-bottom-right-radius: 1px;
     }
 
  /* {
@@ -61,6 +67,7 @@
 
 .chatdiv {
     height: calc(100vh - 230px);
+    width: 100%;
     /* color: rgb(141, 139, 139); */
 }
 
@@ -75,13 +82,33 @@
     margin-bottom: 0;
 }
 
+.chatformicons {
+   align-items: center !important;
+   text-align: center !important;
+}
+
 @media screen and (max-width: 420px) {
     .chat-form {
         width: 100%;
-        
+    }
+
+    .gridHead {
+        /* padding: 0 !important; */
+        padding-right: 0 !important;
+        margin-right: -10px !important;
+        width: 101% !important;
+    }
+
+    .gridHead1 {
+        width: 103% !important;
+    }
+
+    .in-chat {
+        margin-left: 10px;
     }
 
     .chatdiv {
-        height: calc(100vh - 210px);
+        height: calc(100vh - 223px);
+        max-width: 420px;
     }
 }

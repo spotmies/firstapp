@@ -5,14 +5,16 @@ import Fade from 'react-reveal/Fade';
 import macbook from "../assets/css/iphone.png"
 import "../assets/css/partner.css"
 import {FaGooglePlay} from 'react-icons/fa';
-import takepic from "../images/undraw_Organize_photos_re_ogcy.svg";
-import location from "../images/undraw_Destination_re_sr74.svg";
+// import takepic from "../images/undraw_Organize_photos_re_ogcy.svg";
+// import location from "../images/undraw_Destination_re_sr74.svg";
 //import getquote from "../images/undraw_Hire_re_gn5j.svg";
-import getquote from "../images/undraw_people_search_wctu.svg"
-import service from "../images/undraw_coffee_break_h3uu.svg";
-import about from "../images/undraw_researching_22gp.svg";
+// import getquote from "../images/undraw_people_search_wctu.svg"
+// import service from "../images/undraw_coffee_break_h3uu.svg";
+// import about from "../images/undraw_researching_22gp.svg";
 import firebase from '../firebase';
 import { toast } from 'react-toastify';
+import textpart from './partnerText';
+import ReactReadMoreReadLess from "react-read-more-read-less";
 // import { withRouter } from 'react-router-dom';
 
 const db=firebase.firestore();
@@ -131,12 +133,59 @@ function PartnerRegistration() {
     
 
    const [height1, width1] = useWindowSize();
+   const [textContent, setTextcontent] = useState(textpart);
    if(width1 <= 800) {
     return (
       <div className="pslide1">
 <p id="partnerTop"></p>
 
-<section className="home-section">
+{textContent.map((message)=>
+    <section className="home-section">
+    <Fade bottom>
+       <div className="home-photos">
+         <img src={message.img} />
+       </div>
+      </Fade>
+      <Zoom>
+        <div className="home-textBox">
+        <h1>{message.heading}</h1>
+        <p> <ReactReadMoreReadLess
+        charLimit={100}
+        readMoreText={"Read more ▼"}
+        readLessText={"Read less ▲"}
+        readMoreClassName="read-more-less--more"
+        readLessClassName="read-more-less--less"
+      >{message.content}</ReactReadMoreReadLess></p>
+        </div>         
+      </Zoom>
+     
+    </section>
+    )}
+
+<Form style={{height: "300px", width: "80%", margin: "0 auto"}} onSubmit={formsubmit}>
+         <label><b>Select Your Proffesion</b></label>
+         <Form.Select name="pcate" id="pcate" onChange={handleChange} options={options} placeholder='Type of profession' required/>
+           <Form.Field >
+             <label>First Name</label>
+             <input placeholder='First Name' id="pname" name="pname" value={pname} onChange={handleChange} maxLength="15" required/>
+           </Form.Field>
+           <Form.Field>
+             <label>Mobile Number</label>
+             <input  value={pnum} 
+             onClick={handleChange} name="pnum" id="pnum" onChange={handleChange} placeholder='Mobile Numer' maxLength = "10" required/>
+           </Form.Field>
+             <Button primary type='submit'>Submit</Button>
+         </Form>
+
+         <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
+        <FaGooglePlay style={{marginTop: "20px"}} />
+     </div>
+
+     <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
+       <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
+     </div>
+
+{/* <section className="home-section">
 <Fade right>
        <div className="home-photos">
          <img src={about} />
@@ -146,7 +195,7 @@ function PartnerRegistration() {
         <div className="home-textBox">
         <h1>Turn your time into money with spotmies.</h1>
         {/* <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p> */}
-        </div>         
+        {/*</div>         
       </Zoom>
      
     </section>
@@ -232,15 +281,15 @@ function PartnerRegistration() {
        </Fade>
       <Zoom>
         <div className="home-textBox">
-        <h1>Get paid for your valuable skills and hardwork.</h1>
+        <h1>Get paid for your valuable skills and hardwork.</h1> */}
         {/* <p>Quote your reasonable service price and negotiate with your customer.</p> */}
-        </div>         
+        {/* </div>         
       </Zoom>
 
      
-    </section>
+    </section> */}
 
-    <Form style={{height: "300px", width: "80%", margin: "0 auto"}} onSubmit={formsubmit}>
+    {/* <Form style={{height: "300px", width: "80%", margin: "0 auto"}} onSubmit={formsubmit}>
          <label><b>Select Your Proffesion</b></label>
          <Form.Select name="pcate" id="pcate" onChange={handleChange} options={options} placeholder='Type of profession' required/>
            <Form.Field >
@@ -261,7 +310,7 @@ function PartnerRegistration() {
 
      <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
        <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
-     </div>
+     </div> */}
 
       </div>
   )
@@ -270,13 +319,60 @@ function PartnerRegistration() {
     return (
       <div className="pslide1">
 
+{textContent.map((message, index)=>
+  <div>
+  { index %2 == 0
+    ?<section className="home-section">
+    <Fade left>
+       <div className="home-photos">
+         <img src={message.img} />
+       </div>
+      </Fade>
+      <Zoom>
+        <div className="home-textBox">
+        <h1>{message.heading}</h1>
+        <p><ReactReadMoreReadLess
+        charLimit={100}
+        readMoreText={"Read more ▼"}
+        readLessText={"Read less ▲"}
+        readMoreClassName="read-more-less--more"
+        readLessClassName="read-more-less--less"
+      >{message.content}</ReactReadMoreReadLess></p>
+        </div>         
+      </Zoom>
+     
+    </section>
+    :
+    <section className="home-section">
+      <Zoom>
+        <div className="home-textBox">
+        <h1>{message.heading}</h1>
+        <p><ReactReadMoreReadLess
+        charLimit={100}
+        readMoreText={"Read more ▼"}
+        readLessText={"Read less ▲"}
+        readMoreClassName="read-more-less--more"
+        readLessClassName="read-more-less--less"
+      >{message.content}</ReactReadMoreReadLess></p>
+        </div>         
+      </Zoom>
+      <Fade right>
+       <div className="home-photos">
+         <img src={message.img} />
+       </div>
+      </Fade>
+    </section>
+  }
+  </div>
+    )}
 
-<section className="home-section">
+
+{/* <section className="home-section">
       <Zoom>
         <div className="home-textBox textBox1">
-        <h1>Turn your time into money with spotmies.</h1>
+        <h1>Turn your time into money with spotmies.</h1> */}
         {/* <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p> */}
-        </div>         
+        {/* </div>         
       </Zoom>
       <Fade right>
        <div className="home-photos">
@@ -326,9 +422,9 @@ function PartnerRegistration() {
         <p>Quote your reasonable service price and negotiate with your customer.</p>
         </div>         
       </Zoom>
-    </section>
+    </section> 
 
-    <section className="home-section">
+     <section className="home-section">
      
       <Zoom>
         <div className="home-textBox" style={{marginTop: "0px"}}>
@@ -361,9 +457,9 @@ function PartnerRegistration() {
     
       <Zoom>
         <div className="home-textBox">
-        <h1>Get paid for your valuable skills and hardwork.</h1>
+        <h1>Get paid for your valuable skills and hardwork.</h1> */}
         {/* <p>Quote your reasonable service price and negotiate with your customer.</p> */}
-        </div>         
+        {/* </div>         
       </Zoom>
 
       <Fade left>
@@ -371,7 +467,7 @@ function PartnerRegistration() {
          <img src={getquote} />
        </div>
        </Fade>
-    </section>
+    </section> */}
 
          <Form style={{height: "300px", width: "40%", margin: "0 auto"}} onSubmit={formsubmit}>
          <label><b>Select Your Proffesion</b></label>
