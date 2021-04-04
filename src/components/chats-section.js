@@ -9,23 +9,24 @@ import './chats.css';
 import { BiArrowBack } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { Image, List ,Grid,Input,Modal,ImageGroup } from 'semantic-ui-react';
+import { Image, List ,Grid,Input,Modal,ImageGroup,Dropdown } from 'semantic-ui-react';
 import ReactScrollableFeed from 'react-scrollable-feed';
 import imageCompression from "browser-image-compression";
 import 'firebase/storage';
 //micro service
-import {handleUpload, temp,getlink} from "../mservices/upldmedia";
-
+import {getpdetailsbyid,disablechat} from "../mservices/upldmedia";
+import { toast } from 'react-toastify';
 
 //import icons
 import {BsEyeFill} from 'react-icons/bs';
 import {BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdAddToPhotos,MdList,MdFeaturedPlayList,MdSend,MdArrowDropDownCircle} from 'react-icons/md';
+import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdPhone,MdImage,MdAddToPhotos,MdList,MdFeaturedPlayList,MdSend,MdArrowDropDownCircle, MdPerson, MdViewDay, MdRemoveRedEye} from 'react-icons/md';
 
 import {AiFillEdit} from 'react-icons/ai';
-import {RiSendPlaneLine} from 'react-icons/ri'
+import {RiSendPlaneLine,RiImageAddFill} from 'react-icons/ri'
+import {FaFolderPlus} from 'react-icons/fa';
 
 const db=firebase.firestore();
 const storage = firebase.storage();
@@ -69,7 +70,7 @@ var temp=[];
       .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
               temp.push(doc.data())
-              // setchit(doc.data())
+              
           });
       }).then(()=>setchit(temp))
       .catch((error) => {
@@ -82,7 +83,7 @@ return chit
 }
 const Sekhar=()=> {
 
-const chit=useTimes()
+const chit=useTimes();
 console.log(chit)
 if(chit.body){
 console.log(chit)}
@@ -131,17 +132,7 @@ const [heights, widths] = useWindowSize();
    return setShowChat(true);
   }
 
-  // const setfalse=()=> {
-  // return  setShowChat(false);
-  // }
 
-  // head data fetching
-
-  // db.collection('users').doc(firebase.auth().currentUser.uid)
-  // .collection('adpost').doc(props.chat.orderid)
-
-  // let chat1=[]
-  // chat=props.chat1;
 
 if(widths <= 420){
       return (<div style={{height:'100%'}}>
@@ -191,12 +182,17 @@ if(widths <= 420){
 { props.data.map((nap)=>
 <List.Item className="" as='a' id={nap.id} onClick={(e)=>click(nap.id)}>
   <div style={{display: "inline-flex"}}><Image avatar src={nap.ppic} />
-  {/* <List.Content> */}
+ 
     <List.Header style={{marginTop: "5px", marginLeft: "5px"}}>{nap.pname}</List.Header></div>
+
+
     <List.Description>
-        {(nap.body[nap.body.length-1]).slice(0,-1)}
+        {/* {(nap.body[nap.body.length-1]).slice(0,-1)} */}
+        {((nap.body[nap.body.length-1]).substr(-1))=="u" || ((nap.body[nap.body.length-1]).substr(-1))=="p"
+        ?((nap.body[nap.body.length-1]).slice(0,-1)).length>17?((nap.body[nap.body.length-1]).slice(0,-1).slice(0,17) + ".....") :(nap.body[nap.body.length-1]).slice(0,-1)
+        :<MdImage />
+        }
     </List.Description>
-  {/* </List.Content> */}
 </List.Item>
 )}
 </List>
@@ -215,21 +211,18 @@ if(widths <= 420){
     );}
   }
 
-  function setfalse() {
-  //   console.log(showChat);
-  //  const [showChat, setshowChat] = useState(false);
-    return showChat;
-   
-   }
+
 
    
 
 function Chatarea(props){
+  const history = useHistory();
   const[ordst,setordst]=useState();
+  const[orddtls,setorddtls]=useState(null);
   const[image,setimage]=useState([]);
   const[image2,setimage2]=useState([]);
   const[chid,setchid]=useState("");
-
+  const[pdetails,setpdetails]=useState({businessname:"business"});
   const[mimage,setmimage]=useState(null);
   const[mflag,setmflag]=useState(false);
   const[tempimg,settempimg]=useState([]);
@@ -242,22 +235,30 @@ db.collection('users').doc(firebase.auth().currentUser.uid)
   .collection('adpost').doc(props.chat.orderid)
   .get().then(snap=>{
 setordst(snap.data().orderstate);
+setorddtls(snap.data());
 //console.log(snap.data())
   })
 
-
+useEffect(async() => {
+  let data;
+console.log("fetching partner details..");
+data= await getpdetailsbyid(props.chat.partnerid);
+console.log(data);
+setpdetails(data);
+}, [props.chat.partnerid])
 
 
   let chat=[]
   chat=props.chat;
   let onNameChange=props.onNameChange;
 
-  useEffect(() => {
+  useEffect(async() => {
+  // console.log(await getpdetailsbyid("KrJkoNpybQM7svmRo7CcWOwRGQA3"));
+
     if(document.getElementById("scrollbtn")){
      document.getElementById("scrollbtn").click();
      console.log("new message");
     }
-    
   }, [chat.body])
 
 
@@ -269,17 +270,14 @@ setordst(snap.data().orderstate);
     console.log("click",prop)
     let msg=document.getElementById('msgtext');
     console.log(msg.value);
-    newbody.push(msg.value+"u");
-    // db.collection('messaging').doc(prop).update({
-    //   body:firebase.firestore.FieldValue.arrayUnion(msg.value+"u"),
-    //   createdAt:new Date()
-    // }).then(()=>{msg.value=''})
-
+    if(msg.value!=''){
+     newbody.push(msg.value+"u");
     db.collection('messaging').doc(prop).update({
       body:newbody,
       createdAt:new Date()
     }).then(()=>{msg.value=''})
   }
+}
 
   const click2=(id,msg)=>{
    
@@ -432,6 +430,19 @@ const hideimage=(e)=>{
 setmflag(false);
 }
 
+const pdet =(e,prop)=>{
+  history.push(`pdetails/${prop}`)
+ console.log(prop)
+}
+const vieworder =(prop)=>{
+  console.log("click",prop)
+  history.push(`mybookings/id/${prop}`)
+}
+const delchat=async(prop)=>{
+if(await disablechat(prop) == 200)toast.info("chat deleted")
+else toast.info("unable to delete chat try again later")
+}
+
 if(widths <= 420) {
   return(
     <div style={{float: "right", width: "100%",overflowY:"auto"}}>
@@ -440,7 +451,7 @@ if(widths <= 420) {
       <List.Item>
      <BiArrowBack style={{width: "50px", fontSize: "24px", background: "rgba(255, 255, 255, 0.92)"}} onClick={handleInputChange} />
       <Image avatar src={props.chat.ppic} />
-      <List.Content>
+      <List.Content >
         <List.Header>{props.chat.pname}</List.Header>
        computer technician
       </List.Content>
@@ -487,12 +498,28 @@ else {
   return(
     <div style={{float: "right", width: "100%",overflowY:"auto"}}>
       <List className="chatHead" horizontal>
-        <List.Item>
-        <Image avatar src={props.chat.ppic} />
-        <List.Content>
-          <List.Header>{props.chat.pname}</List.Header>
-         computer technician
+        <List.Item onClick={(e)=>{pdet(e,props.chat.partnerid)}} style={{cursor:"pointer"}}>
+        <Image avatar src={pdetails.profilepic} />
+        <List.Content >
+          <List.Header ><b style={{fontSize:"19px"}}>{pdetails.name}</b>  <small>{pdetails.rate>5?pdetails.rate/20:pdetails.rate}<MdStar color="yellow" size="1.1rem"/></small></List.Header>
+         {pdetails.businessname}
         </List.Content>
+      </List.Item>
+      <List.Item style={{float:"right",marginRight:"20px"}}>
+      <a 
+       href={"tel: +91 "+pdetails.phone}
+      // onClick={console.log(pdetails.phone)}
+      >
+     <MdPhone size="1.5rem" color="black" style={{cursor:"pointer",marginRight:"10px"}} />      
+     </a>
+     <Dropdown item icon='ellipsis vertical' backgroundColor="white" simple direction="left" color="white">
+        <Dropdown.Menu>
+        <Dropdown.Item onClick={(e)=>{pdet(e,props.chat.partnerid)}}><MdPerson /> Technician details</Dropdown.Item>
+          <Dropdown.Item onClick={()=>{vieworder(props.chat.orderid)}}><MdRemoveRedEye /> View job</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item onClick={()=>{delchat(props.chat.id)}}><MdDelete /> Delete</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
       </List.Item>
       </List>
       {ordst==0
@@ -530,7 +557,7 @@ else {
 
  
 
-    <Col xs={2} > <MdAddToPhotos onClick={mediashare} size="2rem" color="gray"/></Col>
+    <Col xs={2} > <MdAddToPhotos onClick={mediashare} style={{cursor:"pointer"}} size="2rem" color="gray"/></Col>
           <Col xs={8} style={{marginRight: "0"}}>          
     <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
    <Col xs={2} style={{marginRight: "0"}}>
@@ -599,100 +626,19 @@ console.log(image);
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          {/* <Button onClick={closemodal}>Cancel</Button>
-          <Button onClick={closemodal} positive>
-            Ok
-          </Button> */}
+
         </Modal.Actions>
       </Modal>
     )
   }
 
-
-  
-//  class ImageModal2 extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       date: new Date(),
-//       open: false,
-//       image:[],
-//       flag:false
-//     };
-//   }
-
-// componentDidMount(){
-//   this.setState({
-//     image:this.props.image
-//   })
-//   console.log("didmount");
-// }
-// componentDidUpdate(){
-//   console.log("didupdate")
-
-//   if(this.props.image != this.state.image){
-//   this.setState({
-//     image:this.props.image,open:true,flag:this.props.flag
-//   })
-
-// }
-
-// console.log(this.state.image)
-// }
-// sendpic=(e)=>{
-//   alert("pic")
-//   this.setState({
-//     flag:true
-//   })
-  
-//   }
-//     render() {
-//       return (
-//         <div>
-//            <Modal
-//         onClose={()=>this.setState({open:false})}
-//         onOpen={() => this.setState({open:true})}
-//         open={this.state.open}
-//         size="large"
-//        // trigger={<Button>Show Modal</Button>}
-//       >
-//         <Modal.Header>Upload image</Modal.Header>
-// {
-//   this.state.image.length>0
-//   ?<Image.Group size='small'>
-//   {
-//     this.state.image.map((nap,key)=>
-    
-//     <Image fluid key={key} id={key}
-//      label={{ as: 'a', corner: 'right', icon: 'trash' }}
-//     src={URL.createObjectURL(nap)}/>
-  
-//     )}
-  
-//   </Image.Group>
-//   :null
-// }
-//         <Modal.Actions>
-//           <Button onClick={()=>this.setState({open:false})}>Cancel</Button>
-//           <Button onClick={this.sendpic} positive>
-//             Ok
-//           </Button>
-//         </Modal.Actions>
-//       </Modal>
-
-//         </div>
-//       )
-//     }
-//   }
   
 
 function ImageModal2(props) {
     const [open, setOpen] = useState(false);
     const[image,setimage] =useState([]);
-   // var image=props.image;
    
 
-   //function as parameters
    
 
 useEffect(() => {
@@ -705,11 +651,9 @@ useEffect(() => {
 if(image.length>0)setOpen(true);
 if(image.length<=0)setOpen(false);
  console.log(image);
- //props.setimage(image);
     }, [image])
 
     const handleInputChange = useCallback(event => {
-      // props.setimage(image);
       props.flag(true);
       setOpen(false);
     }, [props.flag])
@@ -726,7 +670,6 @@ if(image.length<=0)setOpen(false);
      let ritem=image[e.target.parentElement.parentElement.id];
 
    props.setimage(image.filter((e)=>(e !== ritem)))
-  //  props.setimage(image.filter)
 
 
 
@@ -748,21 +691,21 @@ if(image.length<=0)setOpen(false);
   {
     image.map((nap,key)=>
     
-    <Image fluid key={key} id={key}
+    <Image key={key} id={key}
      label={{ as: 'a', corner: 'right', icon: 'trash', onClick:sekhararr }}
-    src={URL.createObjectURL(nap)}/>
+    src={URL.createObjectURL(nap)} />
   
     )}
-  
+<RiImageAddFill onClick={props.addmore} color="gray" style={{cursor:"pointer"}}/>
   </Image.Group>
   :null
 }
+
         <Modal.Actions>
           <Button onClick={()=>{setOpen(false)}}>Cancel</Button>
           <Button onClick={handleInputChange} positive>
-            Ok
+            Send
           </Button>
-          <Button onClick={props.addmore} >add more</Button>
         </Modal.Actions>
       </Modal>
     )

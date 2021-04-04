@@ -1,6 +1,7 @@
 import firebase from '../firebase';
 import 'firebase/storage';
 const storage = firebase.storage();
+const db=firebase.firestore();
 
 async function handleUpload(mfile){
       
@@ -54,4 +55,34 @@ async function handleUpload(mfile){
        }
 
      }
-export {handleUpload,temp,getlink}
+
+async function getpdetailsbyid(id){
+  let data;
+ await db.collection("partner").doc(id).collection("ProfileInfo").doc(id).get().then(snap=>{
+   console.log(snap.data());
+   data=snap.data();
+ });
+ console.log("data fetched")
+ return data;
+
+}     
+async function disablechat(id){
+  let status;
+  try{
+   await db.collection("messaging").doc(id).update({
+     chatbuild:false
+   })
+    .then(()=>{status=200})
+    .catch((e)=>
+    {
+      console.log(e)
+      status=100;
+    })
+  }
+  catch{
+    status=404
+  }
+  return status;
+}
+
+export {handleUpload,temp,getlink,getpdetailsbyid,disablechat}
