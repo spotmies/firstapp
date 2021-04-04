@@ -366,6 +366,7 @@ console.log(url);
    }
  )
   }
+  setupload(false);
 }
 
 
@@ -411,10 +412,14 @@ async function uploadmedia(e){
   setimage2([]);
 compressimage(e);
 
+
 }
 function uploadmediatemp(e){
+  settempimg([]);
+  setimage2([]);
 console.log(e)
 compressimage(e);
+
 }
 
 const showimage=(e)=>{
@@ -533,9 +538,13 @@ else {
     </Row>
   </Form.Group>
   <ImageModal image={mimage} setflag={setmimage}/>
-  <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg}/>
+  <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} removeitems={removeitems}/>
   </div>
   )
+}
+function removeitems(data){
+  console.log(data);
+  settempimg(data);
 }
 }
 
@@ -600,146 +609,61 @@ console.log(image);
 
 
   
- class ImageModal2 extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: new Date(),
-      open: false,
-      image:[],
-      flag:false
-    };
-  }
-
-componentDidMount(){
-  this.setState({
-    image:this.props.image
-  })
-  console.log("didmount");
-}
-componentDidUpdate(){
-  console.log("didupdate")
-
-  if(this.props.image != this.state.image){
-  this.setState({
-    image:this.props.image,open:true,flag:this.props.flag
-  })
-
-}
-
-console.log(this.state.image)
-}
-sendpic=(e)=>{
-  alert("pic")
-  this.setState({
-    flag:true
-  })
-  
-  }
-    render() {
-      return (
-        <div>
-           <Modal
-        onClose={()=>this.setState({open:false})}
-        onOpen={() => this.setState({open:true})}
-        open={this.state.open}
-        size="large"
-       // trigger={<Button>Show Modal</Button>}
-      >
-        <Modal.Header>Upload image</Modal.Header>
-{
-  this.state.image.length>0
-  ?<Image.Group size='small'>
-  {
-    this.state.image.map((nap,key)=>
-    
-    <Image fluid key={key} id={key}
-     label={{ as: 'a', corner: 'right', icon: 'trash' }}
-    src={URL.createObjectURL(nap)}/>
-  
-    )}
-  
-  </Image.Group>
-  :null
-}
-        <Modal.Actions>
-          <Button onClick={()=>this.setState({open:false})}>Cancel</Button>
-          <Button onClick={this.sendpic} positive>
-            Ok
-          </Button>
-        </Modal.Actions>
-      </Modal>
-
-        </div>
-      )
-    }
-  }
-  
-
-// function ImageModal2(props) {
-//     const [open, setOpen] = useState(false);
-//     const[image,setimage] =useState([]);
-//    // var image=props.image;
-   
-   
-
-// useEffect(() => {
-//   setimage(props.image);
- 
-// }, [props.image])
-
-//     useEffect(() => {
-// if(image.length>0)setOpen(true);
-//  console.log(image);
-//     }, [image])
-
-//     const handleInputChange = useCallback(event => {
-//       props.flag(true);
-//       setOpen(false);
-//     }, [props.flag])
-
-
-//     function removeElement(array, elem) {
-//       var index = array.indexOf(elem);
-//       if (index > -1) {
-//           array.splice(index, 1);
-//       }
+//  class ImageModal2 extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       date: new Date(),
+//       open: false,
+//       image:[],
+//       flag:false
+//     };
 //   }
+
+// componentDidMount(){
+//   this.setState({
+//     image:this.props.image
+//   })
+//   console.log("didmount");
+// }
+// componentDidUpdate(){
+//   console.log("didupdate")
+
+//   if(this.props.image != this.state.image){
+//   this.setState({
+//     image:this.props.image,open:true,flag:this.props.flag
+//   })
+
+// }
+
+// console.log(this.state.image)
+// }
+// sendpic=(e)=>{
+//   alert("pic")
+//   this.setState({
+//     flag:true
+//   })
   
-
-
-//   const sekhararr=(e)=>{
-
-
-//      console.log(e.target.parentElement.parentElement.id)
-//      let ritem=image[e.target.parentElement.parentElement.id];
-//      let array=image;
-//      removeElement(array, ritem);
-//      console.log(array);
-//      setimage(array);
-
-
-
-
-      
-//     }
-//     return (
-//       <Modal
-//         onClose={()=>setOpen(false)}
-//         onOpen={() => setOpen(true)}
-//         open={open}
+//   }
+//     render() {
+//       return (
+//         <div>
+//            <Modal
+//         onClose={()=>this.setState({open:false})}
+//         onOpen={() => this.setState({open:true})}
+//         open={this.state.open}
 //         size="large"
 //        // trigger={<Button>Show Modal</Button>}
 //       >
 //         <Modal.Header>Upload image</Modal.Header>
 // {
-//   image.length>0
+//   this.state.image.length>0
 //   ?<Image.Group size='small'>
 //   {
-//     image.map((nap,key)=>
+//     this.state.image.map((nap,key)=>
     
 //     <Image fluid key={key} id={key}
-//      label={{ as: 'a', corner: 'right', icon: 'trash', onClick:sekhararr }}
+//      label={{ as: 'a', corner: 'right', icon: 'trash' }}
 //     src={URL.createObjectURL(nap)}/>
   
 //     )}
@@ -748,14 +672,99 @@ sendpic=(e)=>{
 //   :null
 // }
 //         <Modal.Actions>
-//           <Button onClick={()=>{setOpen(false)}}>Cancel</Button>
-//           <Button onClick={handleInputChange} positive>
+//           <Button onClick={()=>this.setState({open:false})}>Cancel</Button>
+//           <Button onClick={this.sendpic} positive>
 //             Ok
 //           </Button>
 //         </Modal.Actions>
 //       </Modal>
-//     )
+
+//         </div>
+//       )
+//     }
 //   }
+  
+
+function ImageModal2(props) {
+    const [open, setOpen] = useState(false);
+    const[image,setimage] =useState([]);
+   // var image=props.image;
+   
+
+   //function as parameters
+   
+
+useEffect(() => {
+  setimage(props.image);
+  console.log("images change")
+ 
+}, [props.image])
+
+    useEffect(() => {
+if(image.length>0)setOpen(true);
+if(image.length<=0)setOpen(false);
+ console.log(image);
+ //props.setimage(image);
+    }, [image])
+
+    const handleInputChange = useCallback(event => {
+      // props.setimage(image);
+      props.flag(true);
+      setOpen(false);
+    }, [props.flag])
+
+
+
+  
+
+
+  const sekhararr=(e)=>{
+
+
+     console.log(e.target.parentElement.parentElement.id)
+     let ritem=image[e.target.parentElement.parentElement.id];
+
+   props.setimage(image.filter((e)=>(e !== ritem)))
+  //  props.setimage(image.filter)
+
+
+
+
+      
+    }
+    return (
+      <Modal
+        onClose={()=>setOpen(false)}
+        onOpen={() => setOpen(true)}
+        open={open}
+        size="large"
+       // trigger={<Button>Show Modal</Button>}
+      >
+        <Modal.Header>Upload image</Modal.Header>
+{
+  image.length>0
+  ?<Image.Group size='small'>
+  {
+    image.map((nap,key)=>
+    
+    <Image fluid key={key} id={key}
+     label={{ as: 'a', corner: 'right', icon: 'trash', onClick:sekhararr }}
+    src={URL.createObjectURL(nap)}/>
+  
+    )}
+  
+  </Image.Group>
+  :null
+}
+        <Modal.Actions>
+          <Button onClick={()=>{setOpen(false)}}>Cancel</Button>
+          <Button onClick={handleInputChange} positive>
+            Ok
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    )
+  }
 
 
 
