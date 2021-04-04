@@ -15,7 +15,8 @@ import firebase from '../firebase'
 
 //react icons
 import {IconContext} from 'react-icons';
-import { MdAccountCircle,MdChat,MdSettings,MdChatBubble,MdWork,MdControlPoint,MdAddCircle} from 'react-icons/md';
+import { MdAccountCircle,MdChat,MdSettings,MdChatBubble,MdWork,MdControlPoint,MdAddCircle, MdPhone, MdEmail, MdPeople} from 'react-icons/md';
+// import { IoMdContacts } from 'react-icons/io'
 import {BsReverseLayoutTextSidebarReverse,BsChatFill,BsFillBriefcaseFill,BsChatDotsFill,BsEyeFill} from 'react-icons/bs';
 import {BiLogOutCircle,BiTimeFive} from 'react-icons/bi';
 import {RiPinDistanceFill} from 'react-icons/ri'
@@ -83,7 +84,8 @@ function Navibar(){
       <Link className="nav-links" to="/rentals"><Nav  className="chaticon" id="mybooks"><b>Rentals</b></Nav></Link>
       <Link className="nav-links" to="/mybookings" ><Nav  className="chaticon" id="mybooks" style={{display:name=="undefined"?"none":"block"}}><MdWork className="chaticon2"/><b>My Bookings</b></Nav></Link>
       <Link className="nav-links" to="/chat"><Nav  className="chaticon" id="mychats"><MdChatBubble className="chaticon2"/> <b>Chat</b></Nav></Link>
-    
+      <Link className="nav-links" to="/contact"><Nav className="chaticon" id="contact"><MdEmail size="1.3rem" className="chaticon2"/><b> Contact</b></Nav></Link>
+
      <div className="nav-links" style={{display:"inline-flex", color: "black", marginRight: "0"}}>
       <img src={pic} className="userdp" style={{height:"20px",width:'20px',borderRadius:"1rem",marginTop:"10px",marginLeft:"6px",display:"none"}} />
       

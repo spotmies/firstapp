@@ -11,13 +11,15 @@ import Zoom from 'react-reveal/Zoom';
 import Fade from 'react-reveal/Fade';
 import "../assets/css/home.css"
 //svg images import
-import macbook from "../assets/css/iphone.png";
-import takepic from "../images/undraw_Organize_photos_re_ogcy.svg";
-import location from "../images/undraw_Destination_re_sr74.svg";
+// import macbook from "../assets/css/iphone.png";
+// import takepic from "../images/undraw_Organize_photos_re_ogcy.svg";
+// import location from "../images/undraw_Destination_re_sr74.svg";
 //import getquote from "../images/undraw_Hire_re_gn5j.svg";
-import getquote from "../images/undraw_people_search_wctu.svg"
-import service from "../images/undraw_coffee_break_h3uu.svg";
-import about from "../images/undraw_researching_22gp.svg";
+// import getquote from "../images/undraw_people_search_wctu.svg"
+// import service from "../images/undraw_coffee_break_h3uu.svg";
+// import about from "../images/undraw_researching_22gp.svg";
+import text from "./usertext";
+import ReactReadMoreReadLess from "react-read-more-read-less";
 import {useSpring, animated} from 'react-spring'
 
 
@@ -59,205 +61,317 @@ function Slide(){
   const db=firebase.firestore();
   // const [modalShow, setModalShow] = React.useState(false);
   const [sheight1,swidths1] = useWindowSize();
+  const [userText, setUsertext] = useState(text);
 
 
   if(swidths1 < 800){
-    return <div className="slide1">
+return(<div className="slide1">
+  {userText.map((message)=>
     <section className="home-section">
     <Fade top>
        <div className="home-photos">
-         <img src={about} />
+         <img src={message.img} />
        </div>
       </Fade>
       <Zoom>
         <div className="home-textBox">
-        <h1>What is Spotmies ?</h1>
-        <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p>
+        <h1>{message.heading}</h1>
+        <p> <ReactReadMoreReadLess
+        charLimit={100}
+        readMoreText={"Read more ▼"}
+        readLessText={"Read less ▲"}
+        readMoreClassName="read-more-less--more"
+        readLessClassName="read-more-less--less"
+      >{message.content}</ReactReadMoreReadLess></p>
         </div>         
       </Zoom>
      
     </section>
+    )}
 
-    <section className="home-section">
-    <Fade top>
-       <div className="home-photos1" id="takepic">
-         <img src={takepic} />
-       </div>
-      </Fade>
-      <Zoom>
-        <div className="home-textBox textBox1">
-        <h1>Take a picture</h1>
-        <p>Click a picture of your service and post an ad.</p>
-        </div>         
-      </Zoom>
+<section className="home-textBox" id="joinBtn">
+       <Fade top>
+       <div>
+         <h1>Wanna join your business?</h1>
+         <Link to="/partnerRegistration"><Button>Join here</Button></Link>
+       </div> 
+       </Fade> 
+     </section>
+     
+      <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
+         <FaGooglePlay style={{marginTop: "20px"}} />
+      </div>
+
+      <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
+        <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
+      </div>
+    </div>
+)
+  
+
+  //   return <div className="slide1">
+  //   <section className="home-section">
+  //   <Fade top>
+  //      <div className="home-photos">
+  //        <img src={about} />
+  //      </div>
+  //     </Fade>
+  //     <Zoom>
+  //       <div className="home-textBox">
+  //       <h1>What is Spotmies ?</h1>
+  //       <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p>
+  //       </div>         
+  //     </Zoom>
+     
+  //   </section>
+
+  //   <section className="home-section">
+  //   <Fade top>
+  //      <div className="home-photos1" id="takepic">
+  //        <img src={takepic} />
+  //      </div>
+  //     </Fade>
+  //     <Zoom>
+  //       <div className="home-textBox textBox1">
+  //       <h1>Take a picture</h1>
+  //       <p>Click a picture of your service and post an ad.</p>
+  //       </div>         
+  //     </Zoom>
       
-    </section>
+  //   </section>
 
-    <section className="home-section">
-    <Fade top>
-       <div className="home-photos locationpic">
-         <img src={location} />
-       </div>
-      </Fade>
-      <Zoom>
-        <div className="home-textBox">
-        <h1 style={{color: "rgba(29, 29, 29, 0.884)"}}>Set location</h1>
-        <p>Set location of your service place.<br/> To get faster service.</p>
-        </div>         
-      </Zoom>
+  //   <section className="home-section">
+  //   <Fade top>
+  //      <div className="home-photos locationpic">
+  //        <img src={location} />
+  //      </div>
+  //     </Fade>
+  //     <Zoom>
+  //       <div className="home-textBox">
+  //       <h1 style={{color: "rgba(29, 29, 29, 0.884)"}}>Set location</h1>
+  //       <p>Set location of your service place.<br/> To get faster service.</p>
+  //       </div>         
+  //     </Zoom>
     
-    </section>
+  //   </section>
      
-    <section className="home-section">
-      <Fade top>
-       <div className="home-photos1">
-         <img src={getquote} />
-       </div>
-      </Fade>
-      <Zoom>
-        <div className="home-textBox">
-        <h1>Get Quote</h1>
-        <p>Get Select the best quote from all technicians around you.</p>
-        </div>         
-      </Zoom>
-    </section>
+  //   <section className="home-section">
+  //     <Fade top>
+  //      <div className="home-photos1">
+  //        <img src={getquote} />
+  //      </div>
+  //     </Fade>
+  //     <Zoom>
+  //       <div className="home-textBox">
+  //       <h1>Get Quote</h1>
+  //       <p>Get Select the best quote from all technicians around you.</p>
+  //       </div>         
+  //     </Zoom>
+  //   </section>
 
-    <section className="home-section">
-    <Fade top>
-       <div className="home-photos" id="servicepic">
-         <img src={service} />
-       </div>
-      </Fade>
-      <Zoom>
-        <div className="home-textBox" style={{marginTop: "-100px", marginBottom: "100px"}}>
-        <h1 >Get your service done at your door steps.</h1>
+  //   <section className="home-section">
+  //   <Fade top>
+  //      <div className="home-photos" id="servicepic">
+  //        <img src={service} />
+  //      </div>
+  //     </Fade>
+  //     <Zoom>
+  //       <div className="home-textBox" style={{marginTop: "-100px", marginBottom: "100px"}}>
+  //       <h1 >Get your service done at your door steps.</h1>
       
-        </div>         
-      </Zoom>
+  //       </div>         
+  //     </Zoom>
     
-    </section>
+  //   </section>
 
-    <section className="home-textBox" id="joinBtn">
-      <Fade top>
-      <div>
+  //   <section className="home-textBox" id="joinBtn">
+  //     <Fade top>
+  //     <div>
 
-        <h1>Privacy by default</h1>
-      </div> 
-      </Fade> 
-    </section>
+  //       <h1>Privacy by default</h1>
+  //     </div> 
+  //     </Fade> 
+  //   </section>
 
-    <section className="home-textBox" id="joinBtn">
-      <Fade top>
-      <div>
-        <h1>Wanna join your business?</h1>
-        <Link to="/partnerRegistration"><Button>Join here</Button></Link>
-      </div> 
-      </Fade> 
-    </section>
+  //   <section className="home-textBox" id="joinBtn">
+  //     <Fade top>
+  //     <div>
+  //       <h1>Wanna join your business?</h1>
+  //       <Link to="/partnerRegistration"><Button>Join here</Button></Link>
+  //     </div> 
+  //     </Fade> 
+  //   </section>
      
-     <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
-        <FaGooglePlay style={{marginTop: "20px"}} />
-     </div>
+  //    <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
+  //       <FaGooglePlay style={{marginTop: "20px"}} />
+  //    </div>
 
-     <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
-       <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
-     </div>
+  //    <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
+  //      <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
+  //    </div>
 
-  </div>
+  // </div>
   
   }
    else {
-    return <div className="slide1">
-      <section className="home-section">
-        <Zoom>
-          <div className="home-textBox">
-          <h1>What is Spotmies ?</h1>
-          <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p>
-          </div>         
-        </Zoom>
-        <Fade right>
-         <div className="home-photos">
-           <img src={about} />
-         </div>
-        </Fade>
-      </section>
-
-      <section className="home-section">
-      <Fade left>
-         <div className="home-photos1" id="takepic">
-           <img src={takepic} />
-         </div>
-        </Fade>
-        <Zoom>
-          <div className="home-textBox">
-          <h1>Take a picture</h1>
-          <p>Click a picture of your service and post an ad.</p>
-          </div>         
-        </Zoom>
-        
-      </section>
-
-      <section className="home-section">
-        <Zoom>
-          <div className="home-textBox textBox1">
-          <h1 style={{color: "rgba(29, 29, 29, 0.884)"}}>Set location</h1>
-          <p>Set location of your service place.<br/> To get faster service.</p>
-          </div>         
-        </Zoom>
-        <Fade right>
-         <div className="home-photos locationpic">
-           <img src={location} />
-         </div>
-        </Fade>
-      </section>
-       
-      <section className="home-section">
-        <Fade left>
-         <div className="home-photos1">
-           <img src={getquote} />
-         </div>
-        </Fade>
-        <Zoom>
-          <div className="home-textBox">
-          <h1>Get Quote</h1>
-          <p>Get Select the best quote from all technicians around you.</p>
-          </div>         
-        </Zoom>
-      </section>
-
-      <section className="home-section">
-       
-        <Zoom>
-          <div className="home-textBox" style={{marginTop: "0px"}}>
-          <h1 >Get your service done at your door steps.</h1>
-          {/* <p>.</p> */}
-          </div>         
-        </Zoom>
-        <Fade right>
-         <div className="home-photos" id="servicepic">
-           <img src={service} />
-         </div>
-        </Fade>
-      </section>
-
-      <section className="home-textBox" id="joinBtn">
-        <Fade top>
-        <div>
-          <h1>Wanna join your business?</h1>
-          <Link to="/partnerRegistration"><Button>Join here</Button></Link>
-        </div> 
-        </Fade> 
-      </section>
-       
-       <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
-          <FaGooglePlay style={{marginTop: "20px"}} />
+return <div className="slide1">
+  {userText.map((message, index)=>
+  <div>
+  { index %2 == 0
+    ?<section className="home-section">
+    <Fade left>
+       <div className="home-photos">
+         <img src={message.img} />
        </div>
-
-       <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
-         <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
+      </Fade>
+      <Zoom>
+        <div className="home-textBox">
+        <h1>{message.heading}</h1>
+        <p><ReactReadMoreReadLess
+        charLimit={100}
+        readMoreText={"Read more ▼"}
+        readLessText={"Read less ▲"}
+        readMoreClassName="read-more-less--more"
+        readLessClassName="read-more-less--less"
+      >{message.content}</ReactReadMoreReadLess></p>
+        </div>         
+      </Zoom>
+     
+    </section>
+    :
+    <section className="home-section">
+      <Zoom>
+        <div className="home-textBox">
+        <h1>{message.heading}</h1>
+        <p><ReactReadMoreReadLess
+        charLimit={100}
+        readMoreText={"Read more ▼"}
+        readLessText={"Read less ▲"}
+        readMoreClassName="read-more-less--more"
+        readLessClassName="read-more-less--less"
+      >{message.content}</ReactReadMoreReadLess></p>
+        </div>         
+      </Zoom>
+      <Fade right>
+       <div className="home-photos">
+         <img src={message.img} />
        </div>
+      </Fade>
+    </section>
+  }
+  </div>
+    )}
 
+<section className="home-textBox" id="joinBtn">
+       <Fade top>
+       <div>
+         <h1>Wanna join your business?</h1>
+         <Link to="/partnerRegistration"><Button>Join here</Button></Link>
+       </div> 
+       </Fade> 
+     </section>
+     
+      <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
+         <FaGooglePlay style={{marginTop: "20px"}} />
+      </div>
+
+      <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
+        <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
+      </div>
     </div>
+
+
+    // return <div className="slide1">
+    //   <section className="home-section">
+    //     <Zoom>
+    //       <div className="home-textBox">
+    //       <h1>What is Spotmies ?</h1>
+    //       <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p>
+    //       </div>         
+    //     </Zoom>
+    //     <Fade right>
+    //      <div className="home-photos">
+    //        <img src={about} />
+    //      </div>
+    //     </Fade>
+    //   </section>
+
+    //   <section className="home-section">
+    //   <Fade left>
+    //      <div className="home-photos1" id="takepic">
+    //        <img src={takepic} />
+    //      </div>
+    //     </Fade>
+    //     <Zoom>
+    //       <div className="home-textBox">
+    //       <h1>Take a picture</h1>
+    //       <p>Click a picture of your service and post an ad.</p>
+    //       </div>         
+    //     </Zoom>
+        
+    //   </section>
+
+    //   <section className="home-section">
+    //     <Zoom>
+    //       <div className="home-textBox textBox1">
+    //       <h1 style={{color: "rgba(29, 29, 29, 0.884)"}}>Set location</h1>
+    //       <p>Set location of your service place.<br/> To get faster service.</p>
+    //       </div>         
+    //     </Zoom>
+    //     <Fade right>
+    //      <div className="home-photos locationpic">
+    //        <img src={location} />
+    //      </div>
+    //     </Fade>
+    //   </section>
+       
+    //   <section className="home-section">
+    //     <Fade left>
+    //      <div className="home-photos1">
+    //        <img src={getquote} />
+    //      </div>
+    //     </Fade>
+    //     <Zoom>
+    //       <div className="home-textBox">
+    //       <h1>Get Quote</h1>
+    //       <p>Get Select the best quote from all technicians around you.</p>
+    //       </div>         
+    //     </Zoom>
+    //   </section>
+
+    //   <section className="home-section">
+       
+    //     <Zoom>
+    //       <div className="home-textBox" style={{marginTop: "0px"}}>
+    //       <h1 >Get your service done at your door steps.</h1>
+    //       {/* <p>.</p> */}
+    //       </div>         
+    //     </Zoom>
+    //     <Fade right>
+    //      <div className="home-photos" id="servicepic">
+    //        <img src={service} />
+    //      </div>
+    //     </Fade>
+    //   </section>
+
+    //   <section className="home-textBox" id="joinBtn">
+    //     <Fade top>
+    //     <div>
+    //       <h1>Wanna join your business?</h1>
+    //       <Link to="/partnerRegistration"><Button>Join here</Button></Link>
+    //     </div> 
+    //     </Fade> 
+    //   </section>
+       
+    //    <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
+    //       <FaGooglePlay style={{marginTop: "20px"}} />
+    //    </div>
+
+    //    <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
+    //      <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
+    //    </div>
+
+    // </div>
   }
     
 }

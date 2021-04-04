@@ -68,6 +68,11 @@ body {
     justify-items: center;
 }
 
+.loaderSegment {
+    width: 290px;
+    height: 150px;
+}
+
 .priceBar {
     width: 100%;
     margin-top: 10px;

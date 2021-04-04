@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import firebase from '../firebase';
 import react,{useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import {Card } from 'react-bootstrap';
-import {  Card, Image,Label,Dropdown,Icon } from 'semantic-ui-react'
+import {Col, Row } from 'react-bootstrap';
+import {  Card, Image,Label,Dropdown,Icon, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import '../index.css';
 import '../post.css';
 
@@ -49,9 +49,9 @@ const times=useTimes()
         return(
          
         <div className="responses">
-               <div className="comingSoon">
+               {/* <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+        </div> */}
                 <Mybookings data={times}/>
                 </div> 
         )
@@ -81,8 +81,47 @@ const delpost=(pro)=>{
 }
       return <div>
         
+{props.data.length==0 ?
+  // <Col xs={12} lg={12}> <Segment className="rentcard">
+  //           <Dimmer active inverted>
+  //             <Loader size='large'>Loading</Loader>
+  //           </Dimmer>
 
-   <Sematiccard data={props.data}/>
+  //           <Image src='/images/wireframe/paragraph.png' />
+  //          </Segment></Col>
+
+
+<Card.Group>
+     <Card  centered fluid  id='book-card'>
+      <Card.Content>
+      <Card.Meta style={{display:'inline-flex'}}><Icon name="time" /> </Card.Meta>
+      <Dropdown item icon="ellipsis horizontal" simple style={{float:"right"}}>
+       
+      </Dropdown>
+    
+      </Card.Content>
+      <Card.Content extra style={{display:"inline-block",cursor:"pointer"}}>
+      {/* <Image
+      className="post-img" 
+      style={{width:"100px",height:"80px",borderRadius:"1rem",cursor:"pointer"}}
+      
+          floated='left'
+           />   */}
+          <Segment className="post-img">
+            <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image src='/images/wireframe/paragraph.png' />
+            </Segment>
+      
+      </Card.Content>   
+    </Card>
+    </Card.Group>
+: 
+  <Sematiccard data={props.data}/>
+}
+   
       </div>
       
  

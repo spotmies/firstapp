@@ -3,7 +3,7 @@ import firebase from '../firebase';
 import react,{useState,useEffect,useRef} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col, Form} from 'react-bootstrap';
-import { Button } from 'semantic-ui-react'
+import { Button, Segment, Dimmer, Loader } from 'semantic-ui-react'
 import '../index.css';
 import './chats.css';
 import { BiArrowBack } from 'react-icons/bi'
@@ -136,17 +136,42 @@ const [heights, widths] = useWindowSize();
 
 if(widths <= 420){
       return (<div style={{height:'100%'}}>
-        <Grid>
+      {props.data==0 ?  <Grid>
               {!showChat?   <Grid.Column floated='left' mobile={16} tablet={16} computer={4}>
+      <div style={{position:"-webkit-sticky"}} >
+ <List celled>
+    <List.Item>
+    <Segment className="post-img">
+            <Dimmer active inverted>
+               <Loader size='large'>Loading</Loader>
+             </Dimmer>
+
+             <Image src='/images/wireframe/paragraph.png' />
+            </Segment>
+      <List.Content>
+        <List.Header as='a'></List.Header>
+        <List.Description>
+           
+        </List.Description>
+      </List.Content>
+    </List.Item>
+  </List>
+ </div>
+    </Grid.Column>: null}
+  </Grid>  
+ : 
+// original data
+        <Grid style={{marginRight: "0"}} className="gridHead">
+              {!showChat?   <Grid.Column className="gridHead" floated='left' mobile={16} tablet={16} computer={4}>
       <div style={{position:"-webkit-sticky"}}  onClick={()=> {settrue()}}>
  <List celled>
  { props.data.map((nap)=>
-    <List.Item id={nap.id} onClick={(e)=>click(nap.id)}>
+    <List.Item className="gridHead" id={nap.id} onClick={(e)=>click(nap.id)}>
       <Image avatar src={nap.ppic} />
       <List.Content>
         <List.Header as='a'>{nap.pname}</List.Header>
         <List.Description>
-            {(nap.body[nap.body.length-1]).slice(0,-1)}
+            {(nap.body[nap.body.length-1]).slice(0,-1).slice(0, 50)}
         </List.Description>
       </List.Content>
     </List.Item>
@@ -155,7 +180,7 @@ if(widths <= 420){
  </div>
     </Grid.Column>: null}
     {showChat ?
-   <Grid.Column floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
+   <Grid.Column className="gridHead1" floated='right' mobile={16} tablet={16} computer={12} centered style={{padding: "14px 0 0 0", height: "90%"}}>
      
       
       <div>
@@ -166,7 +191,7 @@ if(widths <= 420){
 </div>
     </Grid.Column> : null}
   </Grid>  
-
+}
 
 
 
@@ -246,6 +271,18 @@ data= await getpdetailsbyid(props.chat.partnerid);
 console.log(data);
 setpdetails(data);
 }, [props.chat.partnerid])
+  const divRef = useRef(null);
+ const onKeyDownHandler = e => {
+    if (e.keyCode === 13) {
+      // this.sendMessage();
+      console.log("enter key")
+     // document.getElementById(props.chat.id).click();
+     // divRef.current.click();
+     click(props.chat.id);
+    }
+  };
+
+
 
 
   let chat=[]
@@ -443,7 +480,7 @@ if(await disablechat(prop) == 200)toast.info("chat deleted")
 else toast.info("unable to delete chat try again later")
 }
 
-if(widths <= 420) {
+if(widths <= 1000) {
   return(
     <div style={{float: "right", width: "100%",overflowY:"auto"}}>
       {/* {showChat ?  */}
@@ -472,22 +509,28 @@ if(widths <= 420) {
     <div className="chatdiv"  style={{overflow:'auto'}}>
     
       {
-  chat.body.map((nap)=>
+  chat.body.map((nap, key)=>
   
-  {if(nap[nap.length-1]=="u") return <div className= "out-chat"><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
-  else return <div className= "in-chat"><div className="in-chatbox"><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
-  }
+  {if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
+  else if(nap[nap.length-1]=="p") return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
+   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" src={nap.slice(0,-2)} size='small' /> </div>
+   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" src={nap.slice(0,-2)} size='small' /> </div>
+
+}
   
   
   )}
-
+<a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="2rem" style={{position:"fixed",bottom:"60px",float:"right"}}/></a>
   </div>
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
-      <Row style={{margin: "0"}}>
-          <Col xs={8} style={{marginRight: "0"}}>
+      <Row className="align-items-center" noGutters>
+      <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/>
+
+     <Col className="chatformicons" xs={2} > <MdAddToPhotos style={{marginLeft: "20px"}} onClick={mediashare} size="2rem" color="gray"/></Col>
+          <Col xs={6} >
     <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
-   <Col xs={4} style={{marginRight: "0"}}>
-   <a href="#scrolltobottom"> <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Senxzds<MdSend /></Button></a></Col>
+   <Col className="chatformicons" xs={4} >
+   <a href="#scrolltobottom"> <Button primary style={{marginLeft: "20px"}} className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></a></Col>
     </Row>
   </Form.Group>
   </div>
@@ -550,7 +593,7 @@ else {
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right"}}/></a>
   </div>
 
-    <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
+    <Form.Group className="chat-form" onKeyDown={onKeyDownHandler}  style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
       {/* <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/> */}
       <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmediatemp} style={{display: 'none'}} multiple/>
@@ -562,7 +605,7 @@ else {
     <Form.Control type="text" placeholder="Message Here" id="msgtext"/></Col>
    <Col xs={2} style={{marginRight: "0"}}>
      
-    <Button primary className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
+    <Button primary className="chatSend" id={props.chat.id} ref={divRef} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
     </Row>
   </Form.Group>
   <ImageModal image={mimage} setflag={setmimage}/>
