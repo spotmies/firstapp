@@ -367,6 +367,8 @@ console.log(url);
  )
   }
   setupload(false);
+  settempimg([]);
+  setimage2([]);
 }
 
 
@@ -415,8 +417,7 @@ compressimage(e);
 
 }
 function uploadmediatemp(e){
-  settempimg([]);
-  setimage2([]);
+
 console.log(e)
 compressimage(e);
 
@@ -538,7 +539,7 @@ else {
     </Row>
   </Form.Group>
   <ImageModal image={mimage} setflag={setmimage}/>
-  <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} removeitems={removeitems}/>
+  <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} addmore={mediashare} removeitems={removeitems}/>
   </div>
   )
 }
@@ -761,6 +762,7 @@ if(image.length<=0)setOpen(false);
           <Button onClick={handleInputChange} positive>
             Ok
           </Button>
+          <Button onClick={props.addmore} >add more</Button>
         </Modal.Actions>
       </Modal>
     )
