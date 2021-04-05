@@ -10,8 +10,8 @@ import { BiArrowBack } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Image, List ,Grid,Input,Modal,ImageGroup,Dropdown } from 'semantic-ui-react';
-import ReactScrollableFeed from 'react-scrollable-feed';
 import imageCompression from "browser-image-compression";
+import ImageViewer from "react-simple-image-viewer";
 import 'firebase/storage';
 //micro service
 import {getpdetailsbyid,disablechat} from "../mservices/upldmedia";
@@ -610,7 +610,8 @@ else {
     <Button primary className="chatSend" id={props.chat.id} ref={divRef} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
     </Row>
   </Form.Group>
-  <ImageModal className="uploadModal" image={mimage} setflag={setmimage}/>
+  <Imageviewer image={mimage} />
+  {/* <ImageModal className="uploadModal" image={mimage} setflag={setmimage}/> */}
   <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} addmore={mediashare} removeitems={removeitems}/>
   </div>
   )
@@ -660,24 +661,81 @@ console.log(image);
         onClose={closemodal}
         onOpen={() => setOpen(true)}
         open={open}
-        size="small"
+       // size="small"
         className="uploadModal"
        // trigger={<Button>Show Modal</Button>}
       >
-        <Modal.Header>Photo</Modal.Header>
+        {/* <Modal.Header>Photo</Modal.Header> */}
         <Modal.Content image>
-          <Image size='medium' centered src={image} wrapped />
+          <Image centered src={image} wrapped />
           <Modal.Description>
             {/* <p>Would you like to upload this image?</p> */}
           </Modal.Description>
         </Modal.Content>
-        <Modal.Actions>
+        {/* <Modal.Actions>
 
-        </Modal.Actions>
+        </Modal.Actions> */}
       </Modal>
     )
   }
 
+  
+function Imageviewer(props) {
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  var images = [
+    "http://placeimg.com/1200/800/nature",
+    "http://placeimg.com/800/1200/nature",
+    "http://placeimg.com/1920/1080/nature",
+    "http://placeimg.com/1500/500/nature"
+  ];
+  var image=[props.image];
+  
+  const openImageViewer = useCallback(index => {
+    setCurrentImage(index);
+    setIsViewerOpen(true);
+  }, []);
+
+  const closeImageViewer = () => {
+    setCurrentImage(0);
+    setIsViewerOpen(false);
+  };
+
+
+
+  useEffect(() => {
+    if(image!=false && image!=null){openImageViewer(1)}
+    console.log(image);
+    
+      }, [props.image])
+
+  return (
+    <div>
+      {/* {images.map((src, index) => (
+        <img
+          src={src}
+          onClick={() => openImageViewer(index)}
+          width="300"
+          key={index}
+          style={{ margin: "2px" }}
+          alt=""
+        />
+      ))} */}
+
+      {isViewerOpen && (
+        <ImageViewer
+          src={image}
+          currentIndex={currentImage}
+          onClose={closeImageViewer}
+          backgroundStyle={{
+            backgroundColor: "rgba(0,0,0,0.9)"
+          }}
+        />
+      )}
+    </div>
+  );
+}
+  
   
 
 function ImageModal2(props) {
