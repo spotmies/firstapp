@@ -270,6 +270,7 @@ console.log("fetching partner details..");
 data= await getpdetailsbyid(props.chat.partnerid);
 console.log(data);
 setpdetails(data);
+console.log("effect1")
 }, [props.chat.partnerid])
 
   //const divRef = useRef(null);
@@ -297,6 +298,7 @@ setpdetails(data);
      document.getElementById("scrollbtn").click();
      console.log("new message");
     }
+    console.log("effect2");
   }, [chat.body])
 
 
@@ -371,6 +373,7 @@ console.log(url);
    }
  )
   }
+  console.log("effect3")
 }, [image])
 
 useEffect(() => {
@@ -378,6 +381,7 @@ if(upload==true){
   console.log("uploading..");
 uitf();
 }
+console.log("effect4")
 }, [upload])
 
 async function uitf(){
@@ -415,6 +419,7 @@ console.log(image2);
 if(image2.length>0){
 click2(chid,image2[image2.length-1]);
 }
+console.log("effect5")
 }, [image2])
 
  async function compressimage(e){
@@ -577,7 +582,7 @@ else {
       }
   
       
-    <div className="chatdiv" style={{overflow:'auto'}}>
+    <div className="chatdiv" style={{overflow:'auto'}} onscroll={()=>{console.log("scrolling")}}>
     
       {
   chat.body.map((nap,key)=>
@@ -610,7 +615,7 @@ else {
     <Button primary className="chatSend" id={props.chat.id} ref={divRef} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
     </Row>
   </Form.Group>
-  <Imageviewer image={mimage} />
+  {/* <Imageviewer image={mimage} /> */}
   {/* <ImageModal className="uploadModal" image={mimage} setflag={setmimage}/> */}
   <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} addmore={mediashare} removeitems={removeitems}/>
   </div>
