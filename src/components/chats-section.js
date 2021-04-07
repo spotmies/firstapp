@@ -253,6 +253,8 @@ function Chatarea(props){
   const[tempimg,settempimg]=useState([]);
   const[upload,setupload]=useState(false);
   const divRef = useRef(null);
+  const scrollref = useRef(null);
+  const scrollbtn = useRef(null);
   const [heights, widths] = useWindowSize();
   // var [showChat,setShowChat] = useState(false);
 
@@ -486,6 +488,24 @@ if(await disablechat(prop) == 200)toast.info("chat deleted")
 else toast.info("unable to delete chat try again later")
 }
 
+const [scrollDisplay, setScrolldisplay] = useState(false);
+
+function scrollhandle(e) {
+  console.log(e,"scrolling mobile");
+  const scrolly = scrollref.current.scrollHeight;
+  const scrolltop = scrollref.current.scrollTop;
+  const clientheight = scrollref.current.clientHeight;
+  console.log(scrolly, scrolltop, clientheight);
+  if(scrolly-scrolltop == clientheight){
+    console.log("bottom scroll");
+    setScrolldisplay(false);
+  }else {
+    console.log("top scroll")
+    setScrolldisplay(true);
+  }
+  
+}
+
 if(widths <= 1000) {
   return(
     <div style={{float: "right", width: "100%",overflowY:"auto"}}>
@@ -512,7 +532,7 @@ if(widths <= 1000) {
       : null
       }
       
-    <div className="chatdiv"  style={{overflow:'auto'}}>
+    <div className="chatdiv" ref={scrollref} onScroll={(e)=>{scrollhandle(e)}} style={{overflow:'auto'}}>
     
       {
   chat.body.map((nap, key)=>
@@ -526,7 +546,11 @@ if(widths <= 1000) {
   
   
   )}
+  {scrollDisplay ? 
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="2rem" style={{position:"fixed",bottom:"60px",float:"right"}}/></a>
+  :
+<a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="2rem" style={{position:"fixed",bottom:"60px",float:"right", display: "none"}}/></a>
+}
   </div>
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row className="align-items-center" noGutters>
@@ -582,7 +606,7 @@ else {
       }
   
       
-    <div className="chatdiv" style={{overflow:'auto'}} onscroll={()=>{console.log("scrolling")}}>
+    <div className="chatdiv" style={{overflow:'auto'}} ref={scrollref} onScroll={(e)=>{scrollhandle(e)}}>
     
       {
   chat.body.map((nap,key)=>
@@ -596,9 +620,12 @@ else {
   
   
   )}
-
+{scrollDisplay ?
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right"}}/></a>
-  </div>
+ :
+ <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right", display: "none"}}/></a>
+ }
+ </div>
 
     <Form.Group className="chat-form" onKeyDown={onKeyDownHandler}  style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
