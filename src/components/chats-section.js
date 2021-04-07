@@ -9,12 +9,13 @@ import './chats.css';
 import { BiArrowBack } from 'react-icons/bi'
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { Image, List ,Grid,Input,Modal,ImageGroup,Dropdown } from 'semantic-ui-react';
+import { Image, List ,Grid,Input,Modal,ImageGroup,Dropdown,Header } from 'semantic-ui-react';
 import imageCompression from "browser-image-compression";
 import ImageViewer from "react-simple-image-viewer";
 import 'firebase/storage';
 //micro service
 import {getpdetailsbyid,disablechat} from "../mservices/upldmedia";
+import {gettbystamps,getorgnl,getstamp} from "../mservices/dateconv";
 import { toast } from 'react-toastify';
 
 //import icons
@@ -254,7 +255,7 @@ function Chatarea(props){
   const[upload,setupload]=useState(false);
   const divRef = useRef(null);
   const [heights, widths] = useWindowSize();
-  const[typemsg,settypemsg]=useState(null);
+  const[typemsg,settypemsg]=useState("null");
   // var [showChat,setShowChat] = useState(false);
 
 db.collection('users').doc(firebase.auth().currentUser.uid)
@@ -314,7 +315,7 @@ setpdetails(data);
     db.collection('messaging').doc(prop).update({
       body:newbody,
       createdAt:new Date()
-    }).then(()=>{settypemsg(null)})
+    }).then(()=>{settypemsg("nullidy")})
   }
 }
 
@@ -586,10 +587,34 @@ else {
   {
 
 
-  if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}{cmpmsg(nap,array[key-1])}</p></div></div>
-  else if(nap[nap.length-1]=="p") return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
-   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
-   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
+  //  if(key%2==0 || key%2==1){ return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}{cmpmsg(nap,array[key-1])}</p></div></div>}
+  if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
+   {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+    <div className="out-chatbox">
+      <p className="chatList">{getorgnl(nap)}&nbsp; <small> {getmsgtime(nap)}</small></p>
+      </div>
+      </div>
+  else if(nap[nap.length-1]=="p") return <div className= "in-chat">
+       {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+    <div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{getorgnl(nap)}&nbsp; <small> {getmsgtime(nap)}</small></p></div></div>
+   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
+        {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+     <Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
+   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
+        {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+     <Image floated="left" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
 
 
 
@@ -610,7 +635,7 @@ else {
 
     <Col xs={2} > <MdAddToPhotos onClick={mediashare} style={{cursor:"pointer"}} size="2rem" color="gray"/></Col>
           <Col xs={8} style={{marginRight: "0"}}>          
-    <Form.Control type="text" placeholder="Message Here" onChange={(e)=>{settypemsg(e.target.value)}} id="msgtext"/></Col>
+    <Form.Control type="text" placeholder="Message Here" value={typemsg} onChange={(e)=>{settypemsg(e.target.value)}} id="msgtext"/></Col>
    <Col xs={2} style={{marginRight: "0"}}>
      
     <Button primary className="chatSend" id={props.chat.id} ref={divRef} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></Col>
@@ -628,55 +653,63 @@ else {
 
 }
 
+function countSpecial(str){
+  const punct = "`";
+  let count = 0;
+  let position=[]
+  for(let i = 0; i < str.length; i++){
+     if(!punct.includes(str[i])){
+        continue;
+     };
+     count++;
+     position.push(i)
+  };
+  return str.slice(position[0]+1,position[1]);
+}
+
+function getmsgtime(nap){
+  let stamps=countSpecial(nap)
+  let msgtime=gettbystamps(stamps,"time");
+  return msgtime;
+}
 
 function cmpmsg(cumsg,premsg){
 let premsg2=premsg;
 if(premsg==null || premsg=='' || premsg==undefined || premsg==NaN){premsg2=cumsg}
-  const countSpecial = (str) => {
-    const punct = "`";
-    let count = 0;
-    let position=[]
-    for(let i = 0; i < str.length; i++){
-       if(!punct.includes(str[i])){
-          continue;
-       };
-       count++;
-       position.push(i)
-    };
-    return str.slice(position[0]+1,position[1]);
- };
-let ct=Number(countSpecial(cumsg));
-let pt=Number(countSpecial(premsg2));
-if(new Date(ct*1000).getDate() != new Date(pt*1000).getDate()){
-  return new Date(ct*1000).getDate()
+
+let ct=Number(getstamp(cumsg));
+let pt=Number(getstamp(premsg2));
+if(gettbystamps(ct,"date") != gettbystamps(pt,"date")){
+  let temp=gettbystamps(ct,"fulldate");
+  return temp;
 }
 else return null;
 //return new Date(ct*1000).getDate();
 }
-function tsend(e,id){
+// function tsend(e,id){
 
-  const countSpecial = (str) => {
-    const punct = "`";
-    let count = 0;
-    let position=[]
-    for(let i = 0; i < str.length; i++){
-       if(!punct.includes(str[i])){
-          continue;
-       };
-       count++;
-       position.push(i)
-    };
-    return [count,str.slice(position[0],position[1])];
- };
+//   const countSpecial = (str) => {
+//     const punct = "`";
+//     let count = 0;
+//     let position=[]
+//     for(let i = 0; i < str.length; i++){
+//        if(!punct.includes(str[i])){
+//           continue;
+//        };
+//        count++;
+//        position.push(i)
+//     };
+//     return [count,str.slice(position[0],position[1])];
+//  };
 
 
-  console.log(typemsg);
- // console.log(e)
- let timestamp=Math.round(+new Date()/1000);
- let newmsg=typemsg+"`"+timestamp+'`';
- console.log(newmsg);
- console.log(countSpecial(newmsg))
-}
+//   console.log(typemsg);
+//  // console.log(e)
+//  let timestamp=Math.round(+new Date()/1000);
+//  let newmsg=typemsg+"`"+timestamp+'`';
+//  console.log(newmsg);
+//  console.log(countSpecial(newmsg))
+// }
 
 
 function removeitems(data){
