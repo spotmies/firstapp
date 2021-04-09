@@ -110,6 +110,26 @@
    text-align: center !important;
 }
 
+.textTime {
+    color: rgba(212, 212, 212, 0.959);
+    font-size: 9px;
+}
+
+.textTimep {
+    color: rgba(109, 109, 109, 0.959);
+    font-size: 9px;
+}
+
+.readText {
+    margin-top: 5px; 
+    float: right; 
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 5px 10px 5px 12px;
+    width: fit-content;
+    max-width: 150%;
+}
+
 @media screen and (max-width: 420px) {
     .chat-form {
         width: 100%;

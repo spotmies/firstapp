@@ -15,7 +15,7 @@ import ImageViewer from "react-simple-image-viewer";
 import 'firebase/storage';
 //micro service
 import {getpdetailsbyid,disablechat} from "../mservices/upldmedia";
-import {gettbystamps,getorgnl,getstamp} from "../mservices/dateconv";
+import {gettbystamps,getorgnl,getstamp, lastMessage} from "../mservices/dateconv";
 import { toast } from 'react-toastify';
 
 //import icons
@@ -609,29 +609,32 @@ else {
    :null
    }
     <div className="out-chatbox" >
-      <p className="chatList">{getorgnl(nap)}&nbsp; <small> {getmsgtime(nap)}</small></p>
-      {key==chat.body.length-1
-      ?<p><small>{chat.pread?"read":"unread"}</small></p>
-      :null
-
-      }
+      <p className="chatList">{getorgnl(nap)}&nbsp; <small className="textTime"> {getmsgtime(nap)}</small></p>
+      
       </div>
+    {/* {key==chat.body.length-1 ?
+        <div><p><small className="readText">{chat.pread?"read":"unread"}</small></p></div>
+        :null
+  
+         } */}
+      
       </div>
+     
   else if(nap[nap.length-1]=="p") return <div className= "in-chat">
        {cmpmsg(nap,array[key-1])!=null
    ?<p>{cmpmsg(nap,array[key-1])}</p>
    :null
    }
-    <div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{getorgnl(nap)}&nbsp; <small> {getmsgtime(nap)}</small></p></div></div>
+    <div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{getorgnl(nap)}&nbsp; <small className="textTimep"> {getmsgtime(nap)}</small></p></div></div>
    else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
         {cmpmsg(nap,array[key-1])!=null
    ?<p>{cmpmsg(nap,array[key-1])}</p>
    :null
    }
      <Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' />
-     <p><small>{getmsgtime(nap)}</small></p>
+     <p><small className="textTime">{getmsgtime(nap)}</small></p>
      {key==chat.body.length-1
-      ?<p><small>{chat.pread?"read":"unread"}</small></p>
+      ?<p className="readText"><small>{chat.pread?"read":"unread"}</small></p>
       :null
 
       }
@@ -642,7 +645,7 @@ else {
    :null
    }
      <Image floated="left" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> 
-     <p><small>{getmsgtime(nap)}</small></p>
+     <p><small className="textTime">{getmsgtime(nap)}</small></p>
 
      </div>
 
@@ -652,6 +655,10 @@ else {
 
   
   )}
+   {lastMessage(chat.body[chat.body.length-1]) ?
+     <div><p><small className="readText">{chat.pread?"read":"unread"}</small></p></div>
+    : null
+    }
 {scrollDisplay ?
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right"}}/></a>
  :

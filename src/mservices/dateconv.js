@@ -1,4 +1,10 @@
-
+function lastMessage(msg) {
+    if(msg.slice(msg.length-1) == "u" || msg.slice(msg.length-1) == "um") {
+       return true;
+    } else {
+        return false;
+    }
+}
 
 function gettbystamps(stamps,id){
     const monthNames = ["Jan", "Feb", "March", "April", "May", "June",
@@ -87,4 +93,4 @@ return  temp2;
 }
 
 
-export {gettbystamps,getorgnl,getstamp}
+export {gettbystamps,getorgnl,getstamp, lastMessage}
