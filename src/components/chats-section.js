@@ -256,7 +256,7 @@ function Chatarea(props){
   const[mimage,setmimage]=useState(null);
   const scrollref = useRef(null);
   const [heights, widths] = useWindowSize();
-  const[typemsg,settypemsg]=useState("null");
+  const[typemsg,settypemsg]=useState("");
   // var [showChat,setShowChat] = useState(false);
 
 db.collection('users').doc(firebase.auth().currentUser.uid)
@@ -319,7 +319,7 @@ console.log("effect1")
       body:newbody,
       createdAt:new Date(),
       pread:false
-    }).then(()=>{settypemsg("nullidy")})
+    }).then(()=>{settypemsg("")})
   }
 }
 
@@ -611,7 +611,7 @@ else {
     <div className="out-chatbox" >
       <p className="chatList">{getorgnl(nap)}&nbsp; <small> {getmsgtime(nap)}</small></p>
       {key==chat.body.length-1
-      ?<p>{chat.pread?"read":"unread"}</p>
+      ?<p><small>{chat.pread?"read":"unread"}</small></p>
       :null
 
       }
@@ -630,6 +630,11 @@ else {
    }
      <Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' />
      <p><small>{getmsgtime(nap)}</small></p>
+     {key==chat.body.length-1
+      ?<p><small>{chat.pread?"read":"unread"}</small></p>
+      :null
+
+      }
       </div>
    else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
         {cmpmsg(nap,array[key-1])!=null

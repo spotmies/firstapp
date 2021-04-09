@@ -122,10 +122,16 @@ function PartnerRegistration() {
       document.getElementById("pnum").value="";
       document.getElementById("pcate").value=null;
     }
-    function partprereg(details){
+   async function partprereg(details){
       console.log(details); 
   //   toast.success("Thank you we will contact you soon")
-     contactdb.doc().set(details).then(()=>{
+
+    let temp=JSON.stringify(details);
+    console.log(temp);
+    console.log(JSON.parse(temp));
+       await contactdb.doc("partnerRequests").update({
+         body:firebase.firestore.FieldValue.arrayUnion(temp),
+      }).then(()=>{
        toast.success("Thank you we will contact you soon...");
        clearfield();
      })

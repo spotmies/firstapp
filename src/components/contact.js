@@ -7,6 +7,22 @@ import GoogleMapReact from 'google-map-react';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
  
 class SimpleMap extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      details:{
+        email:null,
+        name:null,
+        phone:null,
+        sub:null,
+        message:null,
+        date:new  Date()
+      }
+    };
+    this.handlec = this.handlec.bind(this);
+    this.submitForm=this.submitForm.bind(this);
+
+  }
   static defaultProps = {
     center: {
       lat: 59.95,
@@ -14,8 +30,27 @@ class SimpleMap extends Component {
     },
     zoom: 11
   };
- 
+
+  handlec(e){
+let nameId=e.target.name;
+let value=e.target.value
+console.log(value,nameId);
+let temp=this.state.details;
+temp[nameId]=value
+temp["date"]=new Date()
+this.setState({
+  details:temp
+});
+  }
+  submitForm(e){
+    e.preventDefault();
+    console.log(this.state);
+  }
+
+
+  
   render() {
+    
     return (
     //   Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '95%', marginLeft: '2%', alignItems:"center" }}>
@@ -41,48 +76,29 @@ class SimpleMap extends Component {
             <p>D.No: 58-38-10,<br></br> KRM Colony,<br></br> Visakhapatnam,<br></br> Andhra Pradesh,<br></br> 530027.</p>
         </div>
         <hr></hr>
-        <Form className="contactForm">
+        <Form className="contactForm" onSubmit={this.submitForm}>
             <h2>Wanna say something?</h2>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Email address</Form.Label>
-    <Form.Control type="email" placeholder="name@example.com" />
+    <Form.Control type="email" placeholder="name@example.com" name="email" onBlur={this.handlec} required/>
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Name</Form.Label>
-    <Form.Control type="email" placeholder="Mia Khalifa" />
+    <Form.Control type="text" placeholder="Mia Khalifa" name="name" onBlur={this.handlec} required/>
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Mobile no:</Form.Label>
-    <Form.Control type="email" placeholder="9999999999" />
+    <Form.Control type="number" placeholder="9999999999" name="phone" onBlur={this.handlec} required/>
   </Form.Group>
   
-  {/* <Form.Group controlId="exampleForm.ControlSelect1">
-    <Form.Label>Example select</Form.Label>
-    <Form.Control as="select">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </Form.Control>
-  </Form.Group>
-  <Form.Group controlId="exampleForm.ControlSelect2">
-    <Form.Label>Example multiple select</Form.Label>
-    <Form.Control as="select" multiple>
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </Form.Control>
-  </Form.Group> */}
+
   <Form.Group controlId="exampleForm.ControlTextarea1">
     <Form.Label>Subject</Form.Label>
-    <Form.Control as="textarea" rows={1} />
+    <Form.Control as="textarea" rows={1} name="sub" onBlur={this.handlec} />
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlTextarea1">
     <Form.Label>Message</Form.Label>
-    <Form.Control as="textarea" rows={3} />
+    <Form.Control as="textarea" rows={3} name="message" onBlur={this.handlec} required/>
   </Form.Group>
   <Button variant="primary" type="submit">
     Submit
