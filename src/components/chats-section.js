@@ -122,11 +122,12 @@ const [showChat,setShowChat] = useState(false);
 const [heights, widths] = useWindowSize();
 // const [heads, setHeads] = chatHead();
 
-  const click =(prop)=>{
+  const click =async(prop)=>{
     console.log("click",prop)
-    db.collection('messaging').doc(prop).onSnapshot(snap=>{
+   await db.collection('messaging').doc(prop).onSnapshot(snap=>{
       setchat(snap.data())
     })
+    console.log("new chat fetched")
   }
   
   function settrue() {
@@ -244,16 +245,16 @@ if(widths <= 420){
 function Chatarea(props){
   const history = useHistory();
   const[ordst,setordst]=useState();
-  const[orddtls,setorddtls]=useState(null);
   const[image,setimage]=useState([]);
   const[image2,setimage2]=useState([]);
   const[chid,setchid]=useState("");
   const[pdetails,setpdetails]=useState({businessname:"business"});
-  const[mimage,setmimage]=useState(null);
-  const[mflag,setmflag]=useState(false);
   const[tempimg,settempimg]=useState([]);
   const[upload,setupload]=useState(false);
   const divRef = useRef(null);
+  const[mflag,setmflag]=useState(null);
+  const[mimage,setmimage]=useState(null);
+  const scrollref = useRef(null);
   const [heights, widths] = useWindowSize();
   const[typemsg,settypemsg]=useState("null");
   // var [showChat,setShowChat] = useState(false);
@@ -262,7 +263,6 @@ db.collection('users').doc(firebase.auth().currentUser.uid)
   .collection('adpost').doc(props.chat.orderid)
   .get().then(snap=>{
 setordst(snap.data().orderstate);
-setorddtls(snap.data());
 //console.log(snap.data())
   })
 
@@ -272,6 +272,7 @@ console.log("fetching partner details..");
 data= await getpdetailsbyid(props.chat.partnerid);
 console.log(data);
 setpdetails(data);
+console.log("effect1")
 }, [props.chat.partnerid])
 
   //const divRef = useRef(null);
@@ -299,6 +300,8 @@ setpdetails(data);
      document.getElementById("scrollbtn").click();
      console.log("new message");
     }
+    console.log("effect2");
+    console.log(chat)
   }, [chat.body])
 
 
@@ -314,19 +317,26 @@ setpdetails(data);
      newbody.push(msg+"u");
     db.collection('messaging').doc(prop).update({
       body:newbody,
-      createdAt:new Date()
+      createdAt:new Date(),
+      pread:false
     }).then(()=>{settypemsg("nullidy")})
   }
 }
 
   const click2=(id,msg)=>{
-   
+    let timestamp=Math.round(+new Date()/1000);
     db.collection('messaging').doc(id).update({
-      body:firebase.firestore.FieldValue.arrayUnion(msg+"um"),
-      createdAt:new Date()
+      body:firebase.firestore.FieldValue.arrayUnion(msg+"`"+timestamp+"`"+"um"),
+      createdAt:new Date(),
+      pread:false
     }).then(()=>{})
   }
-
+const umread=async()=>{
+ await db.collection('messaging').doc(chat.id).update({
+    uread:true
+  })
+  return true;
+}
 function orderstatus(e){
   console.log(e.target.innerText,e.target.parentElement.id)
   console.log(ordst);
@@ -350,36 +360,14 @@ setchid(props.chat.id);
 
 }
 
-useEffect(() => {
-  let image3=[];
-  image3=image.slice(-1);
-  for(var i=0;i<image3.length;i++){
-    let k=Number(i)
- const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/chat/${image3[k].name}`).put(image3[k]);
-let upldtask= uploadTask.on("state_changed",snapshot => {},
-   error => {
-     console.log(error);
-   },
-   () => {
-     storage
-       .ref(`users/${firebase.auth().currentUser.uid}/chat/`)
-       .child(image3[k].name)
-       .getDownloadURL()
-       .then(url => {
-console.log(url);
-    setimage2(temp=>[...temp,url]);
 
-       });
-   }
- )
-  }
-}, [image])
 
 useEffect(() => {
 if(upload==true){
   console.log("uploading..");
 uitf();
 }
+console.log("effect4")
 }, [upload])
 
 async function uitf(){
@@ -387,7 +375,7 @@ async function uitf(){
   for(var i=0;i<image3.length;i++){
     let k=Number(i)
  const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/chat/${image3[k].name}`).put(image3[k]);
-let upldtask= uploadTask.on("state_changed",snapshot => {},
+let upldtask= await uploadTask.on("state_changed",snapshot => {},
    error => {
      console.log(error);
    },
@@ -417,6 +405,7 @@ console.log(image2);
 if(image2.length>0){
 click2(chid,image2[image2.length-1]);
 }
+console.log("effect5")
 }, [image2])
 
  async function compressimage(e){
@@ -466,9 +455,7 @@ setmflag(true);
 setmimage(e.target.src);
 console.log(e);
 }
-const hideimage=(e)=>{
-setmflag(false);
-}
+
 
 const pdet =(e,prop)=>{
   history.push(`pdetails/${prop}`)
@@ -481,6 +468,30 @@ const vieworder =(prop)=>{
 const delchat=async(prop)=>{
 if(await disablechat(prop) == 200)toast.info("chat deleted")
 else toast.info("unable to delete chat try again later")
+}
+
+const [scrollDisplay, setScrolldisplay] = useState(false);
+const [tbody,settbody]=useState([]);
+function scrollhandle(e) {
+  //console.log(e,"scrolling mobile");
+  const scrolly = scrollref.current.scrollHeight;
+  const scrolltop = scrollref.current.scrollTop;
+  const clientheight = scrollref.current.clientHeight;
+  //console.log(scrolly, scrolltop, clientheight);
+  if(scrolly-scrolltop == clientheight){
+    setScrolldisplay(false);
+    if(tbody!=chat.body)
+    {
+      umread();
+      settbody(chat.body);
+      console.log("message read");
+    }
+    //console.log("bottom scroll");
+  }else {
+    //console.log("top scroll")
+    setScrolldisplay(true);
+  }
+  
 }
 
 if(widths <= 1000) {
@@ -509,7 +520,7 @@ if(widths <= 1000) {
       : null
       }
       
-    <div className="chatdiv"  style={{overflow:'auto'}}>
+    <div className="chatdiv" ref={scrollref} onScroll={(e)=>{scrollhandle(e)}} style={{overflow:'auto'}}>
     
       {
   chat.body.map((nap, key)=>
@@ -523,7 +534,11 @@ if(widths <= 1000) {
   
   
   )}
+  {scrollDisplay ? 
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="2rem" style={{position:"fixed",bottom:"60px",float:"right"}}/></a>
+  :
+<a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="2rem" style={{position:"fixed",bottom:"60px",float:"right", display: "none"}}/></a>
+}
   </div>
     <Form.Group className="chat-form" style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row className="align-items-center" noGutters>
@@ -579,7 +594,7 @@ else {
       }
   
       
-    <div className="chatdiv" style={{overflow:'auto'}}>
+    <div className="chatdiv" style={{overflow:'auto'}} ref={scrollref} onScroll={(e)=>{scrollhandle(e)}}>
     
       {
   chat.body.map((nap,key,array)=>
@@ -593,8 +608,13 @@ else {
    ?<p>{cmpmsg(nap,array[key-1])}</p>
    :null
    }
-    <div className="out-chatbox">
+    <div className="out-chatbox" >
       <p className="chatList">{getorgnl(nap)}&nbsp; <small> {getmsgtime(nap)}</small></p>
+      {key==chat.body.length-1
+      ?<p>{chat.pread?"read":"unread"}</p>
+      :null
+
+      }
       </div>
       </div>
   else if(nap[nap.length-1]=="p") return <div className= "in-chat">
@@ -608,13 +628,18 @@ else {
    ?<p>{cmpmsg(nap,array[key-1])}</p>
    :null
    }
-     <Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
+     <Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' />
+     <p><small>{getmsgtime(nap)}</small></p>
+      </div>
    else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
         {cmpmsg(nap,array[key-1])!=null
    ?<p>{cmpmsg(nap,array[key-1])}</p>
    :null
    }
-     <Image floated="left" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> </div>
+     <Image floated="left" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> 
+     <p><small>{getmsgtime(nap)}</small></p>
+
+     </div>
 
 
 
@@ -622,9 +647,12 @@ else {
 
   
   )}
-
+{scrollDisplay ?
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right"}}/></a>
-  </div>
+ :
+ <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="3rem" style={{position:"fixed",bottom:"150px",float:"right", display: "none"}}/></a>
+ }
+ </div>
 
     <Form.Group className="chat-form" onKeyDown={onKeyDownHandler}  style={{position: "fixed", bottom: "2px", margin: "0"}}>
       <Row style={{margin: "0"}}>
@@ -643,7 +671,7 @@ else {
 
     </Row>
   </Form.Group>
-  <Imageviewer image={mimage} />
+  {/* <Imageviewer image={mimage} /> */}
   {/* <ImageModal className="uploadModal" image={mimage} setflag={setmimage}/> */}
   <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} addmore={mediashare} removeitems={removeitems}/>
   </div>
@@ -686,30 +714,7 @@ if(gettbystamps(ct,"date") != gettbystamps(pt,"date")){
 else return null;
 //return new Date(ct*1000).getDate();
 }
-// function tsend(e,id){
 
-//   const countSpecial = (str) => {
-//     const punct = "`";
-//     let count = 0;
-//     let position=[]
-//     for(let i = 0; i < str.length; i++){
-//        if(!punct.includes(str[i])){
-//           continue;
-//        };
-//        count++;
-//        position.push(i)
-//     };
-//     return [count,str.slice(position[0],position[1])];
-//  };
-
-
-//   console.log(typemsg);
-//  // console.log(e)
-//  let timestamp=Math.round(+new Date()/1000);
-//  let newmsg=typemsg+"`"+timestamp+'`';
-//  console.log(newmsg);
-//  console.log(countSpecial(newmsg))
-// }
 
 
 function removeitems(data){
