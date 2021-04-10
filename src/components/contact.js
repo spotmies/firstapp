@@ -3,7 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Form, Button} from 'react-bootstrap';
 import react,{useState,useEffect} from 'react';
 import GoogleMapReact from 'google-map-react';
- 
+import { contactus } from "../mservices/contactUs";
+import { toast } from 'react-toastify';
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
  
 class SimpleMap extends Component {
@@ -34,7 +36,7 @@ class SimpleMap extends Component {
   handlec(e){
 let nameId=e.target.name;
 let value=e.target.value
-console.log(value,nameId);
+//console.log(value,nameId);
 let temp=this.state.details;
 temp[nameId]=value
 temp["date"]=new Date()
@@ -42,15 +44,42 @@ this.setState({
   details:temp
 });
   }
-  submitForm(e){
-    e.preventDefault();
-    console.log(this.state);
-  }
 
+  async submitForm(e){
+    e.preventDefault();
+    //console.log(this.state.details);
+    let temp=JSON.stringify(this.state.details);
+    //console.log(temp)
+    //console.log(JSON.parse(temp));
+let result = await contactus(temp);
+if(result==200){
+  this.clearfield();
+  toast.success("Thank you we will contact you soon...");
+}
+else toast.info("please try again") 
+
+   }
+   
+
+  clearfield(){
+    let tempd=this.state.details
+    tempd={
+      email:"",
+      name:"",
+      phone:'',
+      sub:'',
+      message:'',
+      date:new  Date()
+    };
+    this.setState({
+      details:tempd
+    })
+
+  }
 
   
   render() {
-    
+  let det=this.state.details
     return (
     //   Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '95%', marginLeft: '2%', alignItems:"center" }}>
@@ -80,25 +109,25 @@ this.setState({
             <h2>Wanna say something?</h2>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Email address</Form.Label>
-    <Form.Control type="email" placeholder="name@example.com" name="email" onBlur={this.handlec} required/>
+    <Form.Control type="email" placeholder="name@example.com" value={det.email} name="email" onChange={this.handlec} required/>
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Name</Form.Label>
-    <Form.Control type="text" placeholder="Mia Khalifa" name="name" onBlur={this.handlec} required/>
+    <Form.Control type="text" placeholder="pallavi mella" name="name"value={det.name} onChange={this.handlec} required/>
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlInput1">
     <Form.Label>Mobile no:</Form.Label>
-    <Form.Control type="number" placeholder="9999999999" name="phone" onBlur={this.handlec} required/>
+    <Form.Control type="number" placeholder="9999999999" name="phone" value={det.phone} onChange={this.handlec} required/>
   </Form.Group>
   
 
   <Form.Group controlId="exampleForm.ControlTextarea1">
     <Form.Label>Subject</Form.Label>
-    <Form.Control as="textarea" rows={1} name="sub" onBlur={this.handlec} />
+    <Form.Control as="textarea" placeholder="ex:- want to approach spotmies" rows={1} name="sub" value={det.sub} onChange={this.handlec} />
   </Form.Group>
   <Form.Group controlId="exampleForm.ControlTextarea1">
     <Form.Label>Message</Form.Label>
-    <Form.Control as="textarea" rows={3} name="message" onBlur={this.handlec} required/>
+    <Form.Control as="textarea" rows={3} placeholder="put what you want to message" name="message" value={det.message} onChange={this.handlec} required/>
   </Form.Group>
   <Button variant="primary" type="submit">
     Submit
@@ -111,17 +140,3 @@ this.setState({
 }
  
 export default SimpleMap;
-// const Contact = () =>{
-// return <div>
-//     <Contact1 />
-// </div>
-// }
-
-// const Contact1 =() => {
-//   return <div>
-//       {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d584.6097260216209!2d83.31646073466659!3d17.74181849641085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a39434bbca7c8ed%3A0xbbeddcd73bf0b9bd!2sKRM%20Colony%2C%20Maddilapalem%2C%20Visakhapatnam%2C%20Andhra%20Pradesh%20530013!5e0!3m2!1sen!2sin!4v1612941685350!5m2!1sen!2sin" style={{width="600px", height="450px"}}></iframe> */}
-    
-//   </div>
-// }
-
-// export default Contact;
