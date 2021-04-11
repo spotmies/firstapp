@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 
 import {
-    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown, ImageGroup,Grid,Modal,Header,Feed,Menu
+    Button,Form,Input,TextArea,Card,Label,Image,Modal,Menu
   } from 'semantic-ui-react'
 
   import {InputGroup} from 'react-bootstrap';
   import DatePicker from 'react-datepicker';
 
-  import {BsTools,BsCalendar} from 'react-icons/bs';
+  import {BsCalendar} from 'react-icons/bs';
   import { Link } from "react-router-dom";
   import imageCompression from "browser-image-compression";
   import './rental.css';
 
 
-  import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdDriveEta,MdFace,MdCheckCircle,MdFileUpload} from 'react-icons/md'
+  import {MdLaptopMac,MdTv,MdEventNote,MdDriveEta,MdFace,MdCheckCircle,MdFileUpload} from 'react-icons/md'
   import {BiCodeBlock} from 'react-icons/bi'
   import{FaChalkboardTeacher,FaTools} from 'react-icons/fa'
   import{IoCameraSharp} from 'react-icons/io5'
@@ -84,7 +84,8 @@ class Postform extends Component {
       mopen:false,
       image:[],
       imgurl:"",
-      valprogress:0
+      valprogress:0,
+      addsubmit:false
     };
     this.handleChange2 = this.handleChange2.bind(this);
   }
@@ -97,16 +98,20 @@ class Postform extends Component {
     })
   }
 
-
+componentDidUpdate(){
+  if(this.state.image.length>0){
+  if(this.state.image.length==this.state.arrayvar.length){this.handleSubmit();}
+  }
+}
   
   
-    handleSubmit=(event)=> {
-      event.preventDefault();
+    handleSubmit= async()=> {
+      // event.preventDefault();
       console.log(this.state.arrayvar)
       let schedule=this.state.startDate
       let name=document.querySelector('#nameofserv').value
       let desc=document.querySelector('#sdesc').value
-     // let cat=document.querySelector('#scate').value
+
      let cat=jobcate;
       let price=document.querySelector('#sprice').value
       if(desc==NaN)desc='';
@@ -154,6 +159,7 @@ class Postform extends Component {
           alert("post added successfully")
           history.go(-1)
           imgarr=[];
+          this.setState({image:[],addsubmit:false,arrayvar:[]})
         })
       }
       
@@ -169,7 +175,7 @@ class Postform extends Component {
       };
       let cfile;
 
-      this.setState({image:[]})
+     // this.setState({image:[]})
       for(var i=0;i<e.target.files.length;i++){
         let k=Number(i)
 
@@ -178,6 +184,7 @@ class Postform extends Component {
           this.setState({ 
             image: this.state.image.concat([cfile])
                 })
+                console.log(cfile)
           document.getElementById('upldbtn').style.display="block"
         }).catch(function (error) {
           console.log(error.message);
@@ -189,13 +196,15 @@ class Postform extends Component {
     };
 
 
-     handleUpload = () => {
+     handleUpload = async(e) => {
+      e.preventDefault();
        document.getElementById("uploaderb").style.display="block"
        document.getElementById('upldbtn').style.display="none"
 
-
+      console.log(this.state.image)
        console.log(this.state.image.length)
        for(var i=0;i<this.state.image.length;i++){
+         console.log(`img no ${i}`);
          let k=Number(i)
       const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/adpost/${this.state.image[k].name}`).put(this.state.image[k]);
       uploadTask.on(
@@ -227,7 +236,9 @@ class Postform extends Component {
         }
       )
        }
-       document.getElementById("uploaderb").style.display="none"       
+       if(this.state.image.length<1)this.handleSubmit()
+      //  return true;
+      //  document.getElementById("uploaderb").style.display="none"       
     }
 
 
@@ -303,23 +314,31 @@ newfunk=(e)=>{
 }
 
 sekhararr=(e)=>{
-  // this.setState({ 
-  //   arrayvar: this.state.arrayvar.concat(['https://www.w3schools.com/howto/img_snow.jpg'])
-  // })
+
+  // console.log(e.target.parentElement.parentElement.id)
+  // var array = [...this.state.arrayvar]; // make a separate copy of the array
+  // var index = array.indexOf(e.target.parentElement.parentElement.id)
+  // if (index !== -1) {
+  //   array.splice(index, 1);
+  //   this.setState({arrayvar: array});
+  // }
+
   console.log(e.target.parentElement.parentElement.id)
-  var array = [...this.state.arrayvar]; // make a separate copy of the array
-  var index = array.indexOf(e.target.parentElement.parentElement.id)
-  if (index !== -1) {
-    array.splice(index, 1);
-    this.setState({arrayvar: array});
-  }
+  let ritem=this.state.image[e.target.parentElement.parentElement.id];
+this.setState({
+  image:this.state.image.filter((e)=>(e !== ritem))
+})
+//setimage(image.filter((e)=>(e !== ritem)))
+
+
+
 }
 
   
     render() {
       const { value } = this.state
       return (
-        <Form className="postjobb" onSubmit={this.handleSubmit}>
+        <Form className="postjobb" onSubmit={this.handleUpload}>
           <Form.Group widths='equal'>
             <Form.Field
             required
@@ -383,21 +402,12 @@ sekhararr=(e)=>{
                  />
                 
             </Form.Field>
-            <Form.Field control={Button} color="green"  id="upldbtn" type="button" onClick={this.handleUpload} style={{marginBottom:"10px"}}>
-            <MdFileUpload /> <b> upload images </b>
-            </Form.Field>
             </div>
+            {/* <Form.Field control={Button} color="green"  id="upldbtn" type="button" onClick={this.handleUpload} style={{marginBottom:"10px"}}>
+            <MdFileUpload /> <b> upload images </b>
+            </Form.Field> */}
+         
             <progress value={this.state.valprogress} max="100" id="uploaderb">progress</progress>
-
-            <div className="imgdiv">
-      
-      <div className="gallery">
-
-
-      
-      </div>
-      </div>
-
 
 <div>
 
@@ -405,14 +415,14 @@ sekhararr=(e)=>{
  
 
 {
-  this.state.arrayvar.map((nap,key)=>
+  this.state.image.map((nap,key)=>
   
   <Image
   fluid
   key={key}
-  id={nap}
+  id={key}
   label={{ as: 'a', corner: 'right', icon: 'trash',onClick: this.sekhararr}}
-  src={nap}
+  src={URL.createObjectURL(nap)}
  
 />
 

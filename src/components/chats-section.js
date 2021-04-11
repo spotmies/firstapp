@@ -616,7 +616,8 @@ else {
         <Image avatar src={pdetails.profilepic} />
         <List.Content >
           <List.Header ><b style={{fontSize:"19px"}}>{pdetails.name}</b>  <small>{pdetails.rate>5?pdetails.rate/20:pdetails.rate}<MdStar color="yellow" size="1.1rem"/></small></List.Header>
-         {pdetails.businessname}
+         {/* {pdetails.businessname} */}
+         Title here
         </List.Content>
       </List.Item>
       <List.Item style={{float:"right",marginRight:"20px"}}>

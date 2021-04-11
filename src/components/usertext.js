@@ -9,7 +9,7 @@ import about from "../images/undraw_researching_22gp.svg";
 const text=[
     {
         id: 1,
-        heading: "what is spotmies?",
+        heading: "what is Title?",
         content: "It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.",
         img: about
     },
