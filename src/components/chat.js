@@ -19,7 +19,7 @@ import {AiFillEdit} from 'react-icons/ai';
 const db=firebase.firestore();
 
 
-function useTimes(){
+async function useTimes(){
   const[times,setTimes]=useState([])
 useEffect(()=>{
   firebase.auth().onAuthStateChanged(function(user) {
@@ -56,8 +56,7 @@ export default Sekhar;
 
 function Mybookings(props) {
   const history = useHistory();
-//console.log((props.data[0].time.toDate()).toUTCString())
-// console.log((props.data[0].time.seconds))
+
 
 const click =(prop)=>{
   console.log("click",prop)
@@ -96,7 +95,8 @@ const copy=(prop)=>{
 }
 
       return <div>   
-{
+        {props.data.length>0
+        ?
   props.data.map((cap)=>
 <div id={cap.id} style={{marginLeft:"22%"}}>
  
@@ -152,7 +152,10 @@ style={{width:"60px",height:"60px",borderRadius:"1rem",cursor:"pointer"}}
 
 
 </div>
-  )}
+  )
+  :null
+
+}
       </div>
       
  

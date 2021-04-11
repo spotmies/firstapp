@@ -9,14 +9,14 @@ import about from "../images/undraw_researching_22gp.svg";
 const textpart=[
     {
         id: 1,
-        heading: "what is spotmies?",
-        content: "Turn your time into money with spotmies.",
+        heading: "what is Title?",
+        content: "Turn your time into money with Title.",
         img: about
     },
     {
         id: 1,
         heading: "Register",
-        content: "Download our spotmies partner app and get registered with your aadhar and mobile number.",
+        content: "Download our Title partner app and get registered with your aadhar and mobile number.",
         img: takepic
     },
     {

@@ -74,7 +74,7 @@ function Navibar(){
     <Navbar collapseOnSelect expand="lg"  variant="light"  >
       <IconContext.Provider value={{ size:"1.5em",className:"nav-icons"}}>
         <Link to="/">
-    <Navbar.Brand className="title">Spotmies</Navbar.Brand></Link>
+    <Navbar.Brand className="title">Title</Navbar.Brand></Link>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="mr-auto">
