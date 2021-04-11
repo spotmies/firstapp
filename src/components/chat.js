@@ -9,12 +9,9 @@ import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
 //import icons
-import {BsEyeFill} from 'react-icons/bs';
-import {BiTimeFive} from 'react-icons/bi';
-import {RiPinDistanceFill} from 'react-icons/ri'
-import {HiOutlineCurrencyRupee} from 'react-icons/hi'
+
 import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdList,MdFeaturedPlayList,MdCheckCircle,MdCancel} from 'react-icons/md';
-import {AiFillEdit} from 'react-icons/ai';
+
 
 const db=firebase.firestore();
 

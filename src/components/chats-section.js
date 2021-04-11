@@ -522,18 +522,69 @@ if(widths <= 1000) {
       
     <div className="chatdiv" ref={scrollref} onScroll={(e)=>{scrollhandle(e)}} style={{overflow:'auto'}}>
     
-      {
-  chat.body.map((nap, key)=>
+    {
+  chat.body.map((nap,key,array)=>
   
-  {if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}</p></div></div>
-  else if(nap[nap.length-1]=="p") return <div className= "in-chat"><div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{nap.slice(0, -1)}</p></div></div>
-   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="right" src={nap.slice(0,-2)} size='small' /> </div>
-   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><Image floated="left" src={nap.slice(0,-2)} size='small' /> </div>
+  {
+
+
+  //  if(key%2==0 || key%2==1){ return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}{cmpmsg(nap,array[key-1])}</p></div></div>}
+  if(nap[nap.length-1]=="u") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
+   {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+    <div className="out-chatbox" >
+      <p className="chatList">{getorgnl(nap)}&nbsp; <small className="textTime"> {getmsgtime(nap)}</small></p>
+      
+      </div>
+    {/* {key==chat.body.length-1 ?
+        <div><p><small className="readText">{chat.pread?"read":"unread"}</small></p></div>
+        :null
+  
+         } */}
+      
+      </div>
+     
+  else if(nap[nap.length-1]=="p") return <div className= "in-chat">
+       {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+    <div className="in-chatbox" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><p className="chatListP">{getorgnl(nap)}&nbsp; <small className="textTimep"> {getmsgtime(nap)}</small></p></div></div>
+   else if(nap.slice(-2)=="um") return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
+        {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+     <Image floated="right" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' />
+     <p><small className="textTime">{getmsgtime(nap)}</small></p>
+     {key==chat.body.length-1
+      ?<p className="readText"><small>{chat.pread?"read":"unread"}</small></p>
+      :null
+
+      }
+      </div>
+   else if(nap.slice(-2)=="pm") return <div className= "in-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}>
+        {cmpmsg(nap,array[key-1])!=null
+   ?<p>{cmpmsg(nap,array[key-1])}</p>
+   :null
+   }
+     <Image floated="left" className="chatPic" onClick={showimage} src={nap.slice(0,-2)} size='small' /> 
+     <p><small className="textTime">{getmsgtime(nap)}</small></p>
+
+     </div>
+
+
 
 }
-  
+
   
   )}
+   {lastMessage(chat.body[chat.body.length-1]) ?
+     <div><p><small className="readText">{chat.pread?"seen":"unseen"}</small></p></div>
+    : null
+    }
   {scrollDisplay ? 
 <a href="#scrolltobottom" id="scrollbtn"><MdArrowDropDownCircle size="2rem" style={{position:"fixed",bottom:"60px",float:"right"}}/></a>
   :
@@ -552,6 +603,7 @@ if(widths <= 1000) {
    <a href="#scrolltobottom"> <Button primary style={{marginLeft: "20px"}} className="chatSend" id={props.chat.id} onClick={(e)=>click(props.chat.id)}>Send<MdSend /></Button></a></Col>
     </Row>
   </Form.Group>
+  <ImageModal2 image={tempimg}  flag={setupload} setimage={settempimg} addmore={mediashare} removeitems={removeitems}/>
   </div>
   )
 }
@@ -656,7 +708,7 @@ else {
   
   )}
    {lastMessage(chat.body[chat.body.length-1]) ?
-     <div><p><small className="readText">{chat.pread?"read":"unread"}</small></p></div>
+     <div><p><small className="readText">{chat.pread?"seen":"unseen"}</small></p></div>
     : null
     }
 {scrollDisplay ?
@@ -898,7 +950,7 @@ if(image.length<=0)setOpen(false);
         onClose={()=>setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
-        size="large"
+        size='tiny'
         className="uploadModal"
        // trigger={<Button>Show Modal</Button>}
       >
