@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import {
-    Button,Checkbox,Form,Input,Radio,Select,TextArea,Card,Label,Image,Dropdown, ImageGroup,Grid,Modal,Header,Menu
+    Button,Form,Input,TextArea,Card,Label,Image,Modal,Header,Menu
   } from 'semantic-ui-react'
 
   import {InputGroup} from 'react-bootstrap';
@@ -15,7 +15,7 @@ import {
   import firebase from '../firebase';
   import 'firebase/storage';
   import { createHashHistory } from "history";
-  import react,{useState,useEffect} from "react";
+  import {useState,useEffect} from "react";
 
   import '../post.css';
 
@@ -125,6 +125,7 @@ const{postdata,posttime}=useTimes();
 console.log(postdata)
 const [startDate, setState] = useState('')
 const[arrayvar,setarrayvar]=useState([])
+const[arrayvar2,setarrayvar2]=useState([])
 const[image,setimage]=useState([]);
 const [progress,setprogress]=useState(0);
 //console.log(postdata)
@@ -132,7 +133,7 @@ const [progress,setprogress]=useState(0);
 if(posttime[1] && avoid2==0){
     console.log(posttime[1])
     setState(posttime[1])
-    setarrayvar(postdata.media)
+    setarrayvar2(postdata.media)
     console.log("setstate")
     avoid2=1;
   }
@@ -142,7 +143,7 @@ if(posttime[1] && avoid2==0){
           }
 
 
-const handleSubmit=(event)=> {
+const handleSubmit=(newar)=> {
    // event.preventDefault();
     console.log(arrayvar)
     let schedule=startDate
@@ -165,7 +166,7 @@ const handleSubmit=(event)=> {
         problem:name,
         description:desc,
         money:price,
-        media:arrayvar,
+        media:newar,
         request:"nothing",
         utime:d,
         schedule:schedule,
@@ -218,7 +219,11 @@ const handleSubmit=(event)=> {
   };
 useEffect(() => {
 if(arrayvar.length>0){
-  if(arrayvar.length==image.length)handleSubmit();
+  if(arrayvar.length==image.length){
+    let newar=arrayvar2.concat(arrayvar)
+    setarrayvar(newar);
+    handleSubmit(newar);
+  }
 }
 }, [arrayvar])
 
@@ -275,6 +280,19 @@ if(image.length>0){
               setimage(array)
             }
           }
+
+          const sekhararr2=(e)=>{
+
+            console.log(e.target.parentElement.parentElement.id)
+            var array = [...arrayvar2]; // make a separate copy of the array
+           // var index = array.indexOf(e.target.parentElement.parentElement.id)
+            let index2 =Number(e.target.parentElement.parentElement.id)
+            console.log(e)
+            if (index2 !== -1) {
+              array.splice(index2, 1);
+              setarrayvar2(array)
+            }
+          }       
 
 
 
@@ -358,6 +376,25 @@ if(image.length>0){
 
 
 <div>
+<Image.Group size='small'>
+ 
+
+{
+  arrayvar2.map((nap,key)=>
+  
+  <Image
+  fluid
+  key={key}
+  id={key}
+  label={{ as: 'a', corner: 'right', icon: 'trash',onClick: sekhararr2}}
+  src={nap}
+ 
+/>
+
+  )}
+
+</Image.Group>
+
 
 <Image.Group size='small'>
  
