@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import firebase from '../firebase';
-import react,{useState,useEffect} from "react";
+import {useState,useEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Row, Col } from 'react-bootstrap';
-import { Button, Card, Image,Menu,Dropdown,Icon } from 'semantic-ui-react'
+import { Button, Card, Image,Dropdown,Icon } from 'semantic-ui-react'
 import '../index.css';
 import { useHistory } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
 //import icons
 
-import {MdDelete,MdStar,MdChatBubble,MdAccessTime,MdList,MdFeaturedPlayList,MdCheckCircle,MdCancel} from 'react-icons/md';
+import {MdStar,MdChatBubble,MdFeaturedPlayList,MdCheckCircle,MdCancel} from 'react-icons/md';
 
 
 const db=firebase.firestore();
@@ -81,17 +81,9 @@ const delpost=(pro)=>{
   })
 }
 
-const copy=(prop)=>{
-  let data;
-  db.collection('request').doc('pRxd1QTwQEyIIMr68n4p').get().then(snap=>{
-    data=snap.data()
-  }).then(()=>{
-    db.collection('users').doc(firebase.auth().currentUser.uid).collection('response').doc('pRxd1QTwQEyIIMr68n4p').set(data)
 
-  })
-}
 
-      return <div>   
+return <div>   
         {props.data.length>0
         ?
   props.data.map((cap)=>
@@ -99,7 +91,6 @@ const copy=(prop)=>{
  
 
 
-{/* sematic ui react */}
 <Card.Group>
 <Card color="blue"
 style={{width:"80%",borderRadius:"1.5rem",backgroundColor:"#F9F9F9"}}>

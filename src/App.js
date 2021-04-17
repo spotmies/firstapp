@@ -10,7 +10,7 @@ import signup from "./components/signup";
 import profile from './components/profile';
 import SimpleMap from './components/contact';
 import chatssection from "./components/chats-section";
-import CardExampleCard from './components/bikerental';
+import Rentals from './components/bikerental';
 import pdetails from './components/pdetails';
 import newpost2 from './components/newpost2';
 import editpost2 from './components/editpost2'
@@ -38,7 +38,7 @@ return(<>
       <Route path="/mybookings/id/edit" component={editpost2}/>
       <Route path="/mybookings/id" component={postview}/>
       <Route path="/contact" component={SimpleMap}/>
-      <Route path='/rentals' component={CardExampleCard} />
+      <Route path='/rentals' component={Rentals} />
       <Route path="/pdetails" component={pdetails} />
       <Route path="/nav2" component={nav2} />
       <Route path="/partnerRegistration" component={partnerRegistration}/>

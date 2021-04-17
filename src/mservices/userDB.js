@@ -6,4 +6,8 @@ async function getresponse(id){
 return null;
 }
 
+async function getpost(uid,id){
+
+}
+
 export {getresponse}

@@ -8,7 +8,7 @@ import {
   import DatePicker from 'react-datepicker';
   import imageCompression from "browser-image-compression";
 
-  import {MdAlarmAdd,MdLaptopMac,MdTv,MdEventNote,MdEvent,MdDriveEta,MdFace} from 'react-icons/md'
+  import {MdLaptopMac,MdTv,MdEventNote,MdEvent,MdDriveEta,MdFace} from 'react-icons/md'
   import {BiCodeBlock} from 'react-icons/bi'
   import{FaChalkboardTeacher,FaTools} from 'react-icons/fa'
   import{IoCameraSharp} from 'react-icons/io5'
@@ -143,7 +143,7 @@ if(posttime[1] && avoid2==0){
 
 
 const handleSubmit=(event)=> {
-    event.preventDefault();
+   // event.preventDefault();
     console.log(arrayvar)
     let schedule=startDate
     let name=document.querySelector('#nameofserv').value
@@ -198,7 +198,7 @@ const handleSubmit=(event)=> {
     };
     let cfile;
 
-    setimage([]);
+   // setimage([]);
     for(var i=0;i<e.target.files.length;i++){
       let k=Number(i)
 
@@ -216,13 +216,18 @@ const handleSubmit=(event)=> {
     }
     
   };
+useEffect(() => {
+if(arrayvar.length>0){
+  if(arrayvar.length==image.length)handleSubmit();
+}
+}, [arrayvar])
 
+ const handleUpload = (e) => {
+   e.preventDefault();
+  //  document.getElementById("uploaderb").style.display="block"
+   // document.getElementById('upldbtn').style.display="none"
 
- const handleUpload = () => {
-    document.getElementById("uploaderb").style.display="block"
-    document.getElementById('upldbtn').style.display="none"
-
-
+if(image.length>0){
     for(var i=0;i<image.length;i++){
       let k=Number(i)
    const uploadTask = storage.ref(`users/${firebase.auth().currentUser.uid}/adpost/${image[k].name}`).put(image[k]);
@@ -249,36 +254,32 @@ const handleSubmit=(event)=> {
      }
    )
     }
-    document.getElementById("uploaderb").style.display="none"       
+  }
+  else {
+    setarrayvar([]);
+    handleSubmit(e);
+  }
+    //document.getElementById("uploaderb").style.display="none"       
  }
 
-
-
-
-
-
-
-
-
-
-          
 
         const sekhararr=(e)=>{
 
             console.log(e.target.parentElement.parentElement.id)
-            var array = [...arrayvar]; // make a separate copy of the array
-            var index = array.indexOf(e.target.parentElement.parentElement.id)
-            if (index !== -1) {
-              array.splice(index, 1);
-           //   this.setState({arrayvar: array});
-              setarrayvar(array)
+            var array = [...image]; // make a separate copy of the array
+           // var index = array.indexOf(e.target.parentElement.parentElement.id)
+            let index2 =Number(e.target.parentElement.parentElement.id)
+            console.log(e)
+            if (index2 !== -1) {
+              array.splice(index2, 1);
+              setimage(array)
             }
           }
 
 
 
     return <div>
- <Form className="postjobb"  onSubmit={handleSubmit}>
+ <Form className="postjobb"  onSubmit={handleUpload}>
           <Form.Group widths='equal'>
             <Form.Field
             required
@@ -341,9 +342,9 @@ const handleSubmit=(event)=> {
              multiple
                  />
             </Form.Field>
-            <Form.Field control={Button} color="green" id="upldbtn" type="button" onClick={handleUpload}>
+            {/* <Form.Field control={Button} color="green" id="upldbtn" type="button" onClick={handleUpload}>
               upload images
-            </Form.Field>
+            </Form.Field> */}
             <progress value={progress} max="100" id="uploaderb">progress</progress>
 
             <div className="imgdiv">
@@ -362,14 +363,14 @@ const handleSubmit=(event)=> {
  
 
 {
-  arrayvar.map((nap,key)=>
+  image.map((nap,key)=>
   
   <Image
   fluid
   key={key}
-  id={nap}
+  id={key}
   label={{ as: 'a', corner: 'right', icon: 'trash',onClick: sekhararr}}
-  src={nap}
+  src={URL.createObjectURL(nap)}
  
 />
 

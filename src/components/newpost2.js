@@ -328,6 +328,7 @@ sekhararr=(e)=>{
 this.setState({
   image:this.state.image.filter((e)=>(e !== ritem))
 })
+console.log(this.state.image);
 //setimage(image.filter((e)=>(e !== ritem)))
 
 

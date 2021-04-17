@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Form, Button} from 'react-bootstrap';
-import react,{useState,useEffect} from 'react';
 import GoogleMapReact from 'google-map-react';
 import { contactus } from "../mservices/contactUs";
 import { toast } from 'react-toastify';
