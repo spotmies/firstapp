@@ -1,26 +1,33 @@
-#formcard{
-    border-radius: 1rem;
-    width: 90%;
-    border-top-style: solid;
-    border-top-color: rgb(22, 148, 231);
-    
+#formcard {
+  border-radius: 1rem;
+  width: 50%;
+  border-top-style: solid;
+  box-shadow: 1px 1px 10px rgb(160, 159, 159);
+  border-top-color: rgb(22, 148, 231);
 }
-#jobcate{
-    border-top-style: solid;
-    border-top-color: rgb(22, 148, 231);
-    border-radius: 1rem;
-
+#jobcate {
+  border-top-style: solid;
+  border-top-color: rgb(22, 148, 231);
+  border-radius: 1rem;
 }
-#upldbtn{
-    display: none;
+#upldbtn {
+  display: none;
 }
 
+#book-card {
+  border-top-style: solid;
+  border-top-color: rgb(22, 148, 231);
+  border-radius: 1.5rem;
+  width: 70%;
+  background-color: #f9f9f9;
+}
 
-
-#book-card{ 
-    border-top-style: solid;
-    border-top-color: rgb(22, 148, 231);
-    border-radius: 1.5rem;
-    width: 70%;
-    background-color: #F9F9F9;
+.ModalEdit {
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  height: 500px;
+  margin-top: 70px !important;
+  overflow: auto;
 }

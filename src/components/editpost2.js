@@ -301,7 +301,7 @@ function Postform2() {
   };
 
   return (
-    <div>
+    <div className="postjobdiv">
       <Form className="postjobb" onSubmit={handleUpload}>
         <Form.Group widths="equal">
           <Form.Field
@@ -448,6 +448,7 @@ function ModalExampleModal() {
     <>
       <Modal
         size="small"
+        className="ModalEdit"
         style={{
           marginLeft: "auto",
           marginRight: "auto",
