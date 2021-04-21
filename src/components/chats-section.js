@@ -652,7 +652,10 @@ function Chatarea(props) {
                     key={key}
                     id={key == chat.body.length - 1 ? "scrolltobottom" : null}
                   >
-                    <p className="chatListP">
+                    <p
+                      className="chatListP"
+                      style={{ display: "inline-list-item" }}
+                    >
                       {getorgnl(nap)}&nbsp;{" "}
                       <small className="textTimep"> {getmsgtime(nap)}</small>
                     </p>
@@ -902,7 +905,10 @@ function Chatarea(props) {
                   >
                     {chatobj.msg}
 
-                    {/* <small className="textTimep"> {getmsgtime(nap)}</small> */}
+                    <small className="textTimep">
+                      {" "}
+                      {getmsgtime(chatobj.timestamp)}
+                    </small>
                   </p>
                 </div>
               </div>
@@ -1108,8 +1114,8 @@ function Chatarea(props) {
   }
 
   function getmsgtime(nap) {
-    let stamps = countSpecial(nap);
-    let msgtime = gettbystamps(stamps, "time");
+    // let stamps = countSpecial(nap);
+    let msgtime = gettbystamps(Number(nap), "time");
     return msgtime;
   }
 
