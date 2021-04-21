@@ -140,10 +140,26 @@ function Mybookings(props) {
   const history = useHistory();
   const [chat, setchat] = useState([]);
   const [showChat, setShowChat] = useState(false);
+  const [listChat, setlistChat] = useState([]);
   const [heights, widths] = useWindowSize();
   // const [heads, setHeads] = chatHead();
 
+  // const update_newmsg = () => {
+  //   let cobj = {
+  //     msg: Math.random(),
+  //     timestamp: 1619005851,
+  //     type: "text",
+  //     sender: "u",
+  //   };
+  //   let temp = props.data;
+  //   temp[0].body.push(JSON.stringify(cobj));
+  //   setlistChat(temp);
+  // };
+
+  console.log(listChat);
   const click = async (prop) => {
+    setlistChat(props.data);
+    //  update_newmsg();
     console.log("click", prop);
     await db
       .collection("messaging")
@@ -298,6 +314,9 @@ function Mybookings(props) {
                         )}
                       </List.Description>
                     ) : null} */}
+                    <List.Description>
+                      {JSON.parse(nap.body[nap.body.length - 1]).msg}
+                    </List.Description>
                   </List.Item>
                 ))}
               </List>
@@ -412,13 +431,26 @@ function Chatarea(props) {
   };
 
   const click2 = (id, msg) => {
+    let newbody = [];
+    newbody = chat.body;
+
+    console.log("click");
     let timestamp = Math.round(+new Date() / 1000);
+    //let msg = typemsg + "`" + timestamp + "`";
+    var msg2 = {};
+    msg2.msg = msg;
+    msg2.timestamp = timestamp;
+    msg2.type = "photo";
+    msg2.sender = "u";
+    var msgg = JSON.stringify(msg2);
+    newbody.push(msgg);
+
+    // let timestamp = Math.round(+new Date() / 1000);
+
     db.collection("messaging")
       .doc(id)
       .update({
-        body: firebase.firestore.FieldValue.arrayUnion(
-          msg + "`" + timestamp + "`" + "um"
-        ),
+        body: newbody,
         createdAt: new Date(),
         pread: false,
       })
@@ -893,6 +925,8 @@ function Chatarea(props) {
             var chatobj = JSON.parse(nap);
             return (
               <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
+                <p>{cmpmsg(nap, array[key - 1])}</p>
+
                 <div
                   className={
                     chatobj.sender == "u" ? "out-chatbox" : "in-chatbox"
@@ -900,16 +934,32 @@ function Chatarea(props) {
                   key={key}
                   id={key == chat.body.length - 1 ? "scrolltobottom" : null}
                 >
-                  <p
-                    className={chatobj.sender == "u" ? "chatList" : "chatListp"}
-                  >
-                    {chatobj.msg}
+                  {chatobj.type == "text" ? (
+                    <p
+                      className={
+                        chatobj.sender == "u" ? "chatList" : "chatListp"
+                      }
+                    >
+                      {chatobj.msg}
 
-                    <small className="textTimep">
-                      {" "}
-                      {getmsgtime(chatobj.timestamp)}
-                    </small>
-                  </p>
+                      <small
+                        className={
+                          chatobj.sender == "u" ? "textTime" : "textTimep"
+                        }
+                      >
+                        {" "}
+                        {getmsgtime(chatobj.timestamp)}
+                      </small>
+                    </p>
+                  ) : chatobj.type == "photo" ? (
+                    <Image
+                      floated="right"
+                      className="chatPic"
+                      onClick={showimage}
+                      src={chatobj.msg}
+                      size="small"
+                    />
+                  ) : null}
                 </div>
               </div>
             );
@@ -1099,44 +1149,25 @@ function Chatarea(props) {
     );
   }
 
-  function countSpecial(str) {
-    const punct = "`";
-    let count = 0;
-    let position = [];
-    for (let i = 0; i < str.length; i++) {
-      if (!punct.includes(str[i])) {
-        continue;
-      }
-      count++;
-      position.push(i);
-    }
-    return str.slice(position[0] + 1, position[1]);
-  }
-
   function getmsgtime(nap) {
     // let stamps = countSpecial(nap);
     let msgtime = gettbystamps(Number(nap), "time");
     return msgtime;
   }
 
-  function cmpmsg(cumsg, premsg) {
-    let premsg2 = premsg;
-    if (
-      premsg == null ||
-      premsg == "" ||
-      premsg == undefined ||
-      premsg == NaN
-    ) {
-      premsg2 = cumsg;
-    }
+  function cmpmsg(msg1, msg2) {
+    let temp1 = JSON.parse(msg1);
+    let temp2 = msg2 == undefined ? JSON.parse(msg1) : JSON.parse(msg2);
 
-    let ct = Number(getstamp(cumsg));
-    let pt = Number(getstamp(premsg2));
+    let ct = Number(temp1.timestamp);
+    let pt = Number(temp2.timestamp);
     if (gettbystamps(ct, "date") != gettbystamps(pt, "date")) {
       let temp = gettbystamps(ct, "fulldate");
       return temp;
+    } else if (msg2 == undefined) {
+      let temp = gettbystamps(ct, "fulldate");
+      return temp;
     } else return null;
-    //return new Date(ct*1000).getDate();
   }
 
   function removeitems(data) {
