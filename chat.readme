@@ -29,3 +29,4 @@ all messages of user and partner contains in body array extension u when user se
 link for pagination:
 
 https://academind.com/tutorials/reactjs-pagination/
+// "build": "react-scripts build",
