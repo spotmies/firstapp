@@ -31,3 +31,7 @@
   margin-top: 70px !important;
   overflow: auto;
 }
+
+.photoUpload {
+  visibility: hidden;
+}
