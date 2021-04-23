@@ -87,22 +87,25 @@ function useTimes() {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
-        var temp = [];
-
+        var tempChat = [];
         db.collection("messaging")
           .where("userid", "==", firebase.auth().currentUser.uid)
           .where("chatbuild", "==", true)
           .orderBy("createdAt", "desc")
-          .get()
-          .then((querySnapshot) => {
+        //   .get()
+        //   .then(
+            .onSnapshot(
+              (querySnapshot) => {
+                  tempChat=[];
             querySnapshot.forEach((doc) => {
-              temp.push(doc.data());
+              tempChat.push(doc.data());
+              setchit(tempChat);
             });
           })
-          .then(() => setchit(temp))
-          .catch((error) => {
-            console.log("Error getting documents: ", error);
-          });
+        //   .then(() => setchit(temp))
+        //   .catch((error) => {
+        //     console.log("Error getting documents: ", error);
+        //   });
       }
     });
   }, []);
@@ -425,6 +428,7 @@ function Chatarea(props) {
           })
           .then(() => {
             settypemsg("");
+           // tempChat=[];
           });
       }
     }
