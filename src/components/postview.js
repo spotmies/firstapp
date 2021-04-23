@@ -33,6 +33,7 @@ import { HiCurrencyRupee } from "react-icons/hi";
 import { FaTools, FaAddressCard } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import "../assets/css/postView.css";
+import { categoryAssign } from "./reusable/categories";
 
 const db = firebase.firestore();
 
@@ -175,7 +176,7 @@ const Navbar3 = () => {
                 >
                   <Card.Content>
                     <Card.Meta>
-                      <Icon name="sticky note" /> Descrition
+                      <Icon name="sticky note" /> Description
                     </Card.Meta>
                     <Card.Description>
                       <h3>{postdata.description}</h3>
@@ -191,7 +192,7 @@ const Navbar3 = () => {
                   <Card.Content>
                     <Card.Meta>
                       <Icon name="rupee sign" />
-                      Prics
+                      Price
                     </Card.Meta>
                     {String(postdata.money) != "NaN" ? (
                       <h2 style={{ textAlign: "center" }}>
@@ -252,7 +253,8 @@ const Navbar3 = () => {
                         <MdLocationOn /> Location: {postdata.location}
                       </h4>
                       <h4>
-                        <RiUserSettingsFill /> category : {postdata.job}
+                        <RiUserSettingsFill /> category :
+                        {categoryAssign(postdata.job)}
                       </h4>
                       <h4>
                         <RiTimeFill />

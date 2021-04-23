@@ -32,6 +32,7 @@
   overflow: auto;
 }
 
-.photoUpload {
+/* .photoUpload {
   visibility: hidden;
-}
+  display: none;
+} */

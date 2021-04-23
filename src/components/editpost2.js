@@ -130,6 +130,8 @@ function Postform2() {
   const [arrayvar2, setarrayvar2] = useState([]);
   const [image, setimage] = useState([]);
   const [progress, setprogress] = useState(0);
+  const photoUpload = useRef(null);
+
   //console.log(postdata)
 
   if (posttime[1] && avoid2 == 0) {
@@ -197,6 +199,7 @@ function Postform2() {
   };
 
   const handleChangeg = (e) => {
+    console.log("console handle change");
     const options = {
       maxSizeMB: 0.15,
       maxWidthOrHeight: 800,
@@ -301,10 +304,9 @@ function Postform2() {
     }
   };
 
-  const photoUpload = useRef(null);
-
   const photoHandle = (e) => {
-    photoUpload.current.click();
+    // photoUpload.current.click();
+    document.querySelector(".photoUploads").click();
     console.log("photoClicked");
   };
 
@@ -369,10 +371,10 @@ function Postform2() {
           </InputGroup>
         </Form.Field>
 
-        <MdPhotoCamera
+        {/* <MdPhotoCamera
           style={{ height: "150px", width: "100px" }}
           onClick={photoHandle}
-        />
+        /> */}
 
         <Form.Field>
           <Input
@@ -384,7 +386,8 @@ function Postform2() {
             ref={photoUpload}
             accept=".gif,.jpg,.jpeg,.png"
             onChange={handleChangeg}
-            className="photoUpload"
+            style={{ display: "block" }}
+            className="photoUploads"
             multiple
           />
         </Form.Field>
