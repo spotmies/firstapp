@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import "../navbar.css";
 import firebase from "../firebase";
 import Menu from "./reusable/menu";
+import SmLogo from "../images/sm-logo.png";
 
 //react icons
 import { IconContext } from "react-icons";
@@ -73,7 +74,9 @@ function Navibar() {
               value={{ size: "1.5em", className: "nav-icons" }}
             >
               <Link to="/">
-                <Navbar.Brand className="title">Title</Navbar.Brand>
+                <Navbar.Brand className="title">
+                  <img src={SmLogo} />
+                </Navbar.Brand>
               </Link>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">

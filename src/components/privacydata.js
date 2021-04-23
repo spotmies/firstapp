@@ -1,0 +1,5 @@
+const privacydata = [
+  {
+    head1: "",
+  },
+];

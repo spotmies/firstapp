@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 
 import {
   Button,
@@ -30,6 +30,7 @@ import {
 import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools } from "react-icons/fa";
 import { IoCameraSharp } from "react-icons/io5";
+import { MdPhotoCamera } from "react-icons/md";
 import firebase from "../firebase";
 import "firebase/storage";
 import { createHashHistory } from "history";
@@ -129,6 +130,8 @@ function Postform2() {
   const [arrayvar2, setarrayvar2] = useState([]);
   const [image, setimage] = useState([]);
   const [progress, setprogress] = useState(0);
+  const photoUpload = useRef(null);
+
   //console.log(postdata)
 
   if (posttime[1] && avoid2 == 0) {
@@ -196,6 +199,7 @@ function Postform2() {
   };
 
   const handleChangeg = (e) => {
+    console.log("console handle change");
     const options = {
       maxSizeMB: 0.15,
       maxWidthOrHeight: 800,
@@ -300,6 +304,12 @@ function Postform2() {
     }
   };
 
+  const photoHandle = (e) => {
+    // photoUpload.current.click();
+    document.querySelector(".photoUploads").click();
+    console.log("photoClicked");
+  };
+
   return (
     <div className="postjobdiv">
       <Form className="postjobb" onSubmit={handleUpload}>
@@ -361,6 +371,11 @@ function Postform2() {
           </InputGroup>
         </Form.Field>
 
+        {/* <MdPhotoCamera
+          style={{ height: "150px", width: "100px" }}
+          onClick={photoHandle}
+        /> */}
+
         <Form.Field>
           <Input
             icon="photo"
@@ -368,8 +383,11 @@ function Postform2() {
             type="file"
             placeholder="Enter tags"
             //   onChange={upldimg}
+            ref={photoUpload}
             accept=".gif,.jpg,.jpeg,.png"
             onChange={handleChangeg}
+            style={{ display: "block" }}
+            className="photoUploads"
             multiple
           />
         </Form.Field>
