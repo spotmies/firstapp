@@ -94,15 +94,17 @@ function useTimes() {
           .orderBy("createdAt", "desc")
         //   .get()
         //   .then(
-            .onSnapshot(
+            
+             .onSnapshot(
               (querySnapshot) => {
-                  tempChat=[];
+                //  tempChat=[];
+                setchit([]);
             querySnapshot.forEach((doc) => {
-              tempChat.push(doc.data());
-              setchit(tempChat);
+             // tempChat.push(doc.data());
+              setchit(x=>x.concat(doc.data()));
             });
           })
-        //   .then(() => setchit(temp))
+        //   .then(() => setchit(tempChat))
         //   .catch((error) => {
         //     console.log("Error getting documents: ", error);
         //   });
