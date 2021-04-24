@@ -3,7 +3,7 @@ import firebase from "../firebase";
 import react, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Form } from "react-bootstrap";
-import { Button, Segment, Dimmer, Loader } from "semantic-ui-react";
+import { Button, Segment, Dimmer, Loader, Label } from "semantic-ui-react";
 import "../index.css";
 import "./chats.css";
 import { BiArrowBack } from "react-icons/bi";
@@ -31,7 +31,7 @@ import {
   lastMessage,
 } from "../mservices/dateconv";
 import { toast } from "react-toastify";
-
+import { msgdot } from "./reusable/msgdot";
 //import icons
 import { BsEyeFill } from "react-icons/bs";
 import { BiTimeFive } from "react-icons/bi";
@@ -92,18 +92,17 @@ function useTimes() {
           .where("userid", "==", firebase.auth().currentUser.uid)
           .where("chatbuild", "==", true)
           .orderBy("createdAt", "desc")
-        //   .get()
-        //   .then(
-            
-             .onSnapshot(
-              (querySnapshot) => {
-                //  tempChat=[];
-                setchit([]);
+          //   .get()
+          //   .then(
+
+          .onSnapshot((querySnapshot) => {
+            //  tempChat=[];
+            setchit([]);
             querySnapshot.forEach((doc) => {
-             // tempChat.push(doc.data());
-              setchit(x=>x.concat(doc.data()));
+              // tempChat.push(doc.data());
+              setchit((x) => x.concat(doc.data()));
             });
-          })
+          });
         //   .then(() => setchit(tempChat))
         //   .catch((error) => {
         //     console.log("Error getting documents: ", error);
@@ -281,52 +280,76 @@ function Mybookings(props) {
               marginTop: "20px",
               border: "0 1px 0 0",
               boxShadow: "0px 0px 1px rgb(141, 139, 139)",
+              // backgroundColor: "yellow",
+              height: "100%",
             }}
           >
             <div style={{ position: "-webkit-sticky" }}>
-              <List celled>
+              <List>
                 {props.data.map((nap) => (
-                  <List.Item
-                    className=""
-                    as="a"
-                    id={nap.id}
-                    onClick={(e) => click(nap.id)}
-                  >
-                    <div style={{ display: "inline-flex" }}>
-                      <Image avatar src={nap.ppic} />
-
-                      <List.Header
-                        style={{ marginTop: "5px", marginLeft: "5px" }}
+                  <List.Item id={nap.id} onClick={(e) => click(nap.id)}>
+                    <Image avatar src={nap.ppic} />
+                    <List.Content style={{ width: "250px" }}>
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          // backgroundColor: "red",
+                          width: "250px",
+                        }}
                       >
-                        {nap.pname}
-                      </List.Header>
-                    </div>
+                        <List.Header as="a">{nap.pname} </List.Header>
+                        <p style={{ marginRight: "0", marginLeft: "auto" }}>
+                          <small
+                            style={{ color: nap.uread ? "gray" : "black" }}
+                          >
+                            {" "}
+                            {getmsgtime(
+                              JSON.parse(nap.body[nap.body.length - 1])
+                                .timestamp
+                            )}
+                          </small>
+                        </p>
+                      </div>
 
-                    {/* {nap.body.length > 0 ? (
-                      <List.Description>
-                        {nap.body[nap.body.length - 1].substr(-1) == "u" ||
-                        nap.body[nap.body.length - 1].substr(-1) == "p" ? (
-                          nap.body[nap.body.length - 1].slice(0, -1).length >
-                          17 ? (
-                            nap.body[nap.body.length - 1]
-                              .slice(0, -1)
-                              .slice(0, 17) + "....."
-                          ) : (
-                            nap.body[nap.body.length - 1].slice(0, -1)
-                          )
-                        ) : (
-                          <MdImage />
-                        )}
+                      <List.Description
+                        style={{
+                          display: "inline-flex",
+                          width: "250px",
+                          height: "100%",
+                          //  backgroundColor: "red",
+                        }}
+                      >
+                        <p style={{ color: nap.uread ? "gray" : "black" }}>
+                          {msgdot(
+                            JSON.parse(nap.body[nap.body.length - 1]).msg,
+                            24
+                          )}
+                        </p>
+                        {/* <p style={{ marginRight: "0", marginLeft: "auto" }}>
+                          {" "}
+                          icons
+                        </p> */}
+                        {nap.uread == false ? (
+                          <Label
+                            size="mini"
+                            color="blue"
+                            style={{
+                              marginRight: "0",
+                              marginLeft: "auto",
+                              height: "100%",
+                            }}
+                          >
+                            New Message
+                          </Label>
+                        ) : null}
                       </List.Description>
-                    ) : null} */}
-                    <List.Description>
-                      {JSON.parse(nap.body[nap.body.length - 1]).msg}
-                    </List.Description>
+                    </List.Content>
                   </List.Item>
                 ))}
               </List>
             </div>
           </Grid.Column>
+
           <Grid.Column
             floated="right"
             mobile={16}
@@ -430,7 +453,7 @@ function Chatarea(props) {
           })
           .then(() => {
             settypemsg("");
-           // tempChat=[];
+            // tempChat=[];
           });
       }
     }
@@ -1155,12 +1178,6 @@ function Chatarea(props) {
     );
   }
 
-  function getmsgtime(nap) {
-    // let stamps = countSpecial(nap);
-    let msgtime = gettbystamps(Number(nap), "time");
-    return msgtime;
-  }
-
   function cmpmsg(msg1, msg2) {
     let temp1 = JSON.parse(msg1);
     let temp2 = msg2 == undefined ? JSON.parse(msg1) : JSON.parse(msg2);
@@ -1181,7 +1198,11 @@ function Chatarea(props) {
     settempimg(data);
   }
 }
-
+function getmsgtime(nap) {
+  // let stamps = countSpecial(nap);
+  let msgtime = gettbystamps(Number(nap), "time");
+  return msgtime;
+}
 function Headings() {
   return (
     <div className="resHead">
