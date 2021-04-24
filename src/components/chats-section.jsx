@@ -145,24 +145,17 @@ function Mybookings(props) {
   const [chat, setchat] = useState([]);
   const [showChat, setShowChat] = useState(false);
   const [listChat, setlistChat] = useState([]);
+  const [unrChat,setunrChat]=useState([]);
   const [heights, widths] = useWindowSize();
-  // const [heads, setHeads] = chatHead();
 
-  // const update_newmsg = () => {
-  //   let cobj = {
-  //     msg: Math.random(),
-  //     timestamp: 1619005851,
-  //     type: "text",
-  //     sender: "u",
-  //   };
-  //   let temp = props.data;
-  //   temp[0].body.push(JSON.stringify(cobj));
-  //   setlistChat(temp);
-  // };
+  useEffect(() => {
+setlistChat(props.data)
+console.log("new chat list");
+console.log(props.data);
+  }, [props.data])
 
-  console.log(listChat);
   const click = async (prop) => {
-    setlistChat(props.data);
+    // setlistChat(props.data);
     //  update_newmsg();
     console.log("click", prop);
     await db
@@ -286,8 +279,9 @@ function Mybookings(props) {
           >
             <div style={{ position: "-webkit-sticky" }}>
               <List>
-                {props.data.map((nap) => (
-                  <List.Item id={nap.id} onClick={(e) => click(nap.id)}>
+                {listChat.map((nap,key) => (
+                  
+                  <List.Item id={nap.id} onClick={(e) => click(nap.id)} key={key}>
                     <Image avatar src={nap.ppic} />
                     <List.Content style={{ width: "250px" }}>
                       <div
@@ -325,10 +319,6 @@ function Mybookings(props) {
                             24
                           )}
                         </p>
-                        {/* <p style={{ marginRight: "0", marginLeft: "auto" }}>
-                          {" "}
-                          icons
-                        </p> */}
                         {nap.uread == false ? (
                           <Label
                             size="mini"

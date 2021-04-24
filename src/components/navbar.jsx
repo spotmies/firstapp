@@ -5,7 +5,7 @@ import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "../navbar.css";
 import firebase from "../firebase";
-import Menu from "./reusable/menu";
+//import Menu from "./reusable/menu";
 import SmLogo from "../images/sm-logo.png";
 
 //react icons
