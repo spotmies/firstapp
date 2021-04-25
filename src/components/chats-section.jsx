@@ -21,6 +21,7 @@ import {
 } from "semantic-ui-react";
 import imageCompression from "browser-image-compression";
 import ImageViewer from "react-simple-image-viewer";
+// import { UniversalM } from "./reusable/Modal";
 import "firebase/storage";
 //micro service
 import { getpdetailsbyid, disablechat } from "../mservices/upldmedia";
@@ -52,6 +53,7 @@ import {
   MdPerson,
   MdViewDay,
   MdRemoveRedEye,
+  MdClose,
 } from "react-icons/md";
 
 import { AiFillEdit } from "react-icons/ai";
@@ -145,14 +147,14 @@ function Mybookings(props) {
   const [chat, setchat] = useState([]);
   const [showChat, setShowChat] = useState(false);
   const [listChat, setlistChat] = useState([]);
-  const [unrChat,setunrChat]=useState([]);
+  const [unrChat, setunrChat] = useState([]);
   const [heights, widths] = useWindowSize();
 
   useEffect(() => {
-setlistChat(props.data)
-console.log("new chat list");
-console.log(props.data);
-  }, [props.data])
+    setlistChat(props.data);
+    console.log("new chat list");
+    console.log(props.data);
+  }, [props.data]);
 
   const click = async (prop) => {
     // setlistChat(props.data);
@@ -216,19 +218,63 @@ console.log(props.data);
                   }}
                 >
                   <List celled>
-                    {props.data.map((nap) => (
+                    {listChat.map((nap, key) => (
                       <List.Item
-                        className="gridHead"
                         id={nap.id}
                         onClick={(e) => click(nap.id)}
+                        key={key}
+                        // style={{ backgroundColor: "yellow", width: "250px" }}
                       >
                         <Image avatar src={nap.ppic} />
-                        <List.Content>
-                          <List.Header as="a">{nap.pname}</List.Header>
-                          <List.Description>
-                            {nap.body[nap.body.length - 1]
-                              .slice(0, -1)
-                              .slice(0, 50)}
+                        <List.Content style={{ width: "250px" }}>
+                          <div
+                            style={{
+                              display: "inline-flex",
+                              //    backgroundColor: "red",
+                              width: "250px",
+                            }}
+                          >
+                            <List.Header as="a">{nap.pname} </List.Header>
+                            <p style={{ marginRight: "0", marginLeft: "auto" }}>
+                              <small
+                                style={{ color: nap.uread ? "gray" : "black" }}
+                              >
+                                {" "}
+                                {getmsgtime(
+                                  JSON.parse(nap.body[nap.body.length - 1])
+                                    .timestamp
+                                )}
+                              </small>
+                            </p>
+                          </div>
+
+                          <List.Description
+                            style={{
+                              display: "inline-flex",
+                              width: "250px",
+                              height: "100%",
+                              //  backgroundColor: "red",
+                            }}
+                          >
+                            <p style={{ color: nap.uread ? "gray" : "black" }}>
+                              {msgdot(
+                                JSON.parse(nap.body[nap.body.length - 1]).msg,
+                                24
+                              )}
+                            </p>
+                            {nap.uread == false ? (
+                              <Label
+                                size="mini"
+                                color="blue"
+                                style={{
+                                  marginRight: "0",
+                                  marginLeft: "auto",
+                                  height: "100%",
+                                }}
+                              >
+                                New Message
+                              </Label>
+                            ) : null}
                           </List.Description>
                         </List.Content>
                       </List.Item>
@@ -279,9 +325,12 @@ console.log(props.data);
           >
             <div style={{ position: "-webkit-sticky" }}>
               <List>
-                {listChat.map((nap,key) => (
-                  
-                  <List.Item id={nap.id} onClick={(e) => click(nap.id)} key={key}>
+                {listChat.map((nap, key) => (
+                  <List.Item
+                    id={nap.id}
+                    onClick={(e) => click(nap.id)}
+                    key={key}
+                  >
                     <Image avatar src={nap.ppic} />
                     <List.Content style={{ width: "250px" }}>
                       <div
@@ -661,279 +710,6 @@ function Chatarea(props) {
 
         <div
           className="chatdiv"
-          ref={scrollref}
-          onScroll={(e) => {
-            scrollhandle(e);
-          }}
-          style={{ overflow: "auto" }}
-        >
-          {chat.body.map((nap, key, array) => {
-            //  if(key%2==0 || key%2==1){ return <div className= "out-chat" key={key} id={key==chat.body.length-1 ? "scrolltobottom":null}><div className="out-chatbox"><p className="chatList">{nap.slice(0, -1)}{cmpmsg(nap,array[key-1])}</p></div></div>}
-            if (nap[nap.length - 1] == "u")
-              return (
-                <div
-                  className="out-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <div className="out-chatbox">
-                    <p className="chatList">
-                      {getorgnl(nap)}&nbsp;{" "}
-                      <small className="textTime"> {getmsgtime(nap)}</small>
-                    </p>
-                  </div>
-                  {/* {key==chat.body.length-1 ?
-        <div><p><small className="readText">{chat.pread?"read":"unread"}</small></p></div>
-        :null
-  
-         } */}
-                </div>
-              );
-            else if (nap[nap.length - 1] == "p")
-              return (
-                <div className="in-chat">
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <div
-                    className="in-chatbox"
-                    key={key}
-                    id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                  >
-                    <p
-                      className="chatListP"
-                      style={{ display: "inline-list-item" }}
-                    >
-                      {getorgnl(nap)}&nbsp;{" "}
-                      <small className="textTimep"> {getmsgtime(nap)}</small>
-                    </p>
-                  </div>
-                </div>
-              );
-            else if (nap.slice(-2) == "um")
-              return (
-                <div
-                  className="out-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <Image
-                    floated="right"
-                    className="chatPic"
-                    onClick={showimage}
-                    src={nap.slice(0, -2)}
-                    size="small"
-                  />
-                  <p>
-                    <small className="textTime">{getmsgtime(nap)}</small>
-                  </p>
-                  {key == chat.body.length - 1 ? (
-                    <p className="readText">
-                      <small>{chat.pread ? "read" : "unread"}</small>
-                    </p>
-                  ) : null}
-                </div>
-              );
-            else if (nap.slice(-2) == "pm")
-              return (
-                <div
-                  className="in-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <Image
-                    floated="left"
-                    className="chatPic"
-                    onClick={showimage}
-                    src={nap.slice(0, -2)}
-                    size="small"
-                  />
-                  <p>
-                    <small className="textTime">{getmsgtime(nap)}</small>
-                  </p>
-                </div>
-              );
-          })}
-          {lastMessage(chat.body[chat.body.length - 1]) ? (
-            <div>
-              <p>
-                <small className="readText">
-                  {chat.pread ? "seen" : "unseen"}
-                </small>
-              </p>
-            </div>
-          ) : null}
-          {scrollDisplay ? (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="2rem"
-                style={{ position: "fixed", bottom: "60px", float: "right" }}
-              />
-            </a>
-          ) : (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="2rem"
-                style={{
-                  position: "fixed",
-                  bottom: "60px",
-                  float: "right",
-                  display: "none",
-                }}
-              />
-            </a>
-          )}
-        </div>
-        <Form.Group
-          className="chat-form"
-          style={{ position: "fixed", bottom: "2px", margin: "0" }}
-        >
-          <Row className="align-items-center" noGutters>
-            {/* <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/> */}
-            <input
-              type="file"
-              id={props.chat.id}
-              ref={inputFile}
-              accept="image/x-png,image/gif,image/jpeg"
-              onChange={uploadmediatemp}
-              style={{ display: "none" }}
-              multiple
-            />
-
-            <Col className="chatformicons" xs={2}>
-              {" "}
-              <MdAddToPhotos
-                style={{ marginLeft: "20px" }}
-                onClick={mediashare}
-                size="2rem"
-                color="gray"
-              />
-            </Col>
-            <Col xs={6}>
-              <Form.Control
-                type="text"
-                placeholder="Message Here"
-                id="msgtext"
-              />
-            </Col>
-            <Col className="chatformicons" xs={4}>
-              <a href="#scrolltobottom">
-                {" "}
-                <Button
-                  primary
-                  style={{ marginLeft: "20px" }}
-                  className="chatSend"
-                  id={props.chat.id}
-                  onClick={(e) => click(props.chat.id)}
-                >
-                  Send
-                  <MdSend />
-                </Button>
-              </a>
-            </Col>
-          </Row>
-        </Form.Group>
-        <ImageModal2
-          image={tempimg}
-          flag={setupload}
-          setimage={settempimg}
-          addmore={mediashare}
-          removeitems={removeitems}
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
-        <List className="chatHead" horizontal>
-          <List.Item
-            onClick={(e) => {
-              pdet(e, props.chat.partnerid);
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            <Image avatar src={pdetails.profilepic} />
-            <List.Content>
-              <List.Header>
-                <b style={{ fontSize: "19px" }}>{pdetails.name}</b>{" "}
-                <small>
-                  {pdetails.rate > 5 ? pdetails.rate / 20 : pdetails.rate}
-                  <MdStar color="yellow" size="1.1rem" />
-                </small>
-              </List.Header>
-              {/* {pdetails.businessname} */}
-              Title here
-            </List.Content>
-          </List.Item>
-          <List.Item style={{ float: "right", marginRight: "20px" }}>
-            <a
-              href={"tel: +91 " + pdetails.phone}
-              // onClick={console.log(pdetails.phone)}
-            >
-              <MdPhone
-                size="1.5rem"
-                color="black"
-                style={{ cursor: "pointer", marginRight: "10px" }}
-              />
-            </a>
-            <Dropdown
-              item
-              icon="ellipsis vertical"
-              backgroundColor="white"
-              simple
-              direction="left"
-              color="white"
-            >
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  onClick={(e) => {
-                    pdet(e, props.chat.partnerid);
-                  }}
-                >
-                  <MdPerson /> Technician details
-                </Dropdown.Item>
-                <Dropdown.Item
-                  onClick={() => {
-                    vieworder(props.chat.orderid);
-                  }}
-                >
-                  <MdRemoveRedEye /> View job
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  onClick={() => {
-                    delchat(props.chat.id);
-                  }}
-                >
-                  <MdDelete /> Delete
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </List.Item>
-        </List>
-        {ordst == 0 ? (
-          <Button.Group
-            style={{ width: "100%" }}
-            onClick={orderstatus}
-            id={props.chat.id}
-          >
-            <Button>Cancel partner</Button>
-            <Button.Or />
-            <Button primary>Confirm partner</Button>
-          </Button.Group>
-        ) : null}
-
-        <div
-          className="chatdiv"
           style={{ overflow: "auto" }}
           ref={scrollref}
           onScroll={(e) => {
@@ -980,6 +756,7 @@ function Chatarea(props) {
                     />
                   ) : null}
                 </div>
+                {/* <UniversalM /> */}
               </div>
             );
           })}
@@ -1072,7 +849,338 @@ function Chatarea(props) {
                 </div>
               );
           })} */}
-          {lastMessage(chat.body[chat.body.length - 1]) ? (
+          {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
+            <div>
+              <p>
+                <small className="readText">
+                  {chat.pread ? "seen" : "unseen"}
+                </small>
+              </p>
+            </div>
+          ) : null}
+          {scrollDisplay ? (
+            <a href="#scrolltobottom" id="scrollbtn">
+              <MdArrowDropDownCircle
+                size="3rem"
+                style={{ position: "fixed", bottom: "150px", float: "right" }}
+              />
+            </a>
+          ) : (
+            <a href="#scrolltobottom" id="scrollbtn">
+              <MdArrowDropDownCircle
+                size="3rem"
+                style={{
+                  position: "fixed",
+                  bottom: "150px",
+                  float: "right",
+                  display: "none",
+                }}
+              />
+            </a>
+          )}
+        </div>
+
+        <Form.Group
+          className="chat-form"
+          style={{ position: "fixed", bottom: "2px", margin: "0" }}
+        >
+          <Row className="align-items-center" noGutters>
+            {/* <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/> */}
+            <input
+              type="file"
+              id={props.chat.id}
+              ref={inputFile}
+              accept="image/x-png,image/gif,image/jpeg"
+              onChange={uploadmediatemp}
+              style={{ display: "none" }}
+              multiple
+            />
+
+            <Col className="chatformicons" xs={2}>
+              {" "}
+              <MdAddToPhotos
+                style={{ marginLeft: "20px" }}
+                onClick={mediashare}
+                size="2rem"
+                color="gray"
+              />
+            </Col>
+            <Col xs={6}>
+              <Form.Control
+                type="text"
+                placeholder="Message Here"
+                value={typemsg}
+                onChange={(e) => {
+                  settypemsg(e.target.value);
+                }}
+                id="msgtext"
+              />
+            </Col>
+            <Col className="chatformicons" xs={4}>
+              <a href="#scrolltobottom">
+                {" "}
+                <Button
+                  primary
+                  style={{ marginLeft: "20px" }}
+                  className="chatSend"
+                  id={props.chat.id}
+                  ref={divRef}
+                  onClick={(e) => click(props.chat.id)}
+                >
+                  Sends
+                  <MdSend />
+                </Button>
+              </a>
+            </Col>
+          </Row>
+        </Form.Group>
+        <ImageModal
+          className="uploadModal"
+          image={mimage}
+          setflag={setmimage}
+        />
+        <ImageModal2
+          image={tempimg}
+          flag={setupload}
+          setimage={settempimg}
+          addmore={mediashare}
+          removeitems={removeitems}
+        />
+      </div>
+    );
+  } else {
+    return (
+      <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
+        <List className="chatHead" horizontal>
+          <List.Item
+            onClick={(e) => {
+              pdet(e, props.chat.partnerid);
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <Image avatar src={pdetails.profilepic} />
+            <List.Content>
+              <List.Header>
+                <b style={{ fontSize: "19px" }}>{pdetails.name}</b>{" "}
+                <small>
+                  {pdetails.rate > 5 ? pdetails.rate / 20 : pdetails.rate}
+                  <MdStar color="yellow" size="1.1rem" />
+                </small>
+              </List.Header>
+              {/* {pdetails.businessname} */}
+              Title here
+            </List.Content>
+          </List.Item>
+          <List.Item style={{ float: "right", marginRight: "20px" }}>
+            <a href={"tel: +91 " + pdetails.phone}>
+              <MdPhone
+                size="1.5rem"
+                id="hgffj"
+                color="black"
+                style={{ marginRight: "10px" }}
+                onClick={console.log("phone number clicked")}
+              />
+            </a>
+
+            <Dropdown
+              item
+              icon="ellipsis vertical"
+              backgroundColor="white"
+              simple
+              direction="left"
+              color="white"
+            >
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={(e) => {
+                    // alert("make a call");
+                    toast.info(`+91 ${pdetails.phone}`);
+                    setmimage(`+91 ${pdetails.phone}`);
+                  }}
+                >
+                  <MdPhone /> Make A Call
+                </Dropdown.Item>
+
+                <Dropdown.Item
+                  onClick={(e) => {
+                    pdet(e, props.chat.partnerid);
+                  }}
+                >
+                  <MdPerson /> Technician details
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    vieworder(props.chat.orderid);
+                  }}
+                >
+                  <MdRemoveRedEye /> View job
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  onClick={() => {
+                    delchat(props.chat.id);
+                  }}
+                >
+                  <MdDelete /> Delete
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </List.Item>
+        </List>
+        {ordst == 0 ? (
+          <Button.Group
+            style={{ width: "100%" }}
+            onClick={orderstatus}
+            id={props.chat.id}
+          >
+            <Button>Cancel partner</Button>
+            <Button.Or />
+            <Button primary>Confirm partner</Button>
+          </Button.Group>
+        ) : null}
+
+        <div
+          className="chatdiv"
+          style={{ overflow: "auto" }}
+          ref={scrollref}
+          onScroll={(e) => {
+            scrollhandle(e);
+          }}
+        >
+          {chat.body.map((nap, key, array) => {
+            var chatobj = JSON.parse(nap);
+            return (
+              <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
+                <p>{cmpmsg(nap, array[key - 1])}</p>
+
+                <div
+                  className={
+                    chatobj.sender == "u" ? "out-chatbox" : "in-chatbox"
+                  }
+                  key={key}
+                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
+                >
+                  {chatobj.type == "text" ? (
+                    <p
+                      className={
+                        chatobj.sender == "u" ? "chatList" : "chatListp"
+                      }
+                    >
+                      {chatobj.msg}
+
+                      <small
+                        className={
+                          chatobj.sender == "u" ? "textTime" : "textTimep"
+                        }
+                      >
+                        {" "}
+                        {getmsgtime(chatobj.timestamp)}
+                      </small>
+                    </p>
+                  ) : chatobj.type == "photo" ? (
+                    <Image
+                      floated="right"
+                      className="chatPic"
+                      onClick={showimage}
+                      src={chatobj.msg}
+                      size="small"
+                    />
+                  ) : null}
+                </div>
+                {/* <UniversalM /> */}
+              </div>
+            );
+          })}
+
+          {/* {chat.body.map((nap, key, array) => {
+            if (nap[nap.length - 1] == "u")
+              return (
+                <div
+                  className="out-chat"
+                  key={key}
+                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
+                >
+                  {cmpmsg(nap, array[key - 1]) != null ? (
+                    <p>{cmpmsg(nap, array[key - 1])}</p>
+                  ) : null}
+                  <div className="out-chatbox">
+                    <p className="chatList">
+                      {getorgnl(nap)}&nbsp;{" "}
+                      <small className="textTime"> {getmsgtime(nap)}</small>
+                    </p>
+                  </div>
+
+                </div>
+              );
+            else if (nap[nap.length - 1] == "p")
+              return (
+                <div className="in-chat">
+                  {cmpmsg(nap, array[key - 1]) != null ? (
+                    <p>{cmpmsg(nap, array[key - 1])}</p>
+                  ) : null}
+                  <div
+                    className="in-chatbox"
+                    key={key}
+                    id={key == chat.body.length - 1 ? "scrolltobottom" : null}
+                  >
+                    <p className="chatListP">
+                      {getorgnl(nap)}&nbsp;{" "}
+                      <small className="textTimep"> {getmsgtime(nap)}</small>
+                    </p>
+                  </div>
+                </div>
+              );
+            else if (nap.slice(-2) == "um")
+              return (
+                <div
+                  className="out-chat"
+                  key={key}
+                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
+                >
+                  {cmpmsg(nap, array[key - 1]) != null ? (
+                    <p>{cmpmsg(nap, array[key - 1])}</p>
+                  ) : null}
+                  <Image
+                    floated="right"
+                    className="chatPic"
+                    onClick={showimage}
+                    src={nap.slice(0, -2)}
+                    size="small"
+                  />
+                  <p>
+                    <small className="textTime">{getmsgtime(nap)}</small>
+                  </p>
+                  {key == chat.body.length - 1 ? (
+                    <p className="readText">
+                      <small>{chat.pread ? "read" : "unread"}</small>
+                    </p>
+                  ) : null}
+                </div>
+              );
+            else if (nap.slice(-2) == "pm")
+              return (
+                <div
+                  className="in-chat"
+                  key={key}
+                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
+                >
+                  {cmpmsg(nap, array[key - 1]) != null ? (
+                    <p>{cmpmsg(nap, array[key - 1])}</p>
+                  ) : null}
+                  <Image
+                    floated="left"
+                    className="chatPic"
+                    onClick={showimage}
+                    src={nap.slice(0, -2)}
+                    size="small"
+                  />
+                  <p>
+                    <small className="textTime">{getmsgtime(nap)}</small>
+                  </p>
+                </div>
+              );
+          })} */}
+          {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
                 <small className="readText">
@@ -1156,7 +1264,11 @@ function Chatarea(props) {
           </Row>
         </Form.Group>
         {/* <Imageviewer image={mimage} /> */}
-        {/* <ImageModal className="uploadModal" image={mimage} setflag={setmimage}/> */}
+        <ImageModal
+          className="uploadModal"
+          image={mimage}
+          setflag={setmimage}
+        />
         <ImageModal2
           image={tempimg}
           flag={setupload}
@@ -1243,8 +1355,18 @@ function ImageModal(props) {
     console.log(image);
   }, [image]);
 
+  function ValidURL(str) {
+    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+    if (!regex.test(str)) {
+      // alert("Please enter valid URL.");
+      return false;
+    } else {
+      return true;
+    }
+  }
   return (
     <Modal
+      basic
       onClose={closemodal}
       onOpen={() => setOpen(true)}
       open={open}
@@ -1253,15 +1375,22 @@ function ImageModal(props) {
       // trigger={<Button>Show Modal</Button>}
     >
       {/* <Modal.Header>Photo</Modal.Header> */}
-      <Modal.Content image>
-        <Image centered src={image} wrapped />
-        <Modal.Description>
-          {/* <p>Would you like to upload this image?</p> */}
-        </Modal.Description>
-      </Modal.Content>
-      {/* <Modal.Actions>
-
-        </Modal.Actions> */}
+      {image != null ? (
+        <Modal.Content image>
+          {ValidURL(image) ? (
+            <Image centered src={image} wrapped />
+          ) : (
+            <Modal.Description>
+              <p>{image}</p>
+            </Modal.Description>
+          )}
+        </Modal.Content>
+      ) : null}
+      <Modal.Actions>
+        <Button basic color="red" inverted onClick={closemodal}>
+          <MdClose /> Close
+        </Button>
+      </Modal.Actions>
     </Modal>
   );
 }
@@ -1352,36 +1481,40 @@ function ImageModal2(props) {
   };
   return (
     <Modal
+      basic
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
+      centered
       size="tiny"
       className="uploadModal"
       // trigger={<Button>Show Modal</Button>}
     >
       <Modal.Header>Upload image</Modal.Header>
-      {image.length > 0 ? (
-        <Image.Group size="small">
-          {image.map((nap, key) => (
-            <Image
-              key={key}
-              id={key}
-              label={{
-                as: "a",
-                corner: "right",
-                icon: "trash",
-                onClick: sekhararr,
-              }}
-              src={URL.createObjectURL(nap)}
+      <Modal.Content scrolling>
+        {image.length > 0 ? (
+          <Image.Group size="small">
+            {image.map((nap, key) => (
+              <Image
+                key={key}
+                id={key}
+                label={{
+                  as: "a",
+                  corner: "right",
+                  icon: "trash",
+                  onClick: sekhararr,
+                }}
+                src={URL.createObjectURL(nap)}
+              />
+            ))}
+            <RiImageAddFill
+              onClick={props.addmore}
+              color="gray"
+              style={{ cursor: "pointer" }}
             />
-          ))}
-          <RiImageAddFill
-            onClick={props.addmore}
-            color="gray"
-            style={{ cursor: "pointer" }}
-          />
-        </Image.Group>
-      ) : null}
+          </Image.Group>
+        ) : null}
+      </Modal.Content>
 
       <Modal.Actions>
         <Button
