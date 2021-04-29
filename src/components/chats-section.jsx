@@ -3,7 +3,14 @@ import firebase from "../firebase";
 import react, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Form } from "react-bootstrap";
-import { Button, Segment, Dimmer, Loader, Label } from "semantic-ui-react";
+import {
+  Button,
+  Segment,
+  Dimmer,
+  Loader,
+  Label,
+  TextArea,
+} from "semantic-ui-react";
 import "../index.css";
 import "./chats.css";
 import { BiArrowBack } from "react-icons/bi";
@@ -54,11 +61,14 @@ import {
   MdViewDay,
   MdRemoveRedEye,
   MdClose,
+  MdThumbUp,
+  MdThumbDown,
 } from "react-icons/md";
 
 import { AiFillEdit } from "react-icons/ai";
 import { RiSendPlaneLine, RiImageAddFill } from "react-icons/ri";
 import { FaFolderPlus } from "react-icons/fa";
+import { sharemydetails } from "../mservices/userDB";
 
 const db = firebase.firestore();
 const storage = firebase.storage();
@@ -651,6 +661,21 @@ function Chatarea(props) {
     else toast.info("unable to delete chat try again later");
   };
 
+  const handleKeyDown = (e) => {
+    e.target.style.height = "inherit";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+    // In case you have a limitation
+    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
+  };
+
+  async function sharemydet() {
+    let details = await sharemydetails(firebase.auth().currentUser.uid);
+    console.log(details);
+    settypemsg(
+      `contact me at name : ${details.name}  phone: ${details.phone} / ${details.altnum}`
+    );
+  }
+
   const [scrollDisplay, setScrolldisplay] = useState(false);
   const [tbody, settbody] = useState([]);
   function scrollhandle(e) {
@@ -693,6 +718,60 @@ function Chatarea(props) {
               computer technician
             </List.Content>
           </List.Item>
+          <List.Item style={{ float: "right", marginRight: "20px" }}>
+            <a href={"tel: +91 " + pdetails.phone}>
+              <MdPhone
+                size="1.5rem"
+                id="hgffj"
+                color="black"
+                style={{ marginRight: "10px" }}
+                onClick={console.log("phone number clicked")}
+              />
+            </a>
+            <Dropdown
+              item
+              icon="ellipsis vertical"
+              backgroundColor="white"
+              simple
+              direction="left"
+              color="white"
+            >
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={(e) => {
+                    // alert("make a call");
+                    toast.info(`+91 ${pdetails.phone}`);
+                    setmimage(`+91 ${pdetails.phone}`);
+                  }}
+                >
+                  <MdPhone /> Make A Call
+                </Dropdown.Item>
+
+                <Dropdown.Item
+                  onClick={(e) => {
+                    pdet(e, props.chat.partnerid);
+                  }}
+                >
+                  <MdPerson /> Technician details
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    vieworder(props.chat.orderid);
+                  }}
+                >
+                  <MdRemoveRedEye /> View job
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  onClick={() => {
+                    delchat(props.chat.id);
+                  }}
+                >
+                  <MdDelete /> Delete
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </List.Item>
         </List>
         {/* : null} */}
 
@@ -702,9 +781,14 @@ function Chatarea(props) {
             onClick={orderstatus}
             id={props.chat.id}
           >
-            <Button>Cancel partner</Button>
+            <Button>
+              <MdThumbDown /> Cancel partner
+            </Button>
             <Button.Or />
-            <Button primary>Confirm partner</Button>
+            <Button primary>
+              <MdThumbUp />
+              Confirm partner
+            </Button>
           </Button.Group>
         ) : null}
 
@@ -1033,9 +1117,14 @@ function Chatarea(props) {
             onClick={orderstatus}
             id={props.chat.id}
           >
-            <Button>Cancel partner</Button>
+            <Button>
+              <MdThumbDown /> Cancel partner
+            </Button>
             <Button.Or />
-            <Button primary>Confirm partner</Button>
+            <Button primary>
+              <MdThumbUp />
+              Confirm partner
+            </Button>
           </Button.Group>
         ) : null}
 
@@ -1214,10 +1303,15 @@ function Chatarea(props) {
         <Form.Group
           className="chat-form"
           onKeyDown={onKeyDownHandler}
-          style={{ position: "fixed", bottom: "2px", margin: "0" }}
+          style={{
+            position: "fixed",
+            bottom: "2px",
+            margin: "0",
+            backgroundColor: "#f6f6f6",
+            minHeight: "50px",
+          }}
         >
-          <Row style={{ margin: "0" }}>
-            {/* <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/> */}
+          <Row style={{ margin: "0", marginTop: "20px" }}>
             <input
               type="file"
               id={props.chat.id}
@@ -1236,10 +1330,30 @@ function Chatarea(props) {
                 size="2rem"
                 color="gray"
               />
+              <Dropdown text="More" style={{ marginLeft: "15px" }}>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    icon="address card"
+                    text="Share your Contact Details"
+                    onClick={sharemydet}
+                  />
+                  {/* <Dropdown.Item text="Open..." description="ctrl + o" />
+                  <Dropdown.Item text="Save as..." description="ctrl + s" />
+                  <Dropdown.Item text="Rename" description="ctrl + r" />
+                  <Dropdown.Item text="Make a copy" />
+                  <Dropdown.Item icon="folder" text="Move to folder" /> */}
+                  <Dropdown.Item icon="trash" text="Move to trash" />
+                  <Dropdown.Divider />
+                  {/* <Dropdown.Item text="Download As..." />
+                  <Dropdown.Item text="Publish To Web" /> */}
+                  <Dropdown.Item text="E-mail Collaborators" />
+                </Dropdown.Menu>
+              </Dropdown>
             </Col>
             <Col xs={8} style={{ marginRight: "0" }}>
               <Form.Control
                 type="text"
+                //   style={{ height: "100px" }}
                 placeholder="Message Here"
                 value={typemsg}
                 onChange={(e) => {
@@ -1247,6 +1361,11 @@ function Chatarea(props) {
                 }}
                 id="msgtext"
               />
+              {/* <TextArea
+                style={{ minHeight: "50px", minWidth: "300px" }}
+                placeholder="Enter Message Here"
+                onKeyDown={handleKeyDown}
+              /> */}
             </Col>
             <Col xs={2} style={{ marginRight: "0" }}>
               <Button
@@ -1259,6 +1378,7 @@ function Chatarea(props) {
                 Send
                 <MdSend />
               </Button>
+              {/* <MdSend size="2rem" color="grey" /> */}
             </Col>
             {/* <Button primary className="chatSend" id={props.chat.id} ref={divRef} onClick={(e)=>tsend(e,props.chat.id)}>tSend<MdSend /></Button></Col> */}
           </Row>
@@ -1316,14 +1436,14 @@ function Headings() {
             </h2>
           </Link>
         </Col>
-        <Col style={{ borderBottom: "3px solid gray", marginBottom: "0" }}>
+        <Col style={{ borderBottom: "3px solid #007bff", marginBottom: "0" }}>
           <Link
             to="/chats-section"
-            style={{ color: "gray", textDecoration: "none" }}
+            style={{ color: "#007bff", textDecoration: "none" }}
           >
             <h2>
               {" "}
-              <MdChatBubble size="2.1rem" color="gray" /> Chats
+              <MdChatBubble size="2.1rem" color="#007bff" /> Chats
             </h2>
           </Link>
         </Col>
@@ -1370,7 +1490,7 @@ function ImageModal(props) {
       onClose={closemodal}
       onOpen={() => setOpen(true)}
       open={open}
-      // size="small"
+      // size="tiny"
       className="uploadModal"
       // trigger={<Button>Show Modal</Button>}
     >
@@ -1392,61 +1512,6 @@ function ImageModal(props) {
         </Button>
       </Modal.Actions>
     </Modal>
-  );
-}
-
-function Imageviewer(props) {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  var images = [
-    "http://placeimg.com/1200/800/nature",
-    "http://placeimg.com/800/1200/nature",
-    "http://placeimg.com/1920/1080/nature",
-    "http://placeimg.com/1500/500/nature",
-  ];
-  var image = [props.image];
-
-  const openImageViewer = useCallback((index) => {
-    setCurrentImage(index);
-    setIsViewerOpen(true);
-  }, []);
-
-  const closeImageViewer = () => {
-    setCurrentImage(0);
-    setIsViewerOpen(false);
-  };
-
-  useEffect(() => {
-    if (image != false && image != null) {
-      openImageViewer(1);
-    }
-    console.log(image);
-  }, [props.image]);
-
-  return (
-    <div>
-      {/* {images.map((src, index) => (
-        <img
-          src={src}
-          onClick={() => openImageViewer(index)}
-          width="300"
-          key={index}
-          style={{ margin: "2px" }}
-          alt=""
-        />
-      ))} */}
-
-      {isViewerOpen && (
-        <ImageViewer
-          src={image}
-          currentIndex={currentImage}
-          onClose={closeImageViewer}
-          backgroundStyle={{
-            backgroundColor: "rgba(0,0,0,0.9)",
-          }}
-        />
-      )}
-    </div>
   );
 }
 
