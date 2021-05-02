@@ -564,6 +564,7 @@ function Chatarea(props) {
   useEffect(() => {
     if (upload == true) {
       console.log("uploading..");
+      toast.info("uploading...");
       uitf();
     }
     console.log("effect4");
@@ -581,6 +582,7 @@ function Chatarea(props) {
         (snapshot) => {},
         (error) => {
           console.log(error);
+          toast.info(error);
         },
         () => {
           storage
@@ -589,6 +591,7 @@ function Chatarea(props) {
             .getDownloadURL()
             .then((url) => {
               console.log(url);
+              toast.info(url);
               setimage2((temp) => [...temp, url]);
             });
         }
@@ -624,11 +627,11 @@ function Chatarea(props) {
           cfile = x;
           // setimage(temp=>[...temp,cfile]);
           settempimg((temp) => [...temp, cfile]);
+          toast.info(`image compressed ${k}`);
         })
         .catch(function (error) {
           console.log(error.message);
         });
-      console.log(i);
     }
     // setimage(temp=>[...temp,"dummy"]);
   }

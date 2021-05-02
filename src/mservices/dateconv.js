@@ -79,10 +79,6 @@ function gettbystamps(stamps, id) {
       return dayName[day];
       break;
 
-    case "strmonth":
-      return dayName[day];
-      break;
-
     case "hours":
       return hours;
       break;
