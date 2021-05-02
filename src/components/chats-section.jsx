@@ -1014,7 +1014,7 @@ function Chatarea(props) {
                   ref={divRef}
                   onClick={(e) => click(props.chat.id)}
                 >
-                  Sends
+                  Sendm
                   <MdSend />
                 </Button>
               </a>
@@ -1378,7 +1378,7 @@ function Chatarea(props) {
                 ref={divRef}
                 onClick={(e) => click(props.chat.id)}
               >
-                Send
+                Sendw
                 <MdSend />
               </Button>
               {/* <MdSend size="2rem" color="grey" /> */}
