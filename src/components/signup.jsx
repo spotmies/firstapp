@@ -128,6 +128,7 @@ function genotp(e) {
 
 function vrfyotp(e) {
   const otp = document.getElementById("otp");
+  if (otp.value == "") toast.error("Please enter valid OTP");
   window.confirmationResult
     .confirm(otp.value)
     .then(function (result) {

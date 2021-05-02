@@ -11,7 +11,7 @@
 
 .detailsContainer {
   border-radius: 1rem;
-  width: 60% !important;
+  width: 60%;
 }
 
 .accInfo {
@@ -64,10 +64,10 @@
   }
 
   .detailsContainer {
-    width: 80%;
+    width: 85%;
   }
 
   .EditForm {
-    width: 80%;
+    width: 85%;
   }
 }

@@ -7,6 +7,7 @@ import "../navbar.css";
 import firebase from "../firebase";
 //import Menu from "./reusable/menu";
 import SmLogo from "../images/sm-logo.png";
+import { useHistory } from "react-router-dom";
 
 //react icons
 import { IconContext } from "react-icons";
@@ -49,6 +50,8 @@ function Navibar() {
   const [pic, setpic] = useState(
     "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
   );
+  const history = useHistory();
+
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
       db.collection("users")
@@ -64,6 +67,19 @@ function Navibar() {
         });
     }
   });
+
+  async function userlogout() {
+    await firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        //alert("logout successfully")
+        history.push("/");
+        setTimeout(() => {}, 1000);
+        window.location.reload();
+      });
+    // window.location.reload();
+  }
 
   return (
     <div style={{ paddingBottom: "80px" }}>
@@ -212,14 +228,3 @@ function Navibar() {
   // </div>
 }
 export default Navibar;
-
-async function userlogout() {
-  await firebase
-    .auth()
-    .signOut()
-    .then(function () {
-      //alert("logout successfully")
-      toast.info("Logout successfully");
-    });
-  window.location.reload();
-}
