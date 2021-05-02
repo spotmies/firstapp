@@ -7,6 +7,7 @@ import { Button, Card, Image, Dropdown, Icon } from "semantic-ui-react";
 import "../index.css";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 //import icons
 
@@ -85,7 +86,8 @@ function Mybookings(props) {
       .doc(pro)
       .delete()
       .then(() => {
-        alert("response deleted succefully");
+        //  alert("response deleted succefully");
+        toast.info("response deleted succefully");
       });
   };
 
