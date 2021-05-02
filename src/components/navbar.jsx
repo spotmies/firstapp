@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "../navbar.css";
 import firebase from "../firebase";
 //import Menu from "./reusable/menu";
-import SmLogo from "../images/sm-logo.png";
+import SmLogo from "../images/logos.png";
 
 //react icons
 import { IconContext } from "react-icons";
