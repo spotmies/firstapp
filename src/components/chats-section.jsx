@@ -621,17 +621,18 @@ function Chatarea(props) {
 
     for (var i = 0; i < e.target.files.length; i++) {
       let k = Number(i);
-
-      imageCompression(e.target.files[k], options)
-        .then((x) => {
-          cfile = x;
-          // setimage(temp=>[...temp,cfile]);
-          settempimg((temp) => [...temp, cfile]);
-          toast.info(`image compressed ${k}`);
-        })
-        .catch(function (error) {
-          console.log(error.message);
-        });
+      toast.info("loop start");
+      // imageCompression(e.target.files[k], options)
+      //   .then((x) => {
+      //     cfile = x;
+      //     // setimage(temp=>[...temp,cfile]);
+      //     settempimg((temp) => [...temp, cfile]);
+      //     toast.info(`image compressed ${k}`);
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error.message);
+      //   });
+      settempimg((temp) => [...temp, e.target.files[k]]);
     }
     // setimage(temp=>[...temp,"dummy"]);
   }
