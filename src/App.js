@@ -14,7 +14,6 @@ import Rentals from "./components/bikerental";
 import pdetails from "./components/pdetails";
 import newpost2 from "./components/newpost2";
 import editpost2 from "./components/editpost2";
-import nav2 from "./components/nav2";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import partnerRegistration from "./components/partnerRegistration";
@@ -43,7 +42,7 @@ const Routing = () => {
         <Route path="/contact" component={SimpleMap} />
         <Route path="/rentals" component={Rentals} />
         <Route path="/pdetails" component={pdetails} />
-        <Route path="/nav2" component={nav2} />
+
         <Route path="/partnerRegistration" component={partnerRegistration} />
         <Route path="/scroll" component={scroll} />
         <Route path="/privacy" component={Privacy} />

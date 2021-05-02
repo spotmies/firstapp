@@ -32,12 +32,7 @@ import ImageViewer from "react-simple-image-viewer";
 import "firebase/storage";
 //micro service
 import { getpdetailsbyid, disablechat } from "../mservices/upldmedia";
-import {
-  gettbystamps,
-  getorgnl,
-  getstamp,
-  lastMessage,
-} from "../mservices/dateconv";
+import { gettbystamps, ValidURL } from "../mservices/dateconv";
 import { toast } from "react-toastify";
 import { msgdot } from "./reusable/msgdot";
 //import icons
@@ -62,6 +57,7 @@ import {
   MdRemoveRedEye,
   MdClose,
   MdThumbUp,
+  MdAttachment,
   MdThumbDown,
 } from "react-icons/md";
 
@@ -267,9 +263,17 @@ function Mybookings(props) {
                             }}
                           >
                             <p style={{ color: nap.uread ? "gray" : "black" }}>
-                              {msgdot(
-                                JSON.parse(nap.body[nap.body.length - 1]).msg,
-                                24
+                              {ValidURL(nap.body[nap.body.length - 1]) ==
+                              false ? (
+                                msgdot(
+                                  JSON.parse(nap.body[nap.body.length - 1]).msg,
+                                  24
+                                )
+                              ) : (
+                                <span style={{ display: "inline-flex" }}>
+                                  <MdAttachment />{" "}
+                                  <small>send you attachment </small>
+                                </span>
                               )}
                             </p>
                             {nap.uread == false ? (
@@ -373,9 +377,16 @@ function Mybookings(props) {
                         }}
                       >
                         <p style={{ color: nap.uread ? "gray" : "black" }}>
-                          {msgdot(
-                            JSON.parse(nap.body[nap.body.length - 1]).msg,
-                            24
+                          {ValidURL(nap.body[nap.body.length - 1]) == false ? (
+                            msgdot(
+                              JSON.parse(nap.body[nap.body.length - 1]).msg,
+                              24
+                            )
+                          ) : (
+                            <span style={{ display: "inline-flex" }}>
+                              <MdAttachment />{" "}
+                              <small>send you attachment </small>
+                            </span>
                           )}
                         </p>
                         {nap.uread == false ? (
@@ -564,7 +575,7 @@ function Chatarea(props) {
   useEffect(() => {
     if (upload == true) {
       console.log("uploading..");
-      toast.info("uploading...");
+      //  toast.info("uploading...");
       uitf();
     }
     console.log("effect4");
@@ -591,7 +602,7 @@ function Chatarea(props) {
             .getDownloadURL()
             .then((url) => {
               console.log(url);
-              toast.info(url);
+              // toast.info(url);
               setimage2((temp) => [...temp, url]);
             });
         }
@@ -621,18 +632,18 @@ function Chatarea(props) {
 
     for (var i = 0; i < e.target.files.length; i++) {
       let k = Number(i);
-      toast.info("loop start");
+      //  toast.info("loop start");
       imageCompression(e.target.files[k], options)
         .then((x) => {
           cfile = x;
           // setimage(temp=>[...temp,cfile]);
           settempimg((temp) => [...temp, cfile]);
-          toast.info(`image compressed ${k}`);
+          //   toast.info(`image compressed ${k}`);
         })
         .catch(function (error) {
           console.log(error.message);
-          toast.info(error.message);
-          toast.info(error);
+          //  toast.info(error.message);
+          //  toast.info(error);
         });
       // settempimg((temp) => [...temp, e.target.files[k]]);
     }
@@ -644,7 +655,7 @@ function Chatarea(props) {
     compressimage(e);
   }
   function uploadmediatemp(e) {
-    toast.info("func called");
+    //  toast.info("func called");
     console.log(e);
     compressimage(e);
   }
@@ -973,7 +984,12 @@ function Chatarea(props) {
 
         <Form.Group
           className="chat-form"
-          style={{ position: "fixed", bottom: "2px", margin: "0" }}
+          style={{
+            position: "fixed",
+            bottom: "2px",
+            margin: "0",
+            backgroundColor: "#f6f6f6",
+          }}
         >
           <Row className="align-items-center" noGutters>
             {/* <input type='file' id={props.chat.id} ref={inputFile} accept="image/x-png,image/gif,image/jpeg" onChange={uploadmedia} style={{display: 'none'}} multiple/> */}
@@ -995,6 +1011,18 @@ function Chatarea(props) {
                 size="2rem"
                 color="gray"
               />
+              <Dropdown style={{ marginLeft: "15px" }}>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    icon="address card"
+                    text="Share your Contact Details"
+                    onClick={sharemydet}
+                  />
+                  <Dropdown.Item icon="trash" text="Move to trash" />
+                  <Dropdown.Divider />
+                  <Dropdown.Item text="E-mail Collaborators" />
+                </Dropdown.Menu>
+              </Dropdown>
             </Col>
             <Col xs={6}>
               <Form.Control
@@ -1018,7 +1046,7 @@ function Chatarea(props) {
                   ref={divRef}
                   onClick={(e) => click(props.chat.id)}
                 >
-                  Sendm
+                  Send
                   <MdSend />
                 </Button>
               </a>
@@ -1137,7 +1165,7 @@ function Chatarea(props) {
 
         <div
           className="chatdiv"
-          style={{ overflow: "auto" }}
+          style={{ overflow: "auto", paddingBottom: "10px" }}
           ref={scrollref}
           onScroll={(e) => {
             scrollhandle(e);
@@ -1344,15 +1372,8 @@ function Chatarea(props) {
                     text="Share your Contact Details"
                     onClick={sharemydet}
                   />
-                  {/* <Dropdown.Item text="Open..." description="ctrl + o" />
-                  <Dropdown.Item text="Save as..." description="ctrl + s" />
-                  <Dropdown.Item text="Rename" description="ctrl + r" />
-                  <Dropdown.Item text="Make a copy" />
-                  <Dropdown.Item icon="folder" text="Move to folder" /> */}
                   <Dropdown.Item icon="trash" text="Move to trash" />
                   <Dropdown.Divider />
-                  {/* <Dropdown.Item text="Download As..." />
-                  <Dropdown.Item text="Publish To Web" /> */}
                   <Dropdown.Item text="E-mail Collaborators" />
                 </Dropdown.Menu>
               </Dropdown>
@@ -1482,15 +1503,15 @@ function ImageModal(props) {
     console.log(image);
   }, [image]);
 
-  function ValidURL(str) {
-    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-    if (!regex.test(str)) {
-      // alert("Please enter valid URL.");
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // function ValidURL(str) {
+  //   var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+  //   if (!regex.test(str)) {
+  //     // alert("Please enter valid URL.");
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
   return (
     <Modal
       basic

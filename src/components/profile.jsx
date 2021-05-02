@@ -4,6 +4,7 @@ import firebase from "../firebase";
 import { useState, useEffect } from "react";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Card, Icon, Image, Dropdown } from "semantic-ui-react";
+import { toast } from "react-toastify";
 
 import "../index.css";
 import "../assets/css/profile.css";
@@ -59,12 +60,14 @@ const Profile = () => {
       .auth()
       .signOut()
       .then(function () {
-        alert("logout successfully");
+        //  alert("logout successfully");
+        toast.success("Logout Successfully");
         window.location.reload();
       });
   }
 
   function editpro(e) {
+    toast.info("Details Updating...");
     e.preventDefault();
     db.collection("users")
       .doc(firebase.auth().currentUser.uid)
@@ -75,7 +78,8 @@ const Profile = () => {
         altnum: document.getElementById("altnum").value,
       })
       .then(() => {
-        alert("details updated...");
+        // alert("details updated...");
+        toast.success("Details Updated");
         window.location.reload();
       });
   }

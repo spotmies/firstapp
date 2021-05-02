@@ -13,6 +13,8 @@ import {
   Rating,
 } from "semantic-ui-react";
 import react, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+
 import {
   MdDelete,
   MdLocationOn,
@@ -34,6 +36,7 @@ import { FaTools, FaAddressCard } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import "../assets/css/postView.css";
 import { categoryAssign } from "./reusable/categories";
+import { gettbystamps } from "../mservices/dateconv";
 
 const db = firebase.firestore();
 
@@ -56,18 +59,8 @@ function useTimes() {
           .doc(personId)
           .onSnapshot((snap) => {
             setdata(snap.data());
-            arr.push(
-              String(snap.data().posttime.toDate()).replace(
-                "GMT+0530 (India Standard Time)",
-                ""
-              )
-            );
-            arr.push(
-              String(snap.data().schedule.toDate()).replace(
-                "GMT+0530 (India Standard Time)",
-                ""
-              )
-            );
+            // arr.push(snap.data().posttime);
+            // arr.push(snap.data().schedule);
             setposttime(arr);
           });
       }
@@ -97,7 +90,8 @@ const Navbar3 = () => {
       .doc(pro)
       .delete()
       .then(() => {
-        alert("ad deleted succefully");
+        // alert("ad deleted succefully");
+        toast.success("ad deleted succefully");
       });
   };
 
@@ -117,7 +111,10 @@ const Navbar3 = () => {
           >
             <Card.Content>
               <Card.Meta style={{ display: "inline-flex" }}>
-                <Icon name="time" /> {posttime[0]}
+                <Icon name="time" />{" "}
+                {gettbystamps(Number(postdata.posttime), "fulldate")}{" "}
+                &nbsp;@&nbsp;
+                <b> {gettbystamps(Number(postdata.posttime), "time")}</b>
               </Card.Meta>
               <Dropdown
                 item
@@ -258,7 +255,16 @@ const Navbar3 = () => {
                       </h4>
                       <h4>
                         <RiTimeFill />
-                        posted time: {posttime[0]}
+                        posted time:
+                        {gettbystamps(
+                          Number(postdata.posttime),
+                          "fulldate"
+                        )}{" "}
+                        &nbsp;@&nbsp;
+                        <b>
+                          {" "}
+                          {gettbystamps(Number(postdata.posttime), "time")}
+                        </b>
                       </h4>
                     </Card.Description>
                   </Card.Content>
@@ -271,7 +277,11 @@ const Navbar3 = () => {
                 <MdAssignmentTurnedIn size="2.8rem" />
                 <Step.Content>
                   <Step.Title> Adpost</Step.Title>
-                  <Step.Description>@ {posttime[0]}</Step.Description>
+                  <Step.Description>
+                    @ {gettbystamps(Number(postdata.posttime), "fulldate")}{" "}
+                    &nbsp;@&nbsp;
+                    <b> {gettbystamps(Number(postdata.posttime), "time")}</b>
+                  </Step.Description>
                 </Step.Content>
               </Step>
               {postdata.orderstate == 2 ? (

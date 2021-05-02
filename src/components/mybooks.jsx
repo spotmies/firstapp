@@ -15,8 +15,9 @@ import {
 } from "semantic-ui-react";
 import "../index.css";
 import "../post.css";
-
+import { gettbystamps } from "../mservices/dateconv";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import "semantic-ui-css/semantic.min.css";
 //import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown } from 'semantic-ui-react'
@@ -87,7 +88,8 @@ function Mybookings(props) {
       .doc(pro)
       .delete()
       .then(() => {
-        alert("ad deleted succefully");
+        //  alert("ad deleted succefully");
+        toast.success("ad deleted succefully");
       });
   };
   return (
@@ -160,6 +162,7 @@ function Sematiccard(props) {
       .delete()
       .then(() => {
         alert("ad deleted succefully");
+        toast.success("ad deleted succefully");
       });
   };
 
@@ -171,10 +174,8 @@ function Sematiccard(props) {
             <Card.Content>
               <Card.Meta style={{ display: "inline-flex" }}>
                 <Icon name="time" />{" "}
-                {String(cap.posttime.toDate()).replace(
-                  "GMT+0530 (India Standard Time)",
-                  ""
-                )}
+                {gettbystamps(Number(cap.posttime), "fulldate")} &nbsp;@&nbsp;
+                <b> {gettbystamps(Number(cap.posttime), "time")}</b>
               </Card.Meta>
               <Dropdown
                 item

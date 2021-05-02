@@ -15,6 +15,7 @@ import {
 import { InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
 
 import { BsCalendar } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -129,8 +130,10 @@ class Postform extends Component {
     let cat = jobcate;
     let price = document.querySelector("#sprice").value;
     if (desc == NaN) desc = "";
-    if (cat == "true") alert("please select category");
-    else {
+    if (cat == "true") {
+      alert("please select category");
+      toast.warning("please select category");
+    } else {
       cat = parseInt(cat);
       price = parseInt(price);
       console.log(name, desc, cat, price, imgarr, schedule);
@@ -177,7 +180,8 @@ class Postform extends Component {
           });
         })
         .then(() => {
-          alert("post added successfully");
+          // alert("post added successfully");
+          toast.success("post added successfully");
           history.go(-1);
           imgarr = [];
           this.setState({ image: [], addsubmit: false, arrayvar: [] });

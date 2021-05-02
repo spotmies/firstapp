@@ -35,6 +35,7 @@ import firebase from "../firebase";
 import "firebase/storage";
 import { createHashHistory } from "history";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 import "../post.css";
 
@@ -156,8 +157,10 @@ function Postform2() {
     let cat = jobcate;
     let price = document.querySelector("#sprice").value;
     if (desc == NaN) desc = "";
-    if (cat == "true") alert("please select category");
-    else {
+    if (cat == "true") {
+      //alert("please select category");
+      toast.warning("please select category");
+    } else {
       cat = parseInt(cat);
       price = parseInt(price);
       console.log(name, desc, cat, price, imgarr, schedule);
@@ -191,7 +194,8 @@ function Postform2() {
           });
         })
         .then(() => {
-          alert("post added successfully");
+          //  alert("post added successfully");
+          toast.success("post added successfully");
           history.go(-1);
           imgarr = [];
         });
