@@ -641,6 +641,7 @@ function Chatarea(props) {
     compressimage(e);
   }
   function uploadmediatemp(e) {
+    toast.info("func called");
     console.log(e);
     compressimage(e);
   }
