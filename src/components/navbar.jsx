@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 import "../navbar.css";
 import firebase from "../firebase";
 //import Menu from "./reusable/menu";
-import SmLogo from "../images/sm-logo.png";
 import { useHistory } from "react-router-dom";
+import SmLogo from "../images/s3.svg";
 
 //react icons
 import { IconContext } from "react-icons";
@@ -85,13 +85,14 @@ function Navibar() {
     <div style={{ paddingBottom: "80px" }}>
       <header style={{ zIndex: "9999" }} className="navi-bar">
         <Container>
-          <Navbar collapseOnSelect expand="lg" variant="light">
+          <Navbar collapseOnSelect expand="lg" variant="dark">
             <IconContext.Provider
               value={{ size: "1.5em", className: "nav-icons" }}
             >
               <Link to="/">
                 <Navbar.Brand className="title">
                   <img src={SmLogo} />
+                  <h2>Spotmies</h2>
                 </Navbar.Brand>
               </Link>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />

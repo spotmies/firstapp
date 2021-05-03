@@ -12,6 +12,13 @@
   /* position: absolute; */
 }
 
+.textTime,
+.textTimep {
+  float: right;
+  position: relative;
+  bottom: 0;
+}
+
 /*chatbox head*/
 
 .chatHead {
@@ -43,7 +50,7 @@
 
 .chatListP {
   float: left;
-  background: #efefef none repeat scroll 0 0;
+  background: #f06161 none repeat scroll 0 0;
   border-bottom-left-radius: 1px;
 }
 

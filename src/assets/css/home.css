@@ -1,122 +1,133 @@
 .slide1 {
-    display: block;
-    margin-top: -20px;
-    background: linear-gradient(30deg,rgb(243, 227, 182),rgb(161, 198, 247),rgb(241, 158, 186));
-    
+  display: block;
+  margin-top: -20px;
+  /* background: linear-gradient(
+    30deg,
+    rgb(253, 137, 102),
+    rgba(108, 118, 252, 0.945),
+    rgba(248, 77, 77, 0.932)
+  ); */
+  background: linear-gradient(45deg, #bc6ef7, #5fcdf3, #c2e77c);
+  /* background: rgba(158, 192, 243, 0.932); */
 }
 
 .home-section {
-    display: inline-flex;
-    padding: 100px;
-    /* height: 500px; */
-    width: 100%;
+  display: inline-flex;
+  padding: 100px;
+  /* height: 500px; */
+  width: 100%;
 }
 
-#joinBtn h1{
-    font-size: 44px;
-    font-weight: 900;
-    letter-spacing: -2px;
-    font-family:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+#joinBtn h1 {
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-.home-textBox{
-    width: 50%;
-    margin: 50px auto;
-    text-align: left;
+.home-textBox {
+  width: 50%;
+  margin: 50px auto;
+  text-align: left;
 }
 
 .home-textBox h1 {
-    font-size: 64px;
-    letter-spacing: -3.5px;
-    color: rgba(29, 29, 29, 0.884);
-    font-weight: 1200;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 64px;
+  letter-spacing: -3.5px;
+  color: rgba(29, 29, 29, 0.884);
+  font-weight: 1200;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .home-textBox p {
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    color: rgb(68, 68, 68);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: rgb(68, 68, 68);
 }
 
-#takepic img{
-    height: 450px;
-    width: 400px;
-    color: rgb(185, 202, 238);
+#takepic img {
+  height: 450px;
+  width: 400px;
+  color: rgb(185, 202, 238);
 }
 
 #servicepic img {
-    height: 400px;
+  height: 400px;
 }
 
-.home-photos, .home-photos1 {
-    width: 50%;
-    margin-top: -100px;
-    /* justify-items: center; */
+.home-photos,
+.home-photos1 {
+  width: 50%;
+  margin-top: -100px;
+  /* justify-items: center; */
 }
 
 .home-photos img {
-    /* margin-left: 30%; */
-    /* transform: rotate(30deg); */
-    width: 500px;
-    height: 550px;
+  /* margin-left: 30%; */
+  /* transform: rotate(30deg); */
+  width: 500px;
+  height: 550px;
 }
 
 .home-photos1 img {
-    /* margin-left: 20%; */
-    /* transform: rotate(-30deg); */
-    width: 500px;
-    height: 550px;
+  /* margin-left: 20%; */
+  /* transform: rotate(-30deg); */
+  width: 500px;
+  height: 550px;
 }
 
 @media screen and (max-width: 800px) {
-    .home-section {
-        display: block;
-        padding: 20px;
-    }
+  .home-section {
+    display: block;
+    padding: 20px;
+  }
 
-    .home-textBox h1 {
-        font-size: 48px;
-    }
+  .home-textBox h1 {
+    font-size: 48px;
+  }
 
-    .home-textBox p {
-        font-size: 18px;
-        letter-spacing: 0.25px;
-    }
+  .home-textBox p {
+    font-size: 18px;
+    letter-spacing: 0.25px;
+  }
 
-    .home-textBox{
-        margin: -50px auto 75px auto;
-    }
-     
-    /* .home-photos {
+  .home-textBox {
+    margin: -50px auto 75px auto;
+  }
+
+  /* .home-photos {
         margin-top: -700px;
         margin-bottom: 450px;
     } */
 
-    /* .locationpic {
+  /* .locationpic {
         margin-top: -400px;
     } */
 
-    .textBox1 {
-        margin-top: 20px;
-    }
+  .textBox1 {
+    margin-top: 20px;
+  }
 
-    .home-textBox, .home-photos, .home-photos1 {
-        width: 100%;
-        text-align: center;
-    }
+  .home-textBox,
+  .home-photos,
+  .home-photos1 {
+    width: 100%;
+    text-align: center;
+  }
 
-    .home-photos img, .home-photos1 img {
-        /* margin-left: 15%; */
-        margin-top: 120px;
-        width: 300px;
-        height: 350px;
-    }
+  .home-photos img,
+  .home-photos1 img {
+    /* margin-left: 15%; */
+    margin-top: 120px;
+    width: 300px;
+    height: 350px;
+  }
 
-    #takepic img{
-        height: 300px;
-        width: 80%;
-    }
-
+  #takepic img {
+    height: 300px;
+    width: 80%;
+  }
 }
