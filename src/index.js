@@ -1,18 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
-  <Router> <App /></Router>
-   ,
-  document.getElementById('root')
+  <Router>
+    {" "}
+    <App />
+  </Router>,
+  document.getElementById("root")
 );
 
-
-
+// history.listen((location, action) => {
+//   isNavBarOpen = false; //use global variable to manage NavBar isOpen in nested component
+// });
 
 // ReactDOM.render(
 //   <Firstslide />,document.getElementById('firstslide')

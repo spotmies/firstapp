@@ -861,6 +861,7 @@ function Rentals() {
                     <div style={{ display: "inline-flex" }}>
                       <p className="carContent">
                         <a>
+                          74
                           <BsFillGearFill />
                           -- &nbsp;
                         </a>

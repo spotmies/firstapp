@@ -1,3 +1,65 @@
+.fade-in-section {
+  opacity: 1;
+  transform: translateY(2vh);
+  /* visibility: hidden; */
+  transition: opacity 0.9s ease-out, transform 4s ease-out;
+  will-change: opacity, visibility;
+}
+
+.fade-out-section {
+  opacity: 0;
+  transform: translateY(0vh);
+  /* visibility: hidden; */
+  transition: opacity 0.1s ease-out, transform 0.2s ease-out;
+  will-change: opacity, visibility;
+}
+
+.img-in {
+  opacity: 1;
+  transition: opacity 0.9s ease-in, transform 4s ease-in;
+  will-change: opacity, visibility;
+}
+
+.img-out {
+  opacity: 0;
+  transition: opacity 0.1s ease-out, transform 0.2s ease-out;
+  will-change: opacity, visibility;
+}
+
+.m-img-in {
+  opacity: 1;
+  /* transform: translateY(5vh); */
+  transition: opacity 1s ease-in, transform 4s ease-in;
+  will-change: opacity, visibility;
+}
+
+.m-img-out {
+  opacity: 0;
+  /* transform: translateY(-10vh); */
+  transition: opacity 0.1s ease-out, transform 0.2s ease-out;
+  will-change: opacity, visibility;
+}
+
+.headeranimate-in {
+  opacity: 1;
+  /* transform: translateX(-2px); */
+  transition: opacity 1s ease, transform 2s ease;
+  will-change: opacity, visibility;
+}
+
+.headeranimate-out {
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: opacity 0.1s ease, transform 0.2s ease;
+  will-change: opacity, visibility;
+}
+/* .fade-in-section .is-visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  display: flex;
+} */
+
 .slide1 {
   display: block;
   margin-top: -20px;
@@ -77,6 +139,29 @@
   /* transform: rotate(-30deg); */
   width: 500px;
   height: 550px;
+}
+
+.feedBack {
+  float: right;
+  position: fixed;
+  bottom: 100px;
+  right: 0px;
+  /* background: white; */
+  width: 50px;
+}
+
+.fbModal {
+  top: auto;
+  bottom: auto;
+  right: auto;
+  left: auto;
+  width: 500px;
+  height: 450px;
+  overflow-y: auto;
+}
+
+.feedBackIcon {
+  font-size: 44px;
 }
 
 @media screen and (max-width: 800px) {

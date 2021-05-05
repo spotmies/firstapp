@@ -44,13 +44,24 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 const db = firebase.firestore();
 var username = "username";
+var app;
 
 function Navibar() {
   const [name, setName] = useState("undefined");
   const [pic, setpic] = useState(
     "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
   );
+  // const [isOpen, setIsOpen] = useState();
   const history = useHistory();
+
+  // const toggleNavbar = () => {
+  //   isOpen = isNavBarOpen; //fixes next time route change where isOpen=true
+  //   isOpen = !isOpen; //fixes initial delay in calling setState(), where clicking first time didn't open NavBar
+  //   setIsOpen({
+  //     isOpen: isOpen,
+  //   });
+  //   let isNavBarOpen = isOpen;
+  // };
 
   firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -85,7 +96,7 @@ function Navibar() {
     <div style={{ paddingBottom: "80px" }}>
       <header style={{ zIndex: "9999" }} className="navi-bar">
         <Container>
-          <Navbar collapseOnSelect expand="lg" variant="dark">
+          <Navbar collapseOnSelect expand="lg" variant="light">
             <IconContext.Provider
               value={{ size: "1.5em", className: "nav-icons" }}
             >
@@ -96,7 +107,10 @@ function Navibar() {
                 </Navbar.Brand>
               </Link>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-              <Navbar.Collapse id="responsive-navbar-nav">
+              <Navbar.Collapse
+                // onClick={toggleNavbar}
+                id="responsive-navbar-nav"
+              >
                 <Nav className="mr-auto"></Nav>
                 <Nav
                   className="nav-linkList"

@@ -1,11 +1,13 @@
 import "../App.css";
 import repair from "../images/repair.svg";
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import "semantic-ui-css/semantic.min.css";
+import { Modal } from "semantic-ui-react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Dropdown,
   DropdownButton,
-  Modal,
+  // Modal,
   Button,
   InputGroup,
   Form,
@@ -14,6 +16,7 @@ import {
 } from "react-bootstrap";
 import { BiRupee } from "react-icons/bi";
 import { BsTools, BsFillLockFill, BsFillUnlockFill } from "react-icons/bs";
+import { MdFeedback } from "react-icons/md";
 import { FaGooglePlay } from "react-icons/fa";
 import firebase from "../firebase";
 import Zoom from "react-reveal/Zoom";
@@ -29,7 +32,14 @@ import "../assets/css/home.css";
 // import about from "../images/undraw_researching_22gp.svg";
 import text from "./usertext";
 import ReactReadMoreReadLess from "react-read-more-read-less";
+import { useWindowSize } from "../hooks/useWindowsize";
 import { useSpring, animated } from "react-spring";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import "animate.css/animate.min.css";
+import ScrollAnimation from "react-animate-on-scroll";
+
+// gsap.registerPlugin(ScrollTrigger);
 
 var newpost = "/signup";
 firebase.auth().onAuthStateChanged(function (user) {
@@ -42,7 +52,7 @@ firebase.auth().onAuthStateChanged(function (user) {
   }
 });
 
-function useWindowSize() {
+function useWindowSize1() {
   const [swidth, setSWidth] = useState([window.innerHeight, window.innerWidth]);
   useEffect(() => {
     const handleResize = () => {
@@ -57,6 +67,75 @@ function useWindowSize() {
 }
 
 function Slide() {
+  // const handlec = (e) => {
+  // let nameId = e.target.name;
+  // let value = e.target.value;
+  // //console.log(value,nameId);
+  // let temp = this.state.details;
+  // temp[nameId] = value;
+  // temp["date"] = new Date();
+  // this.setState({
+  //   details: temp,
+  // });
+  // console.log("fbmodal");
+  // };
+  // const containerRef = useRef < HTMLDivElement > null;
+  // const size = useWindowSize();
+
+  // const setBodyHeight = () => {
+  //   document.body.style.height = `${
+  //     containerRef.current.getBoundingClientRect().height
+  //   }px`;
+  // };
+
+  // const smoothScroll = useCallback(() => {
+  //   data.curr = window.scrollY;
+  //   data.prev += (data.curr - data.prev) * data.ease;
+  //   data.rounded = Math.round(data.prev * 100) / 100;
+  //   containerRef.current.style.tranform = `translateY(-${data.rounded}px)`;
+  //   requestAnimationFrame(() => smoothScroll());
+  // }, [data]);
+
+  // useEffect(() => {
+  //   requestAnimationFrame(() => smoothScroll());
+  // }, []);
+
+  // useEffect(() => {
+  //   setBodyHeight();
+  // }, [size.height]);
+
+  // const data = {
+  //   ease: 0.1,
+  //   curr: 0,
+  //   prev: 0,
+  //   rounded: 0,
+  // };
+
+  // const textScroll = useRef < HTMLDivElement > null;
+
+  // const initScrollAnimation = useCallback(() => {
+  //   const animationObj = {
+  //     duration: 0.8,
+  //     y: -80,
+  //     opacity: 0,
+  //   };
+
+  //   gsap.to(textScroll.current, {
+  //     scrollTrigger: {
+  //       trigger: textScroll.current,
+  //       start: "center 30%",
+  //       scrub: true,
+  //     },
+  //     ...animationObj,
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   initScrollAnimation();
+  // }, [initScrollAnimation]);
+
+  // const style = useSpring({ opacity: 1 });
+  const [open, setOpen] = useState(false);
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com", "_blank");
@@ -64,38 +143,149 @@ function Slide() {
   // let location="seethamadahar";
   const db = firebase.firestore();
   // const [modalShow, setModalShow] = React.useState(false);
-  const [sheight1, swidths1] = useWindowSize();
+  const [sheight1, swidths1] = useWindowSize1();
   const [userText, setUsertext] = useState(text);
+  // const [offset, setOffset] = useState();
+
+  // const handleScroll = () => {
+  //   setOffset(window.pageYOffset);
+  // };
+
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   if (swidths1 < 800) {
     return (
       <div className="slide1">
         {userText.map((message) => (
           <section className="home-section">
-            <Fade top>
+            <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
               <div className="home-photos">
                 <img src={message.img} />
               </div>
-            </Fade>
+            </ScrollAnimation>
             <Zoom>
               <div className="home-textBox">
-                <h1>{message.heading}</h1>
-                <p>
-                  {" "}
-                  <ReactReadMoreReadLess
-                    charLimit={100}
-                    readMoreText={"Read more ▼"}
-                    readLessText={"Read less ▲"}
-                    readMoreClassName="read-more-less--more"
-                    readLessClassName="read-more-less--less"
-                  >
-                    {message.content}
-                  </ReactReadMoreReadLess>
-                </p>
+                <ScrollAnimation
+                  animateIn="headeranimate-in"
+                  animateOut="headeranimate-out"
+                >
+                  <h1>{message.heading}</h1>
+                </ScrollAnimation>
+                <ScrollAnimation
+                  animateOut="fade-out-section"
+                  animateIn="fade-in-section"
+                >
+                  <p>
+                    {" "}
+                    <ReactReadMoreReadLess
+                      charLimit={100}
+                      readMoreText={"Read more ▼"}
+                      readLessText={"Read less ▲"}
+                      readMoreClassName="read-more-less--more"
+                      readLessClassName="read-more-less--less"
+                    >
+                      {message.content}
+                    </ReactReadMoreReadLess>
+                  </p>
+                </ScrollAnimation>
               </div>
             </Zoom>
           </section>
         ))}
+        <div className="feedBack " onClick={() => setOpen(true)}>
+          <MdFeedback className="feedBackIcon" />
+        </div>
+
+        <Modal
+          className="fbModal"
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          open={open}
+          // trigger={<Button>Show Modal</Button>}
+        >
+          <Form
+            className="contactForm"
+            // style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
+            // onSubmit={this.submitForm}
+          >
+            <h2>Do you have any feedback?</h2>
+            <Form.Group>
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                value="nothing"
+                name="email"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="pallavi mella"
+                name="name"
+                value="nothing"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Mobile no:</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="9999999999"
+                name="phone"
+                value="nothing"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Subject</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="ex:- want to approach spotmies"
+                rows={1}
+                name="sub"
+                value="nothing"
+                // onChange={this.handlec}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Message</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="put what you want to message"
+                name="message"
+                value="nothing"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+          </Form>
+          <Modal.Actions>
+            <Button color="black" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              content="Yep, that's me"
+              labelPosition="right"
+              icon="checkmark"
+              onClick={() => setOpen(false)}
+              positive
+            >
+              Submit{" "}
+            </Button>
+          </Modal.Actions>
+        </Modal>
 
         <section className="home-textBox" id="joinBtn">
           <Fade top>
@@ -140,108 +330,7 @@ function Slide() {
       </div>
     );
 
-    //   return <div className="slide1">
-    //   <section className="home-section">
-    //   <Fade top>
-    //      <div className="home-photos">
-    //        <img src={about} />
-    //      </div>
-    //     </Fade>
-    //     <Zoom>
-    //       <div className="home-textBox">
-    //       <h1>What is Spotmies ?</h1>
-    //       <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p>
-    //       </div>
-    //     </Zoom>
-
-    //   </section>
-
-    //   <section className="home-section">
-    //   <Fade top>
-    //      <div className="home-photos1" id="takepic">
-    //        <img src={takepic} />
-    //      </div>
-    //     </Fade>
-    //     <Zoom>
-    //       <div className="home-textBox textBox1">
-    //       <h1>Take a picture</h1>
-    //       <p>Click a picture of your service and post an ad.</p>
-    //       </div>
-    //     </Zoom>
-
-    //   </section>
-
-    //   <section className="home-section">
-    //   <Fade top>
-    //      <div className="home-photos locationpic">
-    //        <img src={location} />
-    //      </div>
-    //     </Fade>
-    //     <Zoom>
-    //       <div className="home-textBox">
-    //       <h1 style={{color: "rgba(29, 29, 29, 0.884)"}}>Set location</h1>
-    //       <p>Set location of your service place.<br/> To get faster service.</p>
-    //       </div>
-    //     </Zoom>
-
-    //   </section>
-
-    //   <section className="home-section">
-    //     <Fade top>
-    //      <div className="home-photos1">
-    //        <img src={getquote} />
-    //      </div>
-    //     </Fade>
-    //     <Zoom>
-    //       <div className="home-textBox">
-    //       <h1>Get Quote</h1>
-    //       <p>Get Select the best quote from all technicians around you.</p>
-    //       </div>
-    //     </Zoom>
-    //   </section>
-
-    //   <section className="home-section">
-    //   <Fade top>
-    //      <div className="home-photos" id="servicepic">
-    //        <img src={service} />
-    //      </div>
-    //     </Fade>
-    //     <Zoom>
-    //       <div className="home-textBox" style={{marginTop: "-100px", marginBottom: "100px"}}>
-    //       <h1 >Get your service done at your door steps.</h1>
-
-    //       </div>
-    //     </Zoom>
-
-    //   </section>
-
-    //   <section className="home-textBox" id="joinBtn">
-    //     <Fade top>
-    //     <div>
-
-    //       <h1>Privacy by default</h1>
-    //     </div>
-    //     </Fade>
-    //   </section>
-
-    //   <section className="home-textBox" id="joinBtn">
-    //     <Fade top>
-    //     <div>
-    //       <h1>Wanna join your business?</h1>
-    //       <Link to="/partnerRegistration"><Button>Join here</Button></Link>
-    //     </div>
-    //     </Fade>
-    //   </section>
-
-    //    <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
-    //       <FaGooglePlay style={{marginTop: "20px"}} />
-    //    </div>
-
-    //    <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
-    //      <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
-    //    </div>
-
-    // </div>
+    // return <div className="slide1">
   } else {
     return (
       <div className="slide1">
@@ -249,25 +338,42 @@ function Slide() {
           <div>
             {index % 2 == 0 ? (
               <section className="home-section">
-                <Fade left>
+                <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <div className="home-photos">
-                    <img src={message.img} />
+                    <Fade left>
+                      <img
+                        src={message.img}
+                        // style={{ width: 100 + offset * 0.3 }}
+                        // style={{ style }}
+                      />
+                    </Fade>
                   </div>
-                </Fade>
+                </ScrollAnimation>
                 <Zoom>
                   <div className="home-textBox">
                     <h1>{message.heading}</h1>
-                    <p>
-                      <ReactReadMoreReadLess
-                        charLimit={100}
-                        readMoreText={"Read more ▼"}
-                        readLessText={"Read less ▲"}
-                        readMoreClassName="read-more-less--more"
-                        readLessClassName="read-more-less--less"
+                    <ScrollAnimation
+                      animateIn="fade-in-section"
+                      animateOut="fade-out-section"
+                    >
+                      <p
+                      // style={{ opacity: 0 + offset / 3 }}
+                      // ref={domRef}
+                      // className={`fade-in-section ${
+                      //   isVisible ? "is-visible" : ""
+                      // }`}
                       >
-                        {message.content}
-                      </ReactReadMoreReadLess>
-                    </p>
+                        <ReactReadMoreReadLess
+                          charLimit={100}
+                          readMoreText={"Read more ▼"}
+                          readLessText={"Read less ▲"}
+                          readMoreClassName="read-more-less--more"
+                          readLessClassName="read-more-less--less"
+                        >
+                          {message.content}
+                        </ReactReadMoreReadLess>
+                      </p>
+                    </ScrollAnimation>
                   </div>
                 </Zoom>
               </section>
@@ -275,29 +381,133 @@ function Slide() {
               <section className="home-section">
                 <Zoom>
                   <div className="home-textBox">
-                    <h1>{message.heading}</h1>
-                    <p>
-                      <ReactReadMoreReadLess
-                        charLimit={100}
-                        readMoreText={"Read more ▼"}
-                        readLessText={"Read less ▲"}
-                        readMoreClassName="read-more-less--more"
-                        readLessClassName="read-more-less--less"
-                      >
-                        {message.content}
-                      </ReactReadMoreReadLess>
-                    </p>
+                    <ScrollAnimation
+                      animateOut="headanimate-out"
+                      animateIn="headAnimate-in"
+                    >
+                      <h1>{message.heading}</h1>
+                    </ScrollAnimation>
+                    <ScrollAnimation
+                      animateIn="fade-in-section"
+                      animateOut="fade-out-section"
+                    >
+                      <p>
+                        <ReactReadMoreReadLess
+                          charLimit={100}
+                          readMoreText={"Read more ▼"}
+                          readLessText={"Read less ▲"}
+                          readMoreClassName="read-more-less--more"
+                          readLessClassName="read-more-less--less"
+                        >
+                          {message.content}
+                        </ReactReadMoreReadLess>
+                      </p>
+                    </ScrollAnimation>
                   </div>
                 </Zoom>
-                <Fade right>
+
+                <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <div className="home-photos">
-                    <img src={message.img} />
+                    <Fade right>
+                      {" "}
+                      <img src={message.img} />{" "}
+                    </Fade>
                   </div>
-                </Fade>
+                </ScrollAnimation>
               </section>
             )}
           </div>
         ))}
+        <div className="feedBack" onClick={() => setOpen(true)}>
+          <MdFeedback className="feedBackIcon" />
+        </div>
+
+        <Modal
+          className="fbModal"
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          open={open}
+          // trigger={<Button>Show Modal</Button>}
+        >
+          <Form
+            className="contactForm"
+            // style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
+            // onSubmit={this.submitForm}
+          >
+            <h2>Do you have any feedback?</h2>
+            <Form.Group>
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                value="nothing"
+                name="email"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="pallavi mella"
+                name="name"
+                value="nothing"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Mobile no:</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="9999999999"
+                name="phone"
+                value="nothing"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Subject</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="ex:- want to approach spotmies"
+                rows={1}
+                name="sub"
+                value="nothing"
+                // onChange={this.handlec}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Message</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="put what you want to message"
+                name="message"
+                value="nothing"
+                // onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+          </Form>
+          <Modal.Actions>
+            <Button color="black" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              content="Yep, that's me"
+              labelPosition="right"
+              icon="checkmark"
+              onClick={() => setOpen(false)}
+              positive
+            >
+              Submit{" "}
+            </Button>
+          </Modal.Actions>
+        </Modal>
 
         <section className="home-textBox" id="joinBtn">
           <Fade top>
@@ -358,98 +568,6 @@ function Slide() {
         </div>
       </div>
     );
-
-    // return <div className="slide1">
-    //   <section className="home-section">
-    //     <Zoom>
-    //       <div className="home-textBox">
-    //       <h1>What is Spotmies ?</h1>
-    //       <p>It is a platform where service seeker and technicians get connected to each other. we help you to solve your basic home service needs at your door steps.</p>
-    //       </div>
-    //     </Zoom>
-    //     <Fade right>
-    //      <div className="home-photos">
-    //        <img src={about} />
-    //      </div>
-    //     </Fade>
-    //   </section>
-
-    //   <section className="home-section">
-    //   <Fade left>
-    //      <div className="home-photos1" id="takepic">
-    //        <img src={takepic} />
-    //      </div>
-    //     </Fade>
-    //     <Zoom>
-    //       <div className="home-textBox">
-    //       <h1>Take a picture</h1>
-    //       <p>Click a picture of your service and post an ad.</p>
-    //       </div>
-    //     </Zoom>
-
-    //   </section>
-
-    //   <section className="home-section">
-    //     <Zoom>
-    //       <div className="home-textBox textBox1">
-    //       <h1 style={{color: "rgba(29, 29, 29, 0.884)"}}>Set location</h1>
-    //       <p>Set location of your service place.<br/> To get faster service.</p>
-    //       </div>
-    //     </Zoom>
-    //     <Fade right>
-    //      <div className="home-photos locationpic">
-    //        <img src={location} />
-    //      </div>
-    //     </Fade>
-    //   </section>
-
-    //   <section className="home-section">
-    //     <Fade left>
-    //      <div className="home-photos1">
-    //        <img src={getquote} />
-    //      </div>
-    //     </Fade>
-    //     <Zoom>
-    //       <div className="home-textBox">
-    //       <h1>Get Quote</h1>
-    //       <p>Get Select the best quote from all technicians around you.</p>
-    //       </div>
-    //     </Zoom>
-    //   </section>
-
-    //   <section className="home-section">
-
-    //     <Zoom>
-    //       <div className="home-textBox" style={{marginTop: "0px"}}>
-    //       <h1 >Get your service done at your door steps.</h1>
-    //       {/* <p>.</p> */}
-    //       </div>
-    //     </Zoom>
-    //     <Fade right>
-    //      <div className="home-photos" id="servicepic">
-    //        <img src={service} />
-    //      </div>
-    //     </Fade>
-    //   </section>
-
-    //   <section className="home-textBox" id="joinBtn">
-    //     <Fade top>
-    //     <div>
-    //       <h1>Wanna join your business?</h1>
-    //       <Link to="/partnerRegistration"><Button>Join here</Button></Link>
-    //     </div>
-    //     </Fade>
-    //   </section>
-
-    //    <div style={{background: "white", width: "100%", textAlign: "center", padding: "20px auto",height: "70px", fontSize: "32px"}}>
-    //       <FaGooglePlay style={{marginTop: "20px"}} />
-    //    </div>
-
-    //    <div style={{background: "black", width: "100%", textAlign: "center", color: "white", letterSpacing: "2px"}}>
-    //      <p style={{marginTop: "3px", marginBottom: "3px"}} >Made  with  <span style={{color: 'red'}}>&#x2764;</span>   by  <a onClick={redirect} target="blank" style={{cursor:"pointer"}}>Modern Silpi</a></p>
-    //    </div>
-
-    // </div>
   }
 }
 

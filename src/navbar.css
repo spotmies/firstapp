@@ -130,3 +130,18 @@
     height: fit-content;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .title img {
+    height: 40px;
+    width: 30px;
+  }
+
+  .navi-bar {
+    min-height: 50px;
+  }
+
+  .title h2 {
+    margin-top: -2px;
+  }
+}
