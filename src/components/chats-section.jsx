@@ -27,7 +27,7 @@ import {
   Header,
 } from "semantic-ui-react";
 import imageCompression from "browser-image-compression";
-import ImageViewer from "react-simple-image-viewer";
+//import ImageViewer from "react-simple-image-viewer";
 // import { UniversalM } from "./reusable/Modal";
 import "firebase/storage";
 //micro service
