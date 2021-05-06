@@ -11,6 +11,8 @@ import {
   Button,
   InputGroup,
   Form,
+  Col,
+  Row,
   FormControl,
   ProgressBar,
 } from "react-bootstrap";
@@ -160,7 +162,7 @@ function Slide() {
   if (swidths1 < 800) {
     return (
       <div className="slide1">
-        {userText.map((message) => (
+        {userText.map((message, key) => (
           <section className="home-section">
             <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
               <div className="home-photos">
@@ -173,7 +175,9 @@ function Slide() {
                   animateIn="headeranimate-in"
                   animateOut="headeranimate-out"
                 >
-                  <h1>{message.heading}</h1>
+                  <h1 className={key == 1 ? "headTop" : null}>
+                    {message.heading}
+                  </h1>
                 </ScrollAnimation>
                 <ScrollAnimation
                   animateOut="fade-out-section"
@@ -213,53 +217,130 @@ function Slide() {
             // onSubmit={this.submitForm}
           >
             <h2>Do you have any feedback?</h2>
-            <Form.Group>
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="name@example.com"
-                value="nothing"
-                name="email"
-                // onChange={this.handlec}
-                required
-              />
+            <Form.Group className="formgroup">
+              <Form.Label>
+                Do you understand what does this website mean
+              </Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios3"
+                />
+              </Col>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="pallavi mella"
-                name="name"
-                value="nothing"
-                // onChange={this.handlec}
-                required
-              />
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label>Is this platform useful?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>Mobile no:</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="9999999999"
-                name="phone"
-                value="nothing"
-                // onChange={this.handlec}
-                required
-              />
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label>How does the website looks?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
             </Form.Group>
 
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Subject</Form.Label>
-              <Form.Control
-                as="textarea"
-                placeholder="ex:- want to approach spotmies"
-                rows={1}
-                name="sub"
-                value="nothing"
-                // onChange={this.handlec}
-              />
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Did you face any issues with the website?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Message</Form.Label>
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>
+                If you have any other feedback please let us know. We love to
+                give you the best.
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -267,11 +348,24 @@ function Slide() {
                 name="message"
                 value="nothing"
                 // onChange={this.handlec}
-                required
               />
             </Form.Group>
+
+            <Row style={{ margin: "0 auto", width: "fit-content" }}>
+              <Button
+                type="submit"
+                variant="secondary"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+
+              <Button type="submit" style={{ marginLeft: "30px" }}>
+                Submit
+              </Button>
+            </Row>
           </Form>
-          <Modal.Actions>
+          {/* <Modal.Actions>
             <Button color="black" onClick={() => setOpen(false)}>
               Cancel
             </Button>
@@ -284,8 +378,16 @@ function Slide() {
             >
               Submit{" "}
             </Button>
-          </Modal.Actions>
+          </Modal.Actions> */}
         </Modal>
+
+        <section className="LockPsw">
+          <Fade top>
+            <div>
+              <h2>Completely Secured.</h2>
+            </div>
+          </Fade>
+        </section>
 
         <section className="home-textBox" id="joinBtn">
           <Fade top>
@@ -351,7 +453,12 @@ function Slide() {
                 </ScrollAnimation>
                 <Zoom>
                   <div className="home-textBox">
-                    <h1>{message.heading}</h1>
+                    <ScrollAnimation
+                      animateOut="headeranimate-out"
+                      animateIn="headeranimate-in"
+                    >
+                      <h1>{message.heading}</h1>
+                    </ScrollAnimation>
                     <ScrollAnimation
                       animateIn="fade-in-section"
                       animateOut="fade-out-section"
@@ -382,8 +489,8 @@ function Slide() {
                 <Zoom>
                   <div className="home-textBox">
                     <ScrollAnimation
-                      animateOut="headanimate-out"
-                      animateIn="headAnimate-in"
+                      animateOut="headeranimate-out"
+                      animateIn="headeranimate-in"
                     >
                       <h1>{message.heading}</h1>
                     </ScrollAnimation>
@@ -435,53 +542,130 @@ function Slide() {
             // onSubmit={this.submitForm}
           >
             <h2>Do you have any feedback?</h2>
-            <Form.Group>
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="name@example.com"
-                value="nothing"
-                name="email"
-                // onChange={this.handlec}
-                required
-              />
+            <Form.Group className="formgroup">
+              <Form.Label>
+                Do you understand what does this website mean
+              </Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios3"
+                />
+              </Col>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="pallavi mella"
-                name="name"
-                value="nothing"
-                // onChange={this.handlec}
-                required
-              />
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label>Is this platform useful?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlInput1">
-              <Form.Label>Mobile no:</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="9999999999"
-                name="phone"
-                value="nothing"
-                // onChange={this.handlec}
-                required
-              />
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label>How does the website looks?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
             </Form.Group>
 
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Subject</Form.Label>
-              <Form.Control
-                as="textarea"
-                placeholder="ex:- want to approach spotmies"
-                rows={1}
-                name="sub"
-                value="nothing"
-                // onChange={this.handlec}
-              />
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Did you face any issues with the website?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Message</Form.Label>
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>
+                If you have any other feedback please let us know. We love to
+                give you the best.
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -489,11 +673,24 @@ function Slide() {
                 name="message"
                 value="nothing"
                 // onChange={this.handlec}
-                required
               />
             </Form.Group>
+
+            <Row style={{ margin: "0 auto", width: "fit-content" }}>
+              <Button
+                type="submit"
+                variant="secondary"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+
+              <Button type="submit" style={{ marginLeft: "30px" }}>
+                Submit
+              </Button>
+            </Row>
           </Form>
-          <Modal.Actions>
+          {/* <Modal.Actions>
             <Button color="black" onClick={() => setOpen(false)}>
               Cancel
             </Button>
@@ -506,10 +703,18 @@ function Slide() {
             >
               Submit{" "}
             </Button>
-          </Modal.Actions>
+          </Modal.Actions> */}
         </Modal>
 
-        <section className="home-textBox" id="joinBtn">
+        <section className="LockPsw">
+          <Fade top>
+            <div>
+              <h2>Completely Secured.</h2>
+            </div>
+          </Fade>
+        </section>
+
+        <section className="home-textBox home-textBox1" id="joinBtn">
           <Fade top>
             <div>
               <h1>Wanna join your business?</h1>

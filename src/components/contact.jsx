@@ -1,9 +1,23 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Form, Button } from "react-bootstrap";
+// import { Form, Button } from "react-bootstrap";
+import { Modal } from "semantic-ui-react";
 import GoogleMapReact from "google-map-react";
 import { contactus } from "../mservices/contactUs";
 import { toast } from "react-toastify";
+import { MdFeedback } from "react-icons/md";
+import {
+  Dropdown,
+  DropdownButton,
+  // Modal,
+  Button,
+  InputGroup,
+  Form,
+  Col,
+  Row,
+  FormControl,
+  ProgressBar,
+} from "react-bootstrap";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -19,6 +33,7 @@ class SimpleMap extends Component {
         message: null,
         date: new Date(),
       },
+      open: false,
       wWidth: window.innerWidth,
     };
     this.handlec = this.handlec.bind(this);
@@ -87,6 +102,7 @@ class SimpleMap extends Component {
 
   render() {
     let det = this.state.details;
+
     return (
       //   Important! Always set the container height explicitly
       <div
@@ -191,6 +207,189 @@ class SimpleMap extends Component {
             Submit
           </Button>
         </Form>
+        <div
+          className="feedBack "
+          onClick={() => this.setState({ open: true })}
+        >
+          <MdFeedback className="feedBackIcon" />
+        </div>
+
+        <Modal
+          className="fbModal"
+          onClose={() => this.setState({ open: false })}
+          onOpen={() => this.setState({ open: true })}
+          open={this.state.open}
+          // trigger={<Button>Show Modal</Button>}
+        >
+          <Form
+            className="contactForm"
+            // style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
+            // onSubmit={this.submitForm}
+          >
+            <h2>Do you have any feedback?</h2>
+            <Form.Group className="formgroup">
+              <Form.Label>
+                Do you understand what does this website mean
+              </Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formVerticalRadios"
+                  id="formVerticalRadios3"
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label>Is this platform useful?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios1"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlInput1"
+            >
+              <Form.Label>How does the website looks?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios2"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
+            </Form.Group>
+
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Did you face any issues with the website?</Form.Label>
+              <Col classname="formcol">
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="first radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios1"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="second radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios2"
+                />
+                <Form.Check
+                  inline
+                  type="radio"
+                  label="third radio"
+                  name="formHorizontalRadios3"
+                  id="formHorizontalRadios3"
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group
+              className="formgroup"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>
+                If you have any other feedback please let us know. We love to
+                give you the best.
+              </Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="put what you want to message"
+                name="message"
+                value="nothing"
+                // onChange={this.handlec}
+              />
+            </Form.Group>
+
+            <Row style={{ margin: "0 auto", width: "fit-content" }}>
+              <Button
+                type="submit"
+                variant="secondary"
+                onClick={() => this.setState({ open: false })}
+              >
+                Cancel
+              </Button>
+
+              <Button type="submit" style={{ marginLeft: "30px" }}>
+                Submit
+              </Button>
+            </Row>
+          </Form>
+          {/* <Modal.Actions>
+            <Button color="black" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              content="Yep, that's me"
+              labelPosition="right"
+              icon="checkmark"
+              onClick={() => setOpen(false)}
+              positive
+            >
+              Submit{" "}
+            </Button>
+          </Modal.Actions> */}
+        </Modal>
       </div>
     );
   }

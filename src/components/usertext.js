@@ -14,26 +14,26 @@ const text = [
     img: about,
   },
   {
-    id: 1,
+    id: 2,
     heading: "Take a picture",
     content:
       "Click a picture of your  needed service and post an ad to experience our service.",
     img: takepic,
   },
   {
-    id: 1,
+    id: 3,
     heading: "Set location",
     content: "Share your location and we share our service.",
     img: location,
   },
   {
-    id: 1,
+    id: 4,
     heading: "Get Quote",
     content: "Get Select the best quote from all technicians around you",
     img: getquote,
   },
   {
-    id: 1,
+    id: 5,
     heading: "Get your service done at your door steps.",
     content: "",
     img: service,

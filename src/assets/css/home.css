@@ -26,18 +26,29 @@
   will-change: opacity, visibility;
 }
 
+/* .contactForm .formgroup .formcol {
+  display: inline-flex !important;
+  width: 60px;
+} */
+
 .m-img-in {
   opacity: 1;
   /* transform: translateY(5vh); */
-  transition: opacity 1s ease-in, transform 4s ease-in;
+  transform: translateY(2vh);
+  transition: opacity 0.9s ease-in, transform 4s ease-out;
   will-change: opacity, visibility;
 }
 
 .m-img-out {
   opacity: 0;
   /* transform: translateY(-10vh); */
-  transition: opacity 0.1s ease-out, transform 0.2s ease-out;
+  transform: translateY(0vh);
+  transition: opacity 0.1s ease-in, transform 0.2s ease-in;
   will-change: opacity, visibility;
+}
+
+.headTop {
+  margin-top: 10px;
 }
 
 .headeranimate-in {
@@ -69,7 +80,7 @@
     rgba(108, 118, 252, 0.945),
     rgba(248, 77, 77, 0.932)
   ); */
-  background: linear-gradient(45deg, #bc6ef7, #5fcdf3, #c2e77c);
+  background: linear-gradient(45deg, #bc6ef7, #5fcdf3, #e7a37c);
   /* background: rgba(158, 192, 243, 0.932); */
 }
 
@@ -92,6 +103,21 @@
   width: 50%;
   margin: 50px auto;
   text-align: left;
+}
+
+.home-textBox1 {
+  margin: 50px auto;
+  text-align: center;
+}
+
+.LockPsw h2 {
+  text-align: center;
+  height: 150px;
+  font-size: 54px;
+  color: rgba(29, 29, 29, 0.884);
+  font-weight: 1200;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .home-textBox h1 {
@@ -144,7 +170,7 @@
 .feedBack {
   float: right;
   position: fixed;
-  bottom: 100px;
+  bottom: 50px;
   right: 0px;
   /* background: white; */
   width: 50px;
@@ -155,7 +181,8 @@
   bottom: auto;
   right: auto;
   left: auto;
-  width: 500px;
+  width: 400px;
+  margin-top: 30px;
   height: 450px;
   overflow-y: auto;
 }
