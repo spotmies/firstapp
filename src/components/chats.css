@@ -1,5 +1,5 @@
 .chatList,
-.chatListP {
+.chatListp {
   margin-top: 5px;
   float: right;
   color: #646464;
@@ -48,9 +48,9 @@
   width: 52%;
 }
 
-.chatListP {
+.chatListp {
   float: left;
-  background: #f06161 none repeat scroll 0 0;
+  background: #dadada none repeat scroll 0 0;
   border-bottom-left-radius: 1px;
 }
 

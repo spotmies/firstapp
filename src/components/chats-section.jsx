@@ -850,7 +850,8 @@ function Chatarea(props) {
                     </p>
                   ) : chatobj.type == "photo" ? (
                     <Image
-                      floated="right"
+                      floated=
+                      {chatobj.sender=="u" ? "right" : "left"}
                       className="chatPic"
                       onClick={showimage}
                       src={chatobj.msg}
@@ -1203,7 +1204,7 @@ function Chatarea(props) {
                     </p>
                   ) : chatobj.type == "photo" ? (
                     <Image
-                      floated="right"
+                      floated={chatobj.sender=="u" ? "right" : "left"}
                       className="chatPic"
                       onClick={showimage}
                       src={chatobj.msg}
