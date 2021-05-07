@@ -100,9 +100,6 @@ function useTimes() {
           .where("userid", "==", firebase.auth().currentUser.uid)
           .where("chatbuild", "==", true)
           .orderBy("createdAt", "desc")
-          //   .get()
-          //   .then(
-
           .onSnapshot((querySnapshot) => {
             //  tempChat=[];
             setchit([]);
@@ -111,10 +108,6 @@ function useTimes() {
               setchit((x) => x.concat(doc.data()));
             });
           });
-        //   .then(() => setchit(tempChat))
-        //   .catch((error) => {
-        //     console.log("Error getting documents: ", error);
-        //   });
       }
     });
   }, []);
@@ -850,7 +843,7 @@ function Chatarea(props) {
                     </p>
                   ) : chatobj.type == "photo" ? (
                     <Image
-                      floated="right"
+                      floated={chatobj.sender == "u" ? "right" : "left"}
                       className="chatPic"
                       onClick={showimage}
                       src={chatobj.msg}
@@ -863,94 +856,6 @@ function Chatarea(props) {
             );
           })}
 
-          {/* {chat.body.map((nap, key, array) => {
-            if (nap[nap.length - 1] == "u")
-              return (
-                <div
-                  className="out-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <div className="out-chatbox">
-                    <p className="chatList">
-                      {getorgnl(nap)}&nbsp;{" "}
-                      <small className="textTime"> {getmsgtime(nap)}</small>
-                    </p>
-                  </div>
-
-                </div>
-              );
-            else if (nap[nap.length - 1] == "p")
-              return (
-                <div className="in-chat">
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <div
-                    className="in-chatbox"
-                    key={key}
-                    id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                  >
-                    <p className="chatListP">
-                      {getorgnl(nap)}&nbsp;{" "}
-                      <small className="textTimep"> {getmsgtime(nap)}</small>
-                    </p>
-                  </div>
-                </div>
-              );
-            else if (nap.slice(-2) == "um")
-              return (
-                <div
-                  className="out-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <Image
-                    floated="right"
-                    className="chatPic"
-                    onClick={showimage}
-                    src={nap.slice(0, -2)}
-                    size="small"
-                  />
-                  <p>
-                    <small className="textTime">{getmsgtime(nap)}</small>
-                  </p>
-                  {key == chat.body.length - 1 ? (
-                    <p className="readText">
-                      <small>{chat.pread ? "read" : "unread"}</small>
-                    </p>
-                  ) : null}
-                </div>
-              );
-            else if (nap.slice(-2) == "pm")
-              return (
-                <div
-                  className="in-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <Image
-                    floated="left"
-                    className="chatPic"
-                    onClick={showimage}
-                    src={nap.slice(0, -2)}
-                    size="small"
-                  />
-                  <p>
-                    <small className="textTime">{getmsgtime(nap)}</small>
-                  </p>
-                </div>
-              );
-          })} */}
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
@@ -1203,7 +1108,7 @@ function Chatarea(props) {
                     </p>
                   ) : chatobj.type == "photo" ? (
                     <Image
-                      floated="right"
+                      floated={chatobj.sender == "u" ? "right" : "left"}
                       className="chatPic"
                       onClick={showimage}
                       src={chatobj.msg}
@@ -1216,94 +1121,6 @@ function Chatarea(props) {
             );
           })}
 
-          {/* {chat.body.map((nap, key, array) => {
-            if (nap[nap.length - 1] == "u")
-              return (
-                <div
-                  className="out-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <div className="out-chatbox">
-                    <p className="chatList">
-                      {getorgnl(nap)}&nbsp;{" "}
-                      <small className="textTime"> {getmsgtime(nap)}</small>
-                    </p>
-                  </div>
-
-                </div>
-              );
-            else if (nap[nap.length - 1] == "p")
-              return (
-                <div className="in-chat">
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <div
-                    className="in-chatbox"
-                    key={key}
-                    id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                  >
-                    <p className="chatListP">
-                      {getorgnl(nap)}&nbsp;{" "}
-                      <small className="textTimep"> {getmsgtime(nap)}</small>
-                    </p>
-                  </div>
-                </div>
-              );
-            else if (nap.slice(-2) == "um")
-              return (
-                <div
-                  className="out-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <Image
-                    floated="right"
-                    className="chatPic"
-                    onClick={showimage}
-                    src={nap.slice(0, -2)}
-                    size="small"
-                  />
-                  <p>
-                    <small className="textTime">{getmsgtime(nap)}</small>
-                  </p>
-                  {key == chat.body.length - 1 ? (
-                    <p className="readText">
-                      <small>{chat.pread ? "read" : "unread"}</small>
-                    </p>
-                  ) : null}
-                </div>
-              );
-            else if (nap.slice(-2) == "pm")
-              return (
-                <div
-                  className="in-chat"
-                  key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
-                >
-                  {cmpmsg(nap, array[key - 1]) != null ? (
-                    <p>{cmpmsg(nap, array[key - 1])}</p>
-                  ) : null}
-                  <Image
-                    floated="left"
-                    className="chatPic"
-                    onClick={showimage}
-                    src={nap.slice(0, -2)}
-                    size="small"
-                  />
-                  <p>
-                    <small className="textTime">{getmsgtime(nap)}</small>
-                  </p>
-                </div>
-              );
-          })} */}
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>

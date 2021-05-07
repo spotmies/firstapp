@@ -368,7 +368,7 @@ function PartnerRegistration() {
             controlId="exampleForm.ControlTextarea1"
           >
             <Form.Label>
-              <b>Select Your Proffesion</b>
+              <b>Select Your Proffesion1</b>
             </Form.Label>
             <Form.Control
               as="select"
@@ -718,7 +718,7 @@ function PartnerRegistration() {
             controlId="exampleForm.ControlTextarea1"
           >
             <Form.Label>
-              <b>Select Your Proffesion</b>
+              <b>Select Your Proffesion2</b>
             </Form.Label>
             <Form.Control
               as="select"
