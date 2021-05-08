@@ -171,6 +171,9 @@ function Slide() {
   const [userText, setUsertext] = useState(text);
   // const [offset, setOffset] = useState();
 
+  // const scrollsmooth = () => {
+  //   alert("hello smoooth");
+  // };
   // const handleScroll = () => {
   //   setOffset(window.pageYOffset);
   // };
@@ -185,7 +188,7 @@ function Slide() {
     return (
       <div className="slide1">
         {userText.map((message, key) => (
-          <section className="home-section">
+          <section className="home-section" id={key}>
             <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
               <div className="home-photos">
                 <img src={message.img} />
@@ -283,7 +286,7 @@ function Slide() {
     return (
       <div className="slide1">
         {userText.map((message, index) => (
-          <div>
+          <div id={index}>
             {index % 2 == 0 ? (
               <section className="home-section">
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
@@ -440,7 +443,8 @@ function Slide() {
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with <span style={{ color: "red" }}>&#x2764;</span> by{" "}
+            Made with Love by{" "}
+            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
             <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
@@ -527,13 +531,18 @@ function ModalExampleModal(props) {
       // trigger={<Button>Show Modal</Button>}
     >
       <Modal.Header>Feedback Here</Modal.Header>
-      <Modal.Content>
+      <Modal.Content className="modalContent">
         {count > 0 ? (
-          <MdKeyboardArrowLeft size="2rem" onClick={prevQue} />
-        ) : null}
+          <p className="modalBack" onClick={prevQue}>
+            <MdKeyboardArrowLeft size="2rem" />
+            <span style={{ marginTop: "4px", fontWeight: "800" }}> Back </span>
+          </p>
+        ) : (
+          <p className="modalBack"></p>
+        )}
         <Modal.Description>
           {count == 0 ? (
-            <div>
+            <div className="modalDiv">
               <Header>Do You Understand What Does This Website Means</Header>
               <div>
                 <Button
@@ -568,7 +577,7 @@ function ModalExampleModal(props) {
           ) : null}
 
           {count == 1 ? (
-            <div>
+            <div className="modalDiv">
               <Header>Is This Platform Is Useful</Header>
               <div>
                 <Button
@@ -612,7 +621,7 @@ function ModalExampleModal(props) {
           ) : null}
 
           {count == 2 ? (
-            <div>
+            <div className="modalDiv">
               <Header>How This Website Looks</Header>
               <div>
                 <Button
@@ -656,7 +665,7 @@ function ModalExampleModal(props) {
           ) : null}
 
           {count == 3 ? (
-            <div>
+            <div className="modalDiv">
               <Header>Have You Face Any Issue With The Website</Header>
               <div>
                 <Button
@@ -682,7 +691,7 @@ function ModalExampleModal(props) {
           ) : null}
 
           {count == 4 ? (
-            <div>
+            <div className="modalDiv">
               <Header>
                 If You Have Any Other Feedback Please Tell Us Here. We Love To
                 Improve Our Service
@@ -708,7 +717,7 @@ function ModalExampleModal(props) {
           ) : null}
         </Modal.Description>
       </Modal.Content>
-      <Modal.Actions>
+      <Modal.Actions className="modalAction">
         <Button color="black" onClick={onClose}>
           Cancel
         </Button>

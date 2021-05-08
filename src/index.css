@@ -71,10 +71,11 @@ padding: 10px; */
 
 *::-webkit-scrollbar,
 *::-webkit-scrollbar-thumb {
-  width: 26px;
+  width: 8px;
+  /* scrollbar-width: 10px; */
   border-radius: 13px;
-  background-clip: padding-box;
-  border: 10px solid transparent;
+  /* background-clip: ; */
+  /* border: 10px solid transparent; */
 }
 
 *::-webkit-scrollbar-thumb {

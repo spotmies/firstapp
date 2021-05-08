@@ -8,7 +8,7 @@ import about from "../images/undraw_researching_22gp.svg";
 const text = [
   {
     id: 1,
-    heading: "what is Title?",
+    heading: "What is Spotmies?",
     content:
       "We provide solutions to your problems. You deserve what you get and we believe you deserve better.",
     img: about,

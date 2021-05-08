@@ -210,13 +210,28 @@
   right: auto;
   left: auto;
   width: 400px;
-  margin-top: 30px;
-  height: 450px;
+  margin-top: 100px;
+  height: 355px;
   overflow-y: auto;
+}
+
+.modalContent {
+  height: 220px;
+}
+
+.modalBack {
+  display: inline-flex;
+  height: 20px;
+  cursor: pointer;
 }
 
 .feedBackIcon {
   font-size: 44px;
+  cursor: pointer;
+}
+
+.modalDiv {
+  height: 150px;
 }
 
 @media screen and (max-width: 800px) {
