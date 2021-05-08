@@ -35,13 +35,20 @@ import "../assets/css/home.css";
 import text from "./usertext";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import { useWindowSize } from "../hooks/useWindowsize";
-import { useSpring, animated } from "react-spring";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import { useSpring, animated } from "react-spring";
+// import { gsap } from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
 // import "animate.css/animate.min.css";
 import ScrollAnimation from "react-animate-on-scroll";
+// import Typewriter from "typewriter-effect";
+// import { init } from "ityped";
+import "./txtRotate";
 
 // gsap.registerPlugin(ScrollTrigger);
+// const lockdiv = document.querySelector("#LockDiv");
+// init(lockdiv, {
+//   strings: ["Completely Secured!", "********** ********"],
+// });
 
 var newpost = "/signup";
 firebase.auth().onAuthStateChanged(function (user) {
@@ -137,7 +144,18 @@ function Slide() {
   // }, [initScrollAnimation]);
 
   // const style = useSpring({ opacity: 1 });
+  // const lockText = useRef(null);
+  // const bodyDiv = useRef(null);
   const [open, setOpen] = useState(false);
+
+  // const lockEffect = () => {
+  //   const scrollY = bodyDiv.current.scrollHeight;
+  //   const scrollH = lockText.current.scrollTop;
+  //   const clientH = lockText.current.clientHeight;
+  //   console.log(scrollY, scrollH, clientH);
+  //   alert("hell");
+  // };
+
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com", "_blank");
@@ -383,8 +401,8 @@ function Slide() {
 
         <section className="LockPsw">
           <Fade top>
-            <div>
-              <h2>Completely Secured.</h2>
+            <div id="LockDiv">
+              {/* <h2 ref={lockText}>Completely Secured.</h2> */}
             </div>
           </Fade>
         </section>
@@ -708,8 +726,13 @@ function Slide() {
 
         <section className="LockPsw">
           <Fade top>
-            <div>
-              <h2>Completely Secured.</h2>
+            <div id="LockDiv">
+              {/* <h2>Completely Secured.</h2> */}{" "}
+              <span
+                class="txt-rotate"
+                data-period="2000"
+                data-rotate='[ "Completely Secured!", "********** ********" ]'
+              ></span>
             </div>
           </Fade>
         </section>
