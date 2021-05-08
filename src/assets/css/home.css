@@ -110,10 +110,38 @@
   text-align: center;
 }
 
-.LockPsw h2 {
+.ityped-cursor {
+  font-size: 2.2rem;
+  opacity: 1;
+  -webkit-animation: blink 0.3s infinite;
+  -moz-animation: blink 0.3s infinite;
+  animation: blink 0.3s infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes blink {
+  100% {
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes blink {
+  100% {
+    opacity: 0;
+  }
+}
+
+.LockPsw div {
   text-align: center;
   height: 150px;
   font-size: 54px;
+  margin-bottom: 80px;
   color: rgba(29, 29, 29, 0.884);
   font-weight: 1200;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,

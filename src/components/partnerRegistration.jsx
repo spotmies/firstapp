@@ -22,6 +22,7 @@ import {
   FormControl,
   ProgressBar,
 } from "react-bootstrap";
+import ScrollAnimation from "react-animate-on-scroll";
 
 const options = [
   { key: "a", text: "Ac/Refrigirator services", value: "ac repairs" },
@@ -144,25 +145,37 @@ function PartnerRegistration() {
         {textContent.map((message) => (
           <section className="home-section">
             <Fade bottom>
-              <div className="home-photos">
-                <img src={message.img} />
-              </div>
+              <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
+                <div className="home-photos">
+                  <img src={message.img} />
+                </div>
+              </ScrollAnimation>
             </Fade>
             <Zoom>
               <div className="home-textBox">
-                <h1>{message.heading}</h1>
-                <p>
-                  {" "}
-                  <ReactReadMoreReadLess
-                    charLimit={100}
-                    readMoreText={"Read more ▼"}
-                    readLessText={"Read less ▲"}
-                    readMoreClassName="read-more-less--more"
-                    readLessClassName="read-more-less--less"
-                  >
-                    {message.content}
-                  </ReactReadMoreReadLess>
-                </p>
+                <ScrollAnimation
+                  animateIn="headeranimate-in"
+                  animateOut="headeranimate-out"
+                >
+                  <h1>{message.heading}</h1>
+                </ScrollAnimation>
+                <ScrollAnimation
+                  animateOut="fade-out-section"
+                  animateIn="fade-in-section"
+                >
+                  <p>
+                    {" "}
+                    <ReactReadMoreReadLess
+                      charLimit={100}
+                      readMoreText={"Read more ▼"}
+                      readLessText={"Read less ▲"}
+                      readMoreClassName="read-more-less--more"
+                      readLessClassName="read-more-less--less"
+                    >
+                      {message.content}
+                    </ReactReadMoreReadLess>
+                  </p>
+                </ScrollAnimation>
               </div>
             </Zoom>
           </section>
@@ -480,25 +493,37 @@ function PartnerRegistration() {
           <div>
             {index % 2 == 0 ? (
               <section className="home-section">
-                <Fade left>
-                  <div className="home-photos">
-                    <img src={message.img} />
-                  </div>
-                </Fade>
+                <ScrollAnimation animateIn="img-in" animateOut="img-out">
+                  <Fade left>
+                    <div className="home-photos">
+                      <img src={message.img} />
+                    </div>
+                  </Fade>
+                </ScrollAnimation>
                 <Zoom>
                   <div className="home-textBox">
-                    <h1>{message.heading}</h1>
-                    <p>
-                      <ReactReadMoreReadLess
-                        charLimit={100}
-                        readMoreText={"Read more ▼"}
-                        readLessText={"Read less ▲"}
-                        readMoreClassName="read-more-less--more"
-                        readLessClassName="read-more-less--less"
-                      >
-                        {message.content}
-                      </ReactReadMoreReadLess>
-                    </p>
+                    <ScrollAnimation
+                      animateOut="headeranimate-out"
+                      animateIn="headeranimate-in"
+                    >
+                      <h1>{message.heading}</h1>
+                    </ScrollAnimation>
+                    <ScrollAnimation
+                      animateIn="fade-in-section"
+                      animateOut="fade-out-section"
+                    >
+                      <p>
+                        <ReactReadMoreReadLess
+                          charLimit={100}
+                          readMoreText={"Read more ▼"}
+                          readLessText={"Read less ▲"}
+                          readMoreClassName="read-more-less--more"
+                          readLessClassName="read-more-less--less"
+                        >
+                          {message.content}
+                        </ReactReadMoreReadLess>
+                      </p>
+                    </ScrollAnimation>
                   </div>
                 </Zoom>
               </section>
@@ -506,24 +531,36 @@ function PartnerRegistration() {
               <section className="home-section">
                 <Zoom>
                   <div className="home-textBox">
-                    <h1>{message.heading}</h1>
-                    <p>
-                      <ReactReadMoreReadLess
-                        charLimit={100}
-                        readMoreText={"Read more ▼"}
-                        readLessText={"Read less ▲"}
-                        readMoreClassName="read-more-less--more"
-                        readLessClassName="read-more-less--less"
-                      >
-                        {message.content}
-                      </ReactReadMoreReadLess>
-                    </p>
+                    <ScrollAnimation
+                      animateOut="headeranimate-out"
+                      animateIn="headeranimate-in"
+                    >
+                      <h1>{message.heading}</h1>
+                    </ScrollAnimation>
+                    <ScrollAnimation
+                      animateIn="fade-in-section"
+                      animateOut="fade-out-section"
+                    >
+                      <p>
+                        <ReactReadMoreReadLess
+                          charLimit={100}
+                          readMoreText={"Read more ▼"}
+                          readLessText={"Read less ▲"}
+                          readMoreClassName="read-more-less--more"
+                          readLessClassName="read-more-less--less"
+                        >
+                          {message.content}
+                        </ReactReadMoreReadLess>
+                      </p>
+                    </ScrollAnimation>
                   </div>
                 </Zoom>
                 <Fade right>
-                  <div className="home-photos">
-                    <img src={message.img} />
-                  </div>
+                  <ScrollAnimation animateIn="img-in" animateOut="img-out">
+                    <div className="home-photos">
+                      <img src={message.img} />
+                    </div>
+                  </ScrollAnimation>
                 </Fade>
               </section>
             )}
