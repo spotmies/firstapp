@@ -13,6 +13,7 @@ import {
 } from "semantic-ui-react";
 import "../index.css";
 import "./chats.css";
+
 import { BiArrowBack } from "react-icons/bi";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -815,7 +816,9 @@ function Chatarea(props) {
             var chatobj = JSON.parse(nap);
             return (
               <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
-                <p>{cmpmsg(nap, array[key - 1])}</p>
+                <p className={cmpmsg(nap, array[key - 1]) ? "cmpmsg" : null}>
+                  {cmpmsg(nap, array[key - 1])}
+                </p>
 
                 <div
                   className={
@@ -859,7 +862,7 @@ function Chatarea(props) {
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
-                <small className="readText">
+                <small className={chat.pread ? "readText" : "unreadText"}>
                   {chat.pread ? "seen" : "unseen"}
                 </small>
               </p>
@@ -1070,7 +1073,7 @@ function Chatarea(props) {
 
         <div
           className="chatdiv"
-          style={{ overflow: "auto", paddingBottom: "10px" }}
+          // style={{ overflow: "auto", paddingBottom: "10px" }}
           ref={scrollref}
           onScroll={(e) => {
             scrollhandle(e);
@@ -1080,7 +1083,9 @@ function Chatarea(props) {
             var chatobj = JSON.parse(nap);
             return (
               <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
-                <p>{cmpmsg(nap, array[key - 1])}</p>
+                <p className={cmpmsg(nap, array[key - 1]) ? "cmpmsg" : null}>
+                  {cmpmsg(nap, array[key - 1])}
+                </p>
 
                 <div
                   className={
@@ -1124,7 +1129,7 @@ function Chatarea(props) {
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
-                <small className="readText">
+                <small className={chat.pread ? "readText" : "unreadText"}>
                   {chat.pread ? "seen" : "unseen"}
                 </small>
               </p>

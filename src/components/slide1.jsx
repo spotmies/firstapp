@@ -149,7 +149,7 @@ function Slide() {
 
   window.addEventListener("beforeunload", (ev) => {
     console.log(localStorage.getItem("isFeedBackGiven"));
-    if (localStorage.getItem("isFeedBackGiven") != true) {
+    if (localStorage.getItem("isFeedBackGiven") == "kjsldkjlskjd") {
       console.log("taking feedback");
       setOpen(true);
       ev.preventDefault();
