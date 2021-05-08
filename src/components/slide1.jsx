@@ -147,6 +147,19 @@ function Slide() {
   //   alert("hell");
   // };
 
+  window.addEventListener("beforeunload", (ev) => {
+    console.log(localStorage.getItem("isFeedBackGiven"));
+    if (localStorage.getItem("isFeedBackGiven") != true) {
+      console.log("taking feedback");
+      setOpen(true);
+      ev.preventDefault();
+
+      return (ev.returnValue = "Are you sure you want to close?");
+    } else {
+      console.log("feedback already given");
+    }
+  });
+
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com", "_blank");

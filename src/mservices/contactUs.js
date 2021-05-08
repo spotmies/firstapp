@@ -8,7 +8,7 @@ async function contactus(details) {
     .doc("contactUs")
     .update({
       body: firebase.firestore.FieldValue.arrayUnion(details),
-      lastModified: new Date(),
+      lastModified: new Date().valueOf(),
     })
     .then(() => {
       return 200;
@@ -25,7 +25,7 @@ async function partnerRequests(details) {
     .doc("partnerRequests")
     .update({
       body: firebase.firestore.FieldValue.arrayUnion(details),
-      lastModified: new Date(),
+      lastModified: new Date().valueOf(),
     })
     .then(() => {
       return 200;

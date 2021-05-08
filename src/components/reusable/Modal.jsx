@@ -102,15 +102,18 @@ function FeedbackForm(props) {
       q2: que[2],
       q3: que[3],
       q4: que[4] == undefined ? "" : que[4],
+      submitedAt: new Date().valueOf(),
     };
     console.log(obj);
     console.log(JSON.stringify(obj));
     var strobj = JSON.stringify(obj);
     let result = await feedBack1(strobj);
     if (result == 200) {
+      localStorage.setItem("isFeedBackGiven", true);
       toast.success("Thanks For Your Feedback");
       setcount(10);
     } else {
+      localStorage.setItem("isFeedBackGiven", false);
       toast.error("Something went wrong please try again");
       onClose();
     }
