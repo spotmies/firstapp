@@ -82,6 +82,7 @@
   ); */
   background: linear-gradient(45deg, #bc6ef7, #5fcdf3, #e5f0f7);
   /* background: rgba(158, 192, 243, 0.932); */
+  overflow: auto;
 }
 
 .home-section {

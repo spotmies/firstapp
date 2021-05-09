@@ -40,7 +40,8 @@ import { msgdot } from "./reusable/msgdot";
 import { BsEyeFill } from "react-icons/bs";
 import { BiTimeFive } from "react-icons/bi";
 import { RiPinDistanceFill } from "react-icons/ri";
-import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import { IoIosArrowDropdown } from "react-icons/io";
+
 import {
   MdDelete,
   MdStar,
@@ -870,24 +871,21 @@ function Chatarea(props) {
           ) : null}
           {scrollDisplay ? (
             <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
-                style={{ position: "fixed", bottom: "150px", float: "right" }}
-              />
-            </a>
-          ) : (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
+              <IoIosArrowDropdown
+                size="2rem"
+                color="007bff"
                 style={{
                   position: "fixed",
-                  bottom: "150px",
+                  bottom: "60px",
                   float: "right",
-                  display: "none",
+                  right: "10px",
+                  width: "50px",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
                 }}
               />
             </a>
-          )}
+          ) : null}
         </div>
 
         <Form.Group
@@ -1137,24 +1135,21 @@ function Chatarea(props) {
           ) : null}
           {scrollDisplay ? (
             <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
-                style={{ position: "fixed", bottom: "150px", float: "right" }}
-              />
-            </a>
-          ) : (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
+              <IoIosArrowDropdown
+                size="2rem"
+                color="007bff"
                 style={{
                   position: "fixed",
-                  bottom: "150px",
+                  bottom: "80px",
                   float: "right",
-                  display: "none",
+                  right: "0px",
+                  width: "50px",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
                 }}
               />
             </a>
-          )}
+          ) : null}
         </div>
 
         <Form.Group

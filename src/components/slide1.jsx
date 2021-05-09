@@ -3,7 +3,7 @@ import repair from "../images/repair.svg";
 import { Link } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import { Button } from "semantic-ui-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 //toast
 import { toast } from "react-toastify";
 
@@ -138,6 +138,7 @@ function Slide() {
   // const lockText = useRef(null);
   // const bodyDiv = useRef(null);
   const [open, setOpen] = useState(false);
+  const scrollref = useRef(null);
 
   // const lockEffect = () => {
   //   const scrollY = bodyDiv.current.scrollHeight;
@@ -184,7 +185,15 @@ function Slide() {
 
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
-
+  useEffect(() => {
+    window.onscroll = (e) => {
+      // setOffset(window.pageYOffset)
+      var scrolly = e.target.scrollingElement.scrollHeight;
+      var scrolltop = e.target.scrollingElement.scrollTop;
+      var clientheight = e.target.scrollingElement.clientHeight;
+      console.log(scrolly, scrolltop, clientheight, "scrooling 2");
+    };
+  }, []);
   if (swidths1 < 800) {
     return (
       <div className="slide1">
@@ -285,7 +294,7 @@ function Slide() {
     // return <div className="slide1">
   } else {
     return (
-      <div className="slide1">
+      <div className="slide1" ref={scrollref}>
         {userText.map((message, index) => (
           <div>
             {index % 2 == 0 ? (
