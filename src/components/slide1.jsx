@@ -144,15 +144,15 @@ function Slide() {
   // }, [initScrollAnimation]);
 
   // const style = useSpring({ opacity: 1 });
-  // const lockText = useRef(null);
+  const lockText = useRef(null);
   // const bodyDiv = useRef(null);
   const [open, setOpen] = useState(false);
 
-  // const lockEffect = () => {
-  //   const scrollY = bodyDiv.current.scrollHeight;
-  //   const scrollH = lockText.current.scrollTop;
-  //   const clientH = lockText.current.clientHeight;
-  //   console.log(scrollY, scrollH, clientH);
+  // const scrollLock = () => {
+  //   // const scrollY = bodyDiv.current.scrollHeight;
+  //   // const scrollH = lockText.current.scrollTop;
+  //   // const clientH = lockText.current.clientHeight;
+  //   // console.log(scrollY, scrollH, clientH);
   //   alert("hell");
   // };
 
@@ -170,6 +170,34 @@ function Slide() {
   const [sheight1, swidths1] = useWindowSize1();
   const [userText, setUsertext] = useState(text);
   // const [offset, setOffset] = useState();
+  const scrollref = useRef(null);
+
+  useEffect(() => {
+    window.onscroll = (e) => {
+      // setOffset(window.pageYOffset)
+      var scrolly = e.target.scrollingElement.scrollHeight;
+      var scrolltop = e.target.scrollingElement.scrollTop;
+      var scrolltop2 = lockText.current.offsetTop;
+      var clientheight = e.target.scrollingElement.clientHeight;
+      var diff = scrolltop2 - scrolltop;
+      // var arre = ["**********  ********"];
+      var arrey = document.getElementById("pswReveal").innerHTML;
+      for (var i = 0; i <= 19; i++) {
+        var arrey = arrey.replace(arrey.charAt(i), "*");
+        console.log(arrey);
+        document.getElementById("pswReveal").innerHTML = arrey;
+      }
+      // document.getElementById("pswReveal").innerHTML = arre;
+      console.log(
+        scrolly,
+        scrolltop,
+        scrolltop2,
+        clientheight,
+        diff,
+        "scrooling 2"
+      );
+    };
+  }, []);
 
   // const scrollsmooth = () => {
   //   alert("hello smoooth");
@@ -230,10 +258,10 @@ function Slide() {
         </div>
         <ModalExampleModal open={open} close={closeModal} />
 
-        <section className="LockPsw">
+        <section className="LockPsw" ref={lockText}>
           <Fade top>
             <div id="LockDiv">
-              {/* <h2 ref={lockText}>Completely Secured.</h2> */}
+              <h2>Completely Secured.</h2>
             </div>
           </Fade>
         </section>
@@ -379,15 +407,17 @@ function Slide() {
         </div>
         <ModalExampleModal open={open} close={closeModal} />
 
-        <section className="LockPsw">
+        <section className="LockPsw" ref={lockText}>
           <Fade top>
             <div id="LockDiv">
-              {/* <h2>Completely Secured.</h2> */}{" "}
-              <span
+              <h2 id="pswReveal" ref={scrollref}>
+                Completely Secured.
+              </h2>{" "}
+              {/* <span
                 class="txt-rotate"
                 data-period="2000"
                 data-rotate='[ "Completely Secured!", "********** ********" ]'
-              ></span>
+              ></span> */}
             </div>
           </Fade>
         </section>
