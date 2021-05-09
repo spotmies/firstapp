@@ -8,7 +8,7 @@ async function contactus(details) {
     .doc("contactUs")
     .update({
       body: firebase.firestore.FieldValue.arrayUnion(details),
-      lastModified: new Date().valueOf(),
+      lastModified: Math.round(+new Date() / 1000),
     })
     .then(() => {
       return 200;
@@ -25,7 +25,7 @@ async function partnerRequests(details) {
     .doc("partnerRequests")
     .update({
       body: firebase.firestore.FieldValue.arrayUnion(details),
-      lastModified: new Date().valueOf(),
+      lastModified: Math.round(+new Date() / 1000),
     })
     .then(() => {
       return 200;
@@ -41,7 +41,7 @@ async function feedBack1(details) {
     .doc("feedBack1")
     .update({
       body: firebase.firestore.FieldValue.arrayUnion(details),
-      lastModified: new Date(),
+      lastModified: Math.round(+new Date() / 1000),
     })
     .then(() => {
       return 200;

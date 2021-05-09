@@ -102,7 +102,7 @@ function FeedbackForm(props) {
       q2: que[2],
       q3: que[3],
       q4: que[4] == undefined ? "" : que[4],
-      submitedAt: new Date().valueOf(),
+      submitedAt: Math.round(+new Date() / 1000),
     };
     console.log(obj);
     console.log(JSON.stringify(obj));

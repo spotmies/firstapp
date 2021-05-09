@@ -21,7 +21,7 @@ class SimpleMap extends Component {
         phone: null,
         sub: null,
         message: null,
-        date: new Date(),
+        date: Math.round(+new Date() / 1000),
       },
       open: false,
       wWidth: window.innerWidth,

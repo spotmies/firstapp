@@ -86,7 +86,7 @@ function PartnerRegistration() {
   const formsubmit = async (e) => {
     let details = null;
     if (pnum.length == 10 && pcate !== null) {
-      details = { pname, pnum, pcate };
+      details = { pname, pnum, pcate, date: Math.round(+new Date() / 1000) };
       await partprereg(details);
       spcate(null);
       spnum(null);
