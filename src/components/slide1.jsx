@@ -1,14 +1,10 @@
 import "../App.css";
-import repair from "../images/repair.svg";
 import { Link } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import { Modal, Form, Button, Header, TextArea } from "semantic-ui-react";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 //toast
 import { toast } from "react-toastify";
-
-import { BiRupee } from "react-icons/bi";
-import { BsTools, BsFillLockFill, BsFillUnlockFill } from "react-icons/bs";
 import {
   MdFeedback,
   MdHelp,
@@ -22,33 +18,12 @@ import firebase from "../firebase";
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
 import "../assets/css/home.css";
-//svg images import
-// import macbook from "../assets/css/iphone.png";
-// import takepic from "../images/undraw_Organize_photos_re_ogcy.svg";
-// import location from "../images/undraw_Destination_re_sr74.svg";
-//import getquote from "../images/undraw_Hire_re_gn5j.svg";
-// import getquote from "../images/undraw_people_search_wctu.svg"
-// import service from "../images/undraw_coffee_break_h3uu.svg";
-// import about from "../images/undraw_researching_22gp.svg";
 import text from "./usertext";
 import ReactReadMoreReadLess from "react-read-more-read-less";
-import { useWindowSize } from "../hooks/useWindowsize";
-// import { useSpring, animated } from "react-spring";
-// import { gsap } from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// import "animate.css/animate.min.css";
 import ScrollAnimation from "react-animate-on-scroll";
-// import Typewriter from "typewriter-effect";
-// import { init } from "ityped";
 import "./txtRotate";
 
-//import db files
 import { feedBack1 } from "../mservices/contactUs";
-// gsap.registerPlugin(ScrollTrigger);
-// const lockdiv = document.querySelector("#LockDiv");
-// init(lockdiv, {
-//   strings: ["Completely Secured!", "********** ********"],
-// });
 
 var newpost = "/signup";
 firebase.auth().onAuthStateChanged(function (user) {
@@ -76,141 +51,86 @@ function useWindowSize1() {
 }
 
 function Slide() {
-  // const handlec = (e) => {
-  // let nameId = e.target.name;
-  // let value = e.target.value;
-  // //console.log(value,nameId);
-  // let temp = this.state.details;
-  // temp[nameId] = value;
-  // temp["date"] = new Date();
-  // this.setState({
-  //   details: temp,
-  // });
-  // console.log("fbmodal");
-  // };
-  // const containerRef = useRef < HTMLDivElement > null;
-  // const size = useWindowSize();
-
-  // const setBodyHeight = () => {
-  //   document.body.style.height = `${
-  //     containerRef.current.getBoundingClientRect().height
-  //   }px`;
-  // };
-
-  // const smoothScroll = useCallback(() => {
-  //   data.curr = window.scrollY;
-  //   data.prev += (data.curr - data.prev) * data.ease;
-  //   data.rounded = Math.round(data.prev * 100) / 100;
-  //   containerRef.current.style.tranform = `translateY(-${data.rounded}px)`;
-  //   requestAnimationFrame(() => smoothScroll());
-  // }, [data]);
-
-  // useEffect(() => {
-  //   requestAnimationFrame(() => smoothScroll());
-  // }, []);
-
-  // useEffect(() => {
-  //   setBodyHeight();
-  // }, [size.height]);
-
-  // const data = {
-  //   ease: 0.1,
-  //   curr: 0,
-  //   prev: 0,
-  //   rounded: 0,
-  // };
-
-  // const textScroll = useRef < HTMLDivElement > null;
-
-  // const initScrollAnimation = useCallback(() => {
-  //   const animationObj = {
-  //     duration: 0.8,
-  //     y: -80,
-  //     opacity: 0,
-  //   };
-
-  //   gsap.to(textScroll.current, {
-  //     scrollTrigger: {
-  //       trigger: textScroll.current,
-  //       start: "center 30%",
-  //       scrub: true,
-  //     },
-  //     ...animationObj,
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   initScrollAnimation();
-  // }, [initScrollAnimation]);
-
-  // const style = useSpring({ opacity: 1 });
   const lockText = useRef(null);
-  // const bodyDiv = useRef(null);
   const [open, setOpen] = useState(false);
-
-  // const scrollLock = () => {
-  //   // const scrollY = bodyDiv.current.scrollHeight;
-  //   // const scrollH = lockText.current.scrollTop;
-  //   // const clientH = lockText.current.clientHeight;
-  //   // console.log(scrollY, scrollH, clientH);
-  //   alert("hell");
-  // };
+  const db = firebase.firestore();
+  const [sheight1, swidths1] = useWindowSize1();
+  const [userText, setUsertext] = useState(text);
+  const scrollref = useRef(null);
+  const [cstext, setCstext] = useState("********** ********");
+  // const [condiff, setCondiff] = useState(530);
 
   const redirect = () => {
-    // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com", "_blank");
   };
 
   const closeModal = () => {
     setOpen(false);
   };
-  // let location="seethamadahar";
-  const db = firebase.firestore();
-  // const [modalShow, setModalShow] = React.useState(false);
-  const [sheight1, swidths1] = useWindowSize1();
-  const [userText, setUsertext] = useState(text);
-  // const [offset, setOffset] = useState();
-  const scrollref = useRef(null);
 
   useEffect(() => {
     window.onscroll = (e) => {
-      // setOffset(window.pageYOffset)
       var scrolly = e.target.scrollingElement.scrollHeight;
       var scrolltop = e.target.scrollingElement.scrollTop;
       var scrolltop2 = lockText.current.offsetTop;
       var clientheight = e.target.scrollingElement.clientHeight;
       var diff = scrolltop2 - scrolltop;
-      // var arre = ["**********  ********"];
-      var arrey = document.getElementById("pswReveal").innerHTML;
-      for (var i = 0; i <= 19; i++) {
-        var arrey = arrey.replace(arrey.charAt(i), "*");
-        console.log(arrey);
-        document.getElementById("pswReveal").innerHTML = arrey;
+
+      if (diff <= 520 && diff >= 500) {
+        setCstext("C********* ********");
+      } else if (diff <= 499 && diff >= 480) {
+        setCstext("Co******** ********");
+      } else if (diff <= 479 && diff >= 460) {
+        setCstext("Com******* ********");
+      } else if (diff <= 459 && diff >= 440) {
+        setCstext("Comp****** ********");
+      } else if (diff <= 439 && diff >= 420) {
+        setCstext("Compl***** ********");
+      } else if (diff <= 419 && diff >= 400) {
+        setCstext("Comple**** ********");
+      } else if (diff <= 399 && diff >= 380) {
+        setCstext("Complet*** ********");
+      } else if (diff <= 379 && diff >= 360) {
+        setCstext("Complete** ********");
+      } else if (diff <= 359 && diff >= 340) {
+        setCstext("Completel* ********");
+      } else if (diff <= 339 && diff >= 320) {
+        setCstext("Completely ********");
+      } else if (diff <= 339 && diff >= 320) {
+        setCstext("Completely ********");
+      } else if (diff <= 319 && diff >= 300) {
+        setCstext("Completely S*******");
+      } else if (diff <= 299 && diff >= 280) {
+        setCstext("Completely Se******");
+      } else if (diff <= 279 && diff >= 260) {
+        setCstext("Completely Sec*****");
+      } else if (diff <= 259 && diff >= 240) {
+        setCstext("Completely Secu****");
+      } else if (diff <= 239 && diff >= 220) {
+        setCstext("Completely Secur***");
+      } else if (diff <= 219 && diff >= 200) {
+        setCstext("Completely Secure**");
+      } else if (diff <= 199 && diff >= 180) {
+        setCstext("Completely Secured*");
+      } else if (diff <= 179 && diff >= 160) {
+        setCstext("Completely Secured!");
       }
-      // document.getElementById("pswReveal").innerHTML = arre;
+      // if (diff <= condiff + 20 && diff >= condiff + 40) {
+      //   // setCstext(cstext.concat("a"));
+      //   setCondiff(diff);
+      //   console.log(condiff, "condiff");
+      // }
+
       console.log(
-        scrolly,
-        scrolltop,
-        scrolltop2,
-        clientheight,
+        // scrolly,
+        // scrolltop,
+        // scrolltop2,
+        // clientheight,
         diff,
         "scrooling 2"
       );
     };
   }, []);
-
-  // const scrollsmooth = () => {
-  //   alert("hello smoooth");
-  // };
-  // const handleScroll = () => {
-  //   setOffset(window.pageYOffset);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
 
   if (swidths1 < 800) {
     return (
@@ -320,11 +240,7 @@ function Slide() {
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <div className="home-photos">
                     <Fade left>
-                      <img
-                        src={message.img}
-                        // style={{ width: 100 + offset * 0.3 }}
-                        // style={{ style }}
-                      />
+                      <img src={message.img} />
                     </Fade>
                   </div>
                 </ScrollAnimation>
@@ -340,13 +256,7 @@ function Slide() {
                       animateIn="fade-in-section"
                       animateOut="fade-out-section"
                     >
-                      <p
-                      // style={{ opacity: 0 + offset / 3 }}
-                      // ref={domRef}
-                      // className={`fade-in-section ${
-                      //   isVisible ? "is-visible" : ""
-                      // }`}
-                      >
+                      <p>
                         <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
@@ -411,13 +321,8 @@ function Slide() {
           <Fade top>
             <div id="LockDiv">
               <h2 id="pswReveal" ref={scrollref}>
-                Completely Secured.
+                {cstext}
               </h2>{" "}
-              {/* <span
-                class="txt-rotate"
-                data-period="2000"
-                data-rotate='[ "Completely Secured!", "********** ********" ]'
-              ></span> */}
             </div>
           </Fade>
         </section>
@@ -474,7 +379,6 @@ function Slide() {
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
             Made with Love by{" "}
-            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
             <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
@@ -558,7 +462,6 @@ function ModalExampleModal(props) {
       onOpen={() => setOpen(true)}
       open={open}
       size="tiny"
-      // trigger={<Button>Show Modal</Button>}
     >
       <Modal.Header>Feedback Here</Modal.Header>
       <Modal.Content className="modalContent">

@@ -10,11 +10,13 @@ import reg from "../images/reg.png";
 import meet from "../images/meet.png";
 import man2 from "../images/man2.png";
 import register from "../images/register.png";
+import getpaid from "../images/getpaid.png";
+import navigate from "../images/navigatetocustomer.png";
 
 const textpart = [
   {
     id: 1,
-    heading: "what is Title?",
+    heading: "what is spotmies?",
     content: "Turn your time into money with Title.",
     img: man2,
   },
@@ -51,13 +53,13 @@ const textpart = [
     heading: "Navigate to the customer location",
     content:
       "Explore and use your skills at customer location and get the credit you deserve.",
-    img: meet,
+    img: navigate,
   },
   {
     id: 1,
     heading: "Get paid for your valuable skills and hardwork.",
     content: "",
-    img: service,
+    img: getpaid,
   },
 ];
 
