@@ -58,7 +58,7 @@ class SimpleMap extends Component {
     //console.log(value,nameId);
     let temp = this.state.details;
     temp[nameId] = value;
-    temp["date"] = new Date();
+    temp["date"] = Math.round(+new Date() / 1000);
     this.setState({
       details: temp,
     });
