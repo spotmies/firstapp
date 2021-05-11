@@ -129,13 +129,18 @@ function FeedbackForm(props) {
       // trigger={<Button>Show Modal</Button>}
     >
       <Modal.Header>Feedback Here</Modal.Header>
-      <Modal.Content>
+      <Modal.Content className="modalContent">
         {count > 0 ? (
-          <MdKeyboardArrowLeft size="2rem" onClick={prevQue} />
-        ) : null}
+        <p className="modalBack" onClick={prevQue}>
+        <MdKeyboardArrowLeft size="2rem" />
+        <span style={{ marginTop: "4px", fontWeight: "800" }}> Back </span>
+      </p>
+    ) : (
+      <p className="modalBack"></p>
+    )}
         <Modal.Description>
           {count == 0 ? (
-            <div>
+            <div className="modalDiv">
               <Header>Do You Understand What Does This Website Means</Header>
               <div>
                 <Button
@@ -170,7 +175,7 @@ function FeedbackForm(props) {
           ) : null}
 
           {count == 1 ? (
-            <div>
+            <div className="modalDiv">
               <Header>Is This Platform Is Useful</Header>
               <div>
                 <Button
@@ -214,7 +219,7 @@ function FeedbackForm(props) {
           ) : null}
 
           {count == 2 ? (
-            <div>
+            <div className="modalDiv">
               <Header>How This Website Looks</Header>
               <div>
                 <Button
@@ -258,8 +263,8 @@ function FeedbackForm(props) {
           ) : null}
 
           {count == 3 ? (
-            <div>
-              <Header>Have You Face Any Issue With The Website</Header>
+            <div className="modalDiv">
+                            <Header>Have You Face Any Issue With The Website</Header>
               <div>
                 <Button
                   basic
@@ -284,8 +289,8 @@ function FeedbackForm(props) {
           ) : null}
 
           {count == 4 ? (
-            <div>
-              <Header>
+            <div className="modalDiv">
+            <Header>
                 If You Have Any Other Feedback Please Tell Us Here. We Love To
                 Improve Our Service
               </Header>
@@ -310,7 +315,7 @@ function FeedbackForm(props) {
           ) : null}
         </Modal.Description>
       </Modal.Content>
-      <Modal.Actions>
+      <Modal.Actions className="modalAction">
         <Button color="black" onClick={onClose}>
           Cancel
         </Button>

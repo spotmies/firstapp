@@ -25,7 +25,7 @@ import "./txtRotate";
 
 import { feedBack1 } from "../mservices/contactUs";
 //import feedback form
-import { FeedbackForm } from "./reusable/Modal";
+ import { FeedbackForm } from "./reusable/Modal";
 // gsap.registerPlugin(ScrollTrigger);
 // const lockdiv = document.querySelector("#LockDiv");
 // init(lockdiv, {
@@ -128,14 +128,14 @@ function Slide() {
       //   setCondiff(diff);
       //   console.log(condiff, "condiff");
       // }
-
+      if(scrolly-scrolltop ==clientheight)setCstext("Completely Secured!");
       console.log(
-        // scrolly,
-        // scrolltop,
-        // scrolltop2,
-        // clientheight,
+        scrolly,
+        scrolltop,
+        scrolltop2,
+        clientheight,
         diff,
-        "scrooling 2"
+        "scrooling"
       );
     };
   }, []);
