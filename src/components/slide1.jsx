@@ -72,14 +72,14 @@ function Slide() {
     window.onscroll = (e) => {
       var scrolly = e.target.scrollingElement.scrollHeight;
       var scrolltop = e.target.scrollingElement.scrollTop;
-      var scrolltop2 = lockText.current.offsetTop;
+      var scrolltop2 = lockText.current !=null ? lockText.current.offsetTop :0;
       var clientheight = e.target.scrollingElement.clientHeight;
       var diff = scrolltop2 - scrolltop;
 
       if (diff <= 520 && diff >= 500) {
-        setCstext("C********* ********");
+        swidths1<800 ? setCstext("C********* ") :setCstext("C********* ********");
       } else if (diff <= 499 && diff >= 480) {
-        setCstext("Co******** ********");
+        swidths1<800 ? setCstext("Co******** ") : setCstext("Co******** ********");
       } else if (diff <= 479 && diff >= 460) {
         setCstext("Com******* ********");
       } else if (diff <= 459 && diff >= 440) {
@@ -181,7 +181,7 @@ function Slide() {
         <section className="LockPsw" ref={lockText}>
           <Fade top>
             <div id="LockDiv">
-              <h2>Completely Secured.</h2>
+              <h2>{cstext}</h2>
             </div>
           </Fade>
         </section>
