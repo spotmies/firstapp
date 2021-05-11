@@ -11,7 +11,7 @@ import meet from "../images/meet.png";
 import man2 from "../images/man2.png";
 import register from "../images/register.png";
 import getpaid from "../images/getpaid.png";
-import navigate from "../images/navigatetocustomer.png";
+import navigate from "../images/workdoneatyourdoorsteps.png";
 
 const textpart = [
   {

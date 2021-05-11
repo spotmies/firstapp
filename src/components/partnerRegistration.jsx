@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Modal, Select } from "semantic-ui-react";
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
@@ -61,6 +61,7 @@ function PartnerRegistration() {
   const [pcate, spcate] = useState(null);
   const [pname, spname] = useState(null);
   const [pnum, spnum] = useState(null);
+  const lockText = useRef(null);
 
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
@@ -828,7 +829,7 @@ function PartnerRegistration() {
             Submit
           </Button>
         </Form>
-
+        <div ref={lockText}></div>
         <div
           style={{
             background: "white",
