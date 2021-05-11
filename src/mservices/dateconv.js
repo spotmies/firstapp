@@ -59,8 +59,8 @@ function gettbystamps(stamps, id) {
     let temp = dayName[day] + " " + thedate + " " + monthNames[month];
     let temp2 = dayName[tday] + " " + tthedate + " " + monthNames[tmonth];
     let temp3 = dayName[yday] + " " + ythedate + " " + monthNames[ymonth];
-    if (temp == temp2) return "today";
-    else if (temp == temp3) return "yesterday";
+    if (temp == temp2) return "Today";
+    else if (temp == temp3) return "Yesterday";
     else return temp;
   };
 
