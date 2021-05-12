@@ -473,12 +473,9 @@ function Chatarea(props) {
   let onNameChange = props.onNameChange;
   // console.log(JSON.parse(chat.body));
   useEffect(async () => {
-    // console.log(await getpdetailsbyid("KrJkoNpybQM7svmRo7CcWOwRGQA3"));
+    console.log("new message");
 
-    if (document.getElementById("scrollbtn")) {
-      document.getElementById("scrollbtn").click();
-      console.log("new message");
-    }
+    executeScroll();
     console.log("effect2");
     console.log(chat);
   }, [chat.body]);
@@ -509,6 +506,7 @@ function Chatarea(props) {
           .then(() => {
             settypemsg("");
             // tempChat=[];
+            // executeScroll();
           });
       }
     }
@@ -674,13 +672,6 @@ function Chatarea(props) {
     else toast.info("unable to delete chat try again later");
   };
 
-  const handleKeyDown = (e) => {
-    e.target.style.height = "inherit";
-    e.target.style.height = `${e.target.scrollHeight}px`;
-    // In case you have a limitation
-    // e.target.style.height = `${Math.min(e.target.scrollHeight, limit)}px`;
-  };
-
   async function sharemydet() {
     let details = await sharemydetails(firebase.auth().currentUser.uid);
     console.log(details);
@@ -691,6 +682,8 @@ function Chatarea(props) {
 
   const [scrollDisplay, setScrolldisplay] = useState(false);
   const [tbody, settbody] = useState([]);
+  const myRef = useRef(null);
+  const executeScroll = () => myRef.current.scrollIntoView();
   function scrollhandle(e) {
     //console.log(e,"scrolling mobile");
     const scrolly = scrollref.current.scrollHeight;
@@ -826,7 +819,6 @@ function Chatarea(props) {
                     chatobj.sender == "u" ? "out-chatbox" : "in-chatbox"
                   }
                   key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
                 >
                   {chatobj.type == "text" ? (
                     <p
@@ -863,28 +855,32 @@ function Chatarea(props) {
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
-                <small className={chat.pread ? "readText" : "unreadText"}>
+                <small
+                  ref={myRef}
+                  className={chat.pread ? "readText" : "unreadText"}
+                >
                   {chat.pread ? "seen" : "unseen"}
                 </small>
               </p>
             </div>
-          ) : null}
+          ) : (
+            <span ref={myRef}></span>
+          )}
           {scrollDisplay ? (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <IoIosArrowDropdown
-                size="2rem"
-                color="007bff"
-                style={{
-                  position: "fixed",
-                  bottom: "60px",
-                  float: "right",
-                  right: "10px",
-                  width: "50px",
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                }}
-              />
-            </a>
+            <IoIosArrowDropdown
+              size="2rem"
+              color="007bff"
+              onClick={executeScroll}
+              style={{
+                position: "fixed",
+                bottom: "60px",
+                float: "right",
+                right: "10px",
+                width: "50px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+              }}
+            />
           ) : null}
         </div>
 
@@ -942,20 +938,17 @@ function Chatarea(props) {
               />
             </Col>
             <Col className="chatformicons" xs={4}>
-              <a href="#scrolltobottom">
-                {" "}
-                <Button
-                  primary
-                  style={{ marginLeft: "20px" }}
-                  className="chatSend"
-                  id={props.chat.id}
-                  ref={divRef}
-                  onClick={(e) => click(props.chat.id)}
-                >
-                  Send
-                  <MdSend />
-                </Button>
-              </a>
+              <Button
+                primary
+                style={{ marginLeft: "20px" }}
+                className="chatSend"
+                id={props.chat.id}
+                ref={divRef}
+                onClick={(e) => click(props.chat.id)}
+              >
+                Send
+                <MdSend />
+              </Button>
             </Col>
           </Row>
         </Form.Group>
@@ -1090,7 +1083,7 @@ function Chatarea(props) {
                     chatobj.sender == "u" ? "out-chatbox" : "in-chatbox"
                   }
                   key={key}
-                  id={key == chat.body.length - 1 ? "scrolltobottom" : null}
+                  // id={key == chat.body.length - 1 ? "scrolltobottom" : null}
                 >
                   {chatobj.type == "text" ? (
                     <p
@@ -1127,28 +1120,32 @@ function Chatarea(props) {
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
-                <small className={chat.pread ? "readText" : "unreadText"}>
+                <small
+                  ref={myRef}
+                  className={chat.pread ? "readText" : "unreadText"}
+                >
                   {chat.pread ? "seen" : "unseen"}
                 </small>
               </p>
             </div>
-          ) : null}
+          ) : (
+            <span ref={myRef}></span>
+          )}
           {scrollDisplay ? (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <IoIosArrowDropdown
-                size="2rem"
-                color="007bff"
-                style={{
-                  position: "fixed",
-                  bottom: "80px",
-                  float: "right",
-                  right: "0px",
-                  width: "50px",
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                }}
-              />
-            </a>
+            <IoIosArrowDropdown
+              onClick={executeScroll}
+              size="2rem"
+              color="007bff"
+              style={{
+                position: "fixed",
+                bottom: "80px",
+                float: "right",
+                right: "0px",
+                width: "50px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+              }}
+            />
           ) : null}
         </div>
 

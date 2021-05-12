@@ -131,18 +131,18 @@ function FeedbackForm(props) {
       <Modal.Header>Feedback Here</Modal.Header>
       <Modal.Content className="modalContent">
         {count > 0 ? (
-        <p className="modalBack" onClick={prevQue}>
-        <MdKeyboardArrowLeft size="2rem" />
-        <span style={{ marginTop: "4px", fontWeight: "800" }}> Back </span>
-      </p>
-    ) : (
-      <p className="modalBack"></p>
-    )}
+          <p className="modalBack" onClick={prevQue}>
+            <MdKeyboardArrowLeft size="2rem" />
+            <span style={{ marginTop: "4px", fontWeight: "800" }}> Back </span>
+          </p>
+        ) : (
+          <p className="modalBack"></p>
+        )}
         <Modal.Description>
           {count == 0 ? (
             <div className="modalDiv">
               <Header>Do You Understand What Does This Website Means</Header>
-              <div>
+              <div className="feedBbtn2">
                 <Button
                   basic
                   color={que[0] == "yes" ? "blue" : "grey"}
@@ -264,7 +264,7 @@ function FeedbackForm(props) {
 
           {count == 3 ? (
             <div className="modalDiv">
-                            <Header>Have You Face Any Issue With The Website</Header>
+              <Header>Have You Face Any Issue With The Website</Header>
               <div>
                 <Button
                   basic
@@ -290,7 +290,7 @@ function FeedbackForm(props) {
 
           {count == 4 ? (
             <div className="modalDiv">
-            <Header>
+              <Header>
                 If You Have Any Other Feedback Please Tell Us Here. We Love To
                 Improve Our Service
               </Header>

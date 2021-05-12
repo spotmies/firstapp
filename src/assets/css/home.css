@@ -253,8 +253,8 @@
 .feedBack {
   float: right;
   position: fixed;
-  bottom: 50px;
-  right: 0px;
+  bottom: 10px;
+  right: 7px;
   /* background: white; */
   width: 50px;
 }
@@ -278,6 +278,7 @@
   display: inline-flex;
   height: 20px;
   cursor: pointer;
+  /* background-color: #5fcdf3; */
 }
 
 .feedBackIcon {
@@ -287,6 +288,14 @@
 
 .modalDiv {
   height: 150px;
+  margin-left: 10px;
+}
+.feedBbtn {
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+.feedBbtn2 > * + * {
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 800px) {
