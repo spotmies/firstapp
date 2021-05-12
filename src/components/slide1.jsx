@@ -5,14 +5,8 @@ import { Button } from "semantic-ui-react";
 import React, { useState, useEffect, useRef } from "react";
 //toast
 import { toast } from "react-toastify";
-import {
-  MdFeedback,
-  MdHelp,
-  MdKeyboardArrowLeft,
-  MdSentimentSatisfied,
-  MdThumbDown,
-  MdThumbUp,
-} from "react-icons/md";
+import { MdFeedback } from "react-icons/md";
+import { BsFillLockFill, BsFillUnlockFill } from "react-icons/bs";
 import { FaGooglePlay } from "react-icons/fa";
 import firebase from "../firebase";
 import Zoom from "react-reveal/Zoom";
@@ -27,7 +21,7 @@ import lock2 from "../images/lock2.png";
 import lock3 from "../images/lock3.png";
 import { feedBack1 } from "../mservices/contactUs";
 //import feedback form
- import { FeedbackForm } from "./reusable/Modal";
+import { FeedbackForm } from "./reusable/Modal";
 // gsap.registerPlugin(ScrollTrigger);
 // const lockdiv = document.querySelector("#LockDiv");
 // init(lockdiv, {
@@ -67,9 +61,8 @@ function Slide() {
   const scrollref = useRef(null);
   const [cstext, setCstext] = useState("********** ********");
   const [lock, setLock] = useState(lock3);
+  const [lockst, setlockst] = useState(0);
   // const [condiff, setCondiff] = useState(530);
-
-  
 
   const redirect = () => {
     window.open("https://modernsilpi.com", "_blank");
@@ -92,10 +85,12 @@ function Slide() {
         swidths1 < 800
           ? setCstext("C********* ")
           : setCstext("C********* ********");
+        setlockst(0);
       } else if (diff <= 499 && diff >= 480) {
         swidths1 < 800
           ? setCstext("Co******** ")
           : setCstext("Co******** ********");
+        setlockst(0);
       } else if (diff <= 479 && diff >= 460) {
         setCstext("Com******* ********");
       } else if (diff <= 459 && diff >= 440) {
@@ -113,6 +108,7 @@ function Slide() {
       } else if (diff <= 339 && diff >= 320) {
         setCstext("Completely ********");
         setLock(lock2);
+        setlockst(0);
       } else if (diff <= 339 && diff >= 320) {
         setCstext("Completely ********");
       } else if (diff <= 319 && diff >= 300) {
@@ -130,15 +126,20 @@ function Slide() {
       } else if (diff <= 199 && diff >= 180) {
         setCstext("Completely Secured*");
         setLock(lock1);
+        setlockst(1);
       } else if (diff <= 179 && diff >= 160) {
         setCstext("Completely Secured!");
+        setlockst(1);
       }
       // if (diff <= condiff + 20 && diff >= condiff + 40) {
       //   // setCstext(cstext.concat("a"));
       //   setCondiff(diff);
       //   console.log(condiff, "condiff");
       // }
-      if(scrolly-scrolltop ==clientheight)setCstext("Completely Secured!");
+      if (scrolly - scrolltop == clientheight) {
+        setCstext("Completely Secured!");
+        setlockst(1);
+      }
       console.log(
         scrolly,
         scrolltop,
@@ -340,7 +341,12 @@ function Slide() {
         <section className="LockPsw" ref={lockText}>
           <Fade top>
             <div id="LockDiv">
-              <img src={lock} alt="lock" />
+              {/* <img src={lock} alt="lock" /> */}
+              {lockst == 0 ? (
+                <BsFillUnlockFill size="4rem" />
+              ) : (
+                <BsFillLockFill size="4rem" />
+              )}
               <h2 id="pswReveal" ref={scrollref}>
                 {cstext}
               </h2>{" "}

@@ -89,7 +89,7 @@
 .chatdiv {
   height: calc(100vh - 280px);
   width: 100%;
-  overflow: auto;
+  overflow-y: scroll;
   /* color: rgb(141, 139, 139); */
 }
 
