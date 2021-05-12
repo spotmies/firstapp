@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Button, Form } from "semantic-ui-react";
+
+import React, { useState, useEffect, useRef } from "react";
+import { Modal, Select ,Button, Form} from "semantic-ui-react";
+
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
 import "../assets/css/partner.css";
@@ -53,6 +55,7 @@ function PartnerRegistration() {
   const [pcate, spcate] = useState(null);
   const [pname, spname] = useState(null);
   const [pnum, spnum] = useState(null);
+  const lockText = useRef(null);
 
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
@@ -238,7 +241,8 @@ function PartnerRegistration() {
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with <span style={{ color: "red" }}>&#x2764;</span> by{" "}
+            Made with love by{" "}
+            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
             <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
@@ -375,6 +379,8 @@ function PartnerRegistration() {
             Submit
           </Button>
         </Form>
+
+        <div ref={lockText}></div>
         <div
           style={{
             background: "white",
@@ -398,7 +404,8 @@ function PartnerRegistration() {
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with <span style={{ color: "red" }}>&#x2764;</span> by{" "}
+            Made with love by{" "}
+            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
             <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>

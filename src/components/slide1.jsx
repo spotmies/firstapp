@@ -22,7 +22,9 @@ import text from "./usertext";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import ScrollAnimation from "react-animate-on-scroll";
 import "./txtRotate";
-
+import lock1 from "../images/lock1.png";
+import lock2 from "../images/lock2.png";
+import lock3 from "../images/lock3.png";
 import { feedBack1 } from "../mservices/contactUs";
 //import feedback form
  import { FeedbackForm } from "./reusable/Modal";
@@ -64,6 +66,7 @@ function Slide() {
   const [userText, setUsertext] = useState(text);
   const scrollref = useRef(null);
   const [cstext, setCstext] = useState("********** ********");
+  const [lock, setLock] = useState(lock3);
   // const [condiff, setCondiff] = useState(530);
 
   
@@ -80,14 +83,19 @@ function Slide() {
     window.onscroll = (e) => {
       var scrolly = e.target.scrollingElement.scrollHeight;
       var scrolltop = e.target.scrollingElement.scrollTop;
-      var scrolltop2 = lockText.current !=null ? lockText.current.offsetTop :0;
+      var scrolltop2 =
+        lockText.current != null ? lockText.current.offsetTop : 0;
       var clientheight = e.target.scrollingElement.clientHeight;
       var diff = scrolltop2 - scrolltop;
 
       if (diff <= 520 && diff >= 500) {
-        swidths1<800 ? setCstext("C********* ") :setCstext("C********* ********");
+        swidths1 < 800
+          ? setCstext("C********* ")
+          : setCstext("C********* ********");
       } else if (diff <= 499 && diff >= 480) {
-        swidths1<800 ? setCstext("Co******** ") : setCstext("Co******** ********");
+        swidths1 < 800
+          ? setCstext("Co******** ")
+          : setCstext("Co******** ********");
       } else if (diff <= 479 && diff >= 460) {
         setCstext("Com******* ********");
       } else if (diff <= 459 && diff >= 440) {
@@ -104,6 +112,7 @@ function Slide() {
         setCstext("Completel* ********");
       } else if (diff <= 339 && diff >= 320) {
         setCstext("Completely ********");
+        setLock(lock2);
       } else if (diff <= 339 && diff >= 320) {
         setCstext("Completely ********");
       } else if (diff <= 319 && diff >= 300) {
@@ -120,6 +129,7 @@ function Slide() {
         setCstext("Completely Secure**");
       } else if (diff <= 199 && diff >= 180) {
         setCstext("Completely Secured*");
+        setLock(lock1);
       } else if (diff <= 179 && diff >= 160) {
         setCstext("Completely Secured!");
       }
@@ -189,6 +199,7 @@ function Slide() {
         <section className="LockPsw" ref={lockText}>
           <Fade top>
             <div id="LockDiv">
+              <img src={lock} alt="lock" />
               <h2>{cstext}</h2>
             </div>
           </Fade>
@@ -228,7 +239,8 @@ function Slide() {
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with <span style={{ color: "red" }}>&#x2764;</span> by{" "}
+            Made with love by{" "}
+            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
             <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
@@ -328,6 +340,7 @@ function Slide() {
         <section className="LockPsw" ref={lockText}>
           <Fade top>
             <div id="LockDiv">
+              <img src={lock} alt="lock" />
               <h2 id="pswReveal" ref={scrollref}>
                 {cstext}
               </h2>{" "}

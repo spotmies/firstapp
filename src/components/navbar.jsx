@@ -7,7 +7,10 @@ import "../navbar.css";
 import firebase from "../firebase";
 //import Menu from "./reusable/menu";
 import { useHistory } from "react-router-dom";
-import SmLogo from "../images/s3.svg";
+
+import SmLogo from "../images/logowithtitle.png";
+
+
 //react icons
 import { IconContext } from "react-icons";
 import {
