@@ -5,7 +5,6 @@ import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "../navbar.css";
 import firebase from "../firebase";
-//import Menu from "./reusable/menu";
 import { useHistory } from "react-router-dom";
 import SmLogo from "../images/logowithtitle.png";
 
