@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
@@ -7,7 +7,9 @@ import "../navbar.css";
 import firebase from "../firebase";
 //import Menu from "./reusable/menu";
 import { useHistory } from "react-router-dom";
+
 import SmLogo from "../images/logowithtitle.png";
+
 
 //react icons
 import { IconContext } from "react-icons";

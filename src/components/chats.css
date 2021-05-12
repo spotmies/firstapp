@@ -11,7 +11,15 @@
   overflow-wrap: break-word;
   /* position: absolute; */
 }
-
+.cmpmsg {
+  color: #ffffff;
+  margin: 0 auto;
+  border-radius: 10px;
+  align-items: center;
+  padding: 5px 10px 5px 12px;
+  width: fit-content;
+  background: #a1a1a1 none repeat scroll 0 0;
+}
 .textTime,
 .textTimep {
   float: right;
@@ -35,13 +43,14 @@
   padding: 0 0 0 10px;
   vertical-align: top;
   margin-top: 5px;
-  width: 92%;
+  width: 100%;
+  /* background-color: cadetblue; */
 }
 
 .out-chat {
   float: left;
-  width: 46%;
-  margin-left: 53%;
+  /* width: 46%;
+  margin-left: 53%; */
 }
 
 .in-chatbox {
@@ -74,10 +83,13 @@
   width: 80%;
   margin-top: 10px !important;
 }
-
+.scrollchat {
+  height: 400px;
+}
 .chatdiv {
-  height: calc(100vh - 230px);
+  height: calc(100vh - 280px);
   width: 100%;
+  overflow: auto;
   /* color: rgb(141, 139, 139); */
 }
 
@@ -137,6 +149,18 @@
   padding: 5px 10px 5px 12px;
   width: fit-content;
   max-width: 150%;
+  color: #007bff;
+}
+
+.unreadText {
+  margin-top: 5px;
+  float: right;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 5px 10px 5px 12px;
+  width: fit-content;
+  max-width: 150%;
+  color: grey;
 }
 
 @media screen and (max-width: 420px) {
@@ -160,7 +184,7 @@
   }
 
   .chatdiv {
-    height: calc(100vh - 223px);
+    height: calc(100vh - 255px);
     max-width: 420px;
   }
 }
