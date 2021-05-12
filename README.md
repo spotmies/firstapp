@@ -80,3 +80,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 compresson
 git clone https://github.com/abhishek305/React-Image-compressor.git
+
+
+readme changed
