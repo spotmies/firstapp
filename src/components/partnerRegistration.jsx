@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Select } from "semantic-ui-react";
+import { Modal, Select, Button, Form } from "semantic-ui-react";
 
-import { Button, Form } from "semantic-ui-react";
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
 import "../assets/css/partner.css";
@@ -379,6 +378,7 @@ function PartnerRegistration() {
             Submit
           </Button>
         </Form>
+
         <div ref={lockText}></div>
         <div
           style={{
