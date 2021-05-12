@@ -479,7 +479,8 @@ function PartnerRegistration() {
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with <span style={{ color: "red" }}>&#x2764;</span> by{" "}
+            Made with love by{" "}
+            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
             <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
@@ -853,7 +854,8 @@ function PartnerRegistration() {
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with <span style={{ color: "red" }}>&#x2764;</span> by{" "}
+            Made with love by{" "}
+            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
             <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
