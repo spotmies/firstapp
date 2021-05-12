@@ -13,6 +13,7 @@ import {
 } from "semantic-ui-react";
 import "../index.css";
 import "./chats.css";
+
 import { BiArrowBack } from "react-icons/bi";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -39,7 +40,8 @@ import { msgdot } from "./reusable/msgdot";
 import { BsEyeFill } from "react-icons/bs";
 import { BiTimeFive } from "react-icons/bi";
 import { RiPinDistanceFill } from "react-icons/ri";
-import { HiOutlineCurrencyRupee } from "react-icons/hi";
+import { IoIosArrowDropdown } from "react-icons/io";
+
 import {
   MdDelete,
   MdStar,
@@ -815,7 +817,9 @@ function Chatarea(props) {
             var chatobj = JSON.parse(nap);
             return (
               <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
-                <p>{cmpmsg(nap, array[key - 1])}</p>
+                <p className={cmpmsg(nap, array[key - 1]) ? "cmpmsg" : null}>
+                  {cmpmsg(nap, array[key - 1])}
+                </p>
 
                 <div
                   className={
@@ -859,7 +863,7 @@ function Chatarea(props) {
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
-                <small className="readText">
+                <small className={chat.pread ? "readText" : "unreadText"}>
                   {chat.pread ? "seen" : "unseen"}
                 </small>
               </p>
@@ -867,24 +871,21 @@ function Chatarea(props) {
           ) : null}
           {scrollDisplay ? (
             <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
-                style={{ position: "fixed", bottom: "150px", float: "right" }}
-              />
-            </a>
-          ) : (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
+              <IoIosArrowDropdown
+                size="2rem"
+                color="007bff"
                 style={{
                   position: "fixed",
-                  bottom: "150px",
+                  bottom: "60px",
                   float: "right",
-                  display: "none",
+                  right: "10px",
+                  width: "50px",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
                 }}
               />
             </a>
-          )}
+          ) : null}
         </div>
 
         <Form.Group
@@ -1070,7 +1071,7 @@ function Chatarea(props) {
 
         <div
           className="chatdiv"
-          style={{ overflow: "auto", paddingBottom: "10px" }}
+          // style={{ overflow: "auto", paddingBottom: "10px" }}
           ref={scrollref}
           onScroll={(e) => {
             scrollhandle(e);
@@ -1080,7 +1081,9 @@ function Chatarea(props) {
             var chatobj = JSON.parse(nap);
             return (
               <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
-                <p>{cmpmsg(nap, array[key - 1])}</p>
+                <p className={cmpmsg(nap, array[key - 1]) ? "cmpmsg" : null}>
+                  {cmpmsg(nap, array[key - 1])}
+                </p>
 
                 <div
                   className={
@@ -1124,7 +1127,7 @@ function Chatarea(props) {
           {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
             <div>
               <p>
-                <small className="readText">
+                <small className={chat.pread ? "readText" : "unreadText"}>
                   {chat.pread ? "seen" : "unseen"}
                 </small>
               </p>
@@ -1132,24 +1135,21 @@ function Chatarea(props) {
           ) : null}
           {scrollDisplay ? (
             <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
-                style={{ position: "fixed", bottom: "150px", float: "right" }}
-              />
-            </a>
-          ) : (
-            <a href="#scrolltobottom" id="scrollbtn">
-              <MdArrowDropDownCircle
-                size="3rem"
+              <IoIosArrowDropdown
+                size="2rem"
+                color="007bff"
                 style={{
                   position: "fixed",
-                  bottom: "150px",
+                  bottom: "80px",
                   float: "right",
-                  display: "none",
+                  right: "0px",
+                  width: "50px",
+                  backgroundColor: "white",
+                  borderRadius: "10px",
                 }}
               />
             </a>
-          )}
+          ) : null}
         </div>
 
         <Form.Group

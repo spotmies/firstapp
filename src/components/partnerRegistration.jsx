@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Modal, Select } from "semantic-ui-react";
+
+import { Button, Form } from "semantic-ui-react";
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
 import "../assets/css/partner.css";
+//import feedback form
+
+import { FeedbackForm } from "./reusable/Modal";
+
 import { FaGooglePlay } from "react-icons/fa";
 
 import { toast } from "react-toastify";
@@ -10,18 +16,6 @@ import textpart from "./partnerText";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import { partnerRequests } from "../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
-import {
-  Dropdown,
-  DropdownButton,
-  // Modal,
-  Button,
-  InputGroup,
-  Form,
-  Col,
-  Row,
-  FormControl,
-  ProgressBar,
-} from "react-bootstrap";
 import ScrollAnimation from "react-animate-on-scroll";
 
 const options = [
@@ -92,19 +86,10 @@ function PartnerRegistration() {
     }
   };
 
-  // const maxLengthCheck = (object) => {
-  //   if (object.target.value.length > object.target.maxLength) {
-  //    object.target.value = object.target.value.slice(0, object.target.maxLength)
-  //     }
-  //   }
-
   const formsubmit = async (e) => {
     let details = null;
-    // e.preventDefault();
-    //console.log("submit")
-    //console.log(pname,pnum,pcate)
     if (pnum.length == 10 && pcate !== null) {
-      details = { pname, pnum, pcate };
+      details = { pname, pnum, pcate, date: Math.round(+new Date() / 1000) };
       await partprereg(details);
       spcate(null);
       spnum(null);
@@ -136,6 +121,9 @@ function PartnerRegistration() {
     } else toast.info("please try again");
   }
   const [open, setOpen] = useState(false);
+  const closeModal = () => {
+    setOpen(false);
+  };
   const [height1, width1] = useWindowSize();
   const [textContent, setTextcontent] = useState(textpart);
   if (width1 <= 800) {
@@ -184,189 +172,13 @@ function PartnerRegistration() {
         <div className="feedBack " onClick={() => setOpen(true)}>
           <MdFeedback className="feedBackIcon" />
         </div>
-
-        <Modal
-          className="fbModal"
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          open={open}
-          // trigger={<Button>Show Modal</Button>}
-        >
-          <Form
-            className="contactForm"
-            // style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
-            // onSubmit={this.submitForm}
-          >
-            <h2>Do you have any feedback?</h2>
-            <Form.Group className="formgroup">
-              <Form.Label>
-                Do you understand what does this website mean
-              </Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formVerticalRadios"
-                  id="formVerticalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formVerticalRadios"
-                  id="formVerticalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formVerticalRadios"
-                  id="formVerticalRadios3"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlInput1"
-            >
-              <Form.Label>Is this platform useful?</Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formHorizontalRadios1"
-                  id="formHorizontalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formHorizontalRadios1"
-                  id="formHorizontalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formHorizontalRadios1"
-                  id="formHorizontalRadios3"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlInput1"
-            >
-              <Form.Label>How does the website looks?</Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formHorizontalRadios2"
-                  id="formHorizontalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formHorizontalRadios2"
-                  id="formHorizontalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formHorizontalRadios2"
-                  id="formHorizontalRadios3"
-                />
-              </Col>
-            </Form.Group>
-
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Did you face any issues with the website?</Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formHorizontalRadios3"
-                  id="formHorizontalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formHorizontalRadios3"
-                  id="formHorizontalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formHorizontalRadios3"
-                  id="formHorizontalRadios3"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>
-                If you have any other feedback please let us know. We love to
-                give you the best.
-              </Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="put what you want to message"
-                name="message"
-                value="nothing"
-                // onChange={this.handlec}
-              />
-            </Form.Group>
-
-            <Row style={{ margin: "0 auto", width: "fit-content" }}>
-              <Button
-                type="submit"
-                variant="secondary"
-                onClick={() => setOpen(false)}
-              >
-                Cancel
-              </Button>
-
-              <Button type="submit" style={{ marginLeft: "30px" }}>
-                Submit
-              </Button>
-            </Row>
-          </Form>
-          {/* <Modal.Actions>
-            <Button color="black" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              content="Yep, that's me"
-              labelPosition="right"
-              icon="checkmark"
-              onClick={() => setOpen(false)}
-              positive
-            >
-              Submit{" "}
-            </Button>
-          </Modal.Actions> */}
-        </Modal>
+        <FeedbackForm open={open} close={closeModal} />
 
         <Form
           style={{ height: "300px", width: "80%", margin: "0 auto" }}
           onSubmit={formsubmit}
         >
-          {/* <label>
+          <label>
             <b>Select Your Proffesion</b>
           </label>
           <Form.Select
@@ -376,26 +188,8 @@ function PartnerRegistration() {
             options={options}
             placeholder="Type of profession"
             required
-          /> */}
-          <Form.Group
-            className="formgroup"
-            controlId="exampleForm.ControlTextarea1"
-          >
-            <Form.Label>
-              <b>Select Your Proffesion1</b>
-            </Form.Label>
-            <Form.Control
-              as="select"
-              name="pcate"
-              id="pcate"
-              onChange={handleChange}
-              options={options}
-              placeholder="Type of profession"
-              required
-            />
-          </Form.Group>
-
-          {/* <Form.Field>
+          />
+          <Form.Field>
             <label>First Name</label>
             <input
               placeholder="First Name"
@@ -418,44 +212,12 @@ function PartnerRegistration() {
               placeholder="Mobile Numer"
               maxLength="10"
               required
-            /> */}
-          {/* </Form.Field> */}
-          <Form.Group
-            className="formgroup"
-            controlId="exampleForm.ControlTextarea1"
-          >
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              placeholder="First Name"
-              id="pname"
-              name="pname"
-              value={pname}
-              onChange={handleChange}
-              maxLength="15"
-              required
             />
-          </Form.Group>
-          <Form.Group
-            className="formgroup"
-            controlId="exampleForm.ControlTextarea1"
-          >
-            <Form.Label>Mobile Number</Form.Label>
-            <Form.Control
-              value={pnum}
-              onClick={handleChange}
-              name="pnum"
-              id="pnum"
-              onChange={handleChange}
-              placeholder="Mobile Numer"
-              maxLength="10"
-              required
-            />
-          </Form.Group>
+          </Form.Field>
           <Button primary type="submit">
             Submit
           </Button>
         </Form>
-
         <div
           style={{
             background: "white",
@@ -571,206 +333,24 @@ function PartnerRegistration() {
         <div className="feedBack " onClick={() => setOpen(true)}>
           <MdFeedback className="feedBackIcon" />
         </div>
+        <FeedbackForm open={open} close={closeModal} />
 
-        <Modal
-          className="fbModal"
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          open={open}
-          // trigger={<Button>Show Modal</Button>}
-        >
-          <Form
-            className="contactForm"
-            // style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
-            // onSubmit={this.submitForm}
-          >
-            <h2>Do you have any feedback?</h2>
-            <Form.Group className="formgroup">
-              <Form.Label>
-                Do you understand what does this website mean
-              </Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formVerticalRadios"
-                  id="formVerticalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formVerticalRadios"
-                  id="formVerticalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formVerticalRadios"
-                  id="formVerticalRadios3"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlInput1"
-            >
-              <Form.Label>Is this platform useful?</Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formHorizontalRadios1"
-                  id="formHorizontalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formHorizontalRadios1"
-                  id="formHorizontalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formHorizontalRadios1"
-                  id="formHorizontalRadios3"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlInput1"
-            >
-              <Form.Label>How does the website looks?</Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formHorizontalRadios2"
-                  id="formHorizontalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formHorizontalRadios2"
-                  id="formHorizontalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formHorizontalRadios2"
-                  id="formHorizontalRadios3"
-                />
-              </Col>
-            </Form.Group>
-
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Did you face any issues with the website?</Form.Label>
-              <Col classname="formcol">
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="first radio"
-                  name="formHorizontalRadios3"
-                  id="formHorizontalRadios1"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="second radio"
-                  name="formHorizontalRadios3"
-                  id="formHorizontalRadios2"
-                />
-                <Form.Check
-                  inline
-                  type="radio"
-                  label="third radio"
-                  name="formHorizontalRadios3"
-                  id="formHorizontalRadios3"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group
-              className="formgroup"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>
-                If you have any other feedback please let us know. We love to
-                give you the best.
-              </Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                placeholder="put what you want to message"
-                name="message"
-                value="nothing"
-                // onChange={this.handlec}
-              />
-            </Form.Group>
-
-            <Row style={{ margin: "0 auto", width: "fit-content" }}>
-              <Button
-                type="submit"
-                variant="secondary"
-                onClick={() => setOpen(false)}
-              >
-                Cancel
-              </Button>
-
-              <Button type="submit" style={{ marginLeft: "30px" }}>
-                Submit
-              </Button>
-            </Row>
-          </Form>
-          {/* <Modal.Actions>
-            <Button color="black" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              content="Yep, that's me"
-              labelPosition="right"
-              icon="checkmark"
-              onClick={() => setOpen(false)}
-              positive
-            >
-              Submit{" "}
-            </Button>
-          </Modal.Actions> */}
-        </Modal>
         <Form
           style={{ height: "300px", width: "40%", margin: "0 auto" }}
           onSubmit={formsubmit}
         >
-          <Form.Group
-            className="formgroup"
-            controlId="exampleForm.ControlTextarea1"
-          >
-            <Form.Label>
-              <b>Select Your Proffesion2</b>
-            </Form.Label>
-            <Form.Control
-              as="select"
-              name="pcate"
-              id="pcate"
-              onChange={handleChange}
-              options={options}
-              placeholder="Type of profession"
-              required
-            />
-          </Form.Group>
-
-          {/* <Form.Field>
+          <label>
+            <b>Select Your Proffesion</b>
+          </label>
+          <Form.Select
+            name="pcate"
+            id="pcate"
+            onChange={handleChange}
+            options={options}
+            placeholder="Type of profession"
+            required
+          />
+          <Form.Field>
             <label>First Name</label>
             <input
               placeholder="First Name"
@@ -793,39 +373,8 @@ function PartnerRegistration() {
               placeholder="Mobile Numer"
               maxLength="10"
               required
-            /> */}
-          {/* </Form.Field> */}
-          <Form.Group
-            className="formgroup"
-            controlId="exampleForm.ControlTextarea1"
-          >
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              placeholder="First Name"
-              id="pname"
-              name="pname"
-              value={pname}
-              onChange={handleChange}
-              maxLength="15"
-              required
             />
-          </Form.Group>
-          <Form.Group
-            className="formgroup"
-            controlId="exampleForm.ControlTextarea1"
-          >
-            <Form.Label>Mobile Number</Form.Label>
-            <Form.Control
-              value={pnum}
-              onClick={handleChange}
-              name="pnum"
-              id="pnum"
-              onChange={handleChange}
-              placeholder="Mobile Numer"
-              maxLength="10"
-              required
-            />
-          </Form.Group>
+          </Form.Field>
           <Button primary type="submit">
             Submit
           </Button>
