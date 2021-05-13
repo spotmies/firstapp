@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "../navbar.css";
 import firebase from "../firebase";
 import { useHistory } from "react-router-dom";
-import SmLogo from "../images/logowithtitle.png";
+import SmLogo from "../images/titlelogo.svg";
 
 //react icons
 import { IconContext } from "react-icons";
@@ -102,7 +102,7 @@ function Navibar() {
               <Link to="/">
                 <Navbar.Brand className="title">
                   <img src={SmLogo} />
-                  <h2>Spotmies</h2>
+                  {/* <h2>Spotmies</h2> */}
                 </Navbar.Brand>
               </Link>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
