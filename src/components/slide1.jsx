@@ -347,9 +347,16 @@ function Slide() {
               ) : (
                 <BsFillLockFill size="4rem" />
               )}
-              <h2 id="pswReveal" ref={scrollref}>
-                {cstext}
-              </h2>{" "}
+              <div className="csTextDiv">
+                <h2
+                  id="pswReveal"
+                  ref={scrollref}
+                  style={{ display: "inline-flex" }}
+                >
+                  {cstext}
+                </h2>
+                <h2 className="csText2">****** </h2>
+              </div>
             </div>
           </Fade>
         </section>

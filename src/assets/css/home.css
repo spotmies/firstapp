@@ -354,3 +354,15 @@
     margin: 50px auto 180px auto;
   }
 }
+.csTextDiv {
+  height: fit-content;
+  width: fit-content;
+  background-color: #5fcdf3;
+  margin: 0 auto;
+}
+.csText2 {
+  background-color: black;
+  display: inline;
+  text-align: end;
+  height: fit-content;
+}
