@@ -49,11 +49,11 @@
 
 .title img {
   height: 55px;
-  width: 75px;
+  width: 100px;
   /* filter: drop-shadow(1px 1px 10px rgb(173, 173, 173)); */
   /* box-shadow: 1px 1px 10px rgb(141, 141, 141); */
   color: black;
-  margin-top: -5px;
+  margin-top: 0;
 }
 
 .nav-links {
