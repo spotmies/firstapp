@@ -2,16 +2,16 @@ import takepic from "../images/undraw_Organize_photos_re_ogcy.svg";
 import location from "../images/undraw_Destination_re_sr74.svg";
 //import getquote from "../images/undraw_Hire_re_gn5j.svg";
 import getquote from "../images/undraw_people_search_wctu.svg";
-import service from "../images/setlocation2.png";
+import service from "../images/getorder5.png";
 import about from "../images/undraw_researching_22gp.svg";
 import what from "../images/what.jpeg";
-import spot from "../images/selectprofesiion2.png";
+import spot from "../images/selectprfession.png";
 import reg from "../images/reg.png";
 import meet from "../images/meet.png";
-import man2 from "../images/whatisspotmies2.png";
-import register from "../images/register2.png";
-import getpaid from "../images/getpaid2.png";
-import navigate from "../images/navigation2.png";
+import man2 from "../images/whatisspotmies5.png";
+import register from "../images/register5.png";
+import getpaid from "../images/getpaid5.png";
+import navigate from "../images/navigation5.png";
 
 const textpart = [
   {
