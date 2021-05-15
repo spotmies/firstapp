@@ -74,7 +74,7 @@
 .slide1 {
   display: block;
   margin-top: -20px;
-  scroll-snap-type: y mandatory;
+  /* scroll-snap-type: y mandatory; */
   /* overflow-y: auto; */
   /* height: 100vh; */
   /* overflow: scroll; */
@@ -87,12 +87,13 @@
   background: linear-gradient(45deg, #bc6ef7, #5fcdf3, #e5f0f7);
   /* background: rgba(158, 192, 243, 0.932); */
   overflow: auto;
+  /* overflow-y: scroll; */
 }
 
 .home-section {
   display: inline-flex;
   padding: 100px;
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
   /* height: 500px; */
   width: 100%;
 }
@@ -353,4 +354,16 @@
   .LockPsw {
     margin: 50px auto 180px auto;
   }
+}
+.csTextDiv {
+  height: fit-content;
+  width: fit-content;
+  background-color: #5fcdf3;
+  margin: 0 auto;
+}
+.csText2 {
+  background-color: black;
+  display: inline;
+  text-align: end;
+  height: fit-content;
 }

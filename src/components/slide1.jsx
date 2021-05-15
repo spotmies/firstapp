@@ -200,7 +200,12 @@ function Slide() {
         <section className="LockPsw" ref={lockText}>
           <Fade top>
             <div id="LockDiv">
-              <img src={lock} alt="lock" />
+              {/* <img src={lock} alt="lock" /> */}
+              {lockst == 0 ? (
+                <BsFillUnlockFill size="4rem" />
+              ) : (
+                <BsFillLockFill size="4rem" />
+              )}
               <h2>{cstext}</h2>
             </div>
           </Fade>
@@ -209,7 +214,7 @@ function Slide() {
         <section className="home-textBox" id="joinBtn">
           <Fade top>
             <div>
-              <h1>Wanna join your business?</h1>
+              <h1>Wanna Register As Service Provider / Technician ?</h1>
               <Link to="/partnerRegistration">
                 <Button>Join here</Button>
               </Link>
@@ -347,9 +352,16 @@ function Slide() {
               ) : (
                 <BsFillLockFill size="4rem" />
               )}
-              <h2 id="pswReveal" ref={scrollref}>
-                {cstext}
-              </h2>{" "}
+             
+                <h2
+                  id="pswReveal"
+                  ref={scrollref}
+                  
+                >
+                  {cstext}
+                </h2>
+                
+            
             </div>
           </Fade>
         </section>
@@ -357,7 +369,7 @@ function Slide() {
         <section className="home-textBox home-textBox1" id="joinBtn">
           <Fade top>
             <div>
-              <h1>Wanna join your business?</h1>
+              <h1>Wanna Register As Service Provider / Technician ?</h1>
               <Link to="/partnerRegistration">
                 <Button>Join here</Button>
               </Link>
