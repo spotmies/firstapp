@@ -34,7 +34,7 @@ const text = [
   },
   {
     id: 5,
-    heading: "Get Your Service Done At Your Door Stneps.",
+    heading: "Get Your Service Done At Your Door Steps.",
     content: "",
     img: service,
   },

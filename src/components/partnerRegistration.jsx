@@ -130,11 +130,11 @@ function PartnerRegistration() {
       <div className="pslide1">
         <p id="partnerTop"></p>
 
-        {textContent.map((message) => (
+        {textContent.map((message, index) => (
           <section className="home-section">
             <Fade bottom>
               <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
-                <div className="home-photos">
+                <div className={index == 1 | index == 2 | index == 3 ? "resize":"home-photos"}>
                   <img src={message.img} />
                 </div>
               </ScrollAnimation>
@@ -173,8 +173,10 @@ function PartnerRegistration() {
         </div>
         <FeedbackForm open={open} close={closeModal} />
 
+        <div style={{textAlign: "center", width: "100%"}}>
+  <h2 style={{fontSize: "34px"}}>Let us know you are Interested.</h2>
         <Form
-          style={{ height: "300px", width: "80%", margin: "0 auto" }}
+          style={{ height: "300px", width: "80%", margin: "0 auto", textAlign: "left" }}
           onSubmit={formsubmit}
         >
           <label>
@@ -217,6 +219,7 @@ function PartnerRegistration() {
             Submit
           </Button>
         </Form>
+        </div>
         <div
           style={{
             background: "white",
@@ -258,7 +261,7 @@ function PartnerRegistration() {
               <section className="home-section">
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <Fade left>
-                    <div className="home-photos">
+                    <div className={index == 1 | index == 2 | index == 3 ? "resize":"home-photos"}>
                       <img src={message.img} />
                     </div>
                   </Fade>
@@ -320,7 +323,7 @@ function PartnerRegistration() {
                 </Zoom>
                 <Fade right>
                   <ScrollAnimation animateIn="img-in" animateOut="img-out">
-                    <div className="home-photos">
+                    <div className={index == 1 | index == 2 | index == 3 ? "resize":"home-photos"}>
                       <img src={message.img} />
                     </div>
                   </ScrollAnimation>
@@ -333,9 +336,10 @@ function PartnerRegistration() {
           <MdFeedback className="feedBackIcon" />
         </div>
         <FeedbackForm open={open} close={closeModal} />
-
+<div style={{textAlign: "center"}}>
+  <h2 style={{fontSize: "54px"}}>Let us know you are Interested.</h2>
         <Form
-          style={{ height: "300px", width: "40%", margin: "0 auto" }}
+          style={{ height: "300px", width: "40%", margin: "0 auto", textAlign: "left" }}
           onSubmit={formsubmit}
         >
           <label>
@@ -378,7 +382,7 @@ function PartnerRegistration() {
             Submit
           </Button>
         </Form>
-
+        </div>
         <div ref={lockText}></div>
         <div
           style={{
