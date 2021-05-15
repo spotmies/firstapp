@@ -683,7 +683,7 @@ function Chatarea(props) {
   const [scrollDisplay, setScrolldisplay] = useState(false);
   const [tbody, settbody] = useState([]);
   const myRef = useRef(null);
-  const executeScroll = () => myRef.current.scrollIntoView();
+  const executeScroll = () => myRef.current.scrollIntoView({behavior: "smooth"});
   function scrollhandle(e) {
     //console.log(e,"scrolling mobile");
     const scrolly = scrollref.current.scrollHeight;

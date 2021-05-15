@@ -1,12 +1,14 @@
-import React from "react";
+import React,{useRef,useEffect} from "react";
 import "./privacy.css";
 
 function Privacy() {
+  const ref1 = useRef(null);
+  const executeScroll = () => ref1.current.scrollIntoView({behavior: "smooth"});
   return (
     <div className="privacyDiv">
       <article>
         <h1>Privacy Policy</h1>
-        <p>
+        <p onClick={executeScroll}>
           Last updated: February 08, 2021
           <br />
           This Privacy Policy describes Our policies and procedures on the
@@ -86,7 +88,7 @@ function Privacy() {
           </li>
         </ul>
       </article>
-      <article>
+      <article ref={ref1}>
         <h1>Collecting and Using Your Personal Data</h1>
         <h2>Types of Data Collected</h2>
         <h3>Personal Data</h3>
