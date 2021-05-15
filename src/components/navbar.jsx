@@ -200,7 +200,7 @@ function Navibar() {
                       <Link to="/newpost">
                         <NavDropdown.Item href="#action/3.4">
                           <MdAddCircle color="gray" size="1.5em" />
-                          <b> Ad Post</b>
+                          <b> Get Service</b>
                         </NavDropdown.Item>
                       </Link>
 
@@ -225,8 +225,8 @@ function Navibar() {
                   <Link className="nav-links" to="/newpost">
                     {" "}
                     <Nav className="chaticon">
-                      <MdAddCircle className="chaticon2" />
-                      <b> Ad Post</b>
+                      <MdAddCircle size="1.4rem" className="chaticon2" />
+                      <b>Get Service</b>
                     </Nav>
                   </Link>
                 </Nav>

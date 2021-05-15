@@ -10,31 +10,31 @@ const text = [
     id: 1,
     heading: "What is Spotmies?",
     content:
-      "We provide solutions to your problems. You deserve what you get and we believe you deserve better.",
+      "We Provide Solutions To Your Problems. You Deserve What You Get And We Believe You Deserve Better.",
     img: about,
   },
   {
     id: 2,
-    heading: "Take a picture",
+    heading: "Take A Picture",
     content:
-      "Click a picture of your  needed service and post an ad to experience our service.",
+      "Click A Picture Of Your Needed Service To Experience Our Service.",
     img: takepic,
   },
   {
     id: 3,
-    heading: "Set location",
-    content: "Share your location and we share our service.",
+    heading: "Set Location",
+    content: "Share Your Location And We Share Our Service.",
     img: location,
   },
   {
     id: 4,
     heading: "Get Quote",
-    content: "Get Select the best quote from all technicians around you",
+    content: "Get Select The Best Quote From All Technicians Around You",
     img: getquote,
   },
   {
     id: 5,
-    heading: "Get your service done at your door steps.",
+    heading: "Get Your Service Done At Your Door Stneps.",
     content: "",
     img: service,
   },
