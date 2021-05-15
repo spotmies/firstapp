@@ -237,6 +237,11 @@
   /* justify-items: center; */
 }
 
+.resize img{
+  height: 400px !important;
+  width: 400px !important;
+}
+
 .home-photos img {
   /* margin-left: 30%; */
   /* transform: rotate(30deg); */
@@ -254,9 +259,10 @@
 .feedBack {
   float: right;
   position: fixed;
-  bottom: 10px;
+  bottom: 20px;
   right: 7px;
   /* background: white; */
+  z-index: 1000;
   width: 50px;
 }
 
@@ -329,6 +335,19 @@
 
   .textBox1 {
     margin-top: 20px;
+  }
+
+  .resize img {
+    height: 270px !important;
+    width: 100% !important;
+    margin: 25px 0 70px 0;
+  }
+
+  /* feeback */
+
+  .feedBack {
+    right: 0px;
+    width: 50px;
   }
 
   .home-textBox,
