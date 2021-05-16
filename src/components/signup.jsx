@@ -155,7 +155,10 @@ function vrfyotp(e) {
     })
     .catch((err) => {
       //  alert(err)
-      toast.error(err);
+     // toast.error(err);
+      console.log(err);
+     // console.log(err.code);
+      toast.error(err.code);
     });
 }
 
