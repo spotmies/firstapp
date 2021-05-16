@@ -192,7 +192,8 @@ function rgstusr(e) {
       .then(() => {
         // alert("data added")
 
-        window.location.href = "http://localhost:3000/";
+      //  window.location.href = "http://localhost:3000/";
+      history.go(-1);
       });
   } else {
     //alert("please enter your name");
