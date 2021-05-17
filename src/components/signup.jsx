@@ -155,7 +155,10 @@ function vrfyotp(e) {
     })
     .catch((err) => {
       //  alert(err)
-      toast.error(err);
+     // toast.error(err);
+      console.log(err);
+     // console.log(err.code);
+      toast.error(err.code);
     });
 }
 
@@ -192,7 +195,8 @@ function rgstusr(e) {
       .then(() => {
         // alert("data added")
 
-        window.location.href = "http://localhost:3000/";
+      //  window.location.href = "http://localhost:3000/";
+      history.go(-1);
       });
   } else {
     //alert("please enter your name");

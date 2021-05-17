@@ -66,8 +66,7 @@ function Navibar() {
     if (user) {
       db.collection("users")
         .doc(firebase.auth().currentUser.uid)
-        .get()
-        .then((snap) => {
+        .onSnapshot((snap) => {
           if (!snap.data()) setName("demouser");
           else {
             setName(snap.data().name);
