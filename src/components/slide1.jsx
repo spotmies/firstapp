@@ -82,14 +82,10 @@ function Slide() {
       var diff = scrolltop2 - scrolltop;
 
       if (diff <= 520 && diff >= 500) {
-        swidths1 < 800
-          ? setCstext("C********* ")
-          : setCstext("C********* ********");
+        swidths1 < 800 ? setCstext("C********* ") : setCstext("C********* ");
         setlockst(0);
       } else if (diff <= 499 && diff >= 480) {
-        swidths1 < 800
-          ? setCstext("Co******** ")
-          : setCstext("Co******** ********");
+        swidths1 < 800 ? setCstext("Co******** ") : setCstext("Co******** ");
         setlockst(0);
       } else if (diff <= 479 && diff >= 460) {
         setCstext("Com******* ********");
@@ -157,7 +153,13 @@ function Slide() {
         {userText.map((message, key) => (
           <section className="home-section" id={key}>
             <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
-              <div className={ key==1 | key==2 | key==3 ? "resize" : "home-photos"}>
+              <div
+                className={
+                  (key == 1) | (key == 2) | (key == 3)
+                    ? "resize"
+                    : "home-photos"
+                }
+              >
                 <img src={message.img} />
               </div>
             </ScrollAnimation>
@@ -264,7 +266,13 @@ function Slide() {
             {index % 2 == 0 ? (
               <section className="home-section">
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
-                  <div className={ index==1 | index==2 | index==3 ? "resize" : "home-photos"}>
+                  <div
+                    className={
+                      (index == 1) | (index == 2) | (index == 3)
+                        ? "resize"
+                        : "home-photos"
+                    }
+                  >
                     <Fade left>
                       <img src={message.img} />
                     </Fade>
@@ -327,7 +335,13 @@ function Slide() {
                 </Zoom>
 
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
-                  <div className={ index==1 | index==2 | index==3 ? "resize" : "home-photos"}>
+                  <div
+                    className={
+                      (index == 1) | (index == 2) | (index == 3)
+                        ? "resize"
+                        : "home-photos"
+                    }
+                  >
                     <Fade right>
                       {" "}
                       <img src={message.img} />{" "}
@@ -352,16 +366,10 @@ function Slide() {
               ) : (
                 <BsFillLockFill size="4rem" />
               )}
-             
-                <h2
-                  id="pswReveal"
-                  ref={scrollref}
-                  
-                >
-                  {cstext}
-                </h2>
-                
-            
+
+              <h2 id="pswReveal" ref={scrollref}>
+                {cstext}
+              </h2>
             </div>
           </Fade>
         </section>
