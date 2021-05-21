@@ -16,6 +16,7 @@ import ReactReadMoreReadLess from "react-read-more-read-less";
 import { partnerRequests } from "../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
 import ScrollAnimation from "react-animate-on-scroll";
+import { BsFillPersonPlusFill } from "react-icons/bs";
 
 const options = [
   { key: "a", text: "Ac/Refrigirator services", value: "ac repairs" },
@@ -125,6 +126,27 @@ function PartnerRegistration() {
   };
   const [height1, width1] = useWindowSize();
   const [textContent, setTextcontent] = useState(textpart);
+  const [chIcon, setchIcon] = useState(0);
+
+  const ref1 = useRef(null);
+  const executeScroll = () =>
+    ref1.current.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    window.onscroll = (e) => {
+      let scrolly = e.target.scrollingElement.scrollHeight;
+      let scrolltop = e.target.scrollingElement.scrollTop;
+      let clientheight = e.target.scrollingElement.clientHeight;
+      let scrolltop2 = ref1.current != null ? ref1.current.offsetTop : 0;
+      //  console.log("scroll", scrolly, scrolltop, clientheight, scrolltop2);
+      if (scrolltop > 300) setchIcon(1);
+      else setchIcon(0);
+
+      if (scrolly - scrolltop < clientheight + (scrolly - scrolltop2)) {
+        //  console.log("bottom");
+        setchIcon(2);
+      }
+    };
+  }, []);
   if (width1 <= 800) {
     return (
       <div className="pslide1">
@@ -134,7 +156,13 @@ function PartnerRegistration() {
           <section className="home-section">
             <Fade bottom>
               <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
-                <div className={index == 1 | index == 2 | index == 3 ? "resize":"home-photos"}>
+                <div
+                  className={
+                    (index == 1) | (index == 2) | (index == 3)
+                      ? "resize"
+                      : "home-photos"
+                  }
+                >
                   <img src={message.img} />
                 </div>
               </ScrollAnimation>
@@ -168,57 +196,82 @@ function PartnerRegistration() {
             </Zoom>
           </section>
         ))}
-        <div className="feedBack " onClick={() => setOpen(true)}>
-          <MdFeedback className="feedBackIcon" />
+        <div className="feedBack ">
+          {chIcon == 0 ? (
+            <Fade right>
+              <h3
+                style={{ margin: "auto", paddingRight: "10px" }}
+                onClick={executeScroll}
+              >
+                Register
+              </h3>
+            </Fade>
+          ) : null}
+          {chIcon == 0 || chIcon == 1 ? (
+            <BsFillPersonPlusFill
+              className="feedBackIcon"
+              onClick={executeScroll}
+            />
+          ) : (
+            <MdFeedback
+              className="feedBackIcon"
+              onClick={() => setOpen(true)}
+            />
+          )}
         </div>
         <FeedbackForm open={open} close={closeModal} />
 
-        <div style={{textAlign: "center", width: "100%"}}>
-  <h2 style={{fontSize: "34px"}}>Let us know you are Interested.</h2>
-        <Form
-          style={{ height: "300px", width: "80%", margin: "0 auto", textAlign: "left" }}
-          onSubmit={formsubmit}
-        >
-          <label>
-            <b>Select Your Proffesion</b>
-          </label>
-          <Form.Select
-            name="pcate"
-            id="pcate"
-            onChange={handleChange}
-            options={options}
-            placeholder="Type of profession"
-            required
-          />
-          <Form.Field>
-            <label>First Name</label>
-            <input
-              placeholder="First Name"
-              id="pname"
-              name="pname"
-              value={pname}
+        <div style={{ textAlign: "center", width: "100%" }} ref={ref1}>
+          <h2 style={{ fontSize: "34px" }}>Let us know you are Interested.</h2>
+          <Form
+            style={{
+              height: "300px",
+              width: "80%",
+              margin: "0 auto",
+              textAlign: "left",
+            }}
+            onSubmit={formsubmit}
+          >
+            <label>
+              <b>Select Your Proffesion</b>
+            </label>
+            <Form.Select
+              name="pcate"
+              id="pcate"
               onChange={handleChange}
-              maxLength="15"
+              options={options}
+              placeholder="Type of profession"
               required
             />
-          </Form.Field>
-          <Form.Field>
-            <label>Mobile Number</label>
-            <input
-              value={pnum}
-              onClick={handleChange}
-              name="pnum"
-              id="pnum"
-              onChange={handleChange}
-              placeholder="Mobile Numer"
-              maxLength="10"
-              required
-            />
-          </Form.Field>
-          <Button primary type="submit">
-            Submit
-          </Button>
-        </Form>
+            <Form.Field>
+              <label>First Name</label>
+              <input
+                placeholder="First Name"
+                id="pname"
+                name="pname"
+                value={pname}
+                onChange={handleChange}
+                maxLength="15"
+                required
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Mobile Number</label>
+              <input
+                value={pnum}
+                onClick={handleChange}
+                name="pnum"
+                id="pnum"
+                onChange={handleChange}
+                placeholder="Mobile Numer"
+                maxLength="10"
+                required
+              />
+            </Form.Field>
+            <Button primary type="submit">
+              Submit
+            </Button>
+          </Form>
         </div>
         <div
           style={{
@@ -261,7 +314,13 @@ function PartnerRegistration() {
               <section className="home-section">
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <Fade left>
-                    <div className={index == 1 | index == 2 | index == 3 ? "resize":"home-photos"}>
+                    <div
+                      className={
+                        (index == 1) | (index == 2) | (index == 3)
+                          ? "resize"
+                          : "home-photos"
+                      }
+                    >
                       <img src={message.img} />
                     </div>
                   </Fade>
@@ -323,7 +382,13 @@ function PartnerRegistration() {
                 </Zoom>
                 <Fade right>
                   <ScrollAnimation animateIn="img-in" animateOut="img-out">
-                    <div className={index == 1 | index == 2 | index == 3 ? "resize":"home-photos"}>
+                    <div
+                      className={
+                        (index == 1) | (index == 2) | (index == 3)
+                          ? "resize"
+                          : "home-photos"
+                      }
+                    >
                       <img src={message.img} />
                     </div>
                   </ScrollAnimation>
@@ -332,56 +397,81 @@ function PartnerRegistration() {
             )}
           </div>
         ))}
-        <div className="feedBack " onClick={() => setOpen(true)}>
-          <MdFeedback className="feedBackIcon" />
+        <div className="feedBack ">
+          {chIcon == 0 ? (
+            <Fade right>
+              <h3
+                style={{ margin: "auto", paddingRight: "10px" }}
+                onClick={executeScroll}
+              >
+                Register
+              </h3>
+            </Fade>
+          ) : null}
+          {chIcon == 0 || chIcon == 1 ? (
+            <BsFillPersonPlusFill
+              className="feedBackIcon"
+              onClick={executeScroll}
+            />
+          ) : (
+            <MdFeedback
+              className="feedBackIcon"
+              onClick={() => setOpen(true)}
+            />
+          )}
         </div>
         <FeedbackForm open={open} close={closeModal} />
-<div style={{textAlign: "center"}}>
-  <h2 style={{fontSize: "54px"}}>Let us know you are Interested.</h2>
-        <Form
-          style={{ height: "300px", width: "40%", margin: "0 auto", textAlign: "left" }}
-          onSubmit={formsubmit}
-        >
-          <label>
-            <b>Select Your Proffesion</b>
-          </label>
-          <Form.Select
-            name="pcate"
-            id="pcate"
-            onChange={handleChange}
-            options={options}
-            placeholder="Type of profession"
-            required
-          />
-          <Form.Field>
-            <label>First Name</label>
-            <input
-              placeholder="First Name"
-              id="pname"
-              name="pname"
-              value={pname}
+        <div style={{ textAlign: "center" }} ref={ref1}>
+          <h2 style={{ fontSize: "54px" }}>Let us know you are Interested.</h2>
+          <Form
+            style={{
+              height: "300px",
+              width: "40%",
+              margin: "0 auto",
+              textAlign: "left",
+            }}
+            onSubmit={formsubmit}
+          >
+            <label>
+              <b>Select Your Proffesion</b>
+            </label>
+            <Form.Select
+              name="pcate"
+              id="pcate"
               onChange={handleChange}
-              maxLength="15"
+              options={options}
+              placeholder="Type of profession"
               required
             />
-          </Form.Field>
-          <Form.Field>
-            <label>Mobile Number</label>
-            <input
-              value={pnum}
-              onClick={handleChange}
-              name="pnum"
-              id="pnum"
-              onChange={handleChange}
-              placeholder="Mobile Numer"
-              maxLength="10"
-              required
-            />
-          </Form.Field>
-          <Button primary type="submit">
-            Submit
-          </Button>
-        </Form>
+            <Form.Field>
+              <label>First Name</label>
+              <input
+                placeholder="First Name"
+                id="pname"
+                name="pname"
+                value={pname}
+                onChange={handleChange}
+                maxLength="15"
+                required
+              />
+            </Form.Field>
+            <Form.Field>
+              <label>Mobile Number</label>
+              <input
+                value={pnum}
+                onClick={handleChange}
+                name="pnum"
+                id="pnum"
+                onChange={handleChange}
+                placeholder="Mobile Numer"
+                maxLength="10"
+                required
+              />
+            </Form.Field>
+            <Button primary type="submit">
+              Submit
+            </Button>
+          </Form>
         </div>
         <div ref={lockText}></div>
         <div

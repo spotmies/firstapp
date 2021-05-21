@@ -237,7 +237,7 @@
   /* justify-items: center; */
 }
 
-.resize img{
+.resize img {
   height: 400px !important;
   width: 400px !important;
 }
@@ -260,10 +260,11 @@
   float: right;
   position: fixed;
   bottom: 20px;
-  right: 7px;
+  right: 30px;
   /* background: white; */
   z-index: 1000;
-  width: 50px;
+  width: fit-content;
+  display: inline-flex;
 }
 
 .fbModal {
@@ -346,8 +347,8 @@
   /* feeback */
 
   .feedBack {
-    right: 0px;
-    width: 50px;
+    right: 10px;
+    width: fit-content;
   }
 
   .home-textBox,
