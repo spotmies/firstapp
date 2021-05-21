@@ -16,22 +16,23 @@ import navigate from "../images/undraw_best_place_r685.svg";
 const textpart = [
   {
     id: 1,
-    heading: "what is spotmies?",
-    content: "Turn your time into money with Title.",
+    heading: "Engage with us!",
+    content:
+      "We are stronger when we're together so let's build an easier and better world together. Become a Service Provider and get your Orders from your coverage Area.",
     img: man2,
   },
   {
     id: 1,
     heading: "Register",
     content:
-      "Download our Title partner app and get registered with your aadhar and mobile number.",
+      "Download our Spotmies Partner app and get registered with your Aadhar and Mobile number.",
     img: register,
   },
   {
     id: 1,
     heading: "Select your profession",
     content:
-      "Specify your profession during registration. You can develop your skills further from our highly recommended tutorials.",
+      "Specify your profession during registration. Get the Orders from your selected Profession.",
     img: spot,
   },
   {
@@ -45,7 +46,7 @@ const textpart = [
     id: 1,
     heading: "Get orders from your range area.",
     content:
-      "Limit your coverage area in the app and get orders within the range.",
+      "Set your coverage area in the app and get orders within the range. We use all new Algorithms to assist you automatically and make your Service reach more Customers.",
     img: service,
   },
   {

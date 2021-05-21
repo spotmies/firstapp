@@ -8,28 +8,29 @@ import about from "../images/undraw_researching_22gp.svg";
 const text = [
   {
     id: 1,
-    heading: "What is Spotmies?",
+    heading: "How it Works ?",
     content:
-      "We Provide Solutions To Your Problems. You Deserve What You Get And We Believe You Deserve Better.",
+      "We deliver the right service at right time. Excellence is not achieved without experience so just capture an issue, add your location, get instant service at your doorsteps.",
     img: about,
   },
   {
     id: 2,
-    heading: "Take A Picture",
+    heading: "Take a Picture",
     content:
-      "Click A Picture Of Your Needed Service To Experience Our Service.",
+      "Capture the Issue you are facing and let the solution come to your place.",
     img: takepic,
   },
   {
     id: 3,
     heading: "Set Location",
-    content: "Share Your Location And We Share Our Service.",
+    content: "Share your Location and we share our Service.",
     img: location,
   },
   {
     id: 4,
     heading: "Get Quote",
-    content: "Get Select The Best Quote From All Technicians Around You",
+    content:
+      "Select the best Quote from all Technicians around you. Every service is delivered at a reasonable price. choice of cost is yours & service is ours.",
     img: getquote,
   },
   {
