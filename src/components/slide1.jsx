@@ -62,6 +62,7 @@ function Slide() {
   const [cstext, setCstext] = useState("********** ********");
   const [lock, setLock] = useState(lock3);
   const [lockst, setlockst] = useState(0);
+  const securityText = "Whatever text you want."
   // const [condiff, setCondiff] = useState(530);
 
   const redirect = () => {
@@ -202,7 +203,7 @@ function Slide() {
         <div className="feedBack " onClick={() => setOpen(true)}>
           {lockst == 1 ? (
             <Fade right>
-              <h3 style={{ margin: "auto", paddingRight: "10px" }}>Feedback</h3>
+              <h3 className="fbSlide">Feedback</h3>
             </Fade>
           ) : null}
           <MdFeedback className="feedBackIcon" />
@@ -219,6 +220,7 @@ function Slide() {
                 <BsFillLockFill size="4rem" />
               )}
               <h2>{cstext}</h2>
+              <p className="sec-text">{securityText}</p>
             </div>
           </Fade>
         </section>
@@ -365,7 +367,7 @@ function Slide() {
         <div className="feedBack" onClick={() => setOpen(true)}>
           {lockst == 1 ? (
             <Fade right>
-              <h3 style={{ margin: "auto", paddingRight: "10px" }}>Feedback</h3>
+              <h3 className="fbSlide">Feedback</h3>
             </Fade>
           ) : null}
 
@@ -386,6 +388,7 @@ function Slide() {
               <h2 id="pswReveal" ref={scrollref}>
                 {cstext}
               </h2>
+              <p className="sec-text">{securityText}</p>
             </div>
           </Fade>
         </section>
@@ -414,7 +417,7 @@ function Slide() {
           <FaGooglePlay style={{ marginTop: "20px" }} />
         </div>
 
-        <div
+        {/* <div
           style={{
             background: "white",
             width: "100%",
@@ -429,7 +432,7 @@ function Slide() {
               <a>Privacy Policies</a>
             </Link>
           </p>
-        </div>
+        </div> */}
 
         <div
           style={{

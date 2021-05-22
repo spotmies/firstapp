@@ -146,7 +146,7 @@
 
 .LockPsw div {
   text-align: center;
-  height: 150px;
+  height: fit-content;
   margin-bottom: 80px;
   color: rgba(29, 29, 29, 0.884);
   font-weight: 1200;
@@ -160,9 +160,13 @@
 }
 
 .LockPsw div h2 {
-  margin: 50px auto;
+  margin: 40px auto 0 auto;
   font-size: 54px;
 }
+
+#joinBtn {
+  margin-top: 40px;
+} 
 /* 
 #LockDiv {
   position: sticky;
@@ -214,8 +218,8 @@
 }
 
 .home-textBox p {
-  font-size: 24px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 600;
   letter-spacing: 0.5px;
   color: rgb(68, 68, 68);
 }
@@ -306,6 +310,23 @@
   margin-right: 10px;
 }
 
+.fbSlide {
+  margin: auto 8px auto 0;
+  background: rgb(73, 73, 73);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px rgba(121, 120, 120, 0.959);
+}
+
+.sec-text {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 20px;
+  letter-spacing: 0.5px;
+  color: rgba(29, 29, 29, 0.884);
+}
+
 @media screen and (max-width: 800px) {
   .home-section {
     display: block;
@@ -386,4 +407,18 @@
   display: inline;
   text-align: end;
   height: fit-content;
+}
+
+@media screen and (max-width: 420px) {
+  #joinBtn div h1{
+    font-size: 34px;
+  }
+
+  #joinBtn {
+    margin-top: 20px;
+  }
+
+  .LockPsw {
+    margin-bottom: 40px;
+  }
 }
