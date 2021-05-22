@@ -200,7 +200,8 @@ function PartnerRegistration() {
           {chIcon == 0 ? (
             <Fade right>
               <h3
-                style={{ margin: "auto", paddingRight: "10px" }}
+                // style={{ margin: "auto", paddingRight: "10px" }}
+                className="fbSlide"
                 onClick={executeScroll}
               >
                 Register
@@ -401,7 +402,8 @@ function PartnerRegistration() {
           {chIcon == 0 ? (
             <Fade right>
               <h3
-                style={{ margin: "auto", paddingRight: "10px" }}
+                // style={{ margin: "auto", paddingRight: "10px" }}
+                className="fbSlide"
                 onClick={executeScroll}
               >
                 Register
