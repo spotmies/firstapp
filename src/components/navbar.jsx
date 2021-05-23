@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import "../navbar.css";
 import firebase from "../firebase";
 import { useHistory } from "react-router-dom";
-import SmLogo from "../images/logonew1.svg";
+import SmLogo from "../images/l2 - Copy.svg";
 
 //react icons
 import { IconContext } from "react-icons";
