@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import GoogleMapReact from "google-map-react";
-import { contactus } from "../mservices/contactUs";
+import { apiPostPut } from "../mservices/contactUs";
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
 import { Button, Form } from "react-bootstrap";
@@ -67,11 +67,12 @@ class SimpleMap extends Component {
   async submitForm(e) {
     e.preventDefault();
     //console.log(this.state.details);
-    let temp = JSON.stringify(this.state.details);
+    let temp = {};
+    temp["body"] = JSON.stringify(this.state.details);
     //console.log(temp)
     //console.log(JSON.parse(temp));
-    let result = await contactus(temp);
-    if (result == 200) {
+    let result = await apiPostPut(temp, "contactUs");
+    if (result.status == 200) {
       this.clearfield();
       toast.success("Thank you we will contact you soon...");
     } else toast.info("please try again");

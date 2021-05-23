@@ -13,7 +13,7 @@ import { FaGooglePlay } from "react-icons/fa";
 import { toast } from "react-toastify";
 import textpart from "./partnerText";
 import ReactReadMoreReadLess from "react-read-more-read-less";
-import { partnerRequests } from "../mservices/contactUs";
+import { apiPostPut } from "../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
 import ScrollAnimation from "react-animate-on-scroll";
 import { BsFillPersonPlusFill } from "react-icons/bs";
@@ -91,9 +91,6 @@ function PartnerRegistration() {
     if (pnum.length == 10 && pcate !== null) {
       details = { pname, pnum, pcate, date: Math.round(+new Date() / 1000) };
       await partprereg(details);
-      spcate(null);
-      spnum(null);
-      spname(null);
     } else {
       if (pnum.length < 10) toast.warning("enter valid number");
       else if (pcate == null) toast.warning("please select your profession");
@@ -110,12 +107,12 @@ function PartnerRegistration() {
   async function partprereg(details) {
     //console.log(details);
     //   toast.success("Thank you we will contact you soon")
-
-    let temp = JSON.stringify(details);
-    //console.log(temp);
-    let result = await partnerRequests(temp);
-    //console.log(result)
-    if (result == 200) {
+    let temp = {};
+    temp["body"] = JSON.stringify(details);
+    console.log(temp);
+    let result = await apiPostPut(temp, "partnerRegistration");
+    console.log("117", result);
+    if (result.status == 200) {
       clearfield();
       toast.success("Thank you we will contact you soon...");
     } else toast.info("please try again");

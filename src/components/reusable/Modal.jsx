@@ -1,7 +1,7 @@
 import react, { useState, useEffect, useRef } from "react";
 import React, { Component, useCallback } from "react";
 import "../../assets/css/home.css";
-import { feedBack1 } from "../../mservices/contactUs";
+import { apiPostPut } from "../../mservices/contactUs";
 
 import { Modal, Form, Button, Header, TextArea, Icon } from "semantic-ui-react";
 import { toast } from "react-toastify";
@@ -106,9 +106,10 @@ function FeedbackForm(props) {
     };
     console.log(obj);
     console.log(JSON.stringify(obj));
-    var strobj = JSON.stringify(obj);
-    let result = await feedBack1(strobj);
-    if (result == 200) {
+    let strobj = {};
+    strobj["body"] = JSON.stringify(obj);
+    let result = await apiPostPut(strobj, "feedBack");
+    if (result.status == 200) {
       localStorage.setItem("isFeedBackGiven", true);
       toast.success("Thanks For Your Feedback");
       setcount(10);
