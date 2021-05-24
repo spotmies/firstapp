@@ -318,7 +318,7 @@ function Slide() {
                         <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
-                          readLessText={"Read less ▲"}
+                          readLessText={""}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         >
@@ -347,7 +347,7 @@ function Slide() {
                         <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
-                          readLessText={"Read less ▲"}
+                          readLessText={""}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         >
@@ -376,14 +376,14 @@ function Slide() {
             )}
           </div>
         ))}
-        <div className="feedBack" onClick={() => setOpen(true)}>
+        <div className="feedBack fbSlide" onClick={() => setOpen(true)}>
           {lockst == 1 ? (
             <Fade right>
-              <h3 className="fbSlide">Feedback</h3>
+              <h3 className="fbh3">Feedback</h3>
             </Fade>
           ) : null}
 
-          <MdFeedback className="feedBackIcon" />
+          <span className="iconSpan"><MdFeedback className="feedBackIcon" /></span>
         </div>
         <FeedbackForm open={open} close={closeModal} />
 
@@ -419,7 +419,7 @@ function Slide() {
         <section className="home-textBox home-textBox1" id="joinBtn">
           <Fade top>
             <div>
-              <h1>Wanna Register As Service Provider / Technician ?</h1>
+              <h1 style={{fontWeight: "700"}}>Wanna Register As Service Provider / Technician ?</h1>
               <Link to="/partnerRegistration">
                 <Button>Join here</Button>
               </Link>
@@ -464,6 +464,7 @@ function Slide() {
             textAlign: "center",
             color: "white",
             letterSpacing: "2px",
+            margin: 0
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
