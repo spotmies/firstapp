@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import GoogleMapReact from "google-map-react";
-import { contactus } from "../mservices/contactUs";
+import { apiPostPut } from "../mservices/contactUs";
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { Button } from "semantic-ui-react";
+
 //feedback form
 import { FeedbackForm } from "./reusable/Modal";
 
@@ -24,6 +26,7 @@ class SimpleMap extends Component {
         date: Math.round(+new Date() / 1000),
       },
       open: false,
+      sbtn: false,
       wWidth: window.innerWidth,
     };
     this.handlec = this.handlec.bind(this);
@@ -58,23 +61,32 @@ class SimpleMap extends Component {
     //console.log(value,nameId);
     let temp = this.state.details;
     temp[nameId] = value;
-    temp["date"] = Math.round(+new Date() / 1000);
+    temp["date"] = new Date().valueOf();
     this.setState({
       details: temp,
     });
   }
 
   async submitForm(e) {
+    this.setState({
+      sbtn: true,
+    });
     e.preventDefault();
     //console.log(this.state.details);
-    let temp = JSON.stringify(this.state.details);
+    let temp = {};
+    temp["body"] = JSON.stringify(this.state.details);
     //console.log(temp)
     //console.log(JSON.parse(temp));
-    let result = await contactus(temp);
-    if (result == 200) {
+    let result = await apiPostPut(temp, "contactUs");
+    if (result.status == 200) {
       this.clearfield();
       toast.success("Thank you we will contact you soon...");
-    } else toast.info("please try again");
+    } else {
+      toast.info("please try again");
+      this.setState({
+        sbtn: false,
+      });
+    }
   }
 
   clearfield() {
@@ -89,6 +101,7 @@ class SimpleMap extends Component {
     };
     this.setState({
       details: tempd,
+      sbtn: false,
     });
   }
 
@@ -195,9 +208,15 @@ class SimpleMap extends Component {
               required
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          {this.state.sbtn == false ? (
+            <Button primary type="submit">
+              Submit
+            </Button>
+          ) : (
+            <Button loading primary>
+              Submit
+            </Button>
+          )}
         </Form>
         <div
           className="feedBack "

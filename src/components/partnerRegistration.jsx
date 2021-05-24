@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Modal, Select, Button, Form } from "semantic-ui-react";
+import { Button, Form } from "semantic-ui-react";
 
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
@@ -13,28 +13,28 @@ import { FaGooglePlay } from "react-icons/fa";
 import { toast } from "react-toastify";
 import textpart from "./partnerText";
 import ReactReadMoreReadLess from "react-read-more-read-less";
-import { partnerRequests } from "../mservices/contactUs";
+import { apiPostPut } from "../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
 import ScrollAnimation from "react-animate-on-scroll";
 import { BsFillPersonPlusFill } from "react-icons/bs";
-
-const options = [
-  { key: "a", text: "Ac/Refrigirator services", value: "ac repairs" },
-  { key: "pc", text: "pc/laptop services", value: "pc/laptop" },
-  { key: "tv", text: "tv repairs", value: "tv" },
-  { key: "elec", text: "electrician", value: "electrician" },
-  { key: "id", text: "interior design", value: "id" },
-  { key: "fd", text: "Design", value: "design" },
-  { key: "dev", text: "development", value: "development" },
-  { key: "eve", text: "events", value: "events" },
-  { key: "b", text: "beauty", value: "beauty" },
-  { key: "t", text: "tutor", value: "tutor" },
-  { key: "p", text: "photography", value: "photography" },
-  { key: "d", text: "driver", value: "driver" },
-  { key: "c", text: "carpenter", value: "carpenter" },
-  { key: "plum", text: "plumber", value: "plumber" },
-  { key: "cc", text: "cc tv installation", value: "cc tv installation" },
-  { key: "cat", text: "catering", value: "catering" },
+import Select2 from "react-select";
+const options2 = [
+  { label: "Ac/Refrigirator services", value: "ac repairs" },
+  { label: "Pc/Laptop services", value: "pc/laptop" },
+  { label: "Tv repairs", value: "tv" },
+  { label: "Electrician", value: "electrician" },
+  { label: "Interior design", value: "interior" },
+  { label: "Design", value: "design" },
+  { label: "Development", value: "development" },
+  { label: "Events", value: "events" },
+  { label: "Beauty", value: "beauty" },
+  { label: "Tutor", value: "tutor" },
+  { label: "Photography", value: "photography" },
+  { label: "Driver", value: "driver" },
+  { label: "Carpenter", value: "carpenter" },
+  { label: "Plumber", value: "plumber" },
+  { label: "CC tv installation", value: "cc tv installation" },
+  { label: "Catering", value: "catering" },
 ];
 
 function useWindowSize() {
@@ -55,11 +55,16 @@ function PartnerRegistration() {
   const [pcate, spcate] = useState(null);
   const [pname, spname] = useState(null);
   const [pnum, spnum] = useState(null);
+  const [sbtn, setsbtn] = useState(false);
   const lockText = useRef(null);
 
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com", "_blank");
+  };
+  const handleChange2 = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption);
+    spcate(selectedOption);
   };
 
   const handleChange = (e) => {
@@ -82,18 +87,18 @@ function PartnerRegistration() {
       default:
         //console.log("pcate",e.target.innerText)
         spcate(e.target.innerText);
+        console.log(e.target.innerText);
         break;
     }
   };
 
-  const formsubmit = async (e) => {
+  const formsubmit = async () => {
     let details = null;
     if (pnum.length == 10 && pcate !== null) {
-      details = { pname, pnum, pcate, date: Math.round(+new Date() / 1000) };
+      setsbtn(true);
+      let pcatee = pcate.value;
+      details = { pname, pnum, pcatee, date: new Date().valueOf() };
       await partprereg(details);
-      spcate(null);
-      spnum(null);
-      spname(null);
     } else {
       if (pnum.length < 10) toast.warning("enter valid number");
       else if (pcate == null) toast.warning("please select your profession");
@@ -103,22 +108,26 @@ function PartnerRegistration() {
     spcate(null);
     spnum(null);
     spname(null);
+    setsbtn(false);
     document.getElementById("pname").value = "";
     document.getElementById("pnum").value = "";
-    document.getElementById("pcate").value = null;
+    // document.getElementById("pcate").value = null;
   };
   async function partprereg(details) {
     //console.log(details);
     //   toast.success("Thank you we will contact you soon")
-
-    let temp = JSON.stringify(details);
-    //console.log(temp);
-    let result = await partnerRequests(temp);
-    //console.log(result)
-    if (result == 200) {
+    let temp = {};
+    temp["body"] = JSON.stringify(details);
+    console.log(temp);
+    let result = await apiPostPut(temp, "partnerRegistration");
+    console.log("117", result);
+    if (result.status == 200) {
       clearfield();
       toast.success("Thank you we will contact you soon...");
-    } else toast.info("please try again");
+    } else {
+      toast.info("please try again");
+      setsbtn(false);
+    }
   }
   const [open, setOpen] = useState(false);
   const closeModal = () => {
@@ -233,17 +242,17 @@ function PartnerRegistration() {
             }}
             onSubmit={formsubmit}
           >
-            <label>
-              <b>Select Your Proffesion</b>
-            </label>
-            <Form.Select
-              name="pcate"
-              id="pcate"
-              onChange={handleChange}
-              options={options}
-              placeholder="Type of profession"
-              required
-            />
+            <Form.Field>
+              <label>
+                <b>Select your Profession</b>
+              </label>
+              <Select2
+                placeholder="Select your Profession"
+                value={pcate}
+                onChange={handleChange2}
+                options={options2}
+              />
+            </Form.Field>
             <Form.Field>
               <label>First Name</label>
               <input
@@ -269,9 +278,15 @@ function PartnerRegistration() {
                 required
               />
             </Form.Field>
-            <Button primary type="submit">
-              Submit
-            </Button>
+            {sbtn == false ? (
+              <Button primary type="submit">
+                Submit
+              </Button>
+            ) : (
+              <Button loading primary>
+                Submit
+              </Button>
+            )}
           </Form>
         </div>
         <div
@@ -434,17 +449,26 @@ function PartnerRegistration() {
             }}
             onSubmit={formsubmit}
           >
-            <label>
-              <b>Select Your Proffesion</b>
-            </label>
-            <Form.Select
+            {/* <Form.Select
               name="pcate"
+              label="Select Your profession"
               id="pcate"
-              onChange={handleChange}
+              onClick={handleChange}
               options={options}
               placeholder="Type of profession"
               required
-            />
+            /> */}
+            <Form.Field>
+              <label>
+                <b>Select your Profession</b>
+              </label>
+              <Select2
+                placeholder="Select your Profession"
+                value={pcate}
+                onChange={handleChange2}
+                options={options2}
+              />
+            </Form.Field>
             <Form.Field>
               <label>First Name</label>
               <input
@@ -470,9 +494,15 @@ function PartnerRegistration() {
                 required
               />
             </Form.Field>
-            <Button primary type="submit">
-              Submit
-            </Button>
+            {sbtn == false ? (
+              <Button primary type="submit">
+                Submit
+              </Button>
+            ) : (
+              <Button loading primary>
+                Submit
+              </Button>
+            )}
           </Form>
         </div>
         <div ref={lockText}></div>

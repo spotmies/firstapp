@@ -62,7 +62,9 @@ function Slide() {
   const [cstext, setCstext] = useState("********** ********");
   const [lock, setLock] = useState(lock3);
   const [lockst, setlockst] = useState(0);
-  const securityText = "Whatever text you want."
+  const securityText =
+    "We believe that you should have a choice to share your details with technicians." +
+    "You can communicate with partner in our application itself without sharing contact details. ";
   // const [condiff, setCondiff] = useState(530);
 
   const redirect = () => {
@@ -220,7 +222,17 @@ function Slide() {
                 <BsFillLockFill size="4rem" />
               )}
               <h2>{cstext}</h2>
-              <p className="sec-text">{securityText}</p>
+              <p className="sec-text">
+                <ReactReadMoreReadLess
+                  charLimit={78}
+                  readMoreText={"Read more ▼"}
+                  readLessText={"Read less ▲"}
+                  readMoreClassName="read-more-less--more"
+                  readLessClassName="read-more-less--less"
+                >
+                  {securityText}
+                </ReactReadMoreReadLess>
+              </p>
             </div>
           </Fade>
         </section>
@@ -388,7 +400,18 @@ function Slide() {
               <h2 id="pswReveal" ref={scrollref}>
                 {cstext}
               </h2>
-              <p className="sec-text">{securityText}</p>
+              <p className="sec-text">
+                <ReactReadMoreReadLess
+                  charLimit={79}
+                  readMoreText={"Read more ▼"}
+                  readLessText={"Read less ▲"}
+                  readMoreClassName="read-more-less--more"
+                  readLessClassName="read-more-less--less"
+                >
+                  {securityText}
+                </ReactReadMoreReadLess>
+              </p>
+              {/* <p className="sec-text">{securityText}</p> */}
             </div>
           </Fade>
         </section>

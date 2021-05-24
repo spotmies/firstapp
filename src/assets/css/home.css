@@ -162,13 +162,13 @@
 }
 
 .LockPsw div h2 {
-  margin: 40px auto 0 auto;
+  margin: 10px auto 0 auto;
   font-size: 54px;
 }
 
 #joinBtn {
   margin-top: 40px;
-} 
+}
 /* 
 #LockDiv {
   position: sticky;
@@ -344,11 +344,12 @@
 }
 
 .sec-text {
-  font-size: 24px;
-  font-weight: 700;
-  margin-top: 20px;
+  font-size: 22px;
+  width: 50%;
+  margin: 0 auto;
   letter-spacing: 0.5px;
   color: rgba(29, 29, 29, 0.884);
+  font-weight: 400;
 }
 
 @media screen and (max-width: 800px) {
@@ -419,6 +420,13 @@
   .LockPsw {
     margin: 50px auto 180px auto;
   }
+  .sec-text {
+    font-size: 22px;
+    width: 80%;
+    margin: 0 auto;
+    letter-spacing: 0.5px;
+    color: rgba(29, 29, 29, 0.884);
+  }
 }
 .csTextDiv {
   height: fit-content;
@@ -434,7 +442,7 @@
 }
 
 @media screen and (max-width: 420px) {
-  #joinBtn div h1{
+  #joinBtn div h1 {
     font-size: 34px;
   }
 
