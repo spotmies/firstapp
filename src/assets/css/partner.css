@@ -1,7 +1,9 @@
 .pslide1 {
     display: block;
     margin-top: -20px;
-    background: linear-gradient(50deg,#f3e5ba,rgb(138, 222, 228),rgb(161, 222, 243),#dadada);
+    /* background: linear-gradient(50deg,#f3e5ba,rgb(138, 222, 228),rgb(161, 222, 243),#ffdada); */
+    /* background: linear-gradient(50deg,#E7E7E7,#D1D1D1,#B6B4C2,#AAC9CE); */
+    background: linear-gradient(45deg,#B2B2B2,#EEB8C5,#CAE7E3,#FEC7BC);
 }
 
 

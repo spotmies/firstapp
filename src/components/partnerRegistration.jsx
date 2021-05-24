@@ -398,12 +398,12 @@ function PartnerRegistration() {
             )}
           </div>
         ))}
-        <div className="feedBack ">
+        <div className="feedBack fbSlide">
           {chIcon == 0 ? (
             <Fade right>
               <h3
+              className="fbh3"
                 // style={{ margin: "auto", paddingRight: "10px" }}
-                className="fbSlide"
                 onClick={executeScroll}
               >
                 Register
@@ -411,15 +411,15 @@ function PartnerRegistration() {
             </Fade>
           ) : null}
           {chIcon == 0 || chIcon == 1 ? (
-            <BsFillPersonPlusFill
+           <span className="iconSpan"> <BsFillPersonPlusFill
               className="feedBackIcon"
               onClick={executeScroll}
-            />
+            /></span>
           ) : (
-            <MdFeedback
+           <span className="iconSpan"> <MdFeedback
               className="feedBackIcon"
               onClick={() => setOpen(true)}
-            />
+            /></span>
           )}
         </div>
         <FeedbackForm open={open} close={closeModal} />
