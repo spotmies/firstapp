@@ -1,14 +1,13 @@
-import react, { useState, useEffect, useRef } from "react";
-import React, { Component, useCallback } from "react";
+import { useState, useEffect } from "react";
+import React, { useCallback } from "react";
 import "../../assets/css/home.css";
 import { apiPostPut } from "../../mservices/contactUs";
 
-import { Modal, Form, Button, Header, TextArea, Icon } from "semantic-ui-react";
+import { Modal, Form, Button, Header, TextArea } from "semantic-ui-react";
 import { toast } from "react-toastify";
 
 //icons
 import {
-  MdFeedback,
   MdHelp,
   MdKeyboardArrowLeft,
   MdSentimentSatisfied,
@@ -16,46 +15,11 @@ import {
   MdThumbUp,
 } from "react-icons/md";
 
-function UniversalM(props) {
-  const [open, setOpen] = useState(false);
-
-  //closeModal = () => {};
-
-  return (
-    <Modal
-      basic
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
-      size="tiny"
-      trigger={<Button>Basic Modal</Button>}
-    >
-      <Header icon>
-        <Icon name="archive" />
-        Archive Old Messages
-      </Header>
-      <Modal.Content>
-        <p>
-          Your inbox is getting full, would you like us to enable automatic
-          archiving of old messages?
-        </p>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button basic color="red" inverted onClick={() => setOpen(false)}>
-          <Icon name="remove" /> No
-        </Button>
-        <Button color="green" inverted onClick={() => setOpen(false)}>
-          <Icon name="checkmark" /> Yes
-        </Button>
-      </Modal.Actions>
-    </Modal>
-  );
-}
-
 function FeedbackForm(props) {
   const [open, setOpen] = useState(false);
   const [count, setcount] = useState(0);
   const [que, setque] = useState([]);
+  const [sbtn, setsbtn] = useState(false);
 
   useEffect(() => {
     setOpen(props.open);
@@ -95,14 +59,15 @@ function FeedbackForm(props) {
   };
 
   const formSubmit = async () => {
+    setsbtn(true);
     console.log(que);
     var obj = {
-      q0: que[0],
-      q1: que[1],
-      q2: que[2],
-      q3: que[3],
-      q4: que[4] == undefined ? "" : que[4],
-      submitedAt: Math.round(+new Date() / 1000),
+      q0: que[0] ?? "",
+      q1: que[1] ?? "",
+      q2: que[2] ?? "",
+      q3: que[3] ?? "",
+      q4: que[4] ?? "",
+      submitedAt: new Date().valueOf(),
     };
     console.log(obj);
     console.log(JSON.stringify(obj));
@@ -110,13 +75,16 @@ function FeedbackForm(props) {
     strobj["body"] = JSON.stringify(obj);
     let result = await apiPostPut(strobj, "feedBack");
     if (result.status == 200) {
+      setsbtn(false);
       localStorage.setItem("isFeedBackGiven", true);
       toast.success("Thanks For Your Feedback");
       setcount(10);
     } else {
+      setsbtn(false);
+
       localStorage.setItem("isFeedBackGiven", false);
       toast.error("Something went wrong please try again");
-      onClose();
+      // onClose();
     }
   };
 
@@ -321,17 +289,27 @@ function FeedbackForm(props) {
           Cancel
         </Button>
         {count > 3 ? (
-          <Button
-            content="Submit"
-            labelPosition="right"
-            icon="checkmark"
-            onClick={formSubmit}
-            positive
-          />
+          sbtn ? (
+            <Button
+              loading
+              content="Submit"
+              labelPosition="right"
+              icon="checkmark"
+              positive
+            />
+          ) : (
+            <Button
+              content="Submit"
+              labelPosition="right"
+              icon="checkmark"
+              onClick={formSubmit}
+              positive
+            />
+          )
         ) : null}
       </Modal.Actions>
     </Modal>
   );
 }
 
-export { UniversalM, FeedbackForm };
+export { FeedbackForm };
