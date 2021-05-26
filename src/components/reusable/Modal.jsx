@@ -133,6 +133,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[0] == "no" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no", 0);
@@ -142,6 +143,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[0] == "no idea" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no idea", 0);
@@ -170,6 +172,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[1] == "Never" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Never", 1);
@@ -179,6 +182,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[1] == "Quite Often" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Quite Often", 1);
@@ -188,6 +192,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[1] == "i don't know" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("i don't know", 1);
@@ -216,6 +221,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[2] == "No" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("No", 2);
@@ -225,6 +231,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[2] == "Sometimes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Sometimes", 2);
@@ -262,6 +269,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[3] == "yes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("yes", 3);

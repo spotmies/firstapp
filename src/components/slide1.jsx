@@ -187,28 +187,28 @@ function Slide() {
                 >
                   <p>
                     {" "}
-                    <ReactReadMoreReadLess
+                    {/* <ReactReadMoreReadLess
                       charLimit={100}
                       readMoreText={"Read more ▼"}
                       readLessText={"Read less ▲"}
                       readMoreClassName="read-more-less--more"
                       readLessClassName="read-more-less--less"
-                    >
+                    > */}
                       {message.content}
-                    </ReactReadMoreReadLess>
+                    {/* </ReactReadMoreReadLess> */}
                   </p>
                 </ScrollAnimation>
               </div>
             </Zoom>
           </section>
         ))}
-        <div className="feedBack " onClick={() => setOpen(true)}>
+        <div className="feedBack fbSlide" onClick={() => setOpen(true)}>
           {lockst == 1 ? (
             <Fade right>
-              <h3 className="fbSlide">Feedback</h3>
+              <h3 className="fbh3">Feedback</h3>
             </Fade>
           ) : null}
-          <MdFeedback className="feedBackIcon" />
+         <span className="iconSpan"> <MdFeedback className="feedBackIcon" /></span>
         </div>
         <FeedbackForm open={open} close={closeModal} />
 
@@ -315,15 +315,15 @@ function Slide() {
                       animateOut="fade-out-section"
                     >
                       <p>
-                        <ReactReadMoreReadLess
+                        {/* <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
                           readLessText={""}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
-                        >
+                        > */}
                           {message.content}
-                        </ReactReadMoreReadLess>
+                        {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
                   </div>
@@ -344,15 +344,15 @@ function Slide() {
                       animateOut="fade-out-section"
                     >
                       <p>
-                        <ReactReadMoreReadLess
+                        {/* <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
                           readLessText={""}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
-                        >
+                        > */}
                           {message.content}
-                        </ReactReadMoreReadLess>
+                        {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
                   </div>

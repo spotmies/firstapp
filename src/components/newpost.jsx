@@ -171,6 +171,11 @@ export default class Postjob extends Component {
 
   render() {
     return (
+      <>
+      <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
+
       <div style={{ paddingTop: "-20px" }}>
         <Link to="/">
           <BiArrowBack className="back-arrow" size="1.6em" />
@@ -289,6 +294,7 @@ export default class Postjob extends Component {
           </Form>
         </div>
       </div>
+      </>
     );
   }
 }
