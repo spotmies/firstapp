@@ -267,7 +267,7 @@ function PartnerRegistration() {
                 name="pname"
                 value={pname}
                 onChange={handleChange}
-                maxLength="15"
+                maxLength="25"
                 required
               />
             </Form.Field>
@@ -493,7 +493,7 @@ function PartnerRegistration() {
                 name="pname"
                 value={pname}
                 onChange={handleChange}
-                maxLength="15"
+                maxLength="25"
                 required
               />
             </Form.Field>
