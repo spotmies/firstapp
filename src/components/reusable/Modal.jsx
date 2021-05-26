@@ -145,7 +145,7 @@ function FeedbackForm(props) {
 
           {count == 1 ? (
             <div className="modalDiv">
-              <Header>Is This Platform Is Useful</Header>
+              <Header>How much often Do you think you will use this app?</Header>
               <div>
                 <Button
                   basic
@@ -154,7 +154,7 @@ function FeedbackForm(props) {
                     nextQue("yes", 1);
                   }}
                 >
-                  <MdThumbUp /> Yes
+                  <MdThumbUp /> Whenever I need
                 </Button>
                 <Button
                   basic
@@ -163,7 +163,7 @@ function FeedbackForm(props) {
                     nextQue("no", 1);
                   }}
                 >
-                  <MdThumbDown /> No
+                  <MdThumbDown /> Never
                 </Button>
                 <Button
                   basic
@@ -172,7 +172,7 @@ function FeedbackForm(props) {
                     nextQue("maybe", 1);
                   }}
                 >
-                  <MdSentimentSatisfied /> Maybe
+                  <MdSentimentSatisfied /> Quite Often
                 </Button>
                 <Button
                   basic
@@ -189,7 +189,7 @@ function FeedbackForm(props) {
 
           {count == 2 ? (
             <div className="modalDiv">
-              <Header>How This Website Looks</Header>
+              <Header>Did you face any issue while browsing this site?</Header>
               <div>
                 <Button
                   basic
@@ -198,7 +198,7 @@ function FeedbackForm(props) {
                     nextQue("good", 2);
                   }}
                 >
-                  <MdThumbUp /> Looks Good
+                  <MdThumbUp /> Yes
                 </Button>
                 <Button
                   basic
@@ -207,7 +207,7 @@ function FeedbackForm(props) {
                     nextQue("its ok", 2);
                   }}
                 >
-                  <MdSentimentSatisfied /> It's Ok
+                  <MdThumbDown /> No
                 </Button>
                 <Button
                   basic
@@ -216,9 +216,10 @@ function FeedbackForm(props) {
                     nextQue("bad", 2);
                   }}
                 >
-                  <MdThumbDown /> Looks Bad
+                   
+                  <MdSentimentSatisfied /> Sometimes
                 </Button>
-                <Button
+                {/* <Button
                   basic
                   color={que[2] == "i don't know" ? "blue" : "grey"}
                   onClick={() => {
@@ -226,14 +227,14 @@ function FeedbackForm(props) {
                   }}
                 >
                   <MdHelp /> I Don't Know
-                </Button>
+                </Button> */}
               </div>
             </div>
           ) : null}
 
           {count == 3 ? (
             <div className="modalDiv">
-              <Header>Have You Face Any Issue With The Website</Header>
+              <Header>Expecting any other service from us? (If yes, please mention it in message below).</Header>
               <div>
                 <Button
                   basic
@@ -260,8 +261,8 @@ function FeedbackForm(props) {
           {count == 4 ? (
             <div className="modalDiv">
               <Header>
-                If You Have Any Other Feedback Please Tell Us Here. We Love To
-                Improve Our Service
+                If you want to tell us something please let us know here. We love to
+                improve our Service.
               </Header>
               <div>
                 <Form>
