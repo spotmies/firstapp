@@ -84,11 +84,16 @@
     rgba(108, 118, 252, 0.945),
     rgba(248, 77, 77, 0.932)
   ); */
-  background: linear-gradient(35deg, #add1b0, #5fcdf3, #e5f0f7);
+  /* background: linear-gradient(35deg, #add1b0, #5fcdf3, #e5f0f7); */
+  background: linear-gradient(35deg, #add1b0,#b0f7faf6, #6cd5f8f1, #e5f0f7);
   /* background: rgba(158, 192, 243, 0.932); */
   /* overflow: auto; #e5f0f7*/
   /* color: #ccc; */
   /* overflow-y: scroll; */
+}
+
+.navigateClass img{
+  height: 750px !important;
 }
 
 .home-section {

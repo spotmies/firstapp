@@ -123,6 +123,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[0] == "no" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no", 0);
@@ -132,6 +133,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[0] == "no idea" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no idea", 0);
@@ -158,6 +160,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[1] == "no" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no", 1);
@@ -167,6 +170,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[1] == "maybe" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("maybe", 1);
@@ -176,6 +180,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[1] == "i don't know" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("i don't know", 1);
@@ -202,6 +207,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[2] == "its ok" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("its ok", 2);
@@ -211,6 +217,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[2] == "bad" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("bad", 2);
@@ -247,6 +254,7 @@ function FeedbackForm(props) {
                 </Button>
                 <Button
                   basic
+                  style={{marginLeft: "6px", marginTop: "4px"}}
                   color={que[3] == "yes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("yes", 3);

@@ -46,6 +46,9 @@ const Sekhar = () => {
   console.log(times);
   return (
     <div className="responses">
+      <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
       <Headings />
       <Mybookings data={times} />
     </div>
@@ -92,6 +95,11 @@ function Mybookings(props) {
   };
 
   return (
+    <>
+    {/* <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div> */}
+
     <div>
       {props.data.length > 0
         ? props.data.map((cap) => (
@@ -195,6 +203,7 @@ function Mybookings(props) {
           ))
         : null}
     </div>
+    </>
   );
 }
 

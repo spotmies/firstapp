@@ -20,6 +20,7 @@ import {
 } from "react-icons/md";
 // import { IoMdContacts } from 'react-icons/io'
 import { BiLogOutCircle } from "react-icons/bi";
+import { FaCarAlt } from 'react-icons/fa'
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
@@ -116,6 +117,7 @@ function Navibar() {
                 >
                   <Link className="nav-links" to="/rentals">
                     <Nav className="chaticon" id="mybooks">
+                      <FaCarAlt className="chaticon2" />
                       <b>Rentals</b>
                     </Nav>
                   </Link>
@@ -133,13 +135,14 @@ function Navibar() {
                   </Link>
                   <Link className="nav-links" to="/chat">
                     <Nav className="chaticon" id="mychats">
-                      <MdChatBubble className="chaticon2" /> <b>Chat</b>
+                      <MdChatBubble className="chaticon2" />
+                      <b>Chat</b>
                     </Nav>
                   </Link>
                   <Link className="nav-links" to="/contact">
                     <Nav className="chaticon" id="contact">
                       <MdEmail size="1.3rem" className="chaticon2" />
-                      <b> Contact</b>
+                      <b>Contact</b>
                     </Nav>
                   </Link>
 
