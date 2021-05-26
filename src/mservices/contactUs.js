@@ -1,6 +1,6 @@
 import firebase from "../firebase";
 import constants from "../helpers/constants";
-import { addHeader } from "./add_header";
+import { addHeader, addHeaderWithOutBody } from "./add_header";
 const db = firebase.firestore();
 const contactusDB = db.collection("contactus");
 
@@ -21,12 +21,21 @@ async function contactus(details) {
   return result;
 }
 
-async function apiPostPut(body, feedBackType) {
-  const uri = constants.baseUrl + `${constants.feedBackurl}/${feedBackType}`;
+async function apiPostPut(body, lastUrl) {
+  const uri = constants.baseUrl + `${constants.feedBackurl}/${lastUrl}`;
   //const uri = constants.devBaseUrl + `${constants.feedBackurl}/${feedBackType}`;
   const response = await fetch(uri, await addHeader(body, "POST"));
   console.log("27", response);
   return response;
+}
+
+async function apiGetMethod(middleUrl, lastUrl) {
+  const response = await fetch(
+    constants.baseUrl + middleUrl + lastUrl,
+    await addHeaderWithOutBody("GET")
+  );
+  const data = await response.json();
+  return data;
 }
 
 async function partnerRequests(details) {
@@ -62,4 +71,4 @@ async function feedBack1(details) {
     });
   return result;
 }
-export { contactus, partnerRequests, feedBack1, apiPostPut };
+export { contactus, partnerRequests, feedBack1, apiPostPut, apiGetMethod };

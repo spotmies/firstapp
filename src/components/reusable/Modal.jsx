@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import React, { useCallback } from "react";
 import "../../assets/css/home.css";
-import { apiPostPut } from "../../mservices/contactUs";
+import { apiPostPut, apiGetMethod } from "../../mservices/contactUs";
 
 import { Modal, Form, Button, Header, TextArea } from "semantic-ui-react";
 import { toast } from "react-toastify";
@@ -20,8 +20,15 @@ function FeedbackForm(props) {
   const [count, setcount] = useState(0);
   const [que, setque] = useState([]);
   const [sbtn, setsbtn] = useState(false);
+  const [fQuestions, setfQuestions] = useState([]);
 
-  useEffect(() => {
+  useEffect(async () => {
+    if (fQuestions.length < 1) {
+      let res = await apiGetMethod("/feed", "/feedBack");
+      console.log(res);
+      setfQuestions(res.questions);
+    }
+
     setOpen(props.open);
     setcount(0);
     setque([]);
@@ -36,6 +43,7 @@ function FeedbackForm(props) {
   }, [count]);
 
   const onClose = useCallback(() => {
+    console.log(fQuestions);
     props.close();
   });
 
@@ -110,7 +118,9 @@ function FeedbackForm(props) {
         <Modal.Description>
           {count == 0 ? (
             <div className="modalDiv">
-              <Header>Do You Understand What Does This Website Means</Header>
+              {/* <Header>Do You Understand What Does This Website Means</Header> */}
+              <Header>{fQuestions[0]}</Header>
+
               <div className="feedBbtn2">
                 <Button
                   basic
@@ -145,31 +155,33 @@ function FeedbackForm(props) {
 
           {count == 1 ? (
             <div className="modalDiv">
-              <Header>How much often Do you think you will use this app?</Header>
+              {/* <Header>How much often Do you think you will use this app?</Header> */}
+              <Header>{fQuestions[1]}</Header>
+
               <div>
                 <Button
                   basic
-                  color={que[1] == "yes" ? "blue" : "grey"}
+                  color={que[1] == "Whenever I need" ? "blue" : "grey"}
                   onClick={() => {
-                    nextQue("yes", 1);
+                    nextQue("Whenever I need", 1);
                   }}
                 >
                   <MdThumbUp /> Whenever I need
                 </Button>
                 <Button
                   basic
-                  color={que[1] == "no" ? "blue" : "grey"}
+                  color={que[1] == "Never" ? "blue" : "grey"}
                   onClick={() => {
-                    nextQue("no", 1);
+                    nextQue("Never", 1);
                   }}
                 >
                   <MdThumbDown /> Never
                 </Button>
                 <Button
                   basic
-                  color={que[1] == "maybe" ? "blue" : "grey"}
+                  color={que[1] == "Quite Often" ? "blue" : "grey"}
                   onClick={() => {
-                    nextQue("maybe", 1);
+                    nextQue("Quite Often", 1);
                   }}
                 >
                   <MdSentimentSatisfied /> Quite Often
@@ -189,34 +201,35 @@ function FeedbackForm(props) {
 
           {count == 2 ? (
             <div className="modalDiv">
-              <Header>Did you face any issue while browsing this site?</Header>
+              {/* <Header>Did you face any issue while browsing this site?</Header> */}
+              <Header>{fQuestions[2]}</Header>
+
               <div>
                 <Button
                   basic
-                  color={que[2] == "good" ? "blue" : "grey"}
+                  color={que[2] == "Yes" ? "blue" : "grey"}
                   onClick={() => {
-                    nextQue("good", 2);
+                    nextQue("Yes", 2);
                   }}
                 >
                   <MdThumbUp /> Yes
                 </Button>
                 <Button
                   basic
-                  color={que[2] == "its ok" ? "blue" : "grey"}
+                  color={que[2] == "No" ? "blue" : "grey"}
                   onClick={() => {
-                    nextQue("its ok", 2);
+                    nextQue("No", 2);
                   }}
                 >
                   <MdThumbDown /> No
                 </Button>
                 <Button
                   basic
-                  color={que[2] == "bad" ? "blue" : "grey"}
+                  color={que[2] == "Sometimes" ? "blue" : "grey"}
                   onClick={() => {
-                    nextQue("bad", 2);
+                    nextQue("Sometimes", 2);
                   }}
                 >
-                   
                   <MdSentimentSatisfied /> Sometimes
                 </Button>
                 {/* <Button
@@ -234,7 +247,9 @@ function FeedbackForm(props) {
 
           {count == 3 ? (
             <div className="modalDiv">
-              <Header>Expecting any other service from us? (If yes, please mention it in message below).</Header>
+              {/* <Header>Expecting any other service from us? (If yes, please mention it in message below).</Header> */}
+              <Header>{fQuestions[3]}</Header>
+
               <div>
                 <Button
                   basic
@@ -260,10 +275,12 @@ function FeedbackForm(props) {
 
           {count == 4 ? (
             <div className="modalDiv">
-              <Header>
+              {/* <Header>
                 If you want to tell us something please let us know here. We love to
                 improve our Service.
-              </Header>
+              </Header> */}
+              <Header>{fQuestions[4]}</Header>
+
               <div>
                 <Form>
                   <TextArea
