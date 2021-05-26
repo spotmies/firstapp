@@ -190,27 +190,27 @@ function PartnerRegistration() {
                 >
                   <p>
                     {" "}
-                    <ReactReadMoreReadLess
+                    {/* <ReactReadMoreReadLess
                       charLimit={100}
                       readMoreText={"Read more ▼"}
                       readLessText={"Read less ▲"}
                       readMoreClassName="read-more-less--more"
                       readLessClassName="read-more-less--less"
-                    >
+                    > */}
                       {message.content}
-                    </ReactReadMoreReadLess>
+                    {/* </ReactReadMoreReadLess> */}
                   </p>
                 </ScrollAnimation>
               </div>
             </Zoom>
           </section>
         ))}
-        <div className="feedBack ">
+        <div className="feedBack fbSlide">
           {chIcon == 0 ? (
             <Fade right>
               <h3
                 // style={{ margin: "auto", paddingRight: "10px" }}
-                className="fbSlide"
+                className="fbh3"
                 onClick={executeScroll}
               >
                 Register
@@ -218,15 +218,15 @@ function PartnerRegistration() {
             </Fade>
           ) : null}
           {chIcon == 0 || chIcon == 1 ? (
-            <BsFillPersonPlusFill
+           <span className="iconSpan"> <BsFillPersonPlusFill
               className="feedBackIcon"
               onClick={executeScroll}
-            />
+            /></span>
           ) : (
-            <MdFeedback
+            <span className="iconSpan"> <MdFeedback
               className="feedBackIcon"
               onClick={() => setOpen(true)}
-            />
+            /></span>
           )}
         </div>
         <FeedbackForm open={open} close={closeModal} />
@@ -334,7 +334,7 @@ function PartnerRegistration() {
                       className={
                         (index == 1) | (index == 2) | (index == 3)
                           ? "resize"
-                          : "home-photos"
+                          : (index == 7) ? "navigateClass" : "home-photos"
                       }
                     >
                       <img src={message.img} />
@@ -354,15 +354,15 @@ function PartnerRegistration() {
                       animateOut="fade-out-section"
                     >
                       <p>
-                        <ReactReadMoreReadLess
+                        {/* <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
                           readLessText={"Read less ▲"}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
-                        >
+                        > */}
                           {message.content}
-                        </ReactReadMoreReadLess>
+                        {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
                   </div>
@@ -383,15 +383,15 @@ function PartnerRegistration() {
                       animateOut="fade-out-section"
                     >
                       <p>
-                        <ReactReadMoreReadLess
+                        {/* <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
                           readLessText={"Read less ▲"}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
-                        >
+                        > */}
                           {message.content}
-                        </ReactReadMoreReadLess>
+                        {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
                   </div>
@@ -402,7 +402,8 @@ function PartnerRegistration() {
                       className={
                         (index == 1) | (index == 2) | (index == 3)
                           ? "resize"
-                          : "home-photos"
+                          :
+                        (index == 7) ? "navigateClass" : "home-photos"
                       }
                     >
                       <img src={message.img} />

@@ -64,6 +64,12 @@ export default function newpost2() {
 
 function Postnew() {
   return (
+    <>
+     <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
+
+
     <div style={{ paddingTop: "20px" }}>
       <Card centered id="formcard" className="postjobb1">
         <Card.Content>
@@ -75,6 +81,7 @@ function Postnew() {
       </Card>
       <ModalExampleModal />
     </div>
+    </>
   );
 }
 var src = "https://www.w3schools.com/howto/img_snow.jpg";
@@ -287,6 +294,8 @@ class Postform extends Component {
   render() {
     const { value } = this.state;
     return (
+      <>
+     
       <Form className="postjobb" onSubmit={this.handleUpload}>
         <Form.Group widths="equal">
           <Form.Field
@@ -403,6 +412,7 @@ class Postform extends Component {
           Submit
         </Form.Field>
       </Form>
+      </>
     );
   }
 }
@@ -444,6 +454,10 @@ function ModalExampleModal() {
 
   return (
     <>
+    <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
+
       <div>
         <Modal
           size="small"

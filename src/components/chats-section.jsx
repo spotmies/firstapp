@@ -123,9 +123,9 @@ const Sekhar = () => {
   }
   return (
     <div className="responses">
-      {/* <div className="comingSoon">
+      <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div> */}
+        </div>
       <Headings />
       {chit ? <Mybookings data={chit} /> : <Empty />}
     </div>
@@ -176,6 +176,11 @@ function Mybookings(props) {
 
   if (widths <= 420) {
     return (
+      <>
+      {/* <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div> */}
+
       <div style={{ height: "100%" }}>
         {props.data == 0 ? (
           <Grid>
@@ -314,9 +319,15 @@ function Mybookings(props) {
           </Grid>
         )}
       </div>
+      </>
     );
   } else {
     return (
+      <>
+      <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
+
       <div style={{ height: "100%" }}>
         <Grid fluid={true}>
           <Grid.Column
@@ -417,6 +428,7 @@ function Mybookings(props) {
           </Grid.Column>
         </Grid>
       </div>
+      </>
     );
   }
 }
@@ -706,6 +718,11 @@ function Chatarea(props) {
 
   if (widths <= 1000) {
     return (
+      <>
+      <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
+
       <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
         {/* {showChat ?  */}
         <List className="chatHead" horizontal>
@@ -965,9 +982,14 @@ function Chatarea(props) {
           removeitems={removeitems}
         />
       </div>
+      </>
     );
   } else {
     return (
+      <>
+      <div className="comingSoon">
+        <h1 className="soonText">Coming Soon ...</h1>
+        </div>
       <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
         <List className="chatHead" horizontal>
           <List.Item
@@ -1239,6 +1261,7 @@ function Chatarea(props) {
           removeitems={removeitems}
         />
       </div>
+      </>
     );
   }
 

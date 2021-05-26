@@ -95,7 +95,8 @@
 }
 
 .chaticon2 {
-  margin-right: 2px;
+  margin-right: 3px;
+  margin-top: -3px;
   color: rgb(48, 48, 48);
   font-size: 11px !important;
   /* margin-left: 20px; */
