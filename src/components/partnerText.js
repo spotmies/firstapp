@@ -25,7 +25,7 @@ const textpart = [
     id: 1,
     heading: "Register",
     content:
-      "Download our Spotmies Partner app and get registered with your Aadhar and Mobile number.",
+      "Download our Spotmies Partner app and get registered with your Mobile number.",
     img: register,
   },
   {
@@ -38,15 +38,14 @@ const textpart = [
   {
     id: 1,
     heading: "Quote your price",
-    content:
-      "Quote your reasonable service price and negotiate with your customer.",
+    content: "Quote your service price and negotiate with your customer.",
     img: getquote,
   },
   {
     id: 1,
-    heading: "Get orders from your range area.",
+    heading: "Get orders from your selected area.",
     content:
-      "Set your coverage area in the app and get orders within the range. We use all new Algorithms to assist you automatically and make your Service reach more Customers.",
+      "Set your coverage area in the app and get orders from selected range. We use all new Algorithms to assist you automatically and make your Service reach more Customers.",
     img: service,
   },
   {

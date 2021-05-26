@@ -23,84 +23,96 @@ const history = createHashHistory();
 export default class signup extends Component {
   render() {
     return (
-      <div className="signupform">
-        <Card centered color="blue" style={{ width: "400px" }}>
-          <Card.Content>
-            <Card.Header>
-              <MdAccountCircle size="2rem" />
-              <u>Signup or Login</u>
-            </Card.Header>
-          </Card.Content>
-          <Card.Content extra>
-            <Form>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>
-                  <MdSmartphone />
-                  <b>Enter your Mobile number</b>
-                </Form.Label>
-                <Form.Control
-                  type="phone"
-                  placeholder="phone number"
-                  id="phno"
-                  required
-                />
-              </Form.Group>
-              <Button variant="outline-info" type="button" onClick={genotp}>
-                Get Otp
-              </Button>
-              <div id="recaptcha-container" style={{ marginTop: "10px" }}></div>
-
-              <Form.Group
-                controlId="formBasicPassword"
-                id="otpdiv"
-                style={{ marginTop: "10px", display: "none" }}
-              >
-                <Form.Label>
-                  <MdHttps />
-                  <b>Enter otp here</b>
-                </Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="OTP"
-                  id="otp"
-                  required
-                />
-                <br />
-                <Button variant="outline-info" type="button" onClick={vrfyotp}>
-                  Verify
+      <>
+        <div className="comingSoon">
+          <h1 className="soonText">Coming Soon ...</h1>
+        </div>
+        <div className="signupform">
+          <Card centered color="blue" style={{ width: "400px" }}>
+            <Card.Content>
+              <Card.Header>
+                <MdAccountCircle size="2rem" />
+                <u>Signup or Login</u>
+              </Card.Header>
+            </Card.Content>
+            <Card.Content extra>
+              <Form>
+                <Form.Group controlId="formBasicEmail">
+                  <Form.Label>
+                    <MdSmartphone />
+                    <b>Enter your Mobile number</b>
+                  </Form.Label>
+                  <Form.Control
+                    type="phone"
+                    placeholder="phone number"
+                    id="phno"
+                    required
+                  />
+                </Form.Group>
+                <Button variant="outline-info" type="button" onClick={genotp}>
+                  Get Otp
                 </Button>
-              </Form.Group>
+                <div
+                  id="recaptcha-container"
+                  style={{ marginTop: "10px" }}
+                ></div>
 
-              <Form.Group
-                controlId="username"
-                style={{ display: "none" }}
-                className="username"
-              >
-                <Form.Label>
-                  <MdTagFaces />
-                  <b>Enter your name here</b>
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="sweetname here"
-                  id="username"
-                  required
-                />
-              </Form.Group>
+                <Form.Group
+                  controlId="formBasicPassword"
+                  id="otpdiv"
+                  style={{ marginTop: "10px", display: "none" }}
+                >
+                  <Form.Label>
+                    <MdHttps />
+                    <b>Enter otp here</b>
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="OTP"
+                    id="otp"
+                    required
+                  />
+                  <br />
+                  <Button
+                    variant="outline-info"
+                    type="button"
+                    onClick={vrfyotp}
+                  >
+                    Verify
+                  </Button>
+                </Form.Group>
 
-              <Button
-                variant="outline-info"
-                type="button"
-                onClick={rgstusr}
-                style={{ display: "none" }}
-                className="signsub"
-              >
-                Submit
-              </Button>
-            </Form>
-          </Card.Content>
-        </Card>
-      </div>
+                <Form.Group
+                  controlId="username"
+                  style={{ display: "none" }}
+                  className="username"
+                >
+                  <Form.Label>
+                    <MdTagFaces />
+                    <b>Enter your name here</b>
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="sweetname here"
+                    id="username"
+                    required
+                  />
+                </Form.Group>
+
+                <Button
+                  variant="outline-info"
+                  type="button"
+                  onClick={rgstusr}
+                  style={{ display: "none" }}
+                  className="signsub"
+                >
+                  Submit
+                </Button>
+              </Form>
+            </Card.Content>
+          </Card>
+        </div>
+      </>
     );
   }
 }
@@ -155,9 +167,9 @@ function vrfyotp(e) {
     })
     .catch((err) => {
       //  alert(err)
-     // toast.error(err);
+      // toast.error(err);
       console.log(err);
-     // console.log(err.code);
+      // console.log(err.code);
       toast.error(err.code);
     });
 }
@@ -188,15 +200,14 @@ function rgstusr(e) {
         name: name,
         phone: usrno,
         email: "",
-        pic:
-          "https://www.sunsetlearning.com/wp-content/uploads/2019/09/User-Icon-Grey-300x300.png",
+        pic: "https://www.sunsetlearning.com/wp-content/uploads/2019/09/User-Icon-Grey-300x300.png",
         altnum: "",
       })
       .then(() => {
         // alert("data added")
 
-      //  window.location.href = "http://localhost:3000/";
-      history.go(-1);
+        //  window.location.href = "http://localhost:3000/";
+        history.go(-1);
       });
   } else {
     //alert("please enter your name");

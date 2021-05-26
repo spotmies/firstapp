@@ -80,7 +80,7 @@ class SimpleMap extends Component {
     let result = await apiPostPut(temp, "contactUs");
     if (result.status == 200) {
       this.clearfield();
-      toast.success("Thank you we will contact you soon...");
+      toast.info("Thank you we will contact you soon...");
     } else {
       toast.info("please try again");
       this.setState({
@@ -123,7 +123,7 @@ class SimpleMap extends Component {
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
-          <AnyReactComponent lat={59.955413} lng={30.337844} text="SpotMiess" />
+          <AnyReactComponent lat={59.955413} lng={30.337844} text="SPOTMIES" />
         </GoogleMapReact>
         <div
           style={{

@@ -85,7 +85,7 @@ function FeedbackForm(props) {
     if (result.status == 200) {
       setsbtn(false);
       localStorage.setItem("isFeedBackGiven", true);
-      toast.success("Thanks For Your Feedback");
+      toast.info("Thanks For Your Feedback");
       setcount(10);
     } else {
       setsbtn(false);
@@ -260,22 +260,22 @@ function FeedbackForm(props) {
               <div>
                 <Button
                   basic
-                  color={que[3] == "no" ? "blue" : "grey"}
-                  onClick={() => {
-                    nextQue("no", 3);
-                  }}
-                >
-                  <MdThumbUp /> No
-                </Button>
-                <Button
-                  basic
-                  style={{ marginLeft: "6px", marginTop: "4px" }}
                   color={que[3] == "yes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("yes", 3);
                   }}
                 >
-                  <MdThumbDown /> Yes
+                  <MdThumbUp /> yes
+                </Button>
+                <Button
+                  basic
+                  style={{ marginLeft: "6px", marginTop: "4px" }}
+                  color={que[3] == "no" ? "blue" : "grey"}
+                  onClick={() => {
+                    nextQue("no", 3);
+                  }}
+                >
+                  <MdThumbDown /> No
                 </Button>
               </div>
             </div>

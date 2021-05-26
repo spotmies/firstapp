@@ -65,22 +65,21 @@ export default function newpost2() {
 function Postnew() {
   return (
     <>
-     <div className="comingSoon">
+      <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+      </div>
 
-
-    <div style={{ paddingTop: "20px" }}>
-      <Card centered id="formcard" className="postjobb1">
-        <Card.Content>
-          <Card.Header style={{ textAlign: "center" }}>New Post</Card.Header>
-        </Card.Content>
-        <Card.Content>
-          <Postform />
-        </Card.Content>
-      </Card>
-      <ModalExampleModal />
-    </div>
+      <div style={{ paddingTop: "20px" }}>
+        <Card centered id="formcard" className="postjobb1">
+          <Card.Content>
+            <Card.Header style={{ textAlign: "center" }}>New Post</Card.Header>
+          </Card.Content>
+          <Card.Content>
+            <Postform />
+          </Card.Content>
+        </Card>
+        <ModalExampleModal />
+      </div>
     </>
   );
 }
@@ -295,123 +294,122 @@ class Postform extends Component {
     const { value } = this.state;
     return (
       <>
-     
-      <Form className="postjobb" onSubmit={this.handleUpload}>
-        <Form.Group widths="equal">
-          <Form.Field
-            required
-            control={Input}
-            label="Name of Service"
-            placeholder="enter name of service"
-            id="nameofserv"
-            className="nameofser"
-          />
-        </Form.Group>
-
-        <Form.Field
-          control={TextArea}
-          label="Description"
-          id="sdesc"
-          placeholder="Tell us more about your problem or any note here..."
-        />
-        <Form.Field>
-          <Form.Field>
-            <b>Select Date</b>
-          </Form.Field>
-          <Form.Field>
-            <InputGroup className="mb-2">
-              <InputGroup.Prepend className="nameofser">
-                <InputGroup.Text>
-                  {" "}
-                  <BsCalendar size="1.3em" />
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-
-              <DatePicker
-                // className="datepicker"
-                selected={this.state.startDate}
-                placeholderText="when you want service"
-                onChange={this.handleChange2}
-                minDate={new Date()}
-                name="startDate"
-                showTimeSelect
-                timeFormat="HH:mm"
-                todayButton="Today"
-                timeIntervals={60}
-                timeCaption="time"
-                // dateFormat="dd/MM/yyyy"
-                dateFormat="MMMM d, yyyy h:mm aa"
-                withPortal
-                required
-              />
-            </InputGroup>
-          </Form.Field>
-
-          <b style={{ fontWeight: "800" }}> Enter Amount </b>
-          <Button.Group size="tiny">
-            <Button
-              type="button"
-              onClick={() => {
-                this.pricetag("yes");
-              }}
-            >
-              Yes
-            </Button>
-            <Button.Or />
-            <Button
-              type="button"
-              onClick={() => {
-                this.pricetag("no");
-              }}
-            >
-              No
-            </Button>
-          </Button.Group>
-          {this.state.pflag ? <Pricefield /> : null}
-        </Form.Field>
-
-        <div style={{ display: "inline-block" }}>
-          <Form.Field>
-            <Input
-              icon="photo"
-              iconPosition="Right"
-              type="file"
-              placeholder="Enter tags"
-              // onChange={this.upldimg}
-              accept=".gif,.jpg,.jpeg,.png"
-              onChange={this.handleChangeg}
-              multiple
+        <Form className="postjobb" onSubmit={this.handleUpload}>
+          <Form.Group widths="equal">
+            <Form.Field
+              required
+              control={Input}
+              label="Name of Service"
+              placeholder="enter name of service"
+              id="nameofserv"
+              className="nameofser"
             />
-          </Form.Field>
-        </div>
-        <progress value={this.state.valprogress} max="100" id="uploaderb">
-          progress
-        </progress>
+          </Form.Group>
 
-        <div>
-          <Image.Group size="small">
-            {this.state.image.map((nap, key) => (
-              <Image
-                fluid
-                key={key}
-                id={key}
-                label={{
-                  as: "a",
-                  corner: "right",
-                  icon: "trash",
-                  onClick: this.sekhararr,
+          <Form.Field
+            control={TextArea}
+            label="Description"
+            id="sdesc"
+            placeholder="Tell us more about your problem or any note here..."
+          />
+          <Form.Field>
+            <Form.Field>
+              <b>Select Date</b>
+            </Form.Field>
+            <Form.Field>
+              <InputGroup className="mb-2">
+                <InputGroup.Prepend className="nameofser">
+                  <InputGroup.Text>
+                    {" "}
+                    <BsCalendar size="1.3em" />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+
+                <DatePicker
+                  // className="datepicker"
+                  selected={this.state.startDate}
+                  placeholderText="when you want service"
+                  onChange={this.handleChange2}
+                  minDate={new Date()}
+                  name="startDate"
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  todayButton="Today"
+                  timeIntervals={60}
+                  timeCaption="time"
+                  // dateFormat="dd/MM/yyyy"
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  withPortal
+                  required
+                />
+              </InputGroup>
+            </Form.Field>
+
+            <b style={{ fontWeight: "800" }}> Enter Amount </b>
+            <Button.Group size="tiny">
+              <Button
+                type="button"
+                onClick={() => {
+                  this.pricetag("yes");
                 }}
-                src={URL.createObjectURL(nap)}
-              />
-            ))}
-          </Image.Group>
-        </div>
+              >
+                Yes
+              </Button>
+              <Button.Or />
+              <Button
+                type="button"
+                onClick={() => {
+                  this.pricetag("no");
+                }}
+              >
+                No
+              </Button>
+            </Button.Group>
+            {this.state.pflag ? <Pricefield /> : null}
+          </Form.Field>
 
-        <Form.Field control={Button} type="submit" centered color="primary">
-          <MdCheckCircle size="1.3rem" style={{ textAlign: "left" }} />
-          Submit
-        </Form.Field>
-      </Form>
+          <div style={{ display: "inline-block" }}>
+            <Form.Field>
+              <Input
+                icon="photo"
+                iconPosition="Right"
+                type="file"
+                placeholder="Enter tags"
+                // onChange={this.upldimg}
+                accept=".gif,.jpg,.jpeg,.png"
+                onChange={this.handleChangeg}
+                multiple
+              />
+            </Form.Field>
+          </div>
+          <progress value={this.state.valprogress} max="100" id="uploaderb">
+            progress
+          </progress>
+
+          <div>
+            <Image.Group size="small">
+              {this.state.image.map((nap, key) => (
+                <Image
+                  fluid
+                  key={key}
+                  id={key}
+                  label={{
+                    as: "a",
+                    corner: "right",
+                    icon: "trash",
+                    onClick: this.sekhararr,
+                  }}
+                  src={URL.createObjectURL(nap)}
+                />
+              ))}
+            </Image.Group>
+          </div>
+
+          <Form.Field control={Button} type="submit" centered color="primary">
+            <MdCheckCircle size="1.3rem" style={{ textAlign: "left" }} />
+            Submit
+          </Form.Field>
+        </Form>
       </>
     );
   }
@@ -438,7 +436,7 @@ function ModalExampleModal() {
     if (!user) {
       //  history.go('/login')
       console.log("user login");
-      document.getElementById("redirectsignup").click();
+      //  document.getElementById("redirectsignup").click();
     }
   });
 
@@ -454,9 +452,9 @@ function ModalExampleModal() {
 
   return (
     <>
-    <div className="comingSoon">
+      <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+      </div>
 
       <div>
         <Modal
