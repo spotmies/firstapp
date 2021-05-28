@@ -223,15 +223,15 @@ function Slide() {
               )}
               <h2>{cstext}</h2>
               <p className="sec-text">
-                <ReactReadMoreReadLess
+                {/* <ReactReadMoreReadLess
                   charLimit={78}
                   readMoreText={"Read more ▼"}
                   readLessText={"Read less ▲"}
                   readMoreClassName="read-more-less--more"
                   readLessClassName="read-more-less--less"
-                >
+                > */}
                   {securityText}
-                </ReactReadMoreReadLess>
+                {/* </ReactReadMoreReadLess> */}
               </p>
             </div>
           </Fade>
@@ -240,9 +240,12 @@ function Slide() {
         <section className="home-textBox" id="joinBtn">
           <Fade top>
             <div>
+            <Link to="/partnerRegistration">
               <h1>Wanna Register As Service Provider / Technician ?</h1>
+              </Link>
+              <br></br>
               <Link to="/partnerRegistration">
-                <Button>Join here</Button>
+                <Button primary>Join here</Button>
               </Link>
             </div>
           </Fade>
@@ -258,7 +261,7 @@ function Slide() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} />
+          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
         </div>
 
         <div
@@ -401,15 +404,15 @@ function Slide() {
                 {cstext}
               </h2>
               <p className="sec-text">
-                <ReactReadMoreReadLess
+                {/* <ReactReadMoreReadLess
                   charLimit={79}
                   readMoreText={"Read more ▼"}
                   readLessText={"Read less ▲"}
                   readMoreClassName="read-more-less--more"
                   readLessClassName="read-more-less--less"
-                >
+                > */}
                   {securityText}
-                </ReactReadMoreReadLess>
+                {/* </ReactReadMoreReadLess> */}
               </p>
               {/* <p className="sec-text">{securityText}</p> */}
             </div>
@@ -419,9 +422,12 @@ function Slide() {
         <section className="home-textBox home-textBox1" id="joinBtn">
           <Fade top>
             <div>
-              <h1 style={{fontWeight: "700"}}>Wanna Register As Service Provider / Technician ?</h1>
+            <Link to="/partnerRegistration">
+              <h1>Wanna Register As Service Provider / Technician ?</h1>
+              </Link>
+              <br></br>
               <Link to="/partnerRegistration">
-                <Button>Join here</Button>
+                <Button primary>Join here</Button>
               </Link>
             </div>
           </Fade>
@@ -437,7 +443,7 @@ function Slide() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} />
+          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
         </div>
 
         {/* <div

@@ -123,7 +123,7 @@ function PartnerRegistration() {
     console.log("117", result);
     if (result.status == 200) {
       clearfield();
-      toast.success("Thank you we will contact you soon...");
+      toast.info("Thank you we will contact you soon...");
     } else {
       toast.info("please try again");
       setsbtn(false);
@@ -197,7 +197,7 @@ function PartnerRegistration() {
                       readMoreClassName="read-more-less--more"
                       readLessClassName="read-more-less--less"
                     > */}
-                      {message.content}
+                    {message.content}
                     {/* </ReactReadMoreReadLess> */}
                   </p>
                 </ScrollAnimation>
@@ -218,15 +218,21 @@ function PartnerRegistration() {
             </Fade>
           ) : null}
           {chIcon == 0 || chIcon == 1 ? (
-           <span className="iconSpan"> <BsFillPersonPlusFill
-              className="feedBackIcon"
-              onClick={executeScroll}
-            /></span>
+            <span className="iconSpan">
+              {" "}
+              <BsFillPersonPlusFill
+                className="feedBackIcon"
+                onClick={executeScroll}
+              />
+            </span>
           ) : (
-            <span className="iconSpan"> <MdFeedback
-              className="feedBackIcon"
-              onClick={() => setOpen(true)}
-            /></span>
+            <span className="iconSpan">
+              {" "}
+              <MdFeedback
+                className="feedBackIcon"
+                onClick={() => setOpen(true)}
+              />
+            </span>
           )}
         </div>
         <FeedbackForm open={open} close={closeModal} />
@@ -261,7 +267,7 @@ function PartnerRegistration() {
                 name="pname"
                 value={pname}
                 onChange={handleChange}
-                maxLength="15"
+                maxLength="25"
                 required
               />
             </Form.Field>
@@ -299,7 +305,7 @@ function PartnerRegistration() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} />
+          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
         </div>
 
         <div
@@ -334,7 +340,9 @@ function PartnerRegistration() {
                       className={
                         (index == 1) | (index == 2) | (index == 3)
                           ? "resize"
-                          : (index == 7) ? "navigateClass" : "home-photos"
+                          : index == 7
+                          ? "navigateClass"
+                          : "home-photos"
                       }
                     >
                       <img src={message.img} />
@@ -361,7 +369,7 @@ function PartnerRegistration() {
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         > */}
-                          {message.content}
+                        {message.content}
                         {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
@@ -390,7 +398,7 @@ function PartnerRegistration() {
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         > */}
-                          {message.content}
+                        {message.content}
                         {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
@@ -402,8 +410,9 @@ function PartnerRegistration() {
                       className={
                         (index == 1) | (index == 2) | (index == 3)
                           ? "resize"
-                          :
-                        (index == 7) ? "navigateClass" : "home-photos"
+                          : index == 7
+                          ? "navigateClass"
+                          : "home-photos"
                       }
                     >
                       <img src={message.img} />
@@ -418,7 +427,7 @@ function PartnerRegistration() {
           {chIcon == 0 ? (
             <Fade right>
               <h3
-              className="fbh3"
+                className="fbh3"
                 // style={{ margin: "auto", paddingRight: "10px" }}
                 onClick={executeScroll}
               >
@@ -427,15 +436,21 @@ function PartnerRegistration() {
             </Fade>
           ) : null}
           {chIcon == 0 || chIcon == 1 ? (
-           <span className="iconSpan"> <BsFillPersonPlusFill
-              className="feedBackIcon"
-              onClick={executeScroll}
-            /></span>
+            <span className="iconSpan">
+              {" "}
+              <BsFillPersonPlusFill
+                className="feedBackIcon"
+                onClick={executeScroll}
+              />
+            </span>
           ) : (
-           <span className="iconSpan"> <MdFeedback
-              className="feedBackIcon"
-              onClick={() => setOpen(true)}
-            /></span>
+            <span className="iconSpan">
+              {" "}
+              <MdFeedback
+                className="feedBackIcon"
+                onClick={() => setOpen(true)}
+              />
+            </span>
           )}
         </div>
         <FeedbackForm open={open} close={closeModal} />
@@ -478,7 +493,7 @@ function PartnerRegistration() {
                 name="pname"
                 value={pname}
                 onChange={handleChange}
-                maxLength="15"
+                maxLength="25"
                 required
               />
             </Form.Field>
@@ -517,7 +532,7 @@ function PartnerRegistration() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} />
+          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
         </div>
 
         <div

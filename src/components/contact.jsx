@@ -80,7 +80,7 @@ class SimpleMap extends Component {
     let result = await apiPostPut(temp, "contactUs");
     if (result.status == 200) {
       this.clearfield();
-      toast.success("Thank you we will contact you soon...");
+      toast.info("Thank you we will contact you soon...");
     } else {
       toast.info("please try again");
       this.setState({
@@ -116,14 +116,16 @@ class SimpleMap extends Component {
           width: "95%",
           marginLeft: "2%",
           alignItems: "center",
+          marginTop:"50px"
         }}
       >
         <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyDUAqHmXwTZU1caOWJ-LC-dBl3R7uzOkPo" }}
+         // bootstrapURLKeys={{ key: "AIzaSyDUAqHmXwTZU1caOWJ-LC-dBl3R7uzOkPo" }}
+         bootstrapURLKeys={{ key: "AIzaSyAJuo4r4xk6TkcDOCMk16G_AIIBBbOPV88" }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
-          <AnyReactComponent lat={59.955413} lng={30.337844} text="SpotMiess" />
+          <AnyReactComponent lat={17.686815} lng={83.218483} text="SPOTMIES" />
         </GoogleMapReact>
         <div
           style={{
@@ -135,9 +137,11 @@ class SimpleMap extends Component {
           <h2>Our Phones are waiting for your call!</h2>
           <hr></hr>
           <h3>Email:</h3>
-          <p>modernsilpi@gmail.com</p>
+          <p>spotmies@gmail.com</p> 
+          <p>modernsilpi@gmail.com</p> 
           <h3>Mobile no:</h3>
           <p>9502831877</p>
+          <p>8019933883</p>
           <h3>Address:</h3>
           <p>
             D.No: 58-38-10,<br></br> KRM Colony,<br></br> Visakhapatnam,
@@ -145,6 +149,7 @@ class SimpleMap extends Component {
           </p>
         </div>
         <hr></hr>
+        <div style={{paddingBottom:"5px"}}>
         <Form
           className="contactForm"
           style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
@@ -218,11 +223,12 @@ class SimpleMap extends Component {
             </Button>
           )}
         </Form>
+        </div>
         <div
           className="feedBack "
           onClick={() => this.setState({ open: true })}
         >
-          <MdFeedback className="feedBackIcon" />
+          <MdFeedback color="black" size="3rem" className="feedBackIcon" />
         </div>
         <FeedbackForm open={this.state.open} close={this.closeModal} />
       </div>

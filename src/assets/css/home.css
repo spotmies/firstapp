@@ -85,14 +85,14 @@
     rgba(248, 77, 77, 0.932)
   ); */
   /* background: linear-gradient(35deg, #add1b0, #5fcdf3, #e5f0f7); */
-  background: linear-gradient(35deg, #add1b0,#b0f7faf6, #6cd5f8f1, #e5f0f7);
+  background: linear-gradient(35deg, #add1b0, #b0f7faf6, #6cd5f8f1, #e5f0f7);
   /* background: rgba(158, 192, 243, 0.932); */
   /* overflow: auto; #e5f0f7*/
   /* color: #ccc; */
   /* overflow-y: scroll; */
 }
 
-.navigateClass img{
+.navigateClass img {
   height: 750px !important;
 }
 
@@ -213,7 +213,7 @@
 
 .home-textBox h1 {
   font-size: 64px;
-  letter-spacing: -3.5px;
+  letter-spacing: -2.5px;
   color: rgba(29, 29, 29, 0.884);
   /* color: white; */
   font-weight: 1200;
@@ -332,7 +332,7 @@
   /* margin: auto 8px auto 0; */
   background: white;
   /* color: white; */
-  transition:all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
   width: auto 0.4s;
   padding-left: auto;
   padding: 6px;
