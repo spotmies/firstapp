@@ -26,6 +26,8 @@ export default class signup extends Component {
       <>
         <div className="comingSoon">
           <h1 className="soonText">Coming Soon ...</h1>
+          <h3 style={{textAlign:"center",cursor:"pointer"}} onClick={()=>{ history.go(-1);}}>Click here to go back</h3>
+
         </div>
         <div className="signupform">
           <Card centered color="blue" style={{ width: "400px" }}>

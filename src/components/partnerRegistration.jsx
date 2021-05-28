@@ -305,7 +305,7 @@ function PartnerRegistration() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} />
+          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
         </div>
 
         <div
@@ -532,7 +532,7 @@ function PartnerRegistration() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} />
+          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
         </div>
 
         <div

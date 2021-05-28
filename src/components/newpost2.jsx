@@ -17,7 +17,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 
-import { BsCalendar } from "react-icons/bs";
+import { BsCalendar, BsHammer, BsHouseFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import imageCompression from "browser-image-compression";
 import "./rental.css";
@@ -25,15 +25,19 @@ import "./rental.css";
 import {
   MdLaptopMac,
   MdTv,
-  MdEventNote,
   MdDriveEta,
   MdFace,
   MdCheckCircle,
   MdFileUpload,
+  MdEventAvailable,
+  MdBuild,
+  MdLocalDining,
+  MdMonochromePhotos
 } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
-import { FaChalkboardTeacher, FaTools } from "react-icons/fa";
-import { IoCameraSharp } from "react-icons/io5";
+import { FaChalkboardTeacher, FaTools,FaScrewdriver } from "react-icons/fa";
+import { BiCctv } from "react-icons/bi";
+import {DiPhotoshop} from "react-icons/di";
 
 import firebase from "../firebase";
 import "firebase/storage";
@@ -67,6 +71,7 @@ function Postnew() {
     <>
       <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
+        <h3 style={{textAlign:"center",cursor:"pointer"}} onClick={()=>{ history.go(-1);}}>Click here to go back</h3>
       </div>
 
       <div style={{ paddingTop: "20px" }}>
@@ -83,7 +88,6 @@ function Postnew() {
     </>
   );
 }
-var src = "https://www.w3schools.com/howto/img_snow.jpg";
 
 class Postform extends Component {
   state = {};
@@ -440,8 +444,6 @@ function ModalExampleModal() {
     }
   });
 
-  var imgsrc =
-    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorgraphit.com%2Ffree-svg-illustrations-for-your-next-website-or-blog%2Famp&psig=AOvVaw28FMPvsnbckOWg5KwrbFDM&ust=1614586813687000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDUruGSjO8CFQAAAAAdAAAAABAJ";
   const [open, setOpen] = React.useState(true);
 
   function click(e) {
@@ -460,13 +462,13 @@ function ModalExampleModal() {
         <Modal
           size="small"
           centered
-          // style={{marginLeft:"auto",marginRight:"auto",display:"block",width:"70%"}}
           className="categoryModal"
           onOpen={() => setOpen(true)}
           open={open}
         >
           <Modal.Header className="categoryMheader">
-            Select Job Category
+            {/* Select Job Category */}
+            Available Services
           </Modal.Header>
           <Modal.Content></Modal.Content>
           <Card centered id="jobcate">
@@ -488,15 +490,15 @@ function ModalExampleModal() {
                   &nbsp;&nbsp;&nbsp;&nbsp; Tv Repair
                 </Menu.Item>
                 <Menu.Item link data-txt="9" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <FaScrewdriver size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Electrician
                 </Menu.Item>
                 <Menu.Item link data-txt="12" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <BsHouseFill size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Interior Design
                 </Menu.Item>
                 <Menu.Item link data-txt="13" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <DiPhotoshop size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Design
                 </Menu.Item>
                 <Menu.Item link data-txt="3" onClick={click}>
@@ -504,7 +506,7 @@ function ModalExampleModal() {
                   &nbsp;&nbsp;&nbsp;&nbsp; Development
                 </Menu.Item>
                 <Menu.Item link data-txt="8" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <MdEventAvailable size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Events
                 </Menu.Item>
                 <Menu.Item link data-txt="5" onClick={click}>
@@ -516,7 +518,7 @@ function ModalExampleModal() {
                   &nbsp;&nbsp;&nbsp;&nbsp; Tutor
                 </Menu.Item>
                 <Menu.Item link data-txt="6" onClick={click}>
-                  <IoCameraSharp size="1.5rem" />
+                  <MdMonochromePhotos size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Photographer
                 </Menu.Item>
                 <Menu.Item link data-txt="7" onClick={click}>
@@ -524,19 +526,19 @@ function ModalExampleModal() {
                   &nbsp;&nbsp;&nbsp;&nbsp; Driver
                 </Menu.Item>
                 <Menu.Item link data-txt="10" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <BsHammer size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Carpenter
                 </Menu.Item>
                 <Menu.Item link data-txt="11" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <MdBuild size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Plumber
                 </Menu.Item>
                 <Menu.Item link data-txt="14" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <BiCctv size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; CC Tv Installation
                 </Menu.Item>
                 <Menu.Item link data-txt="15" onClick={click}>
-                  <MdEventNote size="1.5rem" />
+                  <MdLocalDining size="1.5rem" />
                   &nbsp;&nbsp;&nbsp;&nbsp; Catering
                 </Menu.Item>
               </Menu>
