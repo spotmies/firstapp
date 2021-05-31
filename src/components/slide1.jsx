@@ -12,10 +12,10 @@ import firebase from "../firebase";
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
 import "../assets/css/home.css";
-import text from "./usertext";
+import text from "../helpers/usertext";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import ScrollAnimation from "react-animate-on-scroll";
-import "./txtRotate";
+import "../helpers/txtRotate";
 import lock1 from "../images/lock1.png";
 import lock2 from "../images/lock2.png";
 import lock3 from "../images/lock3.png";
@@ -194,7 +194,7 @@ function Slide() {
                       readMoreClassName="read-more-less--more"
                       readLessClassName="read-more-less--less"
                     > */}
-                      {message.content}
+                    {message.content}
                     {/* </ReactReadMoreReadLess> */}
                   </p>
                 </ScrollAnimation>
@@ -208,7 +208,10 @@ function Slide() {
               <h3 className="fbh3">Feedback</h3>
             </Fade>
           ) : null}
-         <span className="iconSpan"> <MdFeedback className="feedBackIcon" /></span>
+          <span className="iconSpan">
+            {" "}
+            <MdFeedback className="feedBackIcon" />
+          </span>
         </div>
         <FeedbackForm open={open} close={closeModal} />
 
@@ -230,7 +233,7 @@ function Slide() {
                   readMoreClassName="read-more-less--more"
                   readLessClassName="read-more-less--less"
                 > */}
-                  {securityText}
+                {securityText}
                 {/* </ReactReadMoreReadLess> */}
               </p>
             </div>
@@ -240,8 +243,8 @@ function Slide() {
         <section className="home-textBox" id="joinBtn">
           <Fade top>
             <div>
-            <Link to="/partnerRegistration">
-              <h1>Wanna Register As Service Provider / Technician ?</h1>
+              <Link to="/partnerRegistration">
+                <h1>Wanna Register As Service Provider / Technician ?</h1>
               </Link>
               <br></br>
               <Link to="/partnerRegistration">
@@ -261,7 +264,12 @@ function Slide() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
+          <FaGooglePlay
+            style={{ marginTop: "20px" }}
+            onClick={() => {
+              toast.info("App Launching Soon");
+            }}
+          />
         </div>
 
         <div
@@ -325,7 +333,7 @@ function Slide() {
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         > */}
-                          {message.content}
+                        {message.content}
                         {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
@@ -354,7 +362,7 @@ function Slide() {
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         > */}
-                          {message.content}
+                        {message.content}
                         {/* </ReactReadMoreReadLess> */}
                       </p>
                     </ScrollAnimation>
@@ -386,7 +394,9 @@ function Slide() {
             </Fade>
           ) : null}
 
-          <span className="iconSpan"><MdFeedback className="feedBackIcon" /></span>
+          <span className="iconSpan">
+            <MdFeedback className="feedBackIcon" />
+          </span>
         </div>
         <FeedbackForm open={open} close={closeModal} />
 
@@ -411,7 +421,7 @@ function Slide() {
                   readMoreClassName="read-more-less--more"
                   readLessClassName="read-more-less--less"
                 > */}
-                  {securityText}
+                {securityText}
                 {/* </ReactReadMoreReadLess> */}
               </p>
               {/* <p className="sec-text">{securityText}</p> */}
@@ -422,8 +432,8 @@ function Slide() {
         <section className="home-textBox home-textBox1" id="joinBtn">
           <Fade top>
             <div>
-            <Link to="/partnerRegistration">
-              <h1>Wanna Register As Service Provider / Technician ?</h1>
+              <Link to="/partnerRegistration">
+                <h1>Wanna Register As Service Provider / Technician ?</h1>
               </Link>
               <br></br>
               <Link to="/partnerRegistration">
@@ -443,7 +453,12 @@ function Slide() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
+          <FaGooglePlay
+            style={{ marginTop: "20px" }}
+            onClick={() => {
+              toast.info("App Launching Soon");
+            }}
+          />
         </div>
 
         {/* <div
@@ -470,7 +485,7 @@ function Slide() {
             textAlign: "center",
             color: "white",
             letterSpacing: "2px",
-            margin: 0
+            margin: 0,
           }}
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>

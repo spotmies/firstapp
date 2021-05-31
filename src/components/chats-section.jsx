@@ -18,7 +18,7 @@ import "firebase/storage";
 import { getpdetailsbyid, disablechat } from "../mservices/upldmedia";
 import { gettbystamps, ValidURL } from "../helpers/dateconv";
 import { toast } from "react-toastify";
-import { msgdot } from "./reusable/msgdot";
+import { msgdot } from "../helpers/msgdot";
 //import icons
 import { IoIosArrowDropdown } from "react-icons/io";
 

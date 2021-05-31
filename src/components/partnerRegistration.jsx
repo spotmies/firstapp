@@ -11,7 +11,7 @@ import { FeedbackForm } from "./reusable/Modal";
 import { FaGooglePlay } from "react-icons/fa";
 
 import { toast } from "react-toastify";
-import textpart from "./partnerText";
+import textpart from "../helpers/partnerText";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import { apiPostPut } from "../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
@@ -305,7 +305,12 @@ function PartnerRegistration() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
+          <FaGooglePlay
+            style={{ marginTop: "20px" }}
+            onClick={() => {
+              toast.info("App Launching Soon");
+            }}
+          />
         </div>
 
         <div
@@ -532,7 +537,12 @@ function PartnerRegistration() {
             fontSize: "32px",
           }}
         >
-          <FaGooglePlay style={{ marginTop: "20px" }} onClick={()=>{toast.info("App Launching Soon")}}/>
+          <FaGooglePlay
+            style={{ marginTop: "20px" }}
+            onClick={() => {
+              toast.info("App Launching Soon");
+            }}
+          />
         </div>
 
         <div
