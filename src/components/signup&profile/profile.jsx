@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import pic from "../images/logo192.png";
-import firebase from "../firebase";
+import pic from "../../images/logo192.png";
+import firebase from "../../firebase";
 import { useState, useEffect } from "react";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Card, Icon, Image, Dropdown } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { sharemydetails } from "../mservices/userDB";
+import { sharemydetails } from "../../mservices/userDB";
 
-import "../index.css";
-import "../assets/css/profile.css";
+import "../../index.css";
+import "../../assets/css/profile.css";
 
 import imageCompression from "browser-image-compression";
 

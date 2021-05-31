@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import firebase from "../firebase";
+import firebase from "../../firebase";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Carousel } from "react-bootstrap";
 import {
@@ -34,9 +34,9 @@ import { RiUserSettingsFill, RiTimeFill } from "react-icons/ri";
 import { HiCurrencyRupee } from "react-icons/hi";
 import { FaTools, FaAddressCard } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
-import "../assets/css/postView.css";
-import { categoryAssign } from "../helpers/categories";
-import { gettbystamps } from "../helpers/dateconv";
+import "../../assets/css/postView.css";
+import { categoryAssign } from "../../helpers/categories";
+import { gettbystamps } from "../../helpers/dateconv";
 
 const db = firebase.firestore();
 

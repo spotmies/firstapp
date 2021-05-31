@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import GoogleMapReact from "google-map-react";
-import { apiPostPut } from "../mservices/contactUs";
+import { apiPostPut } from "../../mservices/contactUs";
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
 import { Form } from "react-bootstrap";
 import { Button } from "semantic-ui-react";
 
 //feedback form
-import { FeedbackForm } from "./reusable/Modal";
+import { FeedbackForm } from "../reusable/Modal";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -116,12 +116,12 @@ class SimpleMap extends Component {
           width: "95%",
           marginLeft: "2%",
           alignItems: "center",
-          marginTop:"50px"
+          marginTop: "50px",
         }}
       >
         <GoogleMapReact
-         // bootstrapURLKeys={{ key: "AIzaSyDUAqHmXwTZU1caOWJ-LC-dBl3R7uzOkPo" }}
-         bootstrapURLKeys={{ key: "AIzaSyAJuo4r4xk6TkcDOCMk16G_AIIBBbOPV88" }}
+          // bootstrapURLKeys={{ key: "AIzaSyDUAqHmXwTZU1caOWJ-LC-dBl3R7uzOkPo" }}
+          bootstrapURLKeys={{ key: "AIzaSyAJuo4r4xk6TkcDOCMk16G_AIIBBbOPV88" }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
@@ -137,8 +137,8 @@ class SimpleMap extends Component {
           <h2>Our Phones are waiting for your call!</h2>
           <hr></hr>
           <h3>Email:</h3>
-          <p>spotmies@gmail.com</p> 
-          <p>modernsilpi@gmail.com</p> 
+          <p>spotmies@gmail.com</p>
+          <p>modernsilpi@gmail.com</p>
           <h3>Mobile no:</h3>
           <p>9502831877</p>
           <p>8019933883</p>
@@ -149,80 +149,80 @@ class SimpleMap extends Component {
           </p>
         </div>
         <hr></hr>
-        <div style={{paddingBottom:"5px"}}>
-        <Form
-          className="contactForm"
-          style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
-          onSubmit={this.submitForm}
-        >
-          <h2>Wanna say something?</h2>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              value={det.email}
-              name="email"
-              onChange={this.handlec}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="pallavi mella"
-              name="name"
-              value={det.name}
-              onChange={this.handlec}
-              required
-            />
-          </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Mobile no:</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="9999999999"
-              name="phone"
-              value={det.phone}
-              onChange={this.handlec}
-              required
-            />
-          </Form.Group>
+        <div style={{ paddingBottom: "5px" }}>
+          <Form
+            className="contactForm"
+            style={{ width: this.state.wWidth > 625 ? "50%" : "85%" }}
+            onSubmit={this.submitForm}
+          >
+            <h2>Wanna say something?</h2>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                value={det.email}
+                name="email"
+                onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="pallavi mella"
+                name="name"
+                value={det.name}
+                onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Mobile no:</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="9999999999"
+                name="phone"
+                value={det.phone}
+                onChange={this.handlec}
+                required
+              />
+            </Form.Group>
 
-          <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Subject</Form.Label>
-            <Form.Control
-              as="textarea"
-              placeholder="ex:- want to approach spotmies"
-              rows={1}
-              name="sub"
-              value={det.sub}
-              onChange={this.handlec}
-            />
-          </Form.Group>
-          <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Message</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="put what you want to message"
-              name="message"
-              value={det.message}
-              onChange={this.handlec}
-              required
-            />
-          </Form.Group>
-          {this.state.sbtn == false ? (
-            <Button primary type="submit">
-              Submit
-            </Button>
-          ) : (
-            <Button loading primary>
-              Submit
-            </Button>
-          )}
-        </Form>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Subject</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="ex:- want to approach spotmies"
+                rows={1}
+                name="sub"
+                value={det.sub}
+                onChange={this.handlec}
+              />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Label>Message</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="put what you want to message"
+                name="message"
+                value={det.message}
+                onChange={this.handlec}
+                required
+              />
+            </Form.Group>
+            {this.state.sbtn == false ? (
+              <Button primary type="submit">
+                Submit
+              </Button>
+            ) : (
+              <Button loading primary>
+                Submit
+              </Button>
+            )}
+          </Form>
         </div>
         <div
           className="feedBack "

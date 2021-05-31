@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
-import "../navbar.css";
-import firebase from "../firebase";
+import "./navbar.css";
+import firebase from "../../firebase";
 import { useHistory } from "react-router-dom";
-import SmLogo from "../images/logo.svg";
+import SmLogo from "../../images/logo.svg";
 
 //react icons
 import { IconContext } from "react-icons";
@@ -20,7 +20,7 @@ import {
 } from "react-icons/md";
 // import { IoMdContacts } from 'react-icons/io'
 import { BiLogOutCircle } from "react-icons/bi";
-import { FaCarAlt } from 'react-icons/fa'
+import { FaCarAlt } from "react-icons/fa";
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {

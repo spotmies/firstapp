@@ -1,24 +1,24 @@
 import "./App.css";
 import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import Navibar from "./components/navbar";
-import Firstslide from "./components/slide1";
-import postview from "./components/postview";
-import Mybooks from "./components/mybooks";
-import chat from "./components/chat";
-import signup from "./components/signup";
-import profile from "./components/profile";
-import SimpleMap from "./components/contact";
-import chatssection from "./components/chats-section";
-import Rentals from "./components/bikerental";
-import pdetails from "./components/pdetails";
-import newpost2 from "./components/newpost2";
-import editpost2 from "./components/editpost2";
+import Navibar from "./components/navbar/navbar";
+import Firstslide from "./components/homeSlides/slide1";
+import postview from "./components/viewpost/postview";
+import Mybooks from "./components/mybookings/mybooks";
+import chat from "./components/chats/chat";
+import signup from "./components/signup&profile/signup";
+import profile from "./components/signup&profile/profile";
+import SimpleMap from "./components/contacts/contact";
+import chatssection from "./components/chats/chats-section";
+import Rentals from "./components/rentals/bikerental";
+import pdetails from "./components/partnerDetails/pdetails";
+import newpost2 from "./components/newpost/newpost2";
+import editpost2 from "./components/editpost/editpost2";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import partnerRegistration from "./components/partnerRegistration";
+import partnerRegistration from "./components/homeSlides/partnerRegistration";
 import ScrollToTop from "./scrolltotop";
-import Privacy from "./components/privacy";
+import Privacy from "./components/privacyPolicy/privacy";
 
 const Routing = () => {
   return (
@@ -49,7 +49,6 @@ const Routing = () => {
 
 function App() {
   return (
-
     <BrowserRouter>
       <Navibar />
       <ToastContainer
@@ -65,7 +64,6 @@ function App() {
       />
       <Routing />
     </BrowserRouter>
-
   );
 }
 

@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import { BsCalendar, BsHammer, BsHouseFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import imageCompression from "browser-image-compression";
-import "./rental.css";
+import "../rentals/rental.css";
 
 import {
   MdLaptopMac,
@@ -32,18 +32,18 @@ import {
   MdEventAvailable,
   MdBuild,
   MdLocalDining,
-  MdMonochromePhotos
+  MdMonochromePhotos,
 } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
-import { FaChalkboardTeacher, FaTools,FaScrewdriver } from "react-icons/fa";
+import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
 import { BiCctv } from "react-icons/bi";
-import {DiPhotoshop} from "react-icons/di";
+import { DiPhotoshop } from "react-icons/di";
 
-import firebase from "../firebase";
+import firebase from "../../firebase";
 import "firebase/storage";
 import { createHashHistory } from "history";
 
-import "../post.css";
+import "../../post.css";
 
 const history = createHashHistory();
 
@@ -71,7 +71,14 @@ function Postnew() {
     <>
       <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        <h3 style={{textAlign:"center",cursor:"pointer"}} onClick={()=>{ history.go(-1);}}>Click here to go back</h3>
+        <h3
+          style={{ textAlign: "center", cursor: "pointer" }}
+          onClick={() => {
+            history.go(-1);
+          }}
+        >
+          Click here to go back
+        </h3>
       </div>
 
       <div style={{ paddingTop: "20px" }}>

@@ -22,7 +22,7 @@ import { BsFillGearFill } from "react-icons/bs";
 import { IoSpeedometerOutline } from "react-icons/io5";
 import { FaPeopleCarry } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import firebase from "../firebase";
+import firebase from "../../firebase";
 import ScrollEvent from "react-onscroll";
 import { toast } from "react-toastify";
 
@@ -271,7 +271,7 @@ function Rentals() {
     <div>
       <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+      </div>
 
       <div>
         {/* <  car Filtering /> */}
