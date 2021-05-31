@@ -59,9 +59,6 @@ const Sekhar = () => {
   // console.log(times[0].media)
   return (
     <div className="responses">
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-      </div>
       <Mybookings data={times} />
     </div>
   );

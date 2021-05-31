@@ -72,11 +72,8 @@ class SimpleMap extends Component {
       sbtn: true,
     });
     e.preventDefault();
-    //console.log(this.state.details);
     let temp = {};
     temp["body"] = JSON.stringify(this.state.details);
-    //console.log(temp)
-    //console.log(JSON.parse(temp));
     let result = await apiPostPut(temp, "contactUs");
     if (result.status == 200) {
       this.clearfield();

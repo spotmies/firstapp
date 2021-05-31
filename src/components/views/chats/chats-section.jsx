@@ -87,9 +87,6 @@ const Sekhar = () => {
   }
   return (
     <div className="responses">
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-      </div>
       <Headings />
       {chit ? <Mybookings data={chit} /> : <Empty />}
     </div>
@@ -104,11 +101,9 @@ function settrue() {
 }
 
 function Mybookings(props) {
-  const history = useHistory();
   const [chat, setchat] = useState([]);
   const [showChat, setShowChat] = useState(false);
   const [listChat, setlistChat] = useState([]);
-  const [unrChat, setunrChat] = useState([]);
   const [heights, widths] = useWindowSize();
 
   useEffect(() => {
@@ -135,10 +130,6 @@ function Mybookings(props) {
   if (widths <= 420) {
     return (
       <>
-        {/* <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-        </div> */}
-
         <div style={{ height: "100%" }}>
           {props.data == 0 ? (
             <Grid>
@@ -295,10 +286,6 @@ function Mybookings(props) {
   } else {
     return (
       <>
-        <div className="comingSoon">
-          <h1 className="soonText">Coming Soon ...</h1>
-        </div>
-
         <div style={{ height: "100%" }}>
           <Grid fluid={true}>
             <Grid.Column
@@ -667,10 +654,6 @@ function Chatarea(props) {
   if (widths <= 1000) {
     return (
       <>
-        <div className="comingSoon">
-          <h1 className="soonText">Coming Soon ...</h1>
-        </div>
-
         <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
           {/* {showChat ?  */}
           <List className="chatHead" horizontal>
@@ -934,9 +917,6 @@ function Chatarea(props) {
   } else {
     return (
       <>
-        <div className="comingSoon">
-          <h1 className="soonText">Coming Soon ...</h1>
-        </div>
         <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
           <List className="chatHead" horizontal>
             <List.Item
