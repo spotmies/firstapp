@@ -35,8 +35,8 @@ import { HiCurrencyRupee } from "react-icons/hi";
 import { FaTools, FaAddressCard } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import "../assets/css/postView.css";
-import { categoryAssign } from "./reusable/categories";
-import { gettbystamps } from "../mservices/dateconv";
+import { categoryAssign } from "../helpers/categories";
+import { gettbystamps } from "../helpers/dateconv";
 
 const db = firebase.firestore();
 
