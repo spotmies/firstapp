@@ -15,7 +15,7 @@ import {
 } from "semantic-ui-react";
 import "../index.css";
 import "../post.css";
-import { gettbystamps } from "../mservices/dateconv";
+import { gettbystamps } from "../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -61,7 +61,7 @@ const Sekhar = () => {
     <div className="responses">
       <div className="comingSoon">
         <h1 className="soonText">Coming Soon ...</h1>
-        </div>
+      </div>
       <Mybookings data={times} />
     </div>
   );
