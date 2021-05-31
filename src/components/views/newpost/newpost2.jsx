@@ -28,7 +28,6 @@ import {
   MdDriveEta,
   MdFace,
   MdCheckCircle,
-  MdFileUpload,
   MdEventAvailable,
   MdBuild,
   MdLocalDining,
@@ -39,11 +38,11 @@ import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
 import { BiCctv } from "react-icons/bi";
 import { DiPhotoshop } from "react-icons/di";
 
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import "firebase/storage";
 import { createHashHistory } from "history";
 
-import "../../post.css";
+import "../../../post.css";
 
 const history = createHashHistory();
 

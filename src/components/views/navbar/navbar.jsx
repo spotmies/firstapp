@@ -4,9 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "./navbar.css";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
-import SmLogo from "../../images/logo.svg";
+import SmLogo from "../../../images/logo.svg";
 
 //react icons
 import { IconContext } from "react-icons";

@@ -31,13 +31,13 @@ import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools } from "react-icons/fa";
 import { IoCameraSharp } from "react-icons/io5";
 import { MdPhotoCamera } from "react-icons/md";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import "firebase/storage";
 import { createHashHistory } from "history";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import "../../post.css";
+import "../../../post.css";
 
 const history = createHashHistory();
 

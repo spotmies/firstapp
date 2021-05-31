@@ -3,17 +3,17 @@ import { Button, Form } from "semantic-ui-react";
 
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
-import "../../assets/css/partner.css";
+import "../../../assets/css/partner.css";
 //import feedback form
 
-import { FeedbackForm } from "../reusable/Modal";
+import { FeedbackForm } from "../../reusable/Modal";
 
 import { FaGooglePlay } from "react-icons/fa";
 
 import { toast } from "react-toastify";
-import textpart from "../../helpers/partnerText";
+import textpart from "../../../helpers/partnerText";
 import ReactReadMoreReadLess from "react-read-more-read-less";
-import { apiPostPut } from "../../mservices/contactUs";
+import { apiPostPut } from "../../../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
 import ScrollAnimation from "react-animate-on-scroll";
 import { BsFillPersonPlusFill } from "react-icons/bs";

@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { Card } from "semantic-ui-react";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import { createHashHistory } from "history";
-import "../../index.css";
+import "../../../index.css";
 import { toast } from "react-toastify";
+import { constants } from "../../../helpers/constants";
 
 //import icons
 import {
@@ -24,17 +25,20 @@ export default class signup extends Component {
   render() {
     return (
       <>
-        <div className="comingSoon">
-          <h1 className="soonText">Coming Soon ...</h1>
-          <h3
-            style={{ textAlign: "center", cursor: "pointer" }}
-            onClick={() => {
-              history.go(-1);
-            }}
-          >
-            Click here to go back
-          </h3>
-        </div>
+        {constants.demoVersion ? (
+          <div className="comingSoon">
+            <h1 className="soonText">Coming Soon ...</h1>
+            <h3
+              style={{ textAlign: "center", cursor: "pointer" }}
+              onClick={() => {
+                history.go(-1);
+              }}
+            >
+              Click here to go back
+            </h3>
+          </div>
+        ) : null}
+
         <div className="signupform">
           <Card centered color="blue" style={{ width: "400px" }}>
             <Card.Content>

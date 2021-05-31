@@ -1,10 +1,10 @@
 import React from "react";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import { Button, Card, Image, Dropdown, Icon } from "semantic-ui-react";
-import "../../index.css";
+import "../../../index.css";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import react, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Col, Row } from "react-bootstrap";
@@ -13,9 +13,9 @@ import {
   Dimmer,
   Loader,
 } from "semantic-ui-react";
-import "../../index.css";
-import "../../post.css";
-import { gettbystamps } from "../../helpers/dateconv";
+import "../../../index.css";
+import "../../../post.css";
+import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 

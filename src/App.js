@@ -1,24 +1,24 @@
 import "./App.css";
 import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import Navibar from "./components/navbar/navbar";
-import Firstslide from "./components/homeSlides/slide1";
-import postview from "./components/viewpost/postview";
-import Mybooks from "./components/mybookings/mybooks";
-import chat from "./components/chats/chat";
-import signup from "./components/signup&profile/signup";
-import profile from "./components/signup&profile/profile";
-import SimpleMap from "./components/contacts/contact";
-import chatssection from "./components/chats/chats-section";
-import Rentals from "./components/rentals/bikerental";
-import pdetails from "./components/partnerDetails/pdetails";
-import newpost2 from "./components/newpost/newpost2";
-import editpost2 from "./components/editpost/editpost2";
+import Navibar from "./components/views/navbar/navbar";
+import Firstslide from "./components/views/homeSlides/slide1";
+import postview from "./components/views/viewpost/postview";
+import Mybooks from "./components/views/mybookings/mybooks";
+import chat from "./components/views/chats/chat";
+import signup from "./components/views/signup&profile/signup";
+import profile from "./components/views/signup&profile/profile";
+import SimpleMap from "./components/views/contacts/contact";
+import chatssection from "./components/views/chats/chats-section";
+import Rentals from "./components/views/rentals/bikerental";
+import pdetails from "./components/views/partnerDetails/pdetails";
+import newpost2 from "./components/views/newpost/newpost2";
+import editpost2 from "./components/views/editpost/editpost2";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import partnerRegistration from "./components/homeSlides/partnerRegistration";
+import partnerRegistration from "./components/views/homeSlides/partnerRegistration";
 import ScrollToTop from "./scrolltotop";
-import Privacy from "./components/privacyPolicy/privacy";
+import Privacy from "./components/views/privacyPolicy/privacy";
 
 const Routing = () => {
   return (

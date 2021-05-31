@@ -1,4 +1,4 @@
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Carousel } from "react-bootstrap";
 import {
