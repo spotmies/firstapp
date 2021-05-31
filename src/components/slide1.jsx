@@ -64,7 +64,7 @@ function Slide() {
   const [lockst, setlockst] = useState(0);
   const securityText =
     "We believe that you should have a choice to share your details with technicians." +
-    "You can communicate with partner in our application itself without sharing contact details. ";
+    "You can communicate with technician in our application itself without sharing contact details. ";
   // const [condiff, setCondiff] = useState(530);
 
   const redirect = () => {
