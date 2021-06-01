@@ -9,7 +9,6 @@ import {
   Label,
   Image,
   Modal,
-  Header,
   Menu,
 } from "semantic-ui-react";
 
@@ -30,14 +29,13 @@ import {
 import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools } from "react-icons/fa";
 import { IoCameraSharp } from "react-icons/io5";
-import { MdPhotoCamera } from "react-icons/md";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import "firebase/storage";
 import { createHashHistory } from "history";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-import "../../post.css";
+import "../../../post.css";
 
 const history = createHashHistory();
 
@@ -82,7 +80,6 @@ function useTimes() {
             setmadia(inj);
             document.querySelector("#nameofserv").value = snap.data().problem;
             document.querySelector("#sdesc").value = snap.data().description;
-            //  document.querySelector('.cate').value=snap.data().job;
             document.querySelector("#sprice").value = snap.data().money;
             snap.data().media.map((nap) => src.push(nap));
           })
@@ -103,8 +100,6 @@ export default function newpost2() {
 }
 
 function Postnew() {
-  const { postdata, posttime } = useTimes();
-
   return (
     <div style={{ paddingTop: "20px" }}>
       <Card centered id="formcard">
@@ -120,7 +115,6 @@ function Postnew() {
     </div>
   );
 }
-// var src=['https://www.w3schools.com/howto/img_snow.jpg']
 var src = [];
 
 function Postform2() {
@@ -194,7 +188,6 @@ function Postform2() {
           });
         })
         .then(() => {
-          //  alert("post added successfully");
           toast.success("post added successfully");
           history.go(-1);
           imgarr = [];
@@ -211,7 +204,6 @@ function Postform2() {
     };
     let cfile;
 
-    // setimage([]);
     for (var i = 0; i < e.target.files.length; i++) {
       let k = Number(i);
 
@@ -219,7 +211,6 @@ function Postform2() {
         .then((x) => {
           cfile = x;
 
-          //     setimage(image.concat([cfile]))
           setimage((nap) => [...nap, cfile]);
           document.getElementById("upldbtn").style.display = "block";
         })
@@ -240,8 +231,6 @@ function Postform2() {
 
   const handleUpload = (e) => {
     e.preventDefault();
-    //  document.getElementById("uploaderb").style.display="block"
-    // document.getElementById('upldbtn').style.display="none"
 
     if (image.length > 0) {
       for (var i = 0; i < image.length; i++) {
@@ -281,13 +270,11 @@ function Postform2() {
       setarrayvar(newar);
       handleSubmit(newar);
     }
-    //document.getElementById("uploaderb").style.display="none"
   };
 
   const sekhararr = (e) => {
     console.log(e.target.parentElement.parentElement.id);
     var array = [...image]; // make a separate copy of the array
-    // var index = array.indexOf(e.target.parentElement.parentElement.id)
     let index2 = Number(e.target.parentElement.parentElement.id);
     console.log(e);
     if (index2 !== -1) {
@@ -299,19 +286,12 @@ function Postform2() {
   const sekhararr2 = (e) => {
     console.log(e.target.parentElement.parentElement.id);
     var array = [...arrayvar2]; // make a separate copy of the array
-    // var index = array.indexOf(e.target.parentElement.parentElement.id)
     let index2 = Number(e.target.parentElement.parentElement.id);
     console.log(e);
     if (index2 !== -1) {
       array.splice(index2, 1);
       setarrayvar2(array);
     }
-  };
-
-  const photoHandle = (e) => {
-    // photoUpload.current.click();
-    document.querySelector(".photoUploads").click();
-    console.log("photoClicked");
   };
 
   return (
@@ -375,11 +355,6 @@ function Postform2() {
           </InputGroup>
         </Form.Field>
 
-        {/* <MdPhotoCamera
-          style={{ height: "150px", width: "100px" }}
-          onClick={photoHandle}
-        /> */}
-
         <Form.Field>
           <Input
             icon="photo"
@@ -395,9 +370,7 @@ function Postform2() {
             multiple
           />
         </Form.Field>
-        {/* <Form.Field control={Button} color="green" id="upldbtn" type="button" onClick={handleUpload}>
-              upload images
-            </Form.Field> */}
+
         <progress value={progress} max="100" id="uploaderb">
           progress
         </progress>
@@ -456,8 +429,6 @@ function Postform2() {
 }
 
 function ModalExampleModal() {
-  var imgsrc =
-    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.vectorgraphit.com%2Ffree-svg-illustrations-for-your-next-website-or-blog%2Famp&psig=AOvVaw28FMPvsnbckOWg5KwrbFDM&ust=1614586813687000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLDUruGSjO8CFQAAAAAdAAAAABAJ";
   const [open, setOpen] = React.useState(true);
 
   function click(e) {

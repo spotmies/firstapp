@@ -1,11 +1,11 @@
 import React, { Component, useCallback } from "react";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Form } from "react-bootstrap";
 import { Button, Segment, Dimmer, Loader, Label } from "semantic-ui-react";
-import "../../index.css";
-import "./chats.css";
+import "../../../index.css";
+import "../../../assets/css/chats.css";
 
 import { BiArrowBack } from "react-icons/bi";
 import { useHistory } from "react-router-dom";
@@ -15,10 +15,10 @@ import imageCompression from "browser-image-compression";
 
 import "firebase/storage";
 //micro service
-import { getpdetailsbyid, disablechat } from "../../mservices/upldmedia";
-import { gettbystamps, ValidURL } from "../../helpers/dateconv";
+import { getpdetailsbyid, disablechat } from "../../../mservices/upldmedia";
+import { gettbystamps, ValidURL } from "../../../helpers/dateconv";
 import { toast } from "react-toastify";
-import { msgdot } from "../../helpers/msgdot";
+import { msgdot } from "../../../helpers/msgdot";
 //import icons
 import { IoIosArrowDropdown } from "react-icons/io";
 
@@ -39,7 +39,7 @@ import {
 } from "react-icons/md";
 
 import { RiImageAddFill } from "react-icons/ri";
-import { sharemydetails } from "../../mservices/userDB";
+import { sharemydetails } from "../../../mservices/userDB";
 
 const db = firebase.firestore();
 const storage = firebase.storage();
@@ -87,9 +87,6 @@ const Sekhar = () => {
   }
   return (
     <div className="responses">
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-      </div>
       <Headings />
       {chit ? <Mybookings data={chit} /> : <Empty />}
     </div>
@@ -104,11 +101,9 @@ function settrue() {
 }
 
 function Mybookings(props) {
-  const history = useHistory();
   const [chat, setchat] = useState([]);
   const [showChat, setShowChat] = useState(false);
   const [listChat, setlistChat] = useState([]);
-  const [unrChat, setunrChat] = useState([]);
   const [heights, widths] = useWindowSize();
 
   useEffect(() => {
@@ -135,10 +130,6 @@ function Mybookings(props) {
   if (widths <= 420) {
     return (
       <>
-        {/* <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-        </div> */}
-
         <div style={{ height: "100%" }}>
           {props.data == 0 ? (
             <Grid>
@@ -295,10 +286,6 @@ function Mybookings(props) {
   } else {
     return (
       <>
-        <div className="comingSoon">
-          <h1 className="soonText">Coming Soon ...</h1>
-        </div>
-
         <div style={{ height: "100%" }}>
           <Grid fluid={true}>
             <Grid.Column
@@ -667,10 +654,6 @@ function Chatarea(props) {
   if (widths <= 1000) {
     return (
       <>
-        <div className="comingSoon">
-          <h1 className="soonText">Coming Soon ...</h1>
-        </div>
-
         <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
           {/* {showChat ?  */}
           <List className="chatHead" horizontal>
@@ -934,9 +917,6 @@ function Chatarea(props) {
   } else {
     return (
       <>
-        <div className="comingSoon">
-          <h1 className="soonText">Coming Soon ...</h1>
-        </div>
         <div style={{ float: "right", width: "100%", overflowY: "auto" }}>
           <List className="chatHead" horizontal>
             <List.Item

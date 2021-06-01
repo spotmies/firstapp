@@ -1,10 +1,10 @@
 import React from "react";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import { Button, Card, Image, Dropdown, Icon } from "semantic-ui-react";
-import "../../index.css";
+import "../../../index.css";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -46,9 +46,6 @@ const Sekhar = () => {
   console.log(times);
   return (
     <div className="responses">
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-      </div>
       <Headings />
       <Mybookings data={times} />
     </div>
@@ -89,17 +86,12 @@ function Mybookings(props) {
       .doc(pro)
       .delete()
       .then(() => {
-        //  alert("response deleted succefully");
         toast.info("response deleted succefully");
       });
   };
 
   return (
     <>
-      {/* <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-        </div> */}
-
       <div>
         {props.data.length > 0
           ? props.data.map((cap) => (

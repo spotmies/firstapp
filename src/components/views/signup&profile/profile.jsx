@@ -1,16 +1,13 @@
 import React, { Component } from "react";
-import pic from "../../images/logo192.png";
-import firebase from "../../firebase";
-import { useState, useEffect } from "react";
+import firebase from "../../../firebase";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
-import { Card, Icon, Image, Dropdown } from "semantic-ui-react";
+import { Card, Icon, Dropdown } from "semantic-ui-react";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { sharemydetails } from "../../mservices/userDB";
+import { sharemydetails } from "../../../mservices/userDB";
 
-import "../../index.css";
-import "../../assets/css/profile.css";
+import "../../../index.css";
+import "../../../assets/css/profile.css";
 
 import imageCompression from "browser-image-compression";
 
@@ -54,7 +51,6 @@ class Profile extends Component {
       .auth()
       .signOut()
       .then(function () {
-        //  alert("logout successfully");
         toast.success("Logout Successfully");
         this.props.history.push("/");
         setTimeout(() => {}, 1000);
@@ -74,14 +70,11 @@ class Profile extends Component {
         altnum: this.state.profile.altnum,
       })
       .then(() => {
-        // alert("details updated...");
         toast.success("Details Updated");
         document.querySelector(".editpro").style.display = "none";
         let temp = this.state.profile;
         temp["pic"] = document.getElementById("editpic").src;
         this.setState({ profile: temp });
-
-        // window.location.reload();
       });
   }
 
@@ -106,15 +99,12 @@ class Profile extends Component {
     console.log("fileis", file.name);
     var uploaderb = document.querySelector("#uploaderb");
     uploaderb.style.display = "block";
-    // crate storage ref
     var storageref = storage.ref(
       `users/${firebase.auth().currentUser.uid}/profile/` + cfile.name
     );
 
-    //upload file
     var task = storageref.put(cfile);
 
-    //update progress bar
     task.on(
       "state_changed",
       function progress(snapshot) {
@@ -145,19 +135,10 @@ class Profile extends Component {
     this.setState({ profile: temp });
   }
   render() {
-    // document.getElementById("name").value = this.state.profile.name;
-    // document.getElementById("email").value = this.state.profile.email;
-    // document.getElementById("altnum").value = this.state.profile.altnum;
-    // document.getElementById("editpic").src = this.state.profile.pic;
     return (
       <div>
         <div style={{ paddingBottom: "50px" }}>
-          <Card
-            centered
-            color="blue"
-            // style={{ width: wWidth > 625 ? "50%" : "85%" }}
-            className="detailsContainer"
-          >
+          <Card centered color="blue" className="detailsContainer">
             <Card.Content>
               <Card.Header style={{ textAlign: "center" }}>
                 <Card.Meta>

@@ -1,8 +1,6 @@
-import React, { Component } from "react";
-import firebase from "../../firebase";
-import react, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Col, Row } from "react-bootstrap";
+import React from "react";
+import firebase from "../../../firebase";
+import { useState, useEffect } from "react";
 import {
   Card,
   Image,
@@ -13,24 +11,17 @@ import {
   Dimmer,
   Loader,
 } from "semantic-ui-react";
-import "../../index.css";
-import "../../post.css";
-import { gettbystamps } from "../../helpers/dateconv";
+import "../../../index.css";
+import "../../../post.css";
+import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-
-import "semantic-ui-css/semantic.min.css";
-//import { Card, Icon,Button,Header, Image, Modal,Step,Menu,Dropdown } from 'semantic-ui-react'
-
 //import icons
-import { IconContext } from "react-icons";
 import { BsEyeFill } from "react-icons/bs";
 import { BiTimeFive } from "react-icons/bi";
 import { RiPinDistanceFill } from "react-icons/ri";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
-import { MdDelete, MdCheckCircle, MdRemoveRedEye } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
-import { FiMoreHorizontal } from "react-icons/fi";
+import { MdCheckCircle } from "react-icons/md";
 
 const db = firebase.firestore();
 
@@ -59,9 +50,6 @@ const Sekhar = () => {
   // console.log(times[0].media)
   return (
     <div className="responses">
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-      </div>
       <Mybookings data={times} />
     </div>
   );
@@ -88,21 +76,12 @@ function Mybookings(props) {
       .doc(pro)
       .delete()
       .then(() => {
-        //  alert("ad deleted succefully");
         toast.success("ad deleted succefully");
       });
   };
   return (
     <div>
       {props.data.length == 0 ? (
-        // <Col xs={12} lg={12}> <Segment className="rentcard">
-        //           <Dimmer active inverted>
-        //             <Loader size='large'>Loading</Loader>
-        //           </Dimmer>
-
-        //           <Image src='/images/wireframe/paragraph.png' />
-        //          </Segment></Col>
-
         <Card.Group>
           <Card centered fluid id="book-card">
             <Card.Content>
@@ -120,12 +99,6 @@ function Mybookings(props) {
               extra
               style={{ display: "inline-block", cursor: "pointer" }}
             >
-              {/* <Image
-      className="post-img" 
-      style={{width:"100px",height:"80px",borderRadius:"1rem",cursor:"pointer"}}
-      
-          floated='left'
-           />   */}
               <Segment className="post-img">
                 <Dimmer active inverted>
                   <Loader size="large">Loading</Loader>

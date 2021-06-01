@@ -1,9 +1,10 @@
-import React,{useRef,useEffect} from "react";
+import React, { useRef } from "react";
 import "./privacy.css";
 
 function Privacy() {
   const ref1 = useRef(null);
-  const executeScroll = () => ref1.current.scrollIntoView({behavior: "smooth"});
+  const executeScroll = () =>
+    ref1.current.scrollIntoView({ behavior: "smooth" });
   return (
     <div className="privacyDiv">
       <article>

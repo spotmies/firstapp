@@ -1,4 +1,4 @@
-import "../../App.css";
+import "../../../App.css";
 import { Link } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import { Button } from "semantic-ui-react";
@@ -8,20 +8,20 @@ import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
 import { BsFillLockFill, BsFillUnlockFill } from "react-icons/bs";
 import { FaGooglePlay } from "react-icons/fa";
-import firebase from "../../firebase";
+import firebase from "../../../firebase";
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
-import "../../assets/css/home.css";
-import text from "../../helpers/usertext";
+import "../../../assets/css/home.css";
+import text from "../../../helpers/usertext";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 import ScrollAnimation from "react-animate-on-scroll";
-import "../../helpers/txtRotate";
-import lock1 from "../../images/lock1.png";
-import lock2 from "../../images/lock2.png";
-import lock3 from "../../images/lock3.png";
-import { feedBack1 } from "../../mservices/contactUs";
+import "../../../helpers/txtRotate";
+import lock1 from "../../../images/lock1.png";
+import lock2 from "../../../images/lock2.png";
+import lock3 from "../../../images/lock3.png";
+import { feedBack1 } from "../../../mservices/contactUs";
 //import feedback form
-import { FeedbackForm } from "../reusable/Modal";
+import { FeedbackForm } from "../../reusable/Modal";
 // gsap.registerPlugin(ScrollTrigger);
 // const lockdiv = document.querySelector("#LockDiv");
 // init(lockdiv, {
