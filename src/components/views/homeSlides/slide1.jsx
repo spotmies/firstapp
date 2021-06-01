@@ -13,7 +13,6 @@ import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
 import "../../../assets/css/home.css";
 import text from "../../../helpers/usertext";
-import ReactReadMoreReadLess from "react-read-more-read-less";
 import ScrollAnimation from "react-animate-on-scroll";
 import "../../../helpers/txtRotate";
 import lock1 from "../../../images/lock1.png";

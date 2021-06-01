@@ -1,13 +1,8 @@
-import takepic from "../images/undraw_Organize_photos_re_ogcy.svg";
-import location from "../images/undraw_Destination_re_sr74.svg";
-//import getquote from "../images/undraw_Hire_re_gn5j.svg";
 import getquote from "../images/undraw_add_tasks_mxew.svg";
 import service from "../images/undraw_online_articles_79ff.svg";
-import about from "../images/undraw_researching_22gp.svg";
-import what from "../images/what.jpeg";
+
 import spot from "../images/undraw_Choose_bwbs.svg";
-import reg from "../images/reg.png";
-import meet from "../images/meet.png";
+
 import man2 from "../images/undraw_Freelancer_re_irh4.svg";
 import register from "../images/undraw_Confirmed_re_sef7.svg";
 import getpaid from "../images/undraw_transfer_money_rywa.svg";

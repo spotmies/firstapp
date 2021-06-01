@@ -12,7 +12,6 @@ import { FaGooglePlay } from "react-icons/fa";
 
 import { toast } from "react-toastify";
 import textpart from "../../../helpers/partnerText";
-import ReactReadMoreReadLess from "react-read-more-read-less";
 import { apiPostPut } from "../../../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
 import ScrollAnimation from "react-animate-on-scroll";
