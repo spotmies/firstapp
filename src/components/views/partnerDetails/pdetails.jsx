@@ -1,34 +1,14 @@
 import firebase from "../../../firebase";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Carousel } from "react-bootstrap";
+import { Card, Icon, Dropdown } from "semantic-ui-react";
+import { useState, useEffect } from "react";
 import {
-  Card,
-  Icon,
-  Image,
-  Dropdown,
-  Label,
-  Step,
-  Button,
-  Rating,
-} from "semantic-ui-react";
-import react, { useState, useEffect } from "react";
-import {
-  MdDelete,
-  MdLocationOn,
-  MdAccessTime,
-  MdWatchLater,
-  MdCheckCircle,
-  MdAssignmentTurnedIn,
-  MdBuild,
-  MdThumbDown,
   MdAccountCircle,
   MdSmartphone,
   MdPhone,
   MdEmail,
 } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
-import { FaTools, FaAddressCard } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
+import { FaAddressCard } from "react-icons/fa";
 
 const db = firebase.firestore();
 

@@ -7,8 +7,6 @@ import {
   Header,
   Image,
   Modal,
-  Step,
-  Menu,
   Dropdown,
   Checkbox,
   Segment,
@@ -16,7 +14,6 @@ import {
   Loader,
 } from "semantic-ui-react";
 import "./rental.css";
-import { Row, Col } from "react-bootstrap";
 import { SiCoronaengine } from "react-icons/si";
 import { BsFillGearFill } from "react-icons/bs";
 import { IoSpeedometerOutline } from "react-icons/io5";
@@ -24,7 +21,7 @@ import { FaPeopleCarry } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import firebase from "../../../firebase";
 import ScrollEvent from "react-onscroll";
-import { toast } from "react-toastify";
+import ComingSoon from "../../reusable/coming_soon_widget";
 
 const db = firebase.firestore();
 
@@ -91,33 +88,11 @@ function Rentals() {
     var box = document.querySelector(".check1");
     box.isChecked = true;
     setcheck(false);
-    // for(var i=0;i<=2;i++){
-    //   let box=document.querySelector(`.check${i}`)
-    //   box.checked=false;
-    // }
   }
 
   function newfunk(e) {
-    //if(ftype=="status") setTimes([]);
-
     uncheckall("ctype");
-    // setcount(e.target.innerText)
-    // settype("cartype")
     setcount(e.target.innerText);
-
-    // for(var i=0;i<=2;i++){
-    //   let ctype=document.getElementById(`type${i}`)
-    //   if(ctype.checked){
-    //     console.log(ctype.value,"is checked")
-    //     //  setTimes([]);
-    //       settype("cartype")
-    //        setcount(ctype.value)
-    //        console.log(count)
-    //   }
-    //   else{
-    //     console.log(ctype.value,"nocheck")
-    //   }
-    // }
   }
 
   //fuel filter
@@ -136,7 +111,6 @@ function Rentals() {
   function transfilt(e) {
     setTimes([]);
     settype4("geartype");
-    //if(e.target.checked)console.log("checkd",e.target.value)
     if (
       (document.getElementById("trans1").checked &&
         document.getElementById("trans2").checked) ||
@@ -151,11 +125,9 @@ function Rentals() {
     }
   }
 
-  //type of car filter petrol or diesel fitelr
   function toc(e) {
     setTimes([]);
     settype5("toc");
-    //if(e.target.checked)console.log("checkd",e.target.value)
     if (
       (document.getElementById("toc1").checked &&
         document.getElementById("toc2").checked) ||
@@ -269,9 +241,7 @@ function Rentals() {
   const [heights, widths] = useWindowSize();
   return (
     <div>
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-      </div>
+      <ComingSoon />
 
       <div>
         {/* <  car Filtering /> */}
@@ -323,14 +293,6 @@ function Rentals() {
               Show me all cars
             </Button>
             <br />
-
-            {/* <Segment compact 
-    onClick={newfunk} 
-    id="segmttype">
-      <Checkbox label="sport" id="type0" value="sport" onClick={satish}/><br/>
-      <Checkbox label="sedan" id="type1" value="sedan" onClick={satish}/><br/>
-      <Checkbox label="suv" id="type2" value="suv" onClick={satish}/><br/>
-    </Segment> */}
 
             <Checkbox
               toggle
@@ -385,46 +347,6 @@ function Rentals() {
               <ScrollEvent handleScrollCallback={scrollevent} />
             ) : null}
             {times.length == 0 ? (
-              //            <Row>
-              //    <Col xs={12} lg={4}> <Segment className="rentcard">
-              //       <Dimmer active inverted>
-              //         <Loader size='large'>Loading</Loader>
-              //       </Dimmer>
-
-              //       <Image src='/images/wireframe/paragraph.png' />
-              //     </Segment></Col>
-
-              //    <Col xs={12} lg={4}> <Segment className="rentcard">
-              //     <Dimmer active inverted>
-              //       <Loader size='large'>Loading</Loader>
-              //     </Dimmer>
-
-              //     <Image src='/images/wireframe/paragraph.png' />
-              //   </Segment></Col>
-
-              //        <Col xs={12} lg={4}>  <Segment className="rentcard">
-              //          <Dimmer active inverted>
-              //           <Loader size='large'>Loading</Loader>
-              //          </Dimmer>
-
-              //   <Image src='/images/wireframe/paragraph.png' />
-              // </Segment></Col>
-
-              //         <Col xs={12} lg={4}> <Segment className="rentcard">
-              //            <Dimmer active inverted>
-              //                <Loader size='large'>Loading</Loader>
-              //            </Dimmer>
-
-              //              <Image src='/images/wireframe/paragraph.png' />
-              //           </Segment></Col>
-
-              //           <Col xs={12} lg={4}> <Segment className="rentcard">
-              //             <Dimmer active inverted>
-              //               <Loader size='large'>Loading</Loader>
-              //             </Dimmer>
-
-              //             <Image src='/images/wireframe/paragraph.png' />
-              //            </Segment></Col></Row>
               <Card.Group>
                 <Card className="rentcard">
                   <Segment className="loaderSegment">
@@ -927,12 +849,7 @@ function Rentals() {
                       >
                         {nap.model}
                       </Card.Header>
-
-                      {/* <Card.Description>
-     <b> &#8377; {nap.price}/Day</b>
-      </Card.Description> */}
                     </Card.Content>
-                    {/* loader images */}
 
                     <Card.Content className="carBtn" extra>
                       <div style={{ display: "inline-flex" }}>
@@ -1133,7 +1050,6 @@ function Rentals() {
             )}
           </div>
         </div>
-        {/* <ModalExampleModal state={open} /> */}
       </div>
     </div>
   );
@@ -1142,42 +1058,6 @@ function Rentals() {
     // console.log(arr)
     setOpen(arr);
   }
-}
-
-function useTimes() {
-  const [times, setTimes] = useState([]);
-  useEffect(() => {
-    var newtimes;
-    let count = 0;
-    db.collection("rentals")
-      .get()
-      .then((snap) => {
-        snap.docs.forEach((nap) => {
-          if (nap.data().permission) {
-            db.collection("rentals")
-              .doc(nap.id)
-              .collection("products")
-              .get()
-              .then((snap) => {
-                newtimes = snap.docs.map((doc) => ({
-                  id: doc.id,
-                  ...doc.data(),
-                }));
-                setTimes((cap) => [...cap, ...newtimes]);
-              });
-          }
-        });
-      });
-  }, []);
-  return times;
-}
-
-function Empty() {
-  return (
-    <div>
-      <p>this is empalyt</p>
-    </div>
-  );
 }
 
 export default Rentals;

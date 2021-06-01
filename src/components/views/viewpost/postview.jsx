@@ -1,24 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 import firebase from "../../../firebase";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Carousel } from "react-bootstrap";
 import {
   Card,
   Icon,
-  Image,
   Dropdown,
   Label,
   Step,
   Button,
   Rating,
 } from "semantic-ui-react";
-import react, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import {
-  MdDelete,
   MdLocationOn,
-  MdAccessTime,
   MdWatchLater,
   MdCheckCircle,
   MdAssignmentTurnedIn,
@@ -29,10 +26,8 @@ import {
   MdPhone,
   MdEmail,
 } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
 import { RiUserSettingsFill, RiTimeFill } from "react-icons/ri";
-import { HiCurrencyRupee } from "react-icons/hi";
-import { FaTools, FaAddressCard } from "react-icons/fa";
+import { FaAddressCard } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import "../../../assets/css/postView.css";
 import { categoryAssign } from "../../../helpers/categories";
@@ -59,8 +54,6 @@ function useTimes() {
           .doc(personId)
           .onSnapshot((snap) => {
             setdata(snap.data());
-            // arr.push(snap.data().posttime);
-            // arr.push(snap.data().schedule);
             setposttime(arr);
           });
       }
@@ -144,7 +137,6 @@ const Navbar3 = () => {
                       poster={nap}
                       autoPlay
                       loop
-                      // style={{ borderRadius: "1rem" }}
                     />
                     <Carousel.Caption></Carousel.Caption>
                   </Carousel.Item>

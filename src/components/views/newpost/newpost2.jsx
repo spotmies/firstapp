@@ -37,19 +37,16 @@ import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
 import { BiCctv } from "react-icons/bi";
 import { DiPhotoshop } from "react-icons/di";
-
 import firebase from "../../../firebase";
 import "firebase/storage";
 import { createHashHistory } from "history";
-
 import "../../../post.css";
+import ComingSoon from "../../reusable/coming_soon_widget";
 
 const history = createHashHistory();
 
 const db = firebase.firestore();
 const storage = firebase.storage();
-
-//var imgarr=['https://www.w3schools.com/howto/img_snow.jpg','https://www.w3schools.com/howto/img_snow.jpg'];
 
 var imgarr = [];
 var jobcate;
@@ -57,9 +54,6 @@ var jobcate;
 export default function newpost2() {
   return (
     <div>
-      {/* <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-        </div> */}
       <Postnew />
     </div>
   );
@@ -68,18 +62,7 @@ export default function newpost2() {
 function Postnew() {
   return (
     <>
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-        <h3
-          style={{ textAlign: "center", cursor: "pointer" }}
-          onClick={() => {
-            history.go(-1);
-          }}
-        >
-          Click here to go back
-        </h3>
-      </div>
-
+      <ComingSoon />
       <div style={{ paddingTop: "20px" }}>
         <Card centered id="formcard" className="postjobb1">
           <Card.Content>
@@ -99,10 +82,6 @@ class Postform extends Component {
   state = {};
 
   handleChange = (e, { value }) => this.setState({ value });
-
-  //from old
-
-  //date picker code here
 
   constructor(props) {
     super(props);
@@ -196,7 +175,6 @@ class Postform extends Component {
           });
         })
         .then(() => {
-          // alert("post added successfully");
           toast.success("post added successfully");
           history.go(-1);
           imgarr = [];
@@ -213,7 +191,6 @@ class Postform extends Component {
     };
     let cfile;
 
-    // this.setState({image:[]})
     for (var i = 0; i < e.target.files.length; i++) {
       let k = Number(i);
 
@@ -255,7 +232,6 @@ class Postform extends Component {
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
-          // setProgress(progress);
           this.setState({ valprogress: progress });
         },
         (error) => {
@@ -293,7 +269,6 @@ class Postform extends Component {
       image: this.state.image.filter((e) => e !== ritem),
     });
     console.log(this.state.image);
-    //setimage(image.filter((e)=>(e !== ritem)))
   };
   pricetag = (flag) => {
     if (flag == "yes") this.setState({ pflag: true });
@@ -301,7 +276,6 @@ class Postform extends Component {
   };
 
   render() {
-    const { value } = this.state;
     return (
       <>
         <Form className="postjobb" onSubmit={this.handleUpload}>
@@ -336,7 +310,6 @@ class Postform extends Component {
                 </InputGroup.Prepend>
 
                 <DatePicker
-                  // className="datepicker"
                   selected={this.state.startDate}
                   placeholderText="when you want service"
                   onChange={this.handleChange2}
@@ -347,7 +320,6 @@ class Postform extends Component {
                   todayButton="Today"
                   timeIntervals={60}
                   timeCaption="time"
-                  // dateFormat="dd/MM/yyyy"
                   dateFormat="MMMM d, yyyy h:mm aa"
                   withPortal
                   required
@@ -444,9 +416,7 @@ function Pricefield() {
 function ModalExampleModal() {
   firebase.auth().onAuthStateChanged(function (user) {
     if (!user) {
-      //  history.go('/login')
       console.log("user login");
-      //  document.getElementById("redirectsignup").click();
     }
   });
 
@@ -460,10 +430,6 @@ function ModalExampleModal() {
 
   return (
     <>
-      <div className="comingSoon">
-        <h1 className="soonText">Coming Soon ...</h1>
-      </div>
-
       <div>
         <Modal
           size="small"

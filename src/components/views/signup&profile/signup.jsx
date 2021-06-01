@@ -7,6 +7,7 @@ import { createHashHistory } from "history";
 import "../../../index.css";
 import { toast } from "react-toastify";
 import { constants } from "../../../helpers/constants";
+import ComingSoon from "../../reusable/coming_soon_widget";
 
 //import icons
 import {
@@ -15,7 +16,6 @@ import {
   MdHttps,
   MdTagFaces,
 } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
 
 const db = firebase.firestore();
 var usrno;
@@ -25,19 +25,7 @@ export default class signup extends Component {
   render() {
     return (
       <>
-        {constants.demoVersion ? (
-          <div className="comingSoon">
-            <h1 className="soonText">Coming Soon ...</h1>
-            <h3
-              style={{ textAlign: "center", cursor: "pointer" }}
-              onClick={() => {
-                history.go(-1);
-              }}
-            >
-              Click here to go back
-            </h3>
-          </div>
-        ) : null}
+        <ComingSoon />
 
         <div className="signupform">
           <Card centered color="blue" style={{ width: "400px" }}>
@@ -178,27 +166,10 @@ function vrfyotp(e) {
         });
     })
     .catch((err) => {
-      //  alert(err)
-      // toast.error(err);
       console.log(err);
-      // console.log(err.code);
       toast.error(err.code);
     });
 }
-
-// firebase.auth().onAuthStateChanged(function(user) {
-
-//   if (user) {
-//     console.log("user login")
-//   }
-//   else console.log("user not login")
-// })
-
-//   function userlogout(){
-//     firebase.auth().signOut().then(function() {
-//       alert("logout successfully")
-//     })
-//   }
 
 function rgstusr(e) {
   e.preventDefault();
@@ -216,13 +187,9 @@ function rgstusr(e) {
         altnum: "",
       })
       .then(() => {
-        // alert("data added")
-
-        //  window.location.href = "http://localhost:3000/";
         history.go(-1);
       });
   } else {
-    //alert("please enter your name");
     toast.warning("Please enter your name");
   }
 }
