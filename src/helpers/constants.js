@@ -7,7 +7,7 @@ module.exports = Object.freeze({
   contactUs: "/contactUs",
   feedBack: "/feedBack",
   constants: {
-    demoVersion: false,
+    demoVersion: true,
   },
   api: {
     USER_DETAILS: "/user/users", //PASS UID AT LAST
