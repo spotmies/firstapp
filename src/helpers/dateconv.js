@@ -1,5 +1,5 @@
 function lastMessage(msg) {
-  if (msg.slice(msg.length - 1) == "u" || msg.slice(msg.length - 1) == "um") {
+  if (msg.slice(msg.length - 1) === "u" || msg.slice(msg.length - 1) === "um") {
     return true;
   } else {
     return false;
@@ -37,7 +37,7 @@ function gettbystamps(stamps, id) {
   let ymonth = yesterday.getMonth();
 
   let date = new Date(stamps * 1000);
-  let year = date.getFullYear();
+  // let year = date.getFullYear();
   let month = date.getMonth();
   let thedate = date.getDate();
   let day = date.getDay();
@@ -59,41 +59,32 @@ function gettbystamps(stamps, id) {
     let temp = dayName[day] + " " + thedate + " " + monthNames[month];
     let temp2 = dayName[tday] + " " + tthedate + " " + monthNames[tmonth];
     let temp3 = dayName[yday] + " " + ythedate + " " + monthNames[ymonth];
-    if (temp == temp2) return "Today";
-    else if (temp == temp3) return "Yesterday";
+    if (temp === temp2) return "Today";
+    else if (temp === temp3) return "Yesterday";
     else return temp;
   };
 
   switch (id) {
     case "strmonth":
       return monthNames[month];
-      break;
 
     case "strday":
       return dayName[day];
-      break;
     case "date":
       return thedate;
-      break;
-    case "strmonth":
-      return dayName[day];
-      break;
+    // case "strmonth":
+    //   return dayName[day];
 
     case "hours":
       return hours;
-      break;
     case "minutes":
       return minutes;
-      break;
     case "time":
       return formatAMPM();
-      break;
     case "fulldate":
       return fullDate();
-      break;
     default:
       return "invalid id";
-      break;
   }
 }
 function countSpecial(str) {
@@ -124,7 +115,6 @@ function getstamp(raw) {
 function ValidURL(str) {
   var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
   if (!regex.test(str)) {
-    // alert("Please enter valid URL.");
     return false;
   } else {
     return true;

@@ -75,11 +75,11 @@ function Navibar() {
                 </Navbar.Brand>
               </Link>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-              <Navbar.Collapse id="responsive-navbar-nav">
+              <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
                 <Nav className="mr-auto"></Nav>
                 <Nav
                   className="nav-linkList"
-                  style={{ color: "black", display: "inline-flex" }}
+                  style={{ color: "black", display: "inline-flex"}}
                 >
                   {isLogged ? (
                     <>
