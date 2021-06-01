@@ -210,6 +210,7 @@ class SimpleMap extends Component {
                 required
               />
             </Form.Group>
+            <br></br>
             {this.state.sbtn == false ? (
               <Button primary type="submit">
                 Submit
