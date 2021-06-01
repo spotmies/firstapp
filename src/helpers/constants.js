@@ -9,4 +9,12 @@ module.exports = Object.freeze({
   constants: {
     demoVersion: false,
   },
+  api: {
+    USER_DETAILS: "/user/users", //PASS UID AT LAST
+    USER_ORDERS: "/order/user", //PASS UID AT LAST
+    ORDER_DETAILS: "/order/orders", //PASS ORDER ID AT LAST
+    PARTNER_DETAILS: "/partner/partners", //PASS PID AT LAST
+    NEW_CHAT: "/chat/createNewChatRoom",
+    CREATE_ORDER: "/order/Create-Ord",
+  },
 });
