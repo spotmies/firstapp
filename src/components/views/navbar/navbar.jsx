@@ -6,6 +6,7 @@ import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
 import SmLogo from "../../../images/logo.svg";
+import {connect} from "react-redux";
 
 //react icons
 import { IconContext } from "react-icons";

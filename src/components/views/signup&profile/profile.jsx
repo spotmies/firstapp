@@ -11,6 +11,8 @@ import "../../../assets/css/profile.css";
 
 import imageCompression from "browser-image-compression";
 
+import {connect} from "react-redux";
+
 import {
   MdAccountCircle,
   MdPhone,

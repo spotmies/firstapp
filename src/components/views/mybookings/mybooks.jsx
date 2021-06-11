@@ -22,11 +22,16 @@ import { BiTimeFive } from "react-icons/bi";
 import { RiPinDistanceFill } from "react-icons/ri";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { MdCheckCircle } from "react-icons/md";
+import { connect } from "react-redux";
 
 const db = firebase.firestore();
 
-function useTimes() {
+function useTimes(props) {
   const [times, setTimes] = useState([]);
+ const pushToStore=(data)=>{
+    props.addNewBook(data);
+
+  }
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -34,6 +39,9 @@ function useTimes() {
           .doc(firebase.auth().currentUser.uid)
           .collection("adpost")
           .onSnapshot((snap) => {
+            snap.docs.forEach((doc)=>{
+              pushToStore(doc.data());
+            })
             const newtimes = snap.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
@@ -45,21 +53,12 @@ function useTimes() {
   }, []);
   return times;
 }
-const Sekhar = () => {
-  const times = useTimes();
-  // console.log(times[0].media)
-  return (
-    <div className="responses">
-      <Mybookings data={times} />
-    </div>
-  );
-};
-
-export default Sekhar;
 
 function Mybookings(props) {
-  const history = useHistory();
+  console.log(props)
 
+  const history = useHistory();
+ const data = useTimes(props);
   const click = (prop) => {
     console.log("click", prop);
     history.push(`mybookings/id/${prop}`);
@@ -81,7 +80,7 @@ function Mybookings(props) {
   };
   return (
     <div>
-      {props.data.length == 0 ? (
+      {data.length == 0 ? (
         <Card.Group>
           <Card centered fluid id="book-card">
             <Card.Content>
@@ -110,7 +109,7 @@ function Mybookings(props) {
           </Card>
         </Card.Group>
       ) : (
-        <Sematiccard data={props.data} />
+        <Sematiccard data={data} />
       )}
     </div>
   );
@@ -250,6 +249,26 @@ function Sematiccard(props) {
     </div>
   );
 }
+
+
+
+const mapStateToProps = (state)=>{
+  return {
+    userDetails:state.userDetails,
+    myBooks : state.myBookings
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    addNewBook : (data)=>{dispatch({type:"ADD_NEW_BOOK",value:data})}
+  }
+
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Mybookings);
+
+
+
+
 
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
