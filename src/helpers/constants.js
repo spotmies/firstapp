@@ -7,7 +7,7 @@ module.exports = Object.freeze({
   contactUs: "/contactUs",
   feedBack: "/feedBack",
   constants: {
-    demoVersion: true,
+    demoVersion: false,
   },
   api: {
     USER_DETAILS: "/user/users", //PASS UID AT LAST
@@ -16,5 +16,6 @@ module.exports = Object.freeze({
     PARTNER_DETAILS: "/partner/partners", //PASS PID AT LAST
     NEW_CHAT: "/chat/createNewChatRoom",
     CREATE_ORDER: "/order/Create-Ord",
+    NEW_USER: "/user/newUser",
   },
 });

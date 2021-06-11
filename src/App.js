@@ -7,6 +7,7 @@ import postview from "./components/views/viewpost/postview";
 import Mybooks from "./components/views/mybookings/mybooks";
 import chat from "./components/views/chats/chat";
 import signup from "./components/views/signup&profile/signup";
+import login from "./components/views/signup&profile/login";
 import profile from "./components/views/signup&profile/profile";
 import SimpleMap from "./components/views/contacts/contact";
 import chatssection from "./components/views/chats/chats-section";
@@ -33,7 +34,7 @@ const Routing = () => {
         <Route path="/newpost" component={newpost2} />
         <Route path="/chat" component={chat} />
         <Route path="/chats-section" component={chatssection} />
-        <Route path="/signup" component={signup} />
+        <Route path="/signup" component={login} />
         <Route path="/account" component={profile} />
         <Route path="/mybookings/id/edit" component={editpost2} />
         <Route path="/mybookings/id" component={postview} />
