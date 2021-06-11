@@ -1,0 +1,11 @@
+.fullScreenLoad {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  color: rgb(0, 0, 0);
+  z-index: 999 !important;
+  display: flex;
+  align-items: center; /* vertical */
+  justify-content: center; /* horizontal */
+  background: rgba(255, 248, 248, 0.863);
+}
