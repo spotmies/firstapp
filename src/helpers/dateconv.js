@@ -112,13 +112,16 @@ function getstamp(raw) {
   return temp2;
 }
 
-function ValidURL(str) {
-  var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+function validURL(str) {
+  var regex =
+    /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
   if (!regex.test(str)) {
+    console.log("return false");
     return false;
   } else {
+    console.log("reftun true");
     return true;
   }
 }
 
-export { gettbystamps, getorgnl, getstamp, lastMessage, ValidURL };
+export { gettbystamps, getorgnl, getstamp, lastMessage, validURL };

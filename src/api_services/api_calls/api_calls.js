@@ -14,9 +14,9 @@ export async function apiGetMethod(path) {
   } else return null;
 }
 
-export async function apiPostPut(body, path) {
+export async function apiPostPut(body, path, method) {
   const uri = constants.baseUrl + path;
-  const response = await fetch(uri, await addHeader(body, "POST"));
+  const response = await fetch(uri, await addHeader(body, method));
   if (response.status == 200) {
     const data = await response.json();
     return data;

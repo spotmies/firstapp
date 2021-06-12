@@ -5,7 +5,9 @@ import { allowOnlyNumber } from "../../../helpers/regex/regex";
 import FullScreenLoader from "../../reusable/helpers";
 import firebase from "../../../firebase";
 import { toast } from "react-toastify";
-import { checkUser, newUser } from "../../controllers/login/login_controller";
+import { loginUser, newUser } from "../../controllers/login/login_controller";
+import { connect } from "react-redux";
+import { saveState } from "../../../helpers/localStorage";
 
 var loginDetails;
 class Login extends Component {
@@ -64,7 +66,6 @@ class Login extends Component {
   };
 
   verifyOtp = async () => {
-    // this.setState({ loader: true });
     this.eventLoader(true);
     const otp = this.state.otpController.current.value;
     var data = await window.confirmationResult
@@ -72,13 +73,13 @@ class Login extends Component {
       .then(async function (result) {
         console.log(result);
         loginDetails = result;
-        let response = await checkUser(loginDetails.user.uid);
+        let response = await loginUser(loginDetails.user.uid);
         if (response == false) {
           toast.info("Please enter your name to register");
           return "registerUser";
         } else {
           toast.info("Login Successfully");
-          return "navBack";
+          return response;
         }
       })
       .catch((err) => {
@@ -87,12 +88,13 @@ class Login extends Component {
         return true;
       });
     console.log(data);
-    // if (data) this.setState({ loader: false });
     this.setState({
       loader: false,
       registrationSection: data == "registerUser" ? true : false,
     });
-    if (data == "navBack") {
+    if (data != "registerUser") {
+      this.props.updateUser(data);
+      saveState("userDetails", data);
       this.props.history.go(-1);
     }
   };
@@ -139,6 +141,10 @@ class Login extends Component {
     let response = await newUser(loginDetails);
     this.eventLoader(false);
     if (response != null) {
+      this.props.updateUser(response);
+      saveState("userDetails", response);
+      toast.success("Registration Completed");
+      this.props.history.go(-1);
     } else {
       toast.info("something went wrong");
     }
@@ -153,7 +159,7 @@ class Login extends Component {
     console.log("screen started ......");
     return (
       <div style={{ paddingTop: "50px" }}>
-        {state.loader ? <FullScreenLoader data="Please Wait..." /> : null}
+        <FullScreenLoader loader={state.loader} data="Please Wait..." />
         <div className="loginForm">
           <Form>
             <Form.Field>
@@ -161,7 +167,7 @@ class Login extends Component {
               <input
                 placeholder="Enter Phone number hrer"
                 ref={state.numberController}
-                maxlength="10"
+                maxLength="10"
                 name="phone"
                 onChange={this.handleChange}
               />
@@ -176,7 +182,7 @@ class Login extends Component {
               <input
                 placeholder="Enter OTP here"
                 ref={state.otpController}
-                maxlength="6"
+                maxLength="6"
                 name="otp"
                 onChange={this.handleChange}
               />
@@ -212,8 +218,22 @@ class Login extends Component {
             ) : null}
           </Form>
         </div>
+        {/* <ReduxPersistent /> */}
       </div>
     );
   }
 }
-export default Login;
+
+const mapStateToProps = (state) => {
+  return {
+    reduxStore: state,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUser: (data) => {
+      dispatch({ type: "UPDATE_USER_DETAILS", value: data });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -6,6 +6,7 @@ module.exports = Object.freeze({
   partnerRegistration: "/partnerRegistration",
   contactUs: "/contactUs",
   feedBack: "/feedBack",
+  uploadFileLink: "",
   constants: {
     demoVersion: false,
   },
