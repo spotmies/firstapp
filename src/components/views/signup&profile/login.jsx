@@ -1,7 +1,7 @@
 import React, { Component, createRef } from "react";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import "./login.css";
-import { allowOnlyNumber } from "../../../helpers/regex/regex";
+import { onlyNumRegEx } from "../../../helpers/regex/regex";
 import FullScreenLoader from "../../reusable/helpers";
 import firebase from "../../../firebase";
 import { toast } from "react-toastify";
@@ -105,8 +105,7 @@ class Login extends Component {
     const value = e.target.value;
     switch (name) {
       case "phone":
-        if (allowOnlyNumber(value))
-          state.numberController.current.value = value;
+        if (onlyNumRegEx(value)) state.numberController.current.value = value;
         else {
           state.numberController.current.value = value.slice(
             0,
@@ -121,7 +120,7 @@ class Login extends Component {
 
         break;
       case "otp":
-        if (allowOnlyNumber(value)) state.otpController.current.value = value;
+        if (onlyNumRegEx(value)) state.otpController.current.value = value;
         else {
           state.otpController.current.value = value.slice(0, value.length - 1);
         }

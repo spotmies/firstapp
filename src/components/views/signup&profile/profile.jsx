@@ -3,7 +3,6 @@ import firebase from "../../../firebase";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Card, Icon, Dropdown } from "semantic-ui-react";
 import { toast } from "react-toastify";
-import { withRouter } from "react-router-dom";
 import { sharemydetails } from "../../../mservices/userDB";
 import { validURL } from "../../../helpers/dateconv";
 import "../../../index.css";
@@ -20,6 +19,7 @@ import {
   MdEmail,
   MdSmartphone,
 } from "react-icons/md";
+import { allowOnlyNumber } from "../../../helpers/regex/regex";
 
 const db = firebase.firestore();
 const storage = firebase.storage();
@@ -32,8 +32,10 @@ class Profile extends Component {
       profile: {},
       editSection: false,
       loader: false,
+      nameController: React.createRef(),
+      altNumController: React.createRef(),
+      eMailController: React.createRef(),
     };
-    this.handlechange = this.handlechange.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.upldimg = this.upldimg.bind(this);
   }
@@ -67,6 +69,9 @@ class Profile extends Component {
     let uId = this.state.profile.uId;
     let updateObject = this.state.profile;
     updateObject["lastLogin"] = new Date().valueOf();
+    updateObject["name"] = this.state.nameController.current.value;
+    updateObject["altNum"] = this.state.altNumController.current.value;
+    updateObject["eMail"] = this.state.eMailController.current.value;
     let response = await updateUserDetails(uId, updateObject);
     this.eventLoader(false);
     this.editProfileSection(false);
@@ -93,7 +98,6 @@ class Profile extends Component {
         console.log(error.message);
       });
 
-    console.log("fileis", file.name);
     var uploaderb = document.querySelector("#uploaderb");
     uploaderb.style.display = "block";
 
@@ -114,9 +118,7 @@ class Profile extends Component {
         console.log(err);
       },
       () => {
-        console.log("adhar back uploaded successfully ");
         task.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          console.log("File available at", downloadURL);
           uploaderb.style.display = "none";
           let temp = this.state.profile;
           temp["pic"] = downloadURL;
@@ -125,15 +127,7 @@ class Profile extends Component {
       }
     );
   }
-  handlechange(e) {
-    let value = e.target.value;
-    let id = e.target.id;
-    console.log(id, value);
-    let temp = this.state.profile;
 
-    temp[id] = value;
-    this.setState({ profile: temp });
-  }
   //turn on off loader
   eventLoader = (value) => {
     this.setState({
@@ -233,7 +227,7 @@ class Profile extends Component {
           {this.state.editSection ? (
             <div className="editpro">
               <Form className="EditForm" onSubmit={this.submitForm}>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="name">
                   <p
                     className="crossBtn"
                     onClick={() => {
@@ -284,13 +278,14 @@ class Profile extends Component {
                       id="name"
                       placeholder="Enter your name"
                       required
-                      value={this.state.profile.name}
-                      onChange={this.handlechange}
+                      defaultValue={this.state.profile.name}
+                      ref={this.state.nameController}
+                      required
                     />
                   </InputGroup>
                 </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group controlId="eMail">
                   <InputGroup className="mb-2 mr-sm-2">
                     <InputGroup.Prepend>
                       <InputGroup.Text>@</InputGroup.Text>
@@ -298,13 +293,14 @@ class Profile extends Component {
                     <FormControl
                       id="eMail"
                       placeholder="Enter your email "
-                      value={this.state.profile.eMail}
-                      onChange={this.handlechange}
+                      defaultValue={this.state.profile.eMail}
+                      type="email"
+                      ref={this.state.eMailController}
                     />
                   </InputGroup>
                 </Form.Group>
 
-                <Form.Group controlId="formBasicPassword">
+                <Form.Group controlId="altNum">
                   <InputGroup className="mb-2 mr-sm-2">
                     <InputGroup.Prepend>
                       <InputGroup.Text>@</InputGroup.Text>
@@ -312,8 +308,10 @@ class Profile extends Component {
                     <FormControl
                       id="altNum"
                       placeholder="Enter your alternative phone number"
-                      value={this.state.profile.altNum}
-                      onChange={this.handlechange}
+                      defaultValue={this.state.profile.altNum}
+                      maxLength="10"
+                      onChange={allowOnlyNumber}
+                      ref={this.state.altNumController}
                     />
                   </InputGroup>
                 </Form.Group>
