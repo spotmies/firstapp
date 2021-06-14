@@ -36,7 +36,7 @@ function gettbystamps(stamps, id) {
   let ythedate = yesterday.getDate(); //returns date 1,2,3,4..
   let ymonth = yesterday.getMonth();
 
-  let date = new Date(stamps * 1000);
+  let date = new Date(stamps);
   // let year = date.getFullYear();
   let month = date.getMonth();
   let thedate = date.getDate();

@@ -23,15 +23,16 @@ import { RiPinDistanceFill } from "react-icons/ri";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { MdCheckCircle } from "react-icons/md";
 import { connect } from "react-redux";
+import FullScreenLoader from "../../reusable/helpers";
+import { getUserOrders } from "../../controllers/new_post/order_controller";
 
 const db = firebase.firestore();
 
 function useTimes(props) {
   const [times, setTimes] = useState([]);
- const pushToStore=(data)=>{
-    props.addNewBook(data);
-
-  }
+  const pushToStore = (data) => {
+    props.addNewOrder(data);
+  };
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -39,9 +40,9 @@ function useTimes(props) {
           .doc(firebase.auth().currentUser.uid)
           .collection("adpost")
           .onSnapshot((snap) => {
-            snap.docs.forEach((doc)=>{
+            snap.docs.forEach((doc) => {
               pushToStore(doc.data());
-            })
+            });
             const newtimes = snap.docs.map((doc) => ({
               id: doc.id,
               ...doc.data(),
@@ -55,67 +56,29 @@ function useTimes(props) {
 }
 
 function Mybookings(props) {
-  console.log(props)
+  const [data, setData] = useState([]);
+  const [loader, setLoader] = useState(true);
+  // const data = useTimes(props);
+  console.log(props.orders);
 
-  const history = useHistory();
- const data = useTimes(props);
-  const click = (prop) => {
-    console.log("click", prop);
-    history.push(`mybookings/id/${prop}`);
+  const getOrders = async () => {
+    if (props.orders.length < 1) {
+      console.log("fetching API");
+      let orders = await getUserOrders(firebase.auth().currentUser.uid);
+      console.log(orders);
+      setData(orders);
+      props.updateAllOrders(orders);
+      setLoader(false);
+    } else {
+      setData(props.orders);
+      setLoader(false);
+    }
   };
 
-  const edit = (prop) => {
-    console.log("click", prop);
-    history.push(`mybookings/id/edit/${prop}`);
-  };
-  const delpost = (pro) => {
-    db.collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("adpost")
-      .doc(pro)
-      .delete()
-      .then(() => {
-        toast.success("ad deleted succefully");
-      });
-  };
-  return (
-    <div>
-      {data.length == 0 ? (
-        <Card.Group>
-          <Card centered fluid id="book-card">
-            <Card.Content>
-              <Card.Meta style={{ display: "inline-flex" }}>
-                <Icon name="time" />{" "}
-              </Card.Meta>
-              <Dropdown
-                item
-                icon="ellipsis horizontal"
-                simple
-                style={{ float: "right" }}
-              ></Dropdown>
-            </Card.Content>
-            <Card.Content
-              extra
-              style={{ display: "inline-block", cursor: "pointer" }}
-            >
-              <Segment className="post-img">
-                <Dimmer active inverted>
-                  <Loader size="large">Loading</Loader>
-                </Dimmer>
+  useEffect(() => {
+    getOrders();
+  }, [data.length < 1]);
 
-                <Image src="/images/wireframe/paragraph.png" />
-              </Segment>
-            </Card.Content>
-          </Card>
-        </Card.Group>
-      ) : (
-        <Sematiccard data={data} />
-      )}
-    </div>
-  );
-}
-
-function Sematiccard(props) {
   const history = useHistory();
   const click = (prop) => {
     console.log("click", prop);
@@ -126,151 +89,162 @@ function Sematiccard(props) {
     console.log("click", prop);
     history.push(`mybookings/id/edit/${prop}`);
   };
-  const delpost = (pro) => {
-    db.collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("adpost")
-      .doc(pro)
-      .delete()
-      .then(() => {
-        alert("ad deleted succefully");
-        toast.success("ad deleted succefully");
-      });
+  const delpost = (ordId) => {
+    props.deleteOrder(ordId);
+    setData(data.filter((item) => item.ordId !== ordId));
+    // db.collection("users")
+    //   .doc(firebase.auth().currentUser.uid)
+    //   .collection("adpost")
+    //   .doc(pro)
+    //   .delete()
+    //   .then(() => {
+    //     alert("ad deleted succefully");
+    //     toast.success("ad deleted succefully");
+    //   });
   };
 
   return (
-    <div style={{ paddingTop: "30px" }}>
-      {props.data.map((cap, key) => (
-        <Card.Group>
-          <Card centered fluid id="book-card">
-            <Card.Content>
-              <Card.Meta style={{ display: "inline-flex" }}>
-                <Icon name="time" />{" "}
-                {gettbystamps(Number(cap.posttime), "fulldate")} &nbsp;@&nbsp;
-                <b> {gettbystamps(Number(cap.posttime), "time")}</b>
-              </Card.Meta>
-              <Dropdown
-                item
-                icon="ellipsis horizontal"
-                simple
-                style={{ float: "right" }}
-              >
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={(e) => click(cap.id)}>
-                    View post
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={(e) => edit(cap.orderid)}>
-                    Edit post
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={(e) => delpost(cap.orderid)}>
-                    Delete
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Card.Content>
-            <Card.Content
-              extra
-              style={{ display: "inline-block", cursor: "pointer" }}
-              onClick={(e) => click(cap.id)}
-            >
-              <Image
-                className="post-img"
-                style={{ borderRadius: "1rem", cursor: "pointer" }}
-                floated="left"
-                src={cap.media[0]}
-              />
+    <div>
+      <FullScreenLoader loader={loader} data="fetching your orders ..." />
+      {data.length > 0 ? (
+        <div style={{ paddingTop: "30px" }}>
+          {data.map((cap, key) => (
+            <Card.Group key={cap._id}>
+              <Card centered fluid id="book-card">
+                <Card.Content>
+                  <Card.Meta style={{ display: "inline-flex" }}>
+                    <Icon name="time" />{" "}
+                    {gettbystamps(Number(cap.join), "fulldate")} &nbsp;@&nbsp;
+                    <b> {gettbystamps(Number(cap.join), "time")}</b>
+                  </Card.Meta>
+                  <Dropdown
+                    item
+                    icon="ellipsis horizontal"
+                    simple
+                    style={{ float: "right" }}
+                  >
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                      // onClick={(e) => click(cap.id)}
+                      >
+                        View post
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={(e) => edit(cap.ordId)}>
+                        Edit post
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={(e) => delpost(cap.ordId)}>
+                        Delete
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Card.Content>
+                <Card.Content
+                  extra
+                  style={{ display: "inline-block", cursor: "pointer" }}
+                  // onClick={(e) => click(cap.id)}
+                >
+                  <Image
+                    className="post-img"
+                    style={{ borderRadius: "1rem", cursor: "pointer" }}
+                    floated="left"
+                    src={cap.media[0]}
+                  />
 
-              <Card.Header style={{ paddingBottom: "10px", cursor: "pointer" }}>
-                {cap.problem}
-              </Card.Header>
-              <div style={{ display: "inline-flex" }}>
-                <div style={{ paddingRight: "30px" }}>
-                  <p>
-                    <BsEyeFill /> Views: {cap.views}
+                  <Card.Header
+                    style={{ paddingBottom: "10px", cursor: "pointer" }}
+                  >
+                    {cap.problem}
+                  </Card.Header>
+                  <div style={{ display: "inline-flex" }}>
+                    <div style={{ paddingRight: "30px" }}>
+                      <p>
+                        <BsEyeFill /> Views:{cap.views}
+                        {/* {cap.views} */}
+                      </p>
+                      <p>
+                        <RiPinDistanceFill /> Distance: 1km
+                      </p>
+                    </div>
+                    <div>
+                      {cap.money != null ? (
+                        <p>
+                          <HiOutlineCurrencyRupee /> Money: &#8377;{cap.money}
+                        </p>
+                      ) : (
+                        <p>
+                          <HiOutlineCurrencyRupee /> Money: &#8377;--
+                        </p>
+                      )}
+
+                      <p>
+                        <BiTimeFive /> Time: 1hr
+                      </p>
+                    </div>
+                  </div>
+                </Card.Content>
+                <Card.Content style={{ display: "inline-flex" }}>
+                  <p
+                    onClick={(e) => click(cap.ordId)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <BsEyeFill size="1.5rem" />
+                    <u>
+                      {" "}
+                      <b>View post</b>
+                    </u>
                   </p>
-                  <p>
-                    <RiPinDistanceFill /> Distance: 1km
-                  </p>
-                </div>
-                <div>
-                  {String(cap.money) != "NaN" ? (
-                    <p>
-                      <HiOutlineCurrencyRupee /> Money: &#8377;{cap.money}
-                    </p>
+                  {cap.ordState == 2 ? (
+                    <Label
+                      color="green"
+                      attached="bottom right"
+                      style={{
+                        marginRight: "10px",
+                        marginBottom: "10px",
+                        borderRadius: "0.7rem",
+                      }}
+                    >
+                      <MdCheckCircle /> Completed
+                    </Label>
                   ) : (
-                    <p>
-                      <HiOutlineCurrencyRupee /> Money: &#8377;--
-                    </p>
+                    <Label
+                      color="blue"
+                      attached="bottom right"
+                      style={{
+                        marginRight: "10px",
+                        marginBottom: "10px",
+                        borderRadius: "0.7rem",
+                      }}
+                    >
+                      Active
+                    </Label>
                   )}
-
-                  <p>
-                    <BiTimeFive /> Time: 1hr
-                  </p>
-                </div>
-              </div>
-            </Card.Content>
-            <Card.Content style={{ display: "inline-flex" }}>
-              <p onClick={(e) => click(cap.id)} style={{ cursor: "pointer" }}>
-                <BsEyeFill size="1.5rem" />
-                <u>
-                  {" "}
-                  <b>View post</b>
-                </u>
-              </p>
-              {cap.orderstate == 2 ? (
-                <Label
-                  color="green"
-                  attached="bottom right"
-                  style={{
-                    marginRight: "10px",
-                    marginBottom: "10px",
-                    borderRadius: "0.7rem",
-                  }}
-                >
-                  <MdCheckCircle /> Completed
-                </Label>
-              ) : (
-                <Label
-                  color="blue"
-                  attached="bottom right"
-                  style={{
-                    marginRight: "10px",
-                    marginBottom: "10px",
-                    borderRadius: "0.7rem",
-                  }}
-                >
-                  Active
-                </Label>
-              )}
-            </Card.Content>
-          </Card>
-        </Card.Group>
-      ))}
+                </Card.Content>
+              </Card>
+            </Card.Group>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }
 
-
-
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state) => {
   return {
-    userDetails:state.userDetails,
-    myBooks : state.myBookings
-  }
-}
-const mapDispatchToProps = (dispatch)=>{
+    userDetails: state.userDetails,
+    orders: state.orders,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
   return {
-    addNewBook : (data)=>{dispatch({type:"ADD_NEW_BOOK",value:data})}
-  }
-
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Mybookings);
-
-
-
-
-
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-  }
-});
+    addNewOrder: (data) => {
+      dispatch({ type: "ADD_NEW_ORDER", value: data });
+    },
+    updateAllOrders: (data) => {
+      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+    deleteOrder: (ordId) => {
+      dispatch({ type: "DELETE_ORDER", value: ordId });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);
