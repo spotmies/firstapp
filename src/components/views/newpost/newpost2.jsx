@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-
+import React, { Component, useCallback, useEffect } from "react";
+import { connect } from "react-redux";
 import {
   Button,
   Form,
   Input,
-  TextArea,
   Card,
   Label,
   Image,
@@ -16,7 +15,7 @@ import { InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
-
+import FullScreenLoader from "../../reusable/helpers";
 import { BsCalendar, BsHammer, BsHouseFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import imageCompression from "browser-image-compression";
@@ -42,148 +41,146 @@ import "firebase/storage";
 import { createHashHistory } from "history";
 import "../../../post.css";
 import ComingSoon from "../../reusable/coming_soon_widget";
+import { categoryAssign } from "../../../helpers/categories";
+import { createNewServiceRequest } from "../../controllers/new_post/order_controller";
 
 const history = createHashHistory();
 
-const db = firebase.firestore();
 const storage = firebase.storage();
 
-var imgarr = [];
-var jobcate;
-
-export default function newpost2() {
-  return (
-    <div>
-      <Postnew />
-    </div>
-  );
-}
-
-function Postnew() {
-  return (
-    <>
-      <ComingSoon />
-      <div style={{ paddingTop: "20px" }}>
-        <Card centered id="formcard" className="postjobb1">
-          <Card.Content>
-            <Card.Header style={{ textAlign: "center" }}>New Post</Card.Header>
-          </Card.Content>
-          <Card.Content>
-            <Postform />
-          </Card.Content>
-        </Card>
-        <ModalExampleModal />
-      </div>
-    </>
-  );
-}
-
-class Postform extends Component {
-  state = {};
-
-  handleChange = (e, { value }) => this.setState({ value });
-
+class Postnew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: "",
-      sekcate: "",
-      arrayvar: [],
-      mopen: false,
-      image: [],
-      imgurl: "",
-      valprogress: 0,
-      addsubmit: false,
-      pflag: false,
+      job: null,
+      openJobModal: true,
+      loader: false,
     };
-    this.handleChange2 = this.handleChange2.bind(this);
+  }
+  eventLoader = (value) => {
+    this.setState({ loader: value });
+  };
+  updateJob = (value) => {
+    console.log(this.props);
+    this.setState({
+      job: value,
+      openJobModal: false,
+    });
+  };
+  triggerJobModal = (value) => {
+    console.log("triggered", value);
+    this.setState({ openJobModal: value });
+  };
+  render() {
+    // console.log(this.props);
+    return (
+      <>
+        <ComingSoon />
+        <FullScreenLoader loader={this.state.loader} data="Please wait...." />
+
+        <div
+          style={{
+            paddingTop: "20px",
+          }}
+        >
+          <Card centered id="formcard" className="postjobb1">
+            <Card.Content>
+              <Card.Header
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                New Post
+              </Card.Header>
+            </Card.Content>
+            <Card.Content>
+              <Postform
+                job={this.state.job}
+                triggerJobModal={this.triggerJobModal}
+                eventLoader={this.eventLoader}
+                addNewOrder={this.props.addNewOrder}
+              />
+            </Card.Content>
+          </Card>
+          <ModalExampleModal
+            job={this.state.job}
+            updateJob={this.updateJob}
+            trigger={this.state.openJobModal}
+          />
+        </div>
+      </>
+    );
+  }
+}
+class Postform extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      schedule: "",
+      media: [],
+      image: [],
+      valprogress: 0,
+      pflag: false,
+      addPosted: false,
+      uId: firebase.auth().currentUser.uid,
+      //controllers
+      problemController: React.createRef(),
+      descriptionController: React.createRef(),
+      moneyController: React.createRef(),
+      scheduleController: React.createRef(),
+    };
+    this.updateSchedule = this.updateSchedule.bind(this);
   }
 
-  handleChange2(date) {
-    console.log(this.state.arrayvar);
-
+  updateSchedule(date) {
+    console.log(new Date(date).valueOf());
     this.setState({
-      startDate: date,
+      schedule: new Date(date).valueOf(),
     });
   }
 
   componentDidUpdate() {
-    if (this.state.image.length > 0) {
-      if (this.state.image.length == this.state.arrayvar.length) {
+    if (this.state.image.length > 0 && this.state.addPosted == false) {
+      if (this.state.image.length == this.state.media.length) {
         this.handleSubmit();
       }
     }
   }
 
   handleSubmit = async () => {
-    // event.preventDefault();
-    console.log(this.state.arrayvar);
-    let schedule = this.state.startDate;
-    let name = document.querySelector("#nameofserv").value;
-    let desc = document.querySelector("#sdesc").value;
+    const state = this.state;
+    let reqObj = {
+      join: new Date().valueOf(),
+      problem: state.problemController.current.value,
+      desc: state.descriptionController.current.value,
+      money: state.moneyController.current
+        ? state.moneyController.current.value
+        : null,
+      schedule: state.schedule,
+      job: this.props.job,
+      loc: [17.686815, 83.218483],
+      media: this.state.media,
+      ordState: "0",
+      ordId: new Date().valueOf(),
 
-    let cat = jobcate;
-    let price = document.querySelector("#sprice").value;
-    if (desc == NaN) desc = "";
-    if (cat == "true") {
-      alert("please select category");
-      toast.warning("please select category");
+      uId: this.state.uId,
+    };
+
+    console.log(reqObj);
+    let response = await createNewServiceRequest(reqObj.uId, reqObj);
+    this.setState({ addPosted: true });
+    if (response != false) {
+      this.props.addNewOrder(response);
+      this.props.eventLoader(false);
+      toast.info("service requested");
+      console.log(response);
     } else {
-      cat = parseInt(cat);
-      price = parseInt(price);
-      console.log(name, desc, cat, price, imgarr, schedule);
-      const newpost = db
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("adpost")
-        .doc();
-      var d = new Date();
-      console.log(d);
-      newpost
-        .set({
-          job: cat,
-          problem: name,
-          description: desc,
-          money: price,
-          userid: firebase.auth().currentUser.uid,
-          orderid: newpost.id,
-          media: this.state.arrayvar,
-          request: "nothing",
-          posttime: d,
-          views: 0,
-          location: "seethammadhara",
-          schedule: schedule,
-          orderstate: null,
-          fback: null,
-        })
-        .then(() => {
-          return db.collection("allads").doc(newpost.id).set({
-            job: cat,
-            problem: name,
-            description: desc,
-            money: price,
-            userid: firebase.auth().currentUser.uid,
-            orderid: newpost.id,
-            media: this.state.arrayvar,
-            request: "nothing",
-            posttime: d,
-            views: 0,
-            location: "seethammadhara",
-            schedule: schedule,
-            orderstate: null,
-            fback: null,
-          });
-        })
-        .then(() => {
-          toast.success("post added successfully");
-          history.go(-1);
-          imgarr = [];
-          this.setState({ image: [], addsubmit: false, arrayvar: [] });
-        });
+      console.log("request not done");
+      console.log(response);
     }
   };
 
-  handleChangeg = (e) => {
+  compressImages = (e) => {
     const options = {
       maxSizeMB: 0.15,
       maxWidthOrHeight: 800,
@@ -209,10 +206,11 @@ class Postform extends Component {
     }
   };
 
-  handleUpload = async (e) => {
+  uploadImageToCloud = async (e) => {
     e.preventDefault();
+    this.props.eventLoader(true);
     document.getElementById("uploaderb").style.display = "block";
-    document.getElementById("upldbtn").style.display = "none";
+    // document.getElementById("upldbtn").style.display = "none";
 
     console.log(this.state.image);
     console.log(this.state.image.length);
@@ -247,7 +245,7 @@ class Postform extends Component {
               console.log(url);
 
               this.setState({
-                arrayvar: this.state.arrayvar.concat([url]),
+                media: this.state.media.concat([url]),
               });
             });
         }
@@ -256,13 +254,7 @@ class Postform extends Component {
     if (this.state.image.length < 1) this.handleSubmit();
   };
 
-  newfunk = (e) => {
-    console.log(e.target.id);
-    this.setState({ jobcate: e.target.id });
-    this.setState({ mopen: true });
-  };
-
-  sekhararr = (e) => {
+  deleteImage = (e) => {
     console.log(e.target.parentElement.parentElement.id);
     let ritem = this.state.image[e.target.parentElement.parentElement.id];
     this.setState({
@@ -270,32 +262,40 @@ class Postform extends Component {
     });
     console.log(this.state.image);
   };
+
   pricetag = (flag) => {
-    if (flag == "yes") this.setState({ pflag: true });
-    else this.setState({ pflag: false });
+    this.setState({ pflag: flag });
+  };
+
+  changeJob = () => {
+    this.props.triggerJobModal(true);
   };
 
   render() {
     return (
       <>
-        <Form className="postjobb" onSubmit={this.handleUpload}>
+        <Form className="postjobb" onSubmit={this.uploadImageToCloud}>
           <Form.Group widths="equal">
-            <Form.Field
-              required
-              control={Input}
-              label="Name of Service"
-              placeholder="enter name of service"
-              id="nameofserv"
-              className="nameofser"
-            />
+            <Form.Field>
+              <label>Title of Your problem</label>
+              <input
+                required
+                placeholder="enter name of service"
+                id="nameofserv"
+                className="nameofser"
+                ref={this.state.problemController}
+              />
+            </Form.Field>
           </Form.Group>
-
-          <Form.Field
-            control={TextArea}
-            label="Description"
-            id="sdesc"
-            placeholder="Tell us more about your problem or any note here..."
-          />
+          <Form.Field>
+            <label>Description</label>
+            <textarea
+              rows="3"
+              label="Description"
+              placeholder="Tell us more about you..."
+              ref={this.state.descriptionController}
+            />
+          </Form.Field>
           <Form.Field>
             <Form.Field>
               <b>Select Date</b>
@@ -310,11 +310,11 @@ class Postform extends Component {
                 </InputGroup.Prepend>
 
                 <DatePicker
-                  selected={this.state.startDate}
+                  selected={this.state.schedule}
                   placeholderText="when you want service"
-                  onChange={this.handleChange2}
+                  onChange={this.updateSchedule}
                   minDate={new Date()}
-                  name="startDate"
+                  name="schedule"
                   showTimeSelect
                   timeFormat="HH:mm"
                   todayButton="Today"
@@ -322,6 +322,8 @@ class Postform extends Component {
                   timeCaption="time"
                   dateFormat="MMMM d, yyyy h:mm aa"
                   withPortal
+                  autoComplete="off"
+                  ref={this.state.scheduleController}
                   required
                 />
               </InputGroup>
@@ -332,7 +334,7 @@ class Postform extends Component {
               <Button
                 type="button"
                 onClick={() => {
-                  this.pricetag("yes");
+                  this.pricetag(true);
                 }}
               >
                 Yes
@@ -341,13 +343,25 @@ class Postform extends Component {
               <Button
                 type="button"
                 onClick={() => {
-                  this.pricetag("no");
+                  this.pricetag(false);
                 }}
               >
                 No
               </Button>
             </Button.Group>
-            {this.state.pflag ? <Pricefield /> : null}
+            {this.state.pflag ? (
+              <Input
+                labelPosition="right"
+                type="number"
+                id="sprice"
+                placeholder="Amount"
+                style={{ width: "60%" }}
+              >
+                <Label basic>₹</Label>
+                <input ref={this.state.moneyController} />
+                <Label>.00</Label>
+              </Input>
+            ) : null}
           </Form.Field>
 
           <div style={{ display: "inline-block" }}>
@@ -359,7 +373,7 @@ class Postform extends Component {
                 placeholder="Enter tags"
                 // onChange={this.upldimg}
                 accept=".gif,.jpg,.jpeg,.png"
-                onChange={this.handleChangeg}
+                onChange={this.compressImages}
                 multiple
               />
             </Form.Field>
@@ -379,7 +393,7 @@ class Postform extends Component {
                     as: "a",
                     corner: "right",
                     icon: "trash",
-                    onClick: this.sekhararr,
+                    onClick: this.deleteImage,
                   }}
                   src={URL.createObjectURL(nap)}
                 />
@@ -391,12 +405,14 @@ class Postform extends Component {
             <MdCheckCircle size="1.3rem" style={{ textAlign: "left" }} />
             Submit
           </Form.Field>
+
+          <p>{categoryAssign(this.props.job)}</p>
+          <p onClick={this.changeJob}>change</p>
         </Form>
       </>
     );
   }
 }
-
 function Pricefield() {
   return (
     <Input
@@ -405,6 +421,7 @@ function Pricefield() {
       id="sprice"
       placeholder="Amount"
       style={{ width: "60%" }}
+      ref={this.state.moneyController}
     >
       <Label basic>₹</Label>
       <input />
@@ -413,20 +430,19 @@ function Pricefield() {
   );
 }
 
-function ModalExampleModal() {
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-      console.log("user login");
+function ModalExampleModal(props) {
+  useEffect(() => {
+    if (props.trigger) {
+      setOpen(props.trigger);
     }
-  });
+  }, [props.trigger]);
+  const [open, setOpen] = React.useState(props.trigger);
 
-  const [open, setOpen] = React.useState(true);
-
-  function click(e) {
+  const click = useCallback((e) => {
     console.log(e.target.dataset.txt);
-    jobcate = e.target.dataset.txt;
+    props.updateJob(e.target.dataset.txt);
     setOpen(false);
-  }
+  });
 
   return (
     <>
@@ -524,3 +540,20 @@ function ModalExampleModal() {
     </>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+    orders: state.orders,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewOrder: (data) => {
+      dispatch({ type: "ADD_NEW_ORDER", value: data });
+    },
+    updateAllOrders: (data) => {
+      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Postnew);
