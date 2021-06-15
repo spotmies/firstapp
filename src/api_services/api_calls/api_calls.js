@@ -14,6 +14,18 @@ export async function apiGetMethod(path) {
   } else return null;
 }
 
+export async function apiDelMethod(path) {
+  const response = await fetch(
+    constants.baseUrl + path,
+    await addHeaderWithOutBody("DELETE")
+  );
+  console.log(response);
+  //   return response;
+  if (response.status == 204) {
+    return true;
+  } else return false;
+}
+
 export async function apiPostPut(body, path, method) {
   const uri = constants.baseUrl + path;
   const response = await fetch(uri, await addHeader(body, method));

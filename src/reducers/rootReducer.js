@@ -17,6 +17,7 @@ const rootReducer = (state = initState, action) => {
         orders: [...state.orders, action.value],
       };
     case "UPDATE_ALL_ORDERS":
+      saveState("orders", action.value);
       return {
         ...state,
         orders: action.value,
