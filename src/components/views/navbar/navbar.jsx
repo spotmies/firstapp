@@ -9,7 +9,8 @@ import SmLogo from "../../../images/logo.svg";
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
 import { loadState, saveState } from "../../../helpers/localStorage";
-
+import { getUserOrders } from "../../controllers/new_post/order_controller";
+import { loginUser } from "../../controllers/login/login_controller";
 //react icons
 import { IconContext } from "react-icons";
 import {
@@ -31,11 +32,18 @@ function Navibar(props) {
 
   const history = useHistory();
 
-  firebase.auth().onAuthStateChanged(function (user) {
+  firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
       if (Object.keys(props.userDetails).length === 0) {
-        let localStorageData = loadState("userDetails");
-        if (localStorageData != null) props.updateUser(localStorageData);
+        let localUserDetails = loadState("userDetails");
+        if (localUserDetails != null) props.updateUser(localUserDetails);
+        else loginUser(firebase.auth().currentUser.uid);
+        let localOrders = loadState("orders");
+        if (localOrders != null) props.updateAllOrders(localOrders);
+        else {
+          let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
+          props.updateAllOrders(apiOrders);
+        }
       }
 
       setName(props.userDetails.name);
@@ -227,6 +235,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateUser: (data) => {
       dispatch({ type: "UPDATE_USER_DETAILS", value: data });
+    },
+    updateAllOrders: (data) => {
+      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
     },
   };
 };
