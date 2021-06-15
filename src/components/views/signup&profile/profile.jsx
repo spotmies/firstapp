@@ -11,7 +11,7 @@ import { updateUserDetails } from "../../controllers/login/login_controller";
 import imageCompression from "browser-image-compression";
 
 import { connect } from "react-redux";
-import FullScreenLoader from "../../reusable/helpers";
+import FullScreenWidget from "../../reusable/helpers";
 
 import {
   MdAccountCircle,
@@ -137,9 +137,10 @@ class Profile extends Component {
   render() {
     return (
       <div>
-        <FullScreenLoader
+        <FullScreenWidget
           data="Updating your details..."
-          loader={this.state.loader}
+          type="loader"
+          show={this.state.loader}
         />
         <div style={{ paddingBottom: "50px" }}>
           <Card centered color="blue" className="detailsContainer">

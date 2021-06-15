@@ -26,6 +26,7 @@ const rootReducer = (state = initState, action) => {
       let newOrders = state.orders.filter((order) => {
         return order.ordId !== action.value;
       });
+      saveState("orders", action.value);
       return {
         ...state,
         orders: newOrders,

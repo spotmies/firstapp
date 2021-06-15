@@ -14,7 +14,7 @@ import { RiPinDistanceFill } from "react-icons/ri";
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { MdCheckCircle } from "react-icons/md";
 import { connect } from "react-redux";
-import FullScreenLoader from "../../reusable/helpers";
+import FullScreenWidget from "../../reusable/helpers";
 import {
   deleteOrderById,
   getUserOrders,
@@ -26,20 +26,29 @@ function Mybookings(props) {
   const [loaderData, setloaderData] = useState("fetching your orders ...");
 
   const eventLoader = (loaderState, data = false) => {
+    console.log("eventLoader", loaderState);
     setLoader(loaderState);
     if (data) setloaderData(data);
   };
-  console.log(props);
-  const getOrders = async () => {
-    if (props.orders.length < 1) {
-      console.log("fetching API");
-      let orders = await getUserOrders(firebase.auth().currentUser.uid);
-      console.log(orders);
-      setData(orders);
-      props.updateAllOrders(orders);
-    } else setData(props.orders);
 
-    eventLoader(false);
+  const getOrders = async () => {
+    console.log(props.orders);
+    if (props.orders.length < 1) {
+      firebase.auth().onAuthStateChanged(async function (user) {
+        if (user) {
+          console.log("fetching API");
+          let orders = await getUserOrders(firebase.auth().currentUser.uid);
+          console.log(orders);
+          setData(orders);
+          props.updateAllOrders(orders);
+          eventLoader(false);
+        }
+      });
+    } else {
+      console.log(props.orders);
+      setData(props.orders);
+      eventLoader(false);
+    }
   };
 
   useEffect(() => {
@@ -70,7 +79,15 @@ function Mybookings(props) {
 
   return (
     <div>
-      <FullScreenLoader loader={loader} data={loaderData} />
+      {loader == false && data.length == 0 ? (
+        <FullScreenWidget
+          type="noDataPlaceHolder"
+          show={true}
+          data="You have no data here"
+        />
+      ) : null}
+      <FullScreenWidget type="loader" show={loader} data={loaderData} />
+
       {data.length > 0 ? (
         <div style={{ paddingTop: "30px" }}>
           {data.map((cap, key) => (

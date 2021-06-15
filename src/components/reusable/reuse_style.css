@@ -9,3 +9,7 @@
   justify-content: center; /* horizontal */
   background: rgba(255, 248, 248, 0.863);
 }
+.centerDiv {
+  margin: auto;
+  width: 50%;
+}

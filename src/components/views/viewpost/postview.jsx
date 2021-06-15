@@ -13,7 +13,7 @@ import {
 } from "semantic-ui-react";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import FullScreenLoader from "../../reusable/helpers";
+import FullScreenWidget from "../../reusable/helpers";
 
 import {
   MdLocationOn,
@@ -109,7 +109,7 @@ function ViewPost(props) {
 
   return (
     <div>
-      <FullScreenLoader loader={loader} data={loaderData} />
+      <FullScreenWidget type="loader" show={loader} data={loaderData} />
       <div>
         {postdata != null ? (
           <div style={{ paddingBottom: "10px" }}>

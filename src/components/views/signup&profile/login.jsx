@@ -2,7 +2,7 @@ import React, { Component, createRef } from "react";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import "./login.css";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
-import FullScreenLoader from "../../reusable/helpers";
+import FullScreenWidget from "../../reusable/helpers";
 import firebase from "../../../firebase";
 import { toast } from "react-toastify";
 import { loginUser, newUser } from "../../controllers/login/login_controller";
@@ -157,9 +157,13 @@ class Login extends Component {
     const state = this.state;
     console.log("screen started ......");
     return (
-      <div style={{ paddingTop: "50px" }}>
-        <FullScreenLoader loader={state.loader} data="Please Wait..." />
-        <div className="loginForm">
+      <div>
+        <FullScreenWidget
+          type="loader"
+          show={state.loader}
+          data="Please Wait..."
+        />
+        <div className="loginForm" style={{ paddingTop: "60px" }}>
           <Form>
             <Form.Field>
               <label>Mobile Number</label>

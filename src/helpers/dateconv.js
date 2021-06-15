@@ -115,13 +115,10 @@ function getstamp(raw) {
 function validURL(str) {
   var regex =
     /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-  if (!regex.test(str)) {
-    console.log("return false");
-    return false;
-  } else {
-    console.log("reftun true");
-    return true;
-  }
+
+  if (!regex.test(str)) return false;
+
+  return true;
 }
 
 export { gettbystamps, getorgnl, getstamp, lastMessage, validURL };

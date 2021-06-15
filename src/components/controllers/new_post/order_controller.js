@@ -23,7 +23,10 @@ export async function getUserOrders(uId) {
   console.log("getuserorders");
   let path = constants.api.USER_ORDERS + `/${uId}`;
   let response = await apiGetMethod(path);
-  if (response == null) return null;
+  if (response == null) {
+    let emptyArr = [];
+    return emptyArr;
+  }
   return response;
 }
 

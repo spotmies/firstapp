@@ -15,7 +15,7 @@ import { InputGroup } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
-import FullScreenLoader from "../../reusable/helpers";
+import FullScreenWidget from "../../reusable/helpers";
 import { BsCalendar, BsHammer, BsHouseFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import imageCompression from "browser-image-compression";
@@ -43,6 +43,7 @@ import "../../../post.css";
 import ComingSoon from "../../reusable/coming_soon_widget";
 import { categoryAssign } from "../../../helpers/categories";
 import { createNewServiceRequest } from "../../controllers/new_post/order_controller";
+import { loadState } from "../../../helpers/localStorage";
 
 const history = createHashHistory();
 
@@ -55,28 +56,46 @@ class Postnew extends Component {
       job: null,
       openJobModal: true,
       loader: false,
+      isUserLogin: true,
+      uId: this.props.userDetails.uId ?? null,
     };
   }
+
   eventLoader = (value) => {
     this.setState({ loader: value });
   };
+
   updateJob = (value) => {
-    console.log(this.props);
     this.setState({
       job: value,
       openJobModal: false,
+      isUserLogin: this.state.uId == null ? false : true,
     });
   };
   triggerJobModal = (value) => {
     console.log("triggered", value);
     this.setState({ openJobModal: value });
   };
+  goToSignUp = () => {
+    this.props.history.push("/signup");
+  };
   render() {
     // console.log(this.props);
     return (
       <>
         <ComingSoon />
-        <FullScreenLoader loader={this.state.loader} data="Please wait...." />
+        <FullScreenWidget
+          type="loader"
+          show={this.state.loader}
+          data="Please wait..."
+        />
+        <FullScreenWidget
+          type="noDataPlaceHolder"
+          show={!this.state.isUserLogin}
+          data="Please Login then Proceed"
+          buttonLabel="Login / Signup"
+          onButtonClick={this.goToSignUp}
+        />
 
         <div
           style={{
@@ -99,6 +118,8 @@ class Postnew extends Component {
                 triggerJobModal={this.triggerJobModal}
                 eventLoader={this.eventLoader}
                 addNewOrder={this.props.addNewOrder}
+                history={this.props.history}
+                uId={this.state.uId}
               />
             </Card.Content>
           </Card>
@@ -122,7 +143,7 @@ class Postform extends Component {
       valprogress: 0,
       pflag: false,
       addPosted: false,
-      uId: firebase.auth().currentUser.uid,
+      uId: this.props.uId ?? null,
       //controllers
       problemController: React.createRef(),
       descriptionController: React.createRef(),
@@ -542,7 +563,10 @@ function ModalExampleModal(props) {
 }
 const mapStateToProps = (state) => {
   return {
-    userDetails: state.userDetails,
+    userDetails:
+      Object.keys(state.userDetails).length != 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
     orders: state.orders,
   };
 };

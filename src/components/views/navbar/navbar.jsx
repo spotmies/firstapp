@@ -37,11 +37,17 @@ function Navibar(props) {
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
         if (localUserDetails != null) props.updateUser(localUserDetails);
-        else loginUser(firebase.auth().currentUser.uid);
+        else {
+          let newLoginResponse = await loginUser(
+            firebase.auth().currentUser.uid
+          );
+          if (newLoginResponse != false) props.updateUser(newLoginResponse);
+        }
         let localOrders = loadState("orders");
         if (localOrders != null) props.updateAllOrders(localOrders);
         else {
           let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
+
           props.updateAllOrders(apiOrders);
         }
       }
@@ -60,6 +66,7 @@ function Navibar(props) {
       .signOut()
       .then(function () {
         localStorage.removeItem("userDetails");
+        localStorage.removeItem("orders");
         history.push("/");
         setTimeout(() => {}, 1000);
         window.location.reload();
