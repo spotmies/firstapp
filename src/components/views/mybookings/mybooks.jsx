@@ -1,16 +1,7 @@
 import React from "react";
 import firebase from "../../../firebase";
 import { useState, useEffect } from "react";
-import {
-  Card,
-  Image,
-  Label,
-  Dropdown,
-  Icon,
-  Segment,
-  Dimmer,
-  Loader,
-} from "semantic-ui-react";
+import { Card, Image, Label, Dropdown, Icon } from "semantic-ui-react";
 import "../../../index.css";
 import "../../../post.css";
 import { gettbystamps } from "../../../helpers/dateconv";
@@ -24,43 +15,21 @@ import { HiOutlineCurrencyRupee } from "react-icons/hi";
 import { MdCheckCircle } from "react-icons/md";
 import { connect } from "react-redux";
 import FullScreenLoader from "../../reusable/helpers";
-import { getUserOrders } from "../../controllers/new_post/order_controller";
-
-const db = firebase.firestore();
-
-function useTimes(props) {
-  const [times, setTimes] = useState([]);
-  const pushToStore = (data) => {
-    props.addNewOrder(data);
-  };
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        db.collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .collection("adpost")
-          .onSnapshot((snap) => {
-            snap.docs.forEach((doc) => {
-              pushToStore(doc.data());
-            });
-            const newtimes = snap.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
-            setTimes(newtimes);
-          });
-      }
-    });
-  }, []);
-  return times;
-}
+import {
+  deleteOrderById,
+  getUserOrders,
+} from "../../controllers/new_post/order_controller";
 
 function Mybookings(props) {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
-  // const data = useTimes(props);
-  console.log(props.orders);
+  const [loaderData, setloaderData] = useState("fetching your orders ...");
 
+  const eventLoader = (loaderState, data = false) => {
+    setLoader(loaderState);
+    if (data) setloaderData(data);
+  };
+  console.log(props);
   const getOrders = async () => {
     if (props.orders.length < 1) {
       console.log("fetching API");
@@ -68,11 +37,9 @@ function Mybookings(props) {
       console.log(orders);
       setData(orders);
       props.updateAllOrders(orders);
-      setLoader(false);
-    } else {
-      setData(props.orders);
-      setLoader(false);
-    }
+    } else setData(props.orders);
+
+    eventLoader(false);
   };
 
   useEffect(() => {
@@ -80,7 +47,8 @@ function Mybookings(props) {
   }, [data.length < 1]);
 
   const history = useHistory();
-  const click = (prop) => {
+
+  const viewPost = (prop) => {
     console.log("click", prop);
     history.push(`mybookings/id/${prop}`);
   };
@@ -89,23 +57,20 @@ function Mybookings(props) {
     console.log("click", prop);
     history.push(`mybookings/id/edit/${prop}`);
   };
-  const delpost = (ordId) => {
-    props.deleteOrder(ordId);
-    setData(data.filter((item) => item.ordId !== ordId));
-    // db.collection("users")
-    //   .doc(firebase.auth().currentUser.uid)
-    //   .collection("adpost")
-    //   .doc(pro)
-    //   .delete()
-    //   .then(() => {
-    //     alert("ad deleted succefully");
-    //     toast.success("ad deleted succefully");
-    //   });
+  const delpost = async (ordId) => {
+    eventLoader(true, "Deleting Order...");
+    let response = await deleteOrderById(ordId);
+    if (response) {
+      props.deleteOrder(ordId);
+      setData(data.filter((item) => item.ordId !== ordId));
+      toast.info("Order Deleted Successfully");
+    } else toast.info("Unable To Delete Order");
+    eventLoader(false);
   };
 
   return (
     <div>
-      <FullScreenLoader loader={loader} data="fetching your orders ..." />
+      <FullScreenLoader loader={loader} data={loaderData} />
       {data.length > 0 ? (
         <div style={{ paddingTop: "30px" }}>
           {data.map((cap, key) => (
@@ -124,9 +89,7 @@ function Mybookings(props) {
                     style={{ float: "right" }}
                   >
                     <Dropdown.Menu>
-                      <Dropdown.Item
-                      // onClick={(e) => click(cap.id)}
-                      >
+                      <Dropdown.Item onClick={(e) => viewPost(cap.ordId)}>
                         View post
                       </Dropdown.Item>
                       <Dropdown.Item onClick={(e) => edit(cap.ordId)}>
@@ -141,7 +104,7 @@ function Mybookings(props) {
                 <Card.Content
                   extra
                   style={{ display: "inline-block", cursor: "pointer" }}
-                  // onClick={(e) => click(cap.id)}
+                  onClick={(e) => viewPost(cap.ordId)}
                 >
                   <Image
                     className="post-img"
@@ -159,7 +122,6 @@ function Mybookings(props) {
                     <div style={{ paddingRight: "30px" }}>
                       <p>
                         <BsEyeFill /> Views:{cap.views}
-                        {/* {cap.views} */}
                       </p>
                       <p>
                         <RiPinDistanceFill /> Distance: 1km
@@ -184,7 +146,7 @@ function Mybookings(props) {
                 </Card.Content>
                 <Card.Content style={{ display: "inline-flex" }}>
                   <p
-                    onClick={(e) => click(cap.ordId)}
+                    onClick={(e) => viewPost(cap.ordId)}
                     style={{ cursor: "pointer" }}
                   >
                     <BsEyeFill size="1.5rem" />

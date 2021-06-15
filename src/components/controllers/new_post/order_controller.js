@@ -1,5 +1,6 @@
 import constants from "../../../helpers/constants";
 import {
+  apiDelMethod,
   apiGetMethod,
   apiPostPut,
 } from "../../../api_services/api_calls/api_calls";
@@ -23,5 +24,15 @@ export async function getUserOrders(uId) {
   let path = constants.api.USER_ORDERS + `/${uId}`;
   let response = await apiGetMethod(path);
   if (response == null) return null;
+  return response;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            DELETE ORDER BY ordId                           */
+/* -------------------------------------------------------------------------- */
+export async function deleteOrderById(ordId) {
+  let path = constants.api.ORDER_DETAILS + `/${ordId}`;
+  let response = await apiDelMethod(path);
+  if (response == true) return true;
   return response;
 }
