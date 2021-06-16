@@ -1,7 +1,8 @@
+import "date-fns";
 import React, { Component, useCallback, useEffect } from "react";
 import { connect } from "react-redux";
 import {
-  Button,
+  // Button,
   Form,
   Input,
   Card,
@@ -11,9 +12,24 @@ import {
   Menu,
 } from "semantic-ui-react";
 
-import { InputGroup } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
+import Cardd from "@material-ui/core/Card";
+import Badge from "@material-ui/core/Badge";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
+
+import { withStyles } from "@material-ui/core/styles";
+
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker,
+} from "@material-ui/pickers";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import { toast } from "react-toastify";
 import FullScreenWidget from "../../reusable/helpers";
 import { BsCalendar, BsHammer, BsHouseFill } from "react-icons/bs";
@@ -31,6 +47,15 @@ import {
   MdBuild,
   MdLocalDining,
   MdMonochromePhotos,
+  MdAccountBalance,
+  MdAccountBalanceWallet,
+  MdDescription,
+  MdCreate,
+  MdMic,
+  MdVideoLibrary,
+  MdAddAPhoto,
+  MdDelete,
+  MdClear,
 } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
@@ -45,6 +70,19 @@ import { categoryAssign } from "../../../helpers/categories";
 import { createNewServiceRequest } from "../../controllers/new_post/order_controller";
 import { loadState } from "../../../helpers/localStorage";
 
+//for dialog
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
+import PersonIcon from "@material-ui/icons/Person";
+import AddIcon from "@material-ui/icons/Add";
+import { maxWidth } from "@material-ui/system";
+import { constants } from "../../../helpers/constants";
+
 const history = createHashHistory();
 
 const storage = firebase.storage();
@@ -58,11 +96,12 @@ class Postnew extends Component {
       loader: false,
       isUserLogin: true,
       uId: this.props.userDetails.uId ?? null,
+      loaderData: "Please wait...",
     };
   }
 
-  eventLoader = (value) => {
-    this.setState({ loader: value });
+  eventLoader = (value, data) => {
+    this.setState({ loader: value, loaderData: data ?? "Please wait..." });
   };
 
   updateJob = (value) => {
@@ -80,7 +119,6 @@ class Postnew extends Component {
     this.props.history.push("/signup");
   };
   render() {
-    // console.log(this.props);
     return (
       <>
         <ComingSoon />
@@ -99,7 +137,7 @@ class Postnew extends Component {
 
         <div
           style={{
-            paddingTop: "20px",
+            padding: "20px",
           }}
         >
           <Card centered id="formcard" className="postjobb1">
@@ -120,24 +158,82 @@ class Postnew extends Component {
                 addNewOrder={this.props.addNewOrder}
                 history={this.props.history}
                 uId={this.state.uId}
+                prop={this.props}
               />
             </Card.Content>
           </Card>
-          <ModalExampleModal
+          {/* <ModalExampleModal
             job={this.state.job}
             updateJob={this.updateJob}
             trigger={this.state.openJobModal}
+          /> */}
+
+          <SimpleDialog
+            selectedValue={this.state.job}
+            open={this.state.openJobModal}
+            onClose={this.updateJob}
+            prop={this.props}
           />
         </div>
       </>
     );
   }
 }
+const useStyles = (theme) => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "100%",
+      palette: {
+        primary: "#e91e63",
+        secondary: "#e91e63",
+      },
+    },
+  },
+  input: {
+    display: "none",
+  },
+  button: {
+    // color: "rgb(25, 148, 255)",
+    margin: 10,
+    size: 20,
+  },
+  media: {
+    height: 70,
+    width: 110,
+    margin: 10,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  },
+  submitButton: {
+    width: "30%",
+  },
+  cateButton: {
+    maxWidth: "60%",
+  },
+  listBuilder: {
+    overflow: "auto",
+  },
+  dialogBox: {
+    // maxHeight: "80%",
+    height: 200,
+    // width: "auto",
+    // maxWidth: "90%",
+  },
+});
 class Postform extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      schedule: "",
+      schedule: new Date(),
       media: [],
       image: [],
       valprogress: 0,
@@ -154,9 +250,8 @@ class Postform extends Component {
   }
 
   updateSchedule(date) {
-    console.log(new Date(date).valueOf());
     this.setState({
-      schedule: new Date(date).valueOf(),
+      schedule: date,
     });
   }
 
@@ -168,7 +263,7 @@ class Postform extends Component {
     }
   }
 
-  handleSubmit = async () => {
+  handleSubmit = async (e) => {
     const state = this.state;
     let reqObj = {
       join: new Date().valueOf(),
@@ -177,7 +272,7 @@ class Postform extends Component {
       money: state.moneyController.current
         ? state.moneyController.current.value
         : null,
-      schedule: state.schedule,
+      schedule: new Date(state.schedule).valueOf(),
       job: this.props.job,
       loc: [17.686815, 83.218483],
       media: this.state.media,
@@ -192,13 +287,15 @@ class Postform extends Component {
     this.setState({ addPosted: true });
     if (response != false) {
       this.props.addNewOrder(response);
-      this.props.eventLoader(false);
+
       toast.info("service requested");
       console.log(response);
+      this.props.history.push("/mybookings");
     } else {
       console.log("request not done");
       console.log(response);
     }
+    this.props.eventLoader(false);
   };
 
   compressImages = (e) => {
@@ -219,22 +316,18 @@ class Postform extends Component {
             image: this.state.image.concat([cfile]),
           });
           console.log(cfile);
-          document.getElementById("upldbtn").style.display = "block";
         })
         .catch(function (error) {
           console.log(error.message);
+          toast.warning(error.message);
         });
     }
   };
 
   uploadImageToCloud = async (e) => {
     e.preventDefault();
-    this.props.eventLoader(true);
-    document.getElementById("uploaderb").style.display = "block";
-    // document.getElementById("upldbtn").style.display = "none";
+    this.props.eventLoader(true, "Uploading Media...");
 
-    console.log(this.state.image);
-    console.log(this.state.image.length);
     for (var i = 0; i < this.state.image.length; i++) {
       console.log(`img no ${i}`);
       let k = Number(i);
@@ -275,13 +368,11 @@ class Postform extends Component {
     if (this.state.image.length < 1) this.handleSubmit();
   };
 
-  deleteImage = (e) => {
-    console.log(e.target.parentElement.parentElement.id);
-    let ritem = this.state.image[e.target.parentElement.parentElement.id];
+  deleteImage = (key) => {
+    let ritem = this.state.image[key];
     this.setState({
       image: this.state.image.filter((e) => e !== ritem),
     });
-    console.log(this.state.image);
   };
 
   pricetag = (flag) => {
@@ -293,161 +384,199 @@ class Postform extends Component {
   };
 
   render() {
+    const { classes } = this.props.prop;
     return (
       <>
-        <Form className="postjobb" onSubmit={this.uploadImageToCloud}>
-          <Form.Group widths="equal">
-            <Form.Field>
-              <label>Title of Your problem</label>
-              <input
-                required
-                placeholder="enter name of service"
-                id="nameofserv"
-                className="nameofser"
-                ref={this.state.problemController}
-              />
-            </Form.Field>
-          </Form.Group>
-          <Form.Field>
-            <label>Description</label>
-            <textarea
-              rows="3"
-              label="Description"
-              placeholder="Tell us more about you..."
-              ref={this.state.descriptionController}
+        <form
+          className={classes.root}
+          // noValidate
+          autoComplete="off"
+          onSubmit={this.uploadImageToCloud}
+        >
+          <TextField
+            id="filled-basic"
+            label="Title of Your problem"
+            inputRef={this.state.problemController}
+            variant="filled"
+            required
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MdCreate />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <TextField
+            id="filled-multiline-static"
+            label="Description"
+            multiline
+            rows={4}
+            // defaultValue="Default Value"
+            variant="filled"
+            inputRef={this.state.descriptionController}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MdDescription />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <TextField
+            id="filled-basic"
+            label="Want to mention Price"
+            variant="filled"
+            inputRef={this.state.moneyController}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MdAccountBalanceWallet />
+                </InputAdornment>
+              ),
+              startAdornment: (
+                <InputAdornment position="start">₹</InputAdornment>
+              ),
+            }}
+          />
+
+          <Grid container justify="left">
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={this.compressImages}
             />
-          </Form.Field>
-          <Form.Field>
-            <Form.Field>
-              <b>Select Date</b>
-            </Form.Field>
-            <Form.Field>
-              <InputGroup className="mb-2">
-                <InputGroup.Prepend className="nameofser">
-                  <InputGroup.Text>
-                    {" "}
-                    <BsCalendar size="1.3em" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
+            <label htmlFor="contained-button-file">
+              <Tooltip title="Add Images, photos" aria-label="add">
+                <Fab component="span" className={classes.button}>
+                  <MdAddAPhoto size="1.5rem" />
+                </Fab>
+              </Tooltip>
+            </label>
+            <Tooltip title="Add Audio, record" aria-label="add">
+              <Fab className={classes.button}>
+                <MdMic size="1.5rem" />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="Add Video" aria-label="add">
+              <Fab className={classes.button}>
+                <MdVideoLibrary size="1.5rem" />
+              </Fab>
+            </Tooltip>
+          </Grid>
 
-                <DatePicker
-                  selected={this.state.schedule}
-                  placeholderText="when you want service"
-                  onChange={this.updateSchedule}
-                  minDate={new Date()}
-                  name="schedule"
-                  showTimeSelect
-                  timeFormat="HH:mm"
-                  todayButton="Today"
-                  timeIntervals={60}
-                  timeCaption="time"
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                  withPortal
-                  autoComplete="off"
-                  ref={this.state.scheduleController}
-                  required
-                />
-              </InputGroup>
-            </Form.Field>
+          <Grid
+            container
+            justify="left"
 
-            <b style={{ fontWeight: "800" }}> Enter Amount </b>
-            <Button.Group size="tiny">
-              <Button
-                type="button"
-                onClick={() => {
-                  this.pricetag(true);
-                }}
-              >
-                Yes
-              </Button>
-              <Button.Or />
-              <Button
-                type="button"
-                onClick={() => {
-                  this.pricetag(false);
-                }}
-              >
-                No
-              </Button>
-            </Button.Group>
-            {this.state.pflag ? (
-              <Input
-                labelPosition="right"
-                type="number"
-                id="sprice"
-                placeholder="Amount"
-                style={{ width: "60%" }}
-              >
-                <Label basic>₹</Label>
-                <input ref={this.state.moneyController} />
-                <Label>.00</Label>
-              </Input>
-            ) : null}
-          </Form.Field>
-
-          <div style={{ display: "inline-block" }}>
-            <Form.Field>
-              <Input
-                icon="photo"
-                iconPosition="Right"
-                type="file"
-                placeholder="Enter tags"
-                // onChange={this.upldimg}
-                accept=".gif,.jpg,.jpeg,.png"
-                onChange={this.compressImages}
-                multiple
-              />
-            </Form.Field>
-          </div>
-          <progress value={this.state.valprogress} max="100" id="uploaderb">
-            progress
-          </progress>
-
-          <div>
-            <Image.Group size="small">
-              {this.state.image.map((nap, key) => (
-                <Image
-                  fluid
+            // alignItems="center"
+          >
+            {this.state.image.map((nap, key) => (
+              <Badge color="white" badgeContent=" " variant="dot">
+                <CardMedia
                   key={key}
-                  id={key}
-                  label={{
-                    as: "a",
-                    corner: "right",
-                    icon: "trash",
-                    onClick: this.deleteImage,
-                  }}
-                  src={URL.createObjectURL(nap)}
+                  className={classes.media}
+                  image={URL.createObjectURL(nap)}
+                  title={nap.name}
                 />
-              ))}
-            </Image.Group>
-          </div>
+                <MdClear
+                  color="red"
+                  onClick={() => {
+                    this.deleteImage(key);
+                  }}
+                />
+              </Badge>
+            ))}
+          </Grid>
 
-          <Form.Field control={Button} type="submit" centered color="primary">
-            <MdCheckCircle size="1.3rem" style={{ textAlign: "left" }} />
-            Submit
-          </Form.Field>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDateTimePicker
+              required
+              margin="normal"
+              variant="filled"
+              id="time-picker"
+              label="Schedule"
+              value={this.state.schedule}
+              onChange={this.updateSchedule}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+          </MuiPickersUtilsProvider>
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              type="submit"
+              className={classes.submitButton}
+              startIcon={<MdCheckCircle />}
+            >
+              Submit
+            </Button>
 
-          <p>{categoryAssign(this.props.job)}</p>
-          <p onClick={this.changeJob}>change</p>
-        </Form>
+            <Button
+              variant="contained"
+              color="grey"
+              size="large"
+              className={classes.cateButton}
+              onClick={this.changeJob}
+              startIcon={<MdCheckCircle />}
+            >
+              {categoryAssign(this.props.job)}
+            </Button>
+          </Grid>
+        </form>
       </>
     );
   }
 }
-function Pricefield() {
+
+function SimpleDialog(props) {
+  const classes = props.prop;
+  const { onClose, selectedValue, open } = props;
+
+  const handleClose = () => {
+    onClose(selectedValue);
+  };
+
+  const handleListItemClick = (value) => {
+    onClose(value);
+  };
+
+  var loadData = constants.categories;
+
   return (
-    <Input
-      labelPosition="right"
-      type="number"
-      id="sprice"
-      placeholder="Amount"
-      style={{ width: "60%" }}
-      ref={this.state.moneyController}
+    <Dialog
+      // onClose={handleClose}
+      aria-labelledby="simple-dialog-title"
+      open={open}
+      className="categoryModal"
     >
-      <Label basic>₹</Label>
-      <input />
-      <Label>.00</Label>
-    </Input>
+      <DialogTitle id="simple-dialog-title">Select Category here</DialogTitle>
+      <List
+      // className={classes.listBuilder}
+      >
+        {loadData.map((email, key) => (
+          <ListItem button onClick={() => handleListItemClick(key)} key={email}>
+            <ListItemAvatar>
+              <Avatar className={classes.avatar}>
+                <PersonIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={email} />
+          </ListItem>
+        ))}
+      </List>
+    </Dialog>
   );
 }
 
@@ -460,8 +589,9 @@ function ModalExampleModal(props) {
   const [open, setOpen] = React.useState(props.trigger);
 
   const click = useCallback((e) => {
-    console.log(e.target.dataset.txt);
-    props.updateJob(e.target.dataset.txt);
+    let val = e.target.dataset.txt;
+    console.log(val);
+    props.updateJob(val);
     setOpen(false);
   });
 
@@ -580,4 +710,7 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Postnew);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(Postnew));

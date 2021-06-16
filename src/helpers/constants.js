@@ -9,6 +9,24 @@ module.exports = Object.freeze({
   uploadFileLink: "",
   constants: {
     demoVersion: false,
+    categories: [
+      "Ac/Refrigirator Service",
+      "Computer/laptop Service",
+      "Tv Repair",
+      "Development",
+      "Tutor",
+      "Beauty",
+      "Photographer",
+      "Driver",
+      "Events",
+      "Electrician",
+      "Carpenter",
+      "Plumber",
+      "Interior Design",
+      "Design",
+      "CC Tv Installation",
+      "Catering",
+    ],
   },
   api: {
     USER_DETAILS: "/user/users", //PASS UID AT LAST
