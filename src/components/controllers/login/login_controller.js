@@ -25,7 +25,7 @@ export async function updateUserDetails(uId, updateObject) {
 export async function newUser(userObject) {
   let newUserObj = {
     name: userObject.user.name,
-    phNum: userObject.user.phoneNumber,
+    phNum: userObject.user.phoneNumber.substring(3),
     userState: "active",
     join: new Date().valueOf(),
     uId: userObject.user.uid,

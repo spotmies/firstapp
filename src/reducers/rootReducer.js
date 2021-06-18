@@ -26,10 +26,22 @@ const rootReducer = (state = initState, action) => {
       let newOrders = state.orders.filter((order) => {
         return order.ordId !== action.value;
       });
-      saveState("orders", action.value);
+      saveState("orders", newOrders);
       return {
         ...state,
         orders: newOrders,
+      };
+    case "UPDATE_ORDER":
+      const index = state.orders.findIndex(
+        (order) => order.ordId == action.value.ordId
+      ); //finding index of the item
+      console.log(index);
+      const newArray = [...state.orders]; //making a new array
+      newArray[index] = action.value; //changing value in the new array
+      saveState("orders", newArray);
+      return {
+        ...state, //copying the orignal state
+        orders: newArray, //reassingning todos to new array
       };
     case "UPDATE_USER_DETAILS":
       saveState("userDetails", action.value);

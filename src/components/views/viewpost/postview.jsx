@@ -39,34 +39,6 @@ import { deleteOrderById } from "../../controllers/new_post/order_controller";
 
 const db = firebase.firestore();
 
-function useTimes() {
-  const [postdata, setdata] = useState([]);
-  const [posttime, setposttime] = useState([]);
-  useEffect(() => {
-    //
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        let arr = [];
-
-        var personId;
-
-        personId = window.location.pathname;
-        personId = personId.replace("/mybookings/id/", "");
-        db.collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .collection("adpost")
-          .doc(personId)
-          .onSnapshot((snap) => {
-            setdata(snap.data());
-            setposttime(arr);
-          });
-      }
-    });
-    //
-  }, []);
-  return { postdata, posttime };
-}
-
 function ViewPost(props) {
   const history = useHistory();
   // const { postdata, posttime } = useTimes();
@@ -85,6 +57,7 @@ function ViewPost(props) {
     let order = orders.filter((item) => item.ordId == ordId);
     console.log(order);
     if (order.length > 0) setPostData(order[0]);
+    else console.log("unable to load data");
     eventLoader(false);
   };
 

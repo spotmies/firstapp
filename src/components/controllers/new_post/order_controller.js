@@ -17,6 +17,17 @@ export async function createNewServiceRequest(uId, reqObj) {
 }
 
 /* -------------------------------------------------------------------------- */
+/*                                UPDATE ORDER                                */
+/* -------------------------------------------------------------------------- */
+export async function updateOrder(ordId, reqObj) {
+  let path = constants.api.ORDER_DETAILS + `/${ordId}`;
+  let response = await apiPostPut(reqObj, path, "PUT");
+  console.log(response);
+  if (response == null) return false;
+  return response;
+}
+
+/* -------------------------------------------------------------------------- */
 /*                               GET USER ORDERS                              */
 /* -------------------------------------------------------------------------- */
 export async function getUserOrders(uId) {

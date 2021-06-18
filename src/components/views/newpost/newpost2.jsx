@@ -11,7 +11,7 @@ import {
   Modal,
   Menu,
 } from "semantic-ui-react";
-
+import { IconContext } from "react-icons";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import Cardd from "@material-ui/core/Card";
@@ -67,7 +67,10 @@ import { createHashHistory } from "history";
 import "../../../post.css";
 import ComingSoon from "../../reusable/coming_soon_widget";
 import { categoryAssign } from "../../../helpers/categories";
-import { createNewServiceRequest } from "../../controllers/new_post/order_controller";
+import {
+  createNewServiceRequest,
+  updateOrder,
+} from "../../controllers/new_post/order_controller";
 import { loadState } from "../../../helpers/localStorage";
 
 //for dialog
@@ -79,10 +82,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
 import PersonIcon from "@material-ui/icons/Person";
-import AddIcon from "@material-ui/icons/Add";
-import { maxWidth } from "@material-ui/system";
 import { constants } from "../../../helpers/constants";
-
+import { blue } from "@material-ui/core/colors";
+import { onlyNumRegEx } from "../../../helpers/regex/regex";
 const history = createHashHistory();
 
 const storage = firebase.storage();
@@ -97,7 +99,36 @@ class Postnew extends Component {
       isUserLogin: true,
       uId: this.props.userDetails.uId ?? null,
       loaderData: "Please wait...",
+      isNewForm: true,
+      //edit form details
+      editDateForm: {},
     };
+  }
+  getOrder = async () => {
+    let ordId = window.location.pathname;
+    ordId = ordId.replace("/mybookings/id/edit/", "");
+    let orders =
+      this.props.orders.length > 0 ? this.props.orders : loadState("orders");
+    let order = orders.filter((item) => item.ordId == ordId);
+    console.log(order);
+    if (order.length > 0) {
+      this.setState({
+        job: order[0].job,
+        openJobModal: false,
+        isNewForm: false,
+        editDateForm: order[0],
+      });
+    } else console.log("unable to load data");
+    // eventLoader(false);
+  };
+  componentDidMount() {
+    console.log("mount");
+    if (this.props.editDate == "true") {
+      console.log("edit data coming >>>");
+      this.getOrder();
+    }
+    console.log(this.state);
+    console.log(this.props);
   }
 
   eventLoader = (value, data) => {
@@ -105,6 +136,7 @@ class Postnew extends Component {
   };
 
   updateJob = (value) => {
+    console.log(this.state);
     this.setState({
       job: value,
       openJobModal: false,
@@ -159,6 +191,7 @@ class Postnew extends Component {
                 history={this.props.history}
                 uId={this.state.uId}
                 prop={this.props}
+                editDate={this.state.editDateForm}
               />
             </Card.Content>
           </Card>
@@ -193,10 +226,6 @@ const useStyles = (theme) => ({
     "& > *": {
       margin: theme.spacing(1),
       width: "100%",
-      palette: {
-        primary: "#e91e63",
-        secondary: "#e91e63",
-      },
     },
   },
   input: {
@@ -219,14 +248,17 @@ const useStyles = (theme) => ({
   cateButton: {
     maxWidth: "60%",
   },
-  listBuilder: {
-    overflow: "auto",
-  },
   dialogBox: {
-    // maxHeight: "80%",
     height: 200,
-    // width: "auto",
-    // maxWidth: "90%",
+  },
+  avatar: {
+    backgroundColor: blue,
+    color: blue,
+  },
+  errorColor: {
+    "&:invalid": {
+      border: "red solid 2px",
+    },
   },
 });
 class Postform extends Component {
@@ -240,13 +272,20 @@ class Postform extends Component {
       pflag: false,
       addPosted: false,
       uId: this.props.uId ?? null,
+      submitForm: false,
+
+      //edit form
+      editFormFillFlag: false,
+      editDateForm: this.props.editDate,
+      ordId: null,
+
       //controllers
-      problemController: React.createRef(),
-      descriptionController: React.createRef(),
-      moneyController: React.createRef(),
-      scheduleController: React.createRef(),
+      problem: null,
+      description: null,
+      money: "",
     };
     this.updateSchedule = this.updateSchedule.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   updateSchedule(date) {
@@ -254,41 +293,71 @@ class Postform extends Component {
       schedule: date,
     });
   }
+  handleChange(e) {
+    var formName = e.target.name;
+    var value = e.target.value;
+    this.setState({
+      [formName]: value,
+    });
+    console.log(this.state);
+  }
 
-  componentDidUpdate() {
-    if (this.state.image.length > 0 && this.state.addPosted == false) {
-      if (this.state.image.length == this.state.media.length) {
-        this.handleSubmit();
-      }
+  async componentDidUpdate() {
+    console.log(this.props.editDate);
+    if (
+      Object.keys(this.props.editDate).length != 0 &&
+      this.state.editFormFillFlag === false
+    ) {
+      let tempEditData = this.props.editDate;
+      this.setState({
+        editFormFillFlag: true,
+        problem: tempEditData.problem,
+        description: tempEditData.desc,
+        money: tempEditData.money,
+        schedule: new Date(tempEditData.schedule),
+        media: tempEditData.media,
+        ordId: tempEditData.ordId,
+        editDateForm: tempEditData,
+      });
+    }
+    if (this.state.submitForm) {
+      console.log("submit >> didupdate");
+      await this.handleSubmit();
     }
   }
 
-  handleSubmit = async (e) => {
+  handleSubmit = async () => {
+    console.log("submitting form");
+    this.state.image = [];
     const state = this.state;
     let reqObj = {
       join: new Date().valueOf(),
-      problem: state.problemController.current.value,
-      desc: state.descriptionController.current.value,
-      money: state.moneyController.current
-        ? state.moneyController.current.value
-        : null,
+      problem: state.problem,
+      desc: state.description,
+      money: state.money,
       schedule: new Date(state.schedule).valueOf(),
       job: this.props.job,
       loc: [17.686815, 83.218483],
-      media: this.state.media,
-      ordState: "0",
-      ordId: new Date().valueOf(),
+      media: state.media,
+      ordState: !state.editFormFillFlag ? "req" : "update",
+      ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
 
-      uId: this.state.uId,
+      uId: state.uId,
     };
 
     console.log(reqObj);
-    let response = await createNewServiceRequest(reqObj.uId, reqObj);
-    this.setState({ addPosted: true });
+    let response = !state.editFormFillFlag
+      ? await createNewServiceRequest(reqObj.uId, reqObj)
+      : await updateOrder(reqObj.ordId, reqObj);
+    this.setState({ addPosted: true, submitForm: false });
     if (response != false) {
-      this.props.addNewOrder(response);
-
-      toast.info("service requested");
+      if (!state.editFormFillFlag) {
+        this.props.addNewOrder(response);
+        toast.info("service requested successfully");
+      } else {
+        this.props.prop.updateOrder(response);
+        toast.info("Request updated");
+      }
       console.log(response);
       this.props.history.push("/mybookings");
     } else {
@@ -315,7 +384,6 @@ class Postform extends Component {
           this.setState({
             image: this.state.image.concat([cfile]),
           });
-          console.log(cfile);
         })
         .catch(function (error) {
           console.log(error.message);
@@ -328,7 +396,7 @@ class Postform extends Component {
     e.preventDefault();
     this.props.eventLoader(true, "Uploading Media...");
 
-    for (var i = 0; i < this.state.image.length; i++) {
+    for (let i = 0; i < this.state.image.length; i++) {
       console.log(`img no ${i}`);
       let k = Number(i);
       const uploadTask = storage
@@ -360,23 +428,29 @@ class Postform extends Component {
 
               this.setState({
                 media: this.state.media.concat([url]),
+                submitForm: i === this.state.image.length - 1 ? true : false,
               });
             });
         }
       );
     }
-    if (this.state.image.length < 1) this.handleSubmit();
+    if (this.state.image.length < 1) {
+      this.setState({
+        submitForm: true,
+      });
+    }
   };
 
-  deleteImage = (key) => {
-    let ritem = this.state.image[key];
+  deleteMedia = (key, typeOfMode) => {
+    let ritem =
+      typeOfMode == "offline" ? this.state.image[key] : this.state.media[key];
+    let file = typeOfMode == "offline" ? "image" : "media";
     this.setState({
-      image: this.state.image.filter((e) => e !== ritem),
+      [file]:
+        typeOfMode == "offline"
+          ? this.state.image.filter((e) => e !== ritem)
+          : this.state.media.filter((e) => e !== ritem),
     });
-  };
-
-  pricetag = (flag) => {
-    this.setState({ pflag: flag });
   };
 
   changeJob = () => {
@@ -396,9 +470,11 @@ class Postform extends Component {
           <TextField
             id="filled-basic"
             label="Title of Your problem"
-            inputRef={this.state.problemController}
             variant="filled"
             required
+            name="problem"
+            onChange={this.handleChange}
+            value={this.state.problem}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -412,9 +488,10 @@ class Postform extends Component {
             label="Description"
             multiline
             rows={4}
-            // defaultValue="Default Value"
             variant="filled"
-            inputRef={this.state.descriptionController}
+            name="description"
+            value={this.state.description}
+            onChange={this.handleChange}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -427,7 +504,12 @@ class Postform extends Component {
             id="filled-basic"
             label="Want to mention Price"
             variant="filled"
-            inputRef={this.state.moneyController}
+            name="money"
+            type="number"
+            onChange={(e) => {
+              if (onlyNumRegEx(e.target.value)) this.handleChange(e);
+            }}
+            value={this.state.money}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -440,7 +522,7 @@ class Postform extends Component {
             }}
           />
 
-          <Grid container justify="left">
+          <Grid container justify="flex-start">
             <input
               accept="image/*"
               className={classes.input}
@@ -467,30 +549,18 @@ class Postform extends Component {
               </Fab>
             </Tooltip>
           </Grid>
-
-          <Grid
-            container
-            justify="left"
-
-            // alignItems="center"
-          >
-            {this.state.image.map((nap, key) => (
-              <Badge color="white" badgeContent=" " variant="dot">
-                <CardMedia
-                  key={key}
-                  className={classes.media}
-                  image={URL.createObjectURL(nap)}
-                  title={nap.name}
-                />
-                <MdClear
-                  color="red"
-                  onClick={() => {
-                    this.deleteImage(key);
-                  }}
-                />
-              </Badge>
-            ))}
-          </Grid>
+          <ListMediaFiles
+            mediaFiles={this.state.media}
+            styles={classes}
+            typeOfMode="online"
+            deleteMedia={this.deleteMedia}
+          />
+          <ListMediaFiles
+            mediaFiles={this.state.image}
+            deleteMedia={this.deleteMedia}
+            styles={classes}
+            typeOfMode="offline"
+          />
 
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
@@ -520,12 +590,12 @@ class Postform extends Component {
               className={classes.submitButton}
               startIcon={<MdCheckCircle />}
             >
-              Submit
+              {!this.state.editFormFillFlag ? "Submit" : "Update"}
             </Button>
 
             <Button
               variant="contained"
-              color="grey"
+              // color="grey"
               size="large"
               className={classes.cateButton}
               onClick={this.changeJob}
@@ -540,157 +610,173 @@ class Postform extends Component {
   }
 }
 
+function GetCategoryIcons(props) {
+  var id = Number(props.iconId);
+  return (
+    <IconContext.Provider value={{ size: "1.5rem" }}>
+      <div>
+        {(() => {
+          switch (id) {
+            case 0:
+              return <FaTools />;
+              break;
+            case 1:
+              return <MdLaptopMac />;
+              break;
+            case 2:
+              return <MdTv />;
+              break;
+            case 3:
+              return <BiCodeBlock />;
+
+              break;
+            case 4:
+              return <FaChalkboardTeacher />;
+
+              break;
+            case 5:
+              return <MdFace />;
+
+              break;
+            case 6:
+              return <MdMonochromePhotos />;
+
+              break;
+            case 7:
+              return <MdDriveEta />;
+
+              break;
+            case 8:
+              return <MdEventAvailable />;
+
+              break;
+            case 9:
+              return <FaScrewdriver />;
+
+              break;
+            case 10:
+              return <BsHammer />;
+
+              break;
+            case 11:
+              return <MdBuild />;
+              break;
+            case 12:
+              return <BsHouseFill />;
+
+              break;
+            case 13:
+              return <DiPhotoshop />;
+
+              break;
+            case 14:
+              return <BiCctv />;
+
+              break;
+            case 15:
+              return <MdLocalDining />;
+              break;
+            case 16:
+              break;
+            case 17:
+              break;
+            case 18:
+              break;
+            case 19:
+              break;
+            case 20:
+              break;
+
+            default:
+              break;
+          }
+        })()}
+      </div>
+    </IconContext.Provider>
+  );
+}
+
 function SimpleDialog(props) {
   const classes = props.prop;
   const { onClose, selectedValue, open } = props;
-
-  const handleClose = () => {
-    onClose(selectedValue);
-  };
-
   const handleListItemClick = (value) => {
     onClose(value);
   };
+  const handleClose = () => {
+    if (selectedValue != null) onClose(selectedValue);
+  };
 
-  var loadData = constants.categories;
+  const loadData = constants.categories;
 
   return (
     <Dialog
-      // onClose={handleClose}
       aria-labelledby="simple-dialog-title"
       open={open}
       className="categoryModal"
+      onClose={handleClose}
     >
-      <DialogTitle id="simple-dialog-title">Select Category here</DialogTitle>
-      <List
-      // className={classes.listBuilder}
-      >
-        {loadData.map((email, key) => (
-          <ListItem button onClick={() => handleListItemClick(key)} key={email}>
-            <ListItemAvatar>
-              <Avatar className={classes.avatar}>
-                <PersonIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={email} />
-          </ListItem>
-        ))}
-      </List>
+      <DialogTitle id="simple-dialog-title">
+        <u>Select Category here</u>
+      </DialogTitle>
+      <div style={{ width: "580px" }}>
+        <List>
+          {loadData.map((data, key) => (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(key)}
+              key={key}
+              selected={key === selectedValue}
+            >
+              <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                  <GetCategoryIcons iconId={key} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={data} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
     </Dialog>
   );
 }
 
-function ModalExampleModal(props) {
-  useEffect(() => {
-    if (props.trigger) {
-      setOpen(props.trigger);
+class ListMediaFiles extends Component {
+  shouldComponentUpdate(newProps) {
+    if (this.props.mediaFiles == newProps.mediaFiles) {
+      return false;
+    } else {
+      return true;
     }
-  }, [props.trigger]);
-  const [open, setOpen] = React.useState(props.trigger);
-
-  const click = useCallback((e) => {
-    let val = e.target.dataset.txt;
-    console.log(val);
-    props.updateJob(val);
-    setOpen(false);
-  });
-
-  return (
-    <>
-      <div>
-        <Modal
-          size="small"
-          centered
-          className="categoryModal"
-          onOpen={() => setOpen(true)}
-          open={open}
-        >
-          <Modal.Header className="categoryMheader">
-            {/* Select Job Category */}
-            Available Services
-          </Modal.Header>
-          <Modal.Content></Modal.Content>
-          <Card centered id="jobcate">
-            <Card.Content>
-              <Card.Header>Select Category here</Card.Header>
-            </Card.Content>
-            <Card.Content>
-              <Menu vertical centered style={{ width: "auto" }}>
-                <Menu.Item link data-txt="0" onClick={click}>
-                  <FaTools size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Ac/Refrigirator Service
-                </Menu.Item>
-                <Menu.Item link data-txt="1" onClick={click}>
-                  <MdLaptopMac size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Computer/Laptop Service
-                </Menu.Item>
-                <Menu.Item link data-txt="2" onClick={click}>
-                  <MdTv size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Tv Repair
-                </Menu.Item>
-                <Menu.Item link data-txt="9" onClick={click}>
-                  <FaScrewdriver size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Electrician
-                </Menu.Item>
-                <Menu.Item link data-txt="12" onClick={click}>
-                  <BsHouseFill size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Interior Design
-                </Menu.Item>
-                <Menu.Item link data-txt="13" onClick={click}>
-                  <DiPhotoshop size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Design
-                </Menu.Item>
-                <Menu.Item link data-txt="3" onClick={click}>
-                  <BiCodeBlock size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Development
-                </Menu.Item>
-                <Menu.Item link data-txt="8" onClick={click}>
-                  <MdEventAvailable size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Events
-                </Menu.Item>
-                <Menu.Item link data-txt="5" onClick={click}>
-                  <MdFace size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Beauty
-                </Menu.Item>
-                <Menu.Item link data-txt="4" onClick={click}>
-                  <FaChalkboardTeacher size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Tutor
-                </Menu.Item>
-                <Menu.Item link data-txt="6" onClick={click}>
-                  <MdMonochromePhotos size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Photographer
-                </Menu.Item>
-                <Menu.Item link data-txt="7" onClick={click}>
-                  <MdDriveEta size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Driver
-                </Menu.Item>
-                <Menu.Item link data-txt="10" onClick={click}>
-                  <BsHammer size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Carpenter
-                </Menu.Item>
-                <Menu.Item link data-txt="11" onClick={click}>
-                  <MdBuild size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Plumber
-                </Menu.Item>
-                <Menu.Item link data-txt="14" onClick={click}>
-                  <BiCctv size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; CC Tv Installation
-                </Menu.Item>
-                <Menu.Item link data-txt="15" onClick={click}>
-                  <MdLocalDining size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Catering
-                </Menu.Item>
-              </Menu>
-              <Link to="/signup" style={{ display: "none" }}>
-                <p id="redirectsignup">signup</p>
-              </Link>
-            </Card.Content>
-          </Card>
-        </Modal>
-      </div>
-    </>
-  );
+  }
+  render() {
+    const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
+    return (
+      <Grid
+        container
+        justify="flex-start" // alignItems="center"
+      >
+        {mediaFiles.map((nap, key) => (
+          <Badge color="white" badgeContent=" " variant="dot">
+            <CardMedia
+              key={key}
+              className={styles.media}
+              image={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+              title={nap.name}
+            />
+            <MdClear
+              color="red"
+              onClick={() => {
+                deleteMedia(key, typeOfMode);
+              }}
+            />
+          </Badge>
+        ))}
+      </Grid>
+    );
+  }
 }
+
 const mapStateToProps = (state) => {
   return {
     userDetails:
@@ -707,6 +793,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateAllOrders: (data) => {
       dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+    updateOrder: (data) => {
+      dispatch({ type: "UPDATE_ORDER", value: data });
     },
   };
 };
