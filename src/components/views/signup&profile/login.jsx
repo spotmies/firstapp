@@ -85,14 +85,15 @@ class Login extends Component {
       .catch((err) => {
         console.log(err);
         toast.error(err.code);
-        return true;
+        return "inValidOtp";
       });
     console.log(data);
     this.setState({
       loader: false,
       registrationSection: data == "registerUser" ? true : false,
     });
-    if (data != "registerUser") {
+
+    if (data != "registerUser" && data != "inValidOtp") {
       this.props.updateUser(data);
       saveState("userDetails", data);
       this.props.history.go(-1);
