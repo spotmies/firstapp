@@ -1,23 +1,13 @@
 import "date-fns";
-import React, { Component, useCallback, useEffect } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  // Button,
-  Form,
-  Input,
-  Card,
-  Label,
-  Image,
-  Modal,
-  Menu,
-} from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import { IconContext } from "react-icons";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import Cardd from "@material-ui/core/Card";
 import Badge from "@material-ui/core/Badge";
 import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
@@ -32,8 +22,7 @@ import {
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { toast } from "react-toastify";
 import FullScreenWidget from "../../reusable/helpers";
-import { BsCalendar, BsHammer, BsHouseFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { BsHammer, BsHouseFill } from "react-icons/bs";
 import imageCompression from "browser-image-compression";
 import "../rentals/rental.css";
 
@@ -47,14 +36,12 @@ import {
   MdBuild,
   MdLocalDining,
   MdMonochromePhotos,
-  MdAccountBalance,
   MdAccountBalanceWallet,
   MdDescription,
   MdCreate,
   MdMic,
   MdVideoLibrary,
   MdAddAPhoto,
-  MdDelete,
   MdClear,
 } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
@@ -63,7 +50,6 @@ import { BiCctv } from "react-icons/bi";
 import { DiPhotoshop } from "react-icons/di";
 import firebase from "../../../firebase";
 import "firebase/storage";
-import { createHashHistory } from "history";
 import "../../../post.css";
 import ComingSoon from "../../reusable/coming_soon_widget";
 import { categoryAssign } from "../../../helpers/categories";
@@ -81,11 +67,9 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import PersonIcon from "@material-ui/icons/Person";
 import { constants } from "../../../helpers/constants";
 import { blue } from "@material-ui/core/colors";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
-const history = createHashHistory();
 
 const storage = firebase.storage();
 
