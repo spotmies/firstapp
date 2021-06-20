@@ -121,4 +121,81 @@ function validURL(str) {
   return true;
 }
 
-export { gettbystamps, getorgnl, getstamp, lastMessage, validURL };
+function getFileType(file) {
+  const getUrlExtension = (url) => {
+    return url.split(/[#?]/)[0].split(".").pop().trim();
+  };
+  if (validURL(file)) {
+    switch (getUrlExtension(file)) {
+      case "jpg":
+      case "png":
+      case "PNG":
+      case "jpeg":
+      case "webp":
+      case "bmp":
+      case "gif":
+      case "jpe":
+      case "jif":
+      case "jfif":
+      case "jfi":
+      case "tiff":
+      case "tif":
+      case "raw":
+      case "arw":
+      case "cr2":
+      case "nrw":
+      case "k25":
+      case "dib":
+      case "heif":
+      case "heic":
+      case "svg":
+      case "svgz":
+        return "img";
+      case "mkv":
+      case "webm":
+      case "flv":
+      case "vob":
+      case "ogv":
+      case "ogg":
+      case "drc":
+      case "gifv":
+      case "mng":
+      case "avi":
+      case "mov":
+      case "webm":
+      case "qt":
+      case "wmv":
+      case "yuv":
+      case "rm":
+      case "rmvb":
+      case "m4p":
+      case "amv":
+      case "mpeg":
+      case "nsv":
+      case "3gp":
+      case "3g2":
+      case "mxf":
+      case "flv":
+      case "f4v":
+      case "f4p":
+      case "f4a":
+      case "f4b":
+      case "mp4":
+        return "video";
+      default:
+        return "video";
+    }
+  } else {
+    if (file.type.match("image.*")) return "img";
+
+    if (file.type.match("video.*")) return "video";
+
+    if (file.type.match("audio.*")) return "audio";
+  }
+
+  // etc...
+
+  return "other";
+}
+
+export { gettbystamps, getorgnl, getstamp, lastMessage, validURL, getFileType };

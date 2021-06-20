@@ -73,13 +73,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-
-
-
-
-
 compresson
 git clone https://github.com/abhishek305/React-Image-compressor.git
 
-
 readme changed
+
+packages need to uninstall
+browser image compressor
+date picker

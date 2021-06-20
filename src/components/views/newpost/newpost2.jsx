@@ -71,6 +71,10 @@ import { constants } from "../../../helpers/constants";
 import { blue } from "@material-ui/core/colors";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
 
+//image compressorjs
+import Compressor from "compressorjs";
+import { getFileType, validURL } from "../../../helpers/dateconv";
+
 const storage = firebase.storage();
 
 class Postnew extends Component {
@@ -270,6 +274,7 @@ class Postform extends Component {
     };
     this.updateSchedule = this.updateSchedule.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.compressorJs = this.compressorJs.bind(this);
   }
 
   updateSchedule(date) {
@@ -351,28 +356,59 @@ class Postform extends Component {
     this.props.eventLoader(false);
   };
 
-  compressImages = (e) => {
-    const options = {
-      maxSizeMB: 0.15,
-      maxWidthOrHeight: 800,
-      useWebWorker: true,
+  compressorJs = async (e) => {
+    let filesFromWeb = e.target.files;
+    let allFiles = [...filesFromWeb, ...this.state.image];
+    const allowFiles = (array) => {
+      let vidCount = 0;
+      let audCount = 0;
+      let imgCount = 0;
+      for (let index = 0; index < array.length; index++) {
+        console.log("vid count >> ", vidCount);
+        const element = array[index];
+        if (getFileType(element) == "video") {
+          vidCount += 1;
+        } else if (getFileType(element) == "audio") {
+          audCount += 1;
+        } else if (getFileType(element) == "img") {
+          imgCount += 1;
+        }
+      }
+      return [imgCount, vidCount, audCount];
     };
-    let cfile;
 
-    for (var i = 0; i < e.target.files.length; i++) {
+    //this function setFile to states
+    const setFile = (compressedFile) => {
+      this.setState({
+        image: this.state.image.concat([compressedFile]),
+      });
+    };
+    if (allFiles.length > 5) {
+      toast.info("max files are 5 only");
+      return;
+    }
+    if (allowFiles(allFiles)[1] == 2) {
+      //this check the number of videos count
+      toast.info("max no of video is 1 only");
+      return;
+    }
+    for (let i = 0; i < filesFromWeb.length; i++) {
       let k = Number(i);
-
-      imageCompression(e.target.files[k], options)
-        .then((x) => {
-          cfile = x;
-          this.setState({
-            image: this.state.image.concat([cfile]),
-          });
-        })
-        .catch(function (error) {
-          console.log(error.message);
-          toast.warning(error.message);
+      if (getFileType(filesFromWeb[k]) == "img") {
+        new Compressor(filesFromWeb[k], {
+          quality: 0.6,
+          success(result) {
+            setFile(result);
+          },
+          error(err) {
+            console.log(err.message);
+          },
         });
+      } else {
+        //write video compressing tool here
+        setFile(filesFromWeb[k]);
+        console.log("file not compressed");
+      }
     }
   };
 
@@ -508,12 +544,12 @@ class Postform extends Component {
 
           <Grid container justify="flex-start">
             <input
-              accept="image/*"
+              accept="image/*,video/*"
               className={classes.input}
               id="contained-button-file"
               multiple
               type="file"
-              onChange={this.compressImages}
+              onChange={this.compressorJs}
             />
             <label htmlFor="contained-button-file">
               <Tooltip title="Add Images, photos" aria-label="add">
@@ -603,63 +639,47 @@ function GetCategoryIcons(props) {
           switch (id) {
             case 0:
               return <FaTools />;
-              break;
             case 1:
               return <MdLaptopMac />;
-              break;
             case 2:
               return <MdTv />;
-              break;
             case 3:
               return <BiCodeBlock />;
 
-              break;
             case 4:
               return <FaChalkboardTeacher />;
 
-              break;
             case 5:
               return <MdFace />;
 
-              break;
             case 6:
               return <MdMonochromePhotos />;
 
-              break;
             case 7:
               return <MdDriveEta />;
 
-              break;
             case 8:
               return <MdEventAvailable />;
 
-              break;
             case 9:
               return <FaScrewdriver />;
 
-              break;
             case 10:
               return <BsHammer />;
 
-              break;
             case 11:
               return <MdBuild />;
-              break;
             case 12:
               return <BsHouseFill />;
 
-              break;
             case 13:
               return <DiPhotoshop />;
 
-              break;
             case 14:
               return <BiCctv />;
 
-              break;
             case 15:
               return <MdLocalDining />;
-              break;
             case 16:
               break;
             case 17:
@@ -733,21 +753,31 @@ class ListMediaFiles extends Component {
       return true;
     }
   }
+
   render() {
     const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
     return (
-      <Grid
-        container
-        justify="flex-start" // alignItems="center"
-      >
+      <Grid container justify="flex-start">
         {mediaFiles.map((nap, key) => (
           <Badge color="white" badgeContent=" " variant="dot">
-            <CardMedia
-              key={key}
-              className={styles.media}
-              image={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
-              title={nap.name}
-            />
+            {getFileType(nap) == "img" ? (
+              <CardMedia
+                key={key}
+                className={styles.media}
+                component="img"
+                src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+                title={nap.name}
+              />
+            ) : (
+              <video
+                width="230"
+                height="154"
+                controls
+                src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+                type="video/mp4"
+              />
+            )}
+
             <MdClear
               color="red"
               onClick={() => {
