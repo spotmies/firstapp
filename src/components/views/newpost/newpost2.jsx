@@ -323,7 +323,7 @@ class Postform extends Component {
       job: this.props.job,
       loc: [17.686815, 83.218483],
       media: state.media,
-      ordState: !state.editFormFillFlag ? "req" : "update",
+      ordState: !state.editFormFillFlag ? "req" : "updated",
       ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
 
       uId: state.uId,
