@@ -87,6 +87,8 @@ body {
   height: 500px;
   margin-top: 70px !important;
   overflow: auto;
+  /* background-color: blueviolet; */
+  /* max-width: fit-content; */
 }
 
 .categoryMheader {

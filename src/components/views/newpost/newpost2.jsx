@@ -1,24 +1,28 @@
+import "date-fns";
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Card } from "semantic-ui-react";
+import { IconContext } from "react-icons";
+import TextField from "@material-ui/core/TextField";
+import Fab from "@material-ui/core/Fab";
+import Cardd from "@material-ui/core/Card";
+import Badge from "@material-ui/core/Badge";
+import CardMedia from "@material-ui/core/CardMedia";
+import Grid from "@material-ui/core/Grid";
+import Tooltip from "@material-ui/core/Tooltip";
+import Button from "@material-ui/core/Button";
 
+import { withStyles } from "@material-ui/core/styles";
+
+import DateFnsUtils from "@date-io/date-fns";
 import {
-  Button,
-  Form,
-  Input,
-  TextArea,
-  Card,
-  Label,
-  Image,
-  Modal,
-  Menu,
-} from "semantic-ui-react";
-
-import { InputGroup } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+  MuiPickersUtilsProvider,
+  KeyboardDateTimePicker,
+} from "@material-ui/pickers";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import { toast } from "react-toastify";
-
-import { BsCalendar, BsHammer, BsHouseFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import FullScreenWidget from "../../reusable/helpers";
+import { BsHammer, BsHouseFill } from "react-icons/bs";
 import imageCompression from "browser-image-compression";
 import "../rentals/rental.css";
 
@@ -32,6 +36,13 @@ import {
   MdBuild,
   MdLocalDining,
   MdMonochromePhotos,
+  MdAccountBalanceWallet,
+  MdDescription,
+  MdCreate,
+  MdMic,
+  MdVideoLibrary,
+  MdAddAPhoto,
+  MdClear,
 } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
@@ -39,151 +50,308 @@ import { BiCctv } from "react-icons/bi";
 import { DiPhotoshop } from "react-icons/di";
 import firebase from "../../../firebase";
 import "firebase/storage";
-import { createHashHistory } from "history";
 import "../../../post.css";
 import ComingSoon from "../../reusable/coming_soon_widget";
+import { categoryAssign } from "../../../helpers/categories";
+import {
+  createNewServiceRequest,
+  updateOrder,
+} from "../../controllers/new_post/order_controller";
+import { loadState } from "../../../helpers/localStorage";
 
-const history = createHashHistory();
+//for dialog
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
+import { constants } from "../../../helpers/constants";
+import { blue } from "@material-ui/core/colors";
+import { onlyNumRegEx } from "../../../helpers/regex/regex";
 
-const db = firebase.firestore();
 const storage = firebase.storage();
 
-var imgarr = [];
-var jobcate;
-
-export default function newpost2() {
-  return (
-    <div>
-      <Postnew />
-    </div>
-  );
-}
-
-function Postnew() {
-  return (
-    <>
-      <ComingSoon />
-      <div style={{ paddingTop: "20px" }}>
-        <Card centered id="formcard" className="postjobb1">
-          <Card.Content>
-            <Card.Header style={{ textAlign: "center" }}>New Post</Card.Header>
-          </Card.Content>
-          <Card.Content>
-            <Postform />
-          </Card.Content>
-        </Card>
-        <ModalExampleModal />
-      </div>
-    </>
-  );
-}
-
-class Postform extends Component {
-  state = {};
-
-  handleChange = (e, { value }) => this.setState({ value });
-
+class Postnew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: "",
-      sekcate: "",
-      arrayvar: [],
-      mopen: false,
-      image: [],
-      imgurl: "",
-      valprogress: 0,
-      addsubmit: false,
-      pflag: false,
+      job: null,
+      openJobModal: true,
+      loader: false,
+      isUserLogin: true,
+      uId: this.props.userDetails.uId ?? null,
+      loaderData: "Please wait...",
+      isNewForm: true,
+      //edit form details
+      editDateForm: {},
     };
-    this.handleChange2 = this.handleChange2.bind(this);
+  }
+  getOrder = async () => {
+    let ordId = window.location.pathname;
+    ordId = ordId.replace("/mybookings/id/edit/", "");
+    let orders =
+      this.props.orders.length > 0 ? this.props.orders : loadState("orders");
+    let order = orders.filter((item) => item.ordId == ordId);
+    console.log(order);
+    if (order.length > 0) {
+      this.setState({
+        job: order[0].job,
+        openJobModal: false,
+        isNewForm: false,
+        editDateForm: order[0],
+      });
+    } else console.log("unable to load data");
+    // eventLoader(false);
+  };
+  componentDidMount() {
+    console.log("mount");
+    if (this.props.editDate == "true") {
+      console.log("edit data coming >>>");
+      this.getOrder();
+    }
+    console.log(this.state);
+    console.log(this.props);
   }
 
-  handleChange2(date) {
-    console.log(this.state.arrayvar);
+  eventLoader = (value, data) => {
+    this.setState({ loader: value, loaderData: data ?? "Please wait..." });
+  };
 
+  updateJob = (value) => {
+    console.log(this.state);
     this.setState({
-      startDate: date,
+      job: value,
+      openJobModal: false,
+      isUserLogin: this.state.uId == null ? false : true,
+    });
+  };
+  triggerJobModal = (value) => {
+    console.log("triggered", value);
+    this.setState({ openJobModal: value });
+  };
+  goToSignUp = () => {
+    this.props.history.push("/signup");
+  };
+  render() {
+    return (
+      <>
+        <ComingSoon />
+        <FullScreenWidget
+          type="loader"
+          show={this.state.loader}
+          data="Please wait..."
+        />
+        <FullScreenWidget
+          type="noDataPlaceHolder"
+          show={!this.state.isUserLogin}
+          data="Please Login then Proceed"
+          buttonLabel="Login / Signup"
+          onButtonClick={this.goToSignUp}
+        />
+
+        <div
+          style={{
+            padding: "20px",
+          }}
+        >
+          <Card centered id="formcard" className="postjobb1">
+            <Card.Content>
+              <Card.Header
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                New Post
+              </Card.Header>
+            </Card.Content>
+            <Card.Content>
+              <Postform
+                job={this.state.job}
+                triggerJobModal={this.triggerJobModal}
+                eventLoader={this.eventLoader}
+                addNewOrder={this.props.addNewOrder}
+                history={this.props.history}
+                uId={this.state.uId}
+                prop={this.props}
+                editDate={this.state.editDateForm}
+              />
+            </Card.Content>
+          </Card>
+          {/* <ModalExampleModal
+            job={this.state.job}
+            updateJob={this.updateJob}
+            trigger={this.state.openJobModal}
+          /> */}
+
+          <SimpleDialog
+            selectedValue={this.state.job}
+            open={this.state.openJobModal}
+            onClose={this.updateJob}
+            prop={this.props}
+          />
+        </div>
+      </>
+    );
+  }
+}
+const useStyles = (theme) => ({
+  container: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "100%",
+    },
+  },
+  input: {
+    display: "none",
+  },
+  button: {
+    // color: "rgb(25, 148, 255)",
+    margin: 10,
+    size: 20,
+  },
+  media: {
+    height: 70,
+    width: 110,
+    margin: 10,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  },
+  submitButton: {
+    width: "30%",
+  },
+  cateButton: {
+    maxWidth: "60%",
+  },
+  dialogBox: {
+    height: 200,
+  },
+  avatar: {
+    backgroundColor: blue,
+    color: blue,
+  },
+  errorColor: {
+    "&:invalid": {
+      border: "red solid 2px",
+    },
+  },
+});
+class Postform extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      schedule: new Date(),
+      media: [],
+      image: [],
+      valprogress: 0,
+      pflag: false,
+      addPosted: false,
+      uId: this.props.uId ?? null,
+      submitForm: false,
+
+      //edit form
+      editFormFillFlag: false,
+      editDateForm: this.props.editDate,
+      ordId: null,
+
+      //controllers
+      problem: null,
+      description: null,
+      money: "",
+    };
+    this.updateSchedule = this.updateSchedule.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  updateSchedule(date) {
+    this.setState({
+      schedule: date,
     });
   }
+  handleChange(e) {
+    var formName = e.target.name;
+    var value = e.target.value;
+    this.setState({
+      [formName]: value,
+    });
+    console.log(this.state);
+  }
 
-  componentDidUpdate() {
-    if (this.state.image.length > 0) {
-      if (this.state.image.length == this.state.arrayvar.length) {
-        this.handleSubmit();
-      }
+  async componentDidUpdate() {
+    console.log(this.props.editDate);
+    if (
+      Object.keys(this.props.editDate).length != 0 &&
+      this.state.editFormFillFlag === false
+    ) {
+      let tempEditData = this.props.editDate;
+      this.setState({
+        editFormFillFlag: true,
+        problem: tempEditData.problem,
+        description: tempEditData.desc,
+        money: tempEditData.money,
+        schedule: new Date(tempEditData.schedule),
+        media: tempEditData.media,
+        ordId: tempEditData.ordId,
+        editDateForm: tempEditData,
+      });
+    }
+    if (this.state.submitForm) {
+      console.log("submit >> didupdate");
+      await this.handleSubmit();
     }
   }
 
   handleSubmit = async () => {
-    // event.preventDefault();
-    console.log(this.state.arrayvar);
-    let schedule = this.state.startDate;
-    let name = document.querySelector("#nameofserv").value;
-    let desc = document.querySelector("#sdesc").value;
+    console.log("submitting form");
+    this.state.image = [];
+    const state = this.state;
+    let reqObj = {
+      join: new Date().valueOf(),
+      problem: state.problem,
+      desc: state.description,
+      money: state.money,
+      schedule: new Date(state.schedule).valueOf(),
+      job: this.props.job,
+      loc: [17.686815, 83.218483],
+      media: state.media,
+      ordState: !state.editFormFillFlag ? "req" : "updated",
+      ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
 
-    let cat = jobcate;
-    let price = document.querySelector("#sprice").value;
-    if (desc == NaN) desc = "";
-    if (cat == "true") {
-      alert("please select category");
-      toast.warning("please select category");
+      uId: state.uId,
+    };
+
+    console.log(reqObj);
+    let response = !state.editFormFillFlag
+      ? await createNewServiceRequest(reqObj.uId, reqObj)
+      : await updateOrder(reqObj.ordId, reqObj);
+    this.setState({ addPosted: true, submitForm: false });
+    if (response != false) {
+      if (!state.editFormFillFlag) {
+        this.props.addNewOrder(response);
+        toast.info("service requested successfully");
+      } else {
+        this.props.prop.updateOrder(response);
+        toast.info("Request updated");
+      }
+      console.log(response);
+      this.props.history.push("/mybookings");
     } else {
-      cat = parseInt(cat);
-      price = parseInt(price);
-      console.log(name, desc, cat, price, imgarr, schedule);
-      const newpost = db
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("adpost")
-        .doc();
-      var d = new Date();
-      console.log(d);
-      newpost
-        .set({
-          job: cat,
-          problem: name,
-          description: desc,
-          money: price,
-          userid: firebase.auth().currentUser.uid,
-          orderid: newpost.id,
-          media: this.state.arrayvar,
-          request: "nothing",
-          posttime: d,
-          views: 0,
-          location: "seethammadhara",
-          schedule: schedule,
-          orderstate: null,
-          fback: null,
-        })
-        .then(() => {
-          return db.collection("allads").doc(newpost.id).set({
-            job: cat,
-            problem: name,
-            description: desc,
-            money: price,
-            userid: firebase.auth().currentUser.uid,
-            orderid: newpost.id,
-            media: this.state.arrayvar,
-            request: "nothing",
-            posttime: d,
-            views: 0,
-            location: "seethammadhara",
-            schedule: schedule,
-            orderstate: null,
-            fback: null,
-          });
-        })
-        .then(() => {
-          toast.success("post added successfully");
-          history.go(-1);
-          imgarr = [];
-          this.setState({ image: [], addsubmit: false, arrayvar: [] });
-        });
+      console.log("request not done");
+      console.log(response);
     }
+    this.props.eventLoader(false);
   };
 
-  handleChangeg = (e) => {
+  compressImages = (e) => {
     const options = {
       maxSizeMB: 0.15,
       maxWidthOrHeight: 800,
@@ -200,23 +368,19 @@ class Postform extends Component {
           this.setState({
             image: this.state.image.concat([cfile]),
           });
-          console.log(cfile);
-          document.getElementById("upldbtn").style.display = "block";
         })
         .catch(function (error) {
           console.log(error.message);
+          toast.warning(error.message);
         });
     }
   };
 
-  handleUpload = async (e) => {
+  uploadImageToCloud = async (e) => {
     e.preventDefault();
-    document.getElementById("uploaderb").style.display = "block";
-    document.getElementById("upldbtn").style.display = "none";
+    this.props.eventLoader(true, "Uploading Media...");
 
-    console.log(this.state.image);
-    console.log(this.state.image.length);
-    for (var i = 0; i < this.state.image.length; i++) {
+    for (let i = 0; i < this.state.image.length; i++) {
       console.log(`img no ${i}`);
       let k = Number(i);
       const uploadTask = storage
@@ -247,280 +411,379 @@ class Postform extends Component {
               console.log(url);
 
               this.setState({
-                arrayvar: this.state.arrayvar.concat([url]),
+                media: this.state.media.concat([url]),
+                submitForm: i === this.state.image.length - 1 ? true : false,
               });
             });
         }
       );
     }
-    if (this.state.image.length < 1) this.handleSubmit();
+    if (this.state.image.length < 1) {
+      this.setState({
+        submitForm: true,
+      });
+    }
   };
 
-  newfunk = (e) => {
-    console.log(e.target.id);
-    this.setState({ jobcate: e.target.id });
-    this.setState({ mopen: true });
-  };
-
-  sekhararr = (e) => {
-    console.log(e.target.parentElement.parentElement.id);
-    let ritem = this.state.image[e.target.parentElement.parentElement.id];
+  deleteMedia = (key, typeOfMode) => {
+    let ritem =
+      typeOfMode == "offline" ? this.state.image[key] : this.state.media[key];
+    let file = typeOfMode == "offline" ? "image" : "media";
     this.setState({
-      image: this.state.image.filter((e) => e !== ritem),
+      [file]:
+        typeOfMode == "offline"
+          ? this.state.image.filter((e) => e !== ritem)
+          : this.state.media.filter((e) => e !== ritem),
     });
-    console.log(this.state.image);
   };
-  pricetag = (flag) => {
-    if (flag == "yes") this.setState({ pflag: true });
-    else this.setState({ pflag: false });
+
+  changeJob = () => {
+    this.props.triggerJobModal(true);
   };
 
   render() {
+    const { classes } = this.props.prop;
     return (
       <>
-        <Form className="postjobb" onSubmit={this.handleUpload}>
-          <Form.Group widths="equal">
-            <Form.Field
-              required
-              control={Input}
-              label="Name of Service"
-              placeholder="enter name of service"
-              id="nameofserv"
-              className="nameofser"
-            />
-          </Form.Group>
-
-          <Form.Field
-            control={TextArea}
-            label="Description"
-            id="sdesc"
-            placeholder="Tell us more about your problem or any note here..."
+        <form
+          className={classes.root}
+          // noValidate
+          autoComplete="off"
+          onSubmit={this.uploadImageToCloud}
+        >
+          <TextField
+            id="filled-basic"
+            label="Title of Your problem"
+            variant="filled"
+            required
+            name="problem"
+            onChange={this.handleChange}
+            value={this.state.problem}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MdCreate />
+                </InputAdornment>
+              ),
+            }}
           />
-          <Form.Field>
-            <Form.Field>
-              <b>Select Date</b>
-            </Form.Field>
-            <Form.Field>
-              <InputGroup className="mb-2">
-                <InputGroup.Prepend className="nameofser">
-                  <InputGroup.Text>
-                    {" "}
-                    <BsCalendar size="1.3em" />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
+          <TextField
+            id="filled-multiline-static"
+            label="Description"
+            multiline
+            rows={4}
+            variant="filled"
+            name="description"
+            value={this.state.description}
+            onChange={this.handleChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MdDescription />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <TextField
+            id="filled-basic"
+            label="Want to mention Price"
+            variant="filled"
+            name="money"
+            type="number"
+            onChange={(e) => {
+              if (onlyNumRegEx(e.target.value)) this.handleChange(e);
+            }}
+            value={this.state.money}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <MdAccountBalanceWallet />
+                </InputAdornment>
+              ),
+              startAdornment: (
+                <InputAdornment position="start">₹</InputAdornment>
+              ),
+            }}
+          />
 
-                <DatePicker
-                  selected={this.state.startDate}
-                  placeholderText="when you want service"
-                  onChange={this.handleChange2}
-                  minDate={new Date()}
-                  name="startDate"
-                  showTimeSelect
-                  timeFormat="HH:mm"
-                  todayButton="Today"
-                  timeIntervals={60}
-                  timeCaption="time"
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                  withPortal
-                  required
-                />
-              </InputGroup>
-            </Form.Field>
+          <Grid container justify="flex-start">
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={this.compressImages}
+            />
+            <label htmlFor="contained-button-file">
+              <Tooltip title="Add Images, photos" aria-label="add">
+                <Fab component="span" className={classes.button}>
+                  <MdAddAPhoto size="1.5rem" />
+                </Fab>
+              </Tooltip>
+            </label>
+            <Tooltip title="Add Audio, record" aria-label="add">
+              <Fab className={classes.button}>
+                <MdMic size="1.5rem" />
+              </Fab>
+            </Tooltip>
+            <Tooltip title="Add Video" aria-label="add">
+              <Fab className={classes.button}>
+                <MdVideoLibrary size="1.5rem" />
+              </Fab>
+            </Tooltip>
+          </Grid>
+          <ListMediaFiles
+            mediaFiles={this.state.media}
+            styles={classes}
+            typeOfMode="online"
+            deleteMedia={this.deleteMedia}
+          />
+          <ListMediaFiles
+            mediaFiles={this.state.image}
+            deleteMedia={this.deleteMedia}
+            styles={classes}
+            typeOfMode="offline"
+          />
 
-            <b style={{ fontWeight: "800" }}> Enter Amount </b>
-            <Button.Group size="tiny">
-              <Button
-                type="button"
-                onClick={() => {
-                  this.pricetag("yes");
-                }}
-              >
-                Yes
-              </Button>
-              <Button.Or />
-              <Button
-                type="button"
-                onClick={() => {
-                  this.pricetag("no");
-                }}
-              >
-                No
-              </Button>
-            </Button.Group>
-            {this.state.pflag ? <Pricefield /> : null}
-          </Form.Field>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDateTimePicker
+              required
+              margin="normal"
+              variant="filled"
+              id="time-picker"
+              label="Schedule"
+              value={this.state.schedule}
+              onChange={this.updateSchedule}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+          </MuiPickersUtilsProvider>
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              type="submit"
+              className={classes.submitButton}
+              startIcon={<MdCheckCircle />}
+            >
+              {!this.state.editFormFillFlag ? "Submit" : "Update"}
+            </Button>
 
-          <div style={{ display: "inline-block" }}>
-            <Form.Field>
-              <Input
-                icon="photo"
-                iconPosition="Right"
-                type="file"
-                placeholder="Enter tags"
-                // onChange={this.upldimg}
-                accept=".gif,.jpg,.jpeg,.png"
-                onChange={this.handleChangeg}
-                multiple
-              />
-            </Form.Field>
-          </div>
-          <progress value={this.state.valprogress} max="100" id="uploaderb">
-            progress
-          </progress>
-
-          <div>
-            <Image.Group size="small">
-              {this.state.image.map((nap, key) => (
-                <Image
-                  fluid
-                  key={key}
-                  id={key}
-                  label={{
-                    as: "a",
-                    corner: "right",
-                    icon: "trash",
-                    onClick: this.sekhararr,
-                  }}
-                  src={URL.createObjectURL(nap)}
-                />
-              ))}
-            </Image.Group>
-          </div>
-
-          <Form.Field control={Button} type="submit" centered color="primary">
-            <MdCheckCircle size="1.3rem" style={{ textAlign: "left" }} />
-            Submit
-          </Form.Field>
-        </Form>
+            <Button
+              variant="contained"
+              // color="grey"
+              size="large"
+              className={classes.cateButton}
+              onClick={this.changeJob}
+              startIcon={<MdCheckCircle />}
+            >
+              {categoryAssign(this.props.job)}
+            </Button>
+          </Grid>
+        </form>
       </>
     );
   }
 }
 
-function Pricefield() {
+function GetCategoryIcons(props) {
+  var id = Number(props.iconId);
   return (
-    <Input
-      labelPosition="right"
-      type="number"
-      id="sprice"
-      placeholder="Amount"
-      style={{ width: "60%" }}
-    >
-      <Label basic>₹</Label>
-      <input />
-      <Label>.00</Label>
-    </Input>
-  );
-}
-
-function ModalExampleModal() {
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (!user) {
-      console.log("user login");
-    }
-  });
-
-  const [open, setOpen] = React.useState(true);
-
-  function click(e) {
-    console.log(e.target.dataset.txt);
-    jobcate = e.target.dataset.txt;
-    setOpen(false);
-  }
-
-  return (
-    <>
+    <IconContext.Provider value={{ size: "1.5rem" }}>
       <div>
-        <Modal
-          size="small"
-          centered
-          className="categoryModal"
-          onOpen={() => setOpen(true)}
-          open={open}
-        >
-          <Modal.Header className="categoryMheader">
-            {/* Select Job Category */}
-            Available Services
-          </Modal.Header>
-          <Modal.Content></Modal.Content>
-          <Card centered id="jobcate">
-            <Card.Content>
-              <Card.Header>Select Category here</Card.Header>
-            </Card.Content>
-            <Card.Content>
-              <Menu vertical centered style={{ width: "auto" }}>
-                <Menu.Item link data-txt="0" onClick={click}>
-                  <FaTools size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Ac/Refrigirator Service
-                </Menu.Item>
-                <Menu.Item link data-txt="1" onClick={click}>
-                  <MdLaptopMac size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Computer/Laptop Service
-                </Menu.Item>
-                <Menu.Item link data-txt="2" onClick={click}>
-                  <MdTv size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Tv Repair
-                </Menu.Item>
-                <Menu.Item link data-txt="9" onClick={click}>
-                  <FaScrewdriver size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Electrician
-                </Menu.Item>
-                <Menu.Item link data-txt="12" onClick={click}>
-                  <BsHouseFill size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Interior Design
-                </Menu.Item>
-                <Menu.Item link data-txt="13" onClick={click}>
-                  <DiPhotoshop size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Design
-                </Menu.Item>
-                <Menu.Item link data-txt="3" onClick={click}>
-                  <BiCodeBlock size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Development
-                </Menu.Item>
-                <Menu.Item link data-txt="8" onClick={click}>
-                  <MdEventAvailable size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Events
-                </Menu.Item>
-                <Menu.Item link data-txt="5" onClick={click}>
-                  <MdFace size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Beauty
-                </Menu.Item>
-                <Menu.Item link data-txt="4" onClick={click}>
-                  <FaChalkboardTeacher size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Tutor
-                </Menu.Item>
-                <Menu.Item link data-txt="6" onClick={click}>
-                  <MdMonochromePhotos size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Photographer
-                </Menu.Item>
-                <Menu.Item link data-txt="7" onClick={click}>
-                  <MdDriveEta size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Driver
-                </Menu.Item>
-                <Menu.Item link data-txt="10" onClick={click}>
-                  <BsHammer size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Carpenter
-                </Menu.Item>
-                <Menu.Item link data-txt="11" onClick={click}>
-                  <MdBuild size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Plumber
-                </Menu.Item>
-                <Menu.Item link data-txt="14" onClick={click}>
-                  <BiCctv size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; CC Tv Installation
-                </Menu.Item>
-                <Menu.Item link data-txt="15" onClick={click}>
-                  <MdLocalDining size="1.5rem" />
-                  &nbsp;&nbsp;&nbsp;&nbsp; Catering
-                </Menu.Item>
-              </Menu>
-              <Link to="/signup" style={{ display: "none" }}>
-                <p id="redirectsignup">signup</p>
-              </Link>
-            </Card.Content>
-          </Card>
-        </Modal>
+        {(() => {
+          switch (id) {
+            case 0:
+              return <FaTools />;
+              break;
+            case 1:
+              return <MdLaptopMac />;
+              break;
+            case 2:
+              return <MdTv />;
+              break;
+            case 3:
+              return <BiCodeBlock />;
+
+              break;
+            case 4:
+              return <FaChalkboardTeacher />;
+
+              break;
+            case 5:
+              return <MdFace />;
+
+              break;
+            case 6:
+              return <MdMonochromePhotos />;
+
+              break;
+            case 7:
+              return <MdDriveEta />;
+
+              break;
+            case 8:
+              return <MdEventAvailable />;
+
+              break;
+            case 9:
+              return <FaScrewdriver />;
+
+              break;
+            case 10:
+              return <BsHammer />;
+
+              break;
+            case 11:
+              return <MdBuild />;
+              break;
+            case 12:
+              return <BsHouseFill />;
+
+              break;
+            case 13:
+              return <DiPhotoshop />;
+
+              break;
+            case 14:
+              return <BiCctv />;
+
+              break;
+            case 15:
+              return <MdLocalDining />;
+              break;
+            case 16:
+              break;
+            case 17:
+              break;
+            case 18:
+              break;
+            case 19:
+              break;
+            case 20:
+              break;
+
+            default:
+              break;
+          }
+        })()}
       </div>
-    </>
+    </IconContext.Provider>
   );
 }
+
+function SimpleDialog(props) {
+  const classes = props.prop;
+  const { onClose, selectedValue, open } = props;
+  const handleListItemClick = (value) => {
+    onClose(value);
+  };
+  const handleClose = () => {
+    if (selectedValue != null) onClose(selectedValue);
+  };
+
+  const loadData = constants.categories;
+
+  return (
+    <Dialog
+      aria-labelledby="simple-dialog-title"
+      open={open}
+      className="categoryModal"
+      onClose={handleClose}
+    >
+      <DialogTitle id="simple-dialog-title">
+        <u>Select Category here</u>
+      </DialogTitle>
+      <div style={{ width: "580px" }}>
+        <List>
+          {loadData.map((data, key) => (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(key)}
+              key={key}
+              selected={key === selectedValue}
+            >
+              <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                  <GetCategoryIcons iconId={key} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={data} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    </Dialog>
+  );
+}
+
+class ListMediaFiles extends Component {
+  shouldComponentUpdate(newProps) {
+    if (this.props.mediaFiles == newProps.mediaFiles) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  render() {
+    const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
+    return (
+      <Grid
+        container
+        justify="flex-start" // alignItems="center"
+      >
+        {mediaFiles.map((nap, key) => (
+          <Badge color="white" badgeContent=" " variant="dot">
+            <CardMedia
+              key={key}
+              className={styles.media}
+              image={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+              title={nap.name}
+            />
+            <MdClear
+              color="red"
+              onClick={() => {
+                deleteMedia(key, typeOfMode);
+              }}
+            />
+          </Badge>
+        ))}
+      </Grid>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    userDetails:
+      Object.keys(state.userDetails).length != 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
+    orders: state.orders,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewOrder: (data) => {
+      dispatch({ type: "ADD_NEW_ORDER", value: data });
+    },
+    updateAllOrders: (data) => {
+      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+    updateOrder: (data) => {
+      dispatch({ type: "UPDATE_ORDER", value: data });
+    },
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(useStyles)(Postnew));

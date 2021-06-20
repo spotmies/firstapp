@@ -3,15 +3,15 @@ import firebase from "../../../firebase";
 import { Button, Form, InputGroup, FormControl } from "react-bootstrap";
 import { Card, Icon, Dropdown } from "semantic-ui-react";
 import { toast } from "react-toastify";
-import { withRouter } from "react-router-dom";
 import { sharemydetails } from "../../../mservices/userDB";
-
+import { validURL } from "../../../helpers/dateconv";
 import "../../../index.css";
 import "../../../assets/css/profile.css";
-
+import { updateUserDetails } from "../../controllers/login/login_controller";
 import imageCompression from "browser-image-compression";
 
-import {connect} from "react-redux";
+import { connect } from "react-redux";
+import FullScreenWidget from "../../reusable/helpers";
 
 import {
   MdAccountCircle,
@@ -19,6 +19,7 @@ import {
   MdEmail,
   MdSmartphone,
 } from "react-icons/md";
+import { allowOnlyNumber } from "../../../helpers/regex/regex";
 
 const db = firebase.firestore();
 const storage = firebase.storage();
@@ -29,16 +30,18 @@ class Profile extends Component {
 
     this.state = {
       profile: {},
+      editSection: false,
+      loader: false,
+      nameController: React.createRef(),
+      altNumController: React.createRef(),
+      eMailController: React.createRef(),
     };
-    this.handlechange = this.handlechange.bind(this);
-    this.editpro = this.editpro.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+    this.upldimg = this.upldimg.bind(this);
   }
 
   async componentDidMount() {
-    if (firebase.auth().currentUser.uid) {
-      let details = await sharemydetails(firebase.auth().currentUser.uid);
-      this.setState({ profile: details });
-    }
+    this.setState({ profile: await this.props.userDetails });
   }
 
   async componentDidUpdate() {
@@ -60,24 +63,21 @@ class Profile extends Component {
       });
   }
 
-  editpro(e) {
-    toast.info("Details Updating...");
+  async submitForm(e) {
     e.preventDefault();
-    db.collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .update({
-        name: this.state.profile.name,
-        email: this.state.profile.email,
-        pic: document.getElementById("editpic").src,
-        altnum: this.state.profile.altnum,
-      })
-      .then(() => {
-        toast.success("Details Updated");
-        document.querySelector(".editpro").style.display = "none";
-        let temp = this.state.profile;
-        temp["pic"] = document.getElementById("editpic").src;
-        this.setState({ profile: temp });
-      });
+    this.eventLoader(true);
+    let uId = this.state.profile.uId;
+    let updateObject = this.state.profile;
+    updateObject["lastLogin"] = new Date().valueOf();
+    updateObject["name"] = this.state.nameController.current.value;
+    updateObject["altNum"] = this.state.altNumController.current.value;
+    updateObject["eMail"] = this.state.eMailController.current.value;
+    let response = await updateUserDetails(uId, updateObject);
+    this.eventLoader(false);
+    this.editProfileSection(false);
+    if (response != false) {
+      this.props.updateUser(response);
+    }
   }
 
   async upldimg(e) {
@@ -98,9 +98,9 @@ class Profile extends Component {
         console.log(error.message);
       });
 
-    console.log("fileis", file.name);
     var uploaderb = document.querySelector("#uploaderb");
     uploaderb.style.display = "block";
+
     var storageref = storage.ref(
       `users/${firebase.auth().currentUser.uid}/profile/` + cfile.name
     );
@@ -117,28 +117,31 @@ class Profile extends Component {
       function error(err) {
         console.log(err);
       },
-      function complete() {
-        console.log("adhar back uploaded successfully ");
-        task.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          console.log("File available at", downloadURL);
-          document.getElementById("editpic").setAttribute("src", downloadURL);
+      () => {
+        task.snapshot.ref.getDownloadURL().then((downloadURL) => {
           uploaderb.style.display = "none";
+          let temp = this.state.profile;
+          temp["pic"] = downloadURL;
+          this.setState({ profile: temp });
         });
       }
     );
   }
-  handlechange(e) {
-    let value = e.target.value;
-    let id = e.target.id;
-    console.log(id, value);
-    let temp = this.state.profile;
 
-    temp[id] = value;
-    this.setState({ profile: temp });
-  }
+  //turn on off loader
+  eventLoader = (value) => {
+    this.setState({
+      loader: value,
+    });
+  };
   render() {
     return (
       <div>
+        <FullScreenWidget
+          data="Updating your details..."
+          type="loader"
+          show={this.state.loader}
+        />
         <div style={{ paddingBottom: "50px" }}>
           <Card centered color="blue" className="detailsContainer">
             <Card.Content>
@@ -166,7 +169,11 @@ class Profile extends Component {
               </Dropdown>
             </Card.Content>
             <Card.Content>
-              <img src={this.state.profile.pic} className="postImg" />
+              {validURL(this.state.profile.pic) ? (
+                <img src={this.state.profile.pic} className="postImg" />
+              ) : (
+                <MdAccountCircle className="postImg" />
+              )}
             </Card.Content>
             <Card.Content style={{ textAlign: "center" }}>
               <Card.Header>
@@ -178,17 +185,17 @@ class Profile extends Component {
                 <span className="accInfo">
                   <small>
                     <MdSmartphone className="Icons" />{" "}
-                    {this.state.profile.phone}
+                    {this.state.profile.phNum}
                   </small>
                 </span>
                 <span className="accInfo">
                   <small>
-                    <MdPhone className="Icons" /> {this.state.profile.altnum}
+                    <MdPhone className="Icons" /> {this.state.profile.altNum}
                   </small>
                 </span>
                 <span className="accInfo">
                   <small>
-                    <MdEmail className="Icons" /> {this.state.profile.email}
+                    <MdEmail className="Icons" /> {this.state.profile.eMail}
                   </small>
                 </span>
               </Card.Meta>
@@ -201,12 +208,11 @@ class Profile extends Component {
                   <Dropdown.Menu>
                     <Dropdown.Item
                       text="Edit my profile"
-                      onClick={this.editdet}
+                      onClick={() => {
+                        this.editProfileSection(true);
+                      }}
                     />
-                    <Dropdown.Item
-                      text="Delete my account"
-                      onClick={this.delmyac}
-                    />
+                    <Dropdown.Item text="Delete my account" />
                   </Dropdown.Menu>
                 </Dropdown>
               </a>
@@ -219,128 +225,127 @@ class Profile extends Component {
         </div>
 
         <div>
-          <div className="editpro">
-            <Form className="EditForm" onSubmit={this.editpro}>
-              <Form.Group controlId="formBasicEmail">
-                <p
-                  className="crossBtn"
-                  onClick={(e) =>
-                    (document.querySelector(".editpro").style.display = "none")
-                  }
-                >
-                  X
-                </p>
-
-                <InputGroup className="mb-2 mr-sm-2">
-                  <input
-                    id="fileid"
-                    type="file"
-                    onChange={this.upldimg}
-                    hidden
-                  />
-                  <img
-                    className="post-img"
-                    id="editpic"
-                    style={{ cursor: "pointer", border: "none" }}
-                    itemType="file"
-                    onClick={this.uploadpic}
-                    src={this.state.profile.pic}
-                    alt=""
-                  />
-                  <div
-                    className="post-img imageOverlay"
-                    id="editpic"
-                    style={{ cursor: "pointer" }}
-                    itemType="file"
-                    onClick={this.uploadpic}
+          {this.state.editSection ? (
+            <div className="editpro">
+              <Form className="EditForm" onSubmit={this.submitForm}>
+                <Form.Group controlId="name">
+                  <p
+                    className="crossBtn"
+                    onClick={() => {
+                      this.editProfileSection(false);
+                    }}
                   >
-                    +
-                  </div>
-                  <progress value="0" max="100" id="uploaderb">
-                    0%
-                  </progress>
-                </InputGroup>
+                    X
+                  </p>
 
-                <Form.Label htmlFor="inlineFormInputGroupUsername2" srOnly>
-                  Username
-                </Form.Label>
-                <InputGroup className="mb-2 mr-sm-2">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text>@</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    id="name"
-                    placeholder="Enter your name"
-                    required
-                    value={this.state.profile.name}
-                    onChange={this.handlechange}
-                  />
-                </InputGroup>
-              </Form.Group>
+                  <InputGroup className="mb-2 mr-sm-2">
+                    <input
+                      id="fileid"
+                      type="file"
+                      onChange={this.upldimg}
+                      hidden
+                    />
+                    <img
+                      className="post-img"
+                      id="editpic"
+                      style={{ cursor: "pointer", border: "none" }}
+                      itemType="file"
+                      onClick={this.uploadpic}
+                      src={this.state.profile.pic}
+                      alt=""
+                    />
+                    <div
+                      className="post-img imageOverlay"
+                      id="editpic"
+                      style={{ cursor: "pointer" }}
+                      itemType="file"
+                      onClick={this.uploadpic}
+                    >
+                      +
+                    </div>
+                    <progress value="0" max="100" id="uploaderb">
+                      0%
+                    </progress>
+                  </InputGroup>
 
-              <Form.Group controlId="formBasicPassword">
-                <InputGroup className="mb-2 mr-sm-2">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text>@</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    id="email"
-                    placeholder="Enter your email "
-                    value={this.state.profile.email}
-                    onChange={this.handlechange}
-                  />
-                </InputGroup>
-              </Form.Group>
+                  <Form.Label htmlFor="inlineFormInputGroupUsername2" srOnly>
+                    Username
+                  </Form.Label>
+                  <InputGroup className="mb-2 mr-sm-2">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text>@</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      id="name"
+                      placeholder="Enter your name"
+                      required
+                      defaultValue={this.state.profile.name}
+                      ref={this.state.nameController}
+                      required
+                    />
+                  </InputGroup>
+                </Form.Group>
 
-              <Form.Group controlId="formBasicPassword">
-                <InputGroup className="mb-2 mr-sm-2">
-                  <InputGroup.Prepend>
-                    <InputGroup.Text>@</InputGroup.Text>
-                  </InputGroup.Prepend>
-                  <FormControl
-                    id="altnum"
-                    placeholder="Enter your alternative phone number"
-                    value={this.state.profile.altnum}
-                    onChange={this.handlechange}
-                  />
-                </InputGroup>
-              </Form.Group>
+                <Form.Group controlId="eMail">
+                  <InputGroup className="mb-2 mr-sm-2">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text>@</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      id="eMail"
+                      placeholder="Enter your email "
+                      defaultValue={this.state.profile.eMail}
+                      type="email"
+                      ref={this.state.eMailController}
+                    />
+                  </InputGroup>
+                </Form.Group>
 
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </Form>
-          </div>
+                <Form.Group controlId="altNum">
+                  <InputGroup className="mb-2 mr-sm-2">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text>@</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl
+                      id="altNum"
+                      placeholder="Enter your alternative phone number"
+                      defaultValue={this.state.profile.altNum}
+                      maxLength="10"
+                      onChange={allowOnlyNumber}
+                      ref={this.state.altNumController}
+                    />
+                  </InputGroup>
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </Form>
+            </div>
+          ) : null}
         </div>
       </div>
     );
-  }
-  delmyac() {
-    var r = window.confirm(
-      "you can't recover to do this all data about you deleted"
-    );
-    if (r == true) {
-      db.collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .delete()
-        .then(() => {
-          firebase
-            .auth()
-            .signOut()
-            .then(function () {
-              window.location.href = "http://localhost:3000/";
-            });
-        });
-    }
   }
   uploadpic(e) {
     e.preventDefault();
     document.getElementById("fileid").click();
   }
 
-  editdet(e) {
-    document.querySelector(".editpro").style.display = "block";
+  editProfileSection(value) {
+    this.setState({ editSection: value });
   }
 }
-
-export default withRouter(Profile);
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUser: (data) => {
+      dispatch({ type: "UPDATE_USER_DETAILS", value: data });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

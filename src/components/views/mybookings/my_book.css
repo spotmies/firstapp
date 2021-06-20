@@ -1,0 +1,21 @@
+.cardDiv {
+  padding: 20px 0 20px 0;
+}
+.orderCard {
+  width: 65%;
+  margin: auto;
+  border-radius: 20px !important;
+  box-shadow: 0 3px 5px 2px rgb(214, 214, 214) !important;
+}
+.cardHeader {
+  background-color: #e5e5e5;
+  height: 55px;
+}
+.media {
+  height: 60;
+  width: 60;
+}
+.orderDetails {
+  display: inline-flex;
+  color: grey;
+}

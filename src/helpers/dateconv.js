@@ -36,7 +36,7 @@ function gettbystamps(stamps, id) {
   let ythedate = yesterday.getDate(); //returns date 1,2,3,4..
   let ymonth = yesterday.getMonth();
 
-  let date = new Date(stamps * 1000);
+  let date = new Date(stamps);
   // let year = date.getFullYear();
   let month = date.getMonth();
   let thedate = date.getDate();
@@ -112,13 +112,13 @@ function getstamp(raw) {
   return temp2;
 }
 
-function ValidURL(str) {
-  var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
-  if (!regex.test(str)) {
-    return false;
-  } else {
-    return true;
-  }
+function validURL(str) {
+  var regex =
+    /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+
+  if (!regex.test(str)) return false;
+
+  return true;
 }
 
-export { gettbystamps, getorgnl, getstamp, lastMessage, ValidURL };
+export { gettbystamps, getorgnl, getstamp, lastMessage, validURL };

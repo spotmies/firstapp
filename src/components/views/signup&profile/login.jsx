@@ -1,12 +1,14 @@
 import React, { Component, createRef } from "react";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import "./login.css";
-import { allowOnlyNumber } from "../../../helpers/regex/regex";
-import FullScreenLoader from "../../reusable/helpers";
+import { onlyNumRegEx } from "../../../helpers/regex/regex";
+import FullScreenWidget from "../../reusable/helpers";
 import firebase from "../../../firebase";
 import { toast } from "react-toastify";
-import { checkUser, newUser } from "../../controllers/login/login_controller";
-
+import { loginUser, newUser } from "../../controllers/login/login_controller";
+import { connect } from "react-redux";
+import { saveState } from "../../../helpers/localStorage";
+import { constants } from "../../../helpers/constants";
 var loginDetails;
 class Login extends Component {
   constructor(props) {
@@ -23,6 +25,10 @@ class Login extends Component {
       otpSection: false,
       registrationSection: false,
       userName: null,
+      allowedNumber: [
+        8341980196, 8309708021, 8019933883, 7095695690, 9502831877, 7993613685,
+        8330933883, 7075229282, 8919387141,
+      ],
     };
     this.genotp = this.genotp.bind(this);
   }
@@ -35,6 +41,12 @@ class Login extends Component {
 
   genotp = (e) => {
     let phNumber = this.state.numberController.current.value;
+    if (constants.restrictLogin) {
+      if (!this.state.allowedNumber.includes(Number(phNumber))) {
+        toast.info("Your number not allowed This web in demo");
+        return;
+      }
+    }
     if (phNumber.length < 10) {
       toast.warning("Enter valid Number");
       return;
@@ -64,7 +76,6 @@ class Login extends Component {
   };
 
   verifyOtp = async () => {
-    // this.setState({ loader: true });
     this.eventLoader(true);
     const otp = this.state.otpController.current.value;
     var data = await window.confirmationResult
@@ -72,27 +83,29 @@ class Login extends Component {
       .then(async function (result) {
         console.log(result);
         loginDetails = result;
-        let response = await checkUser(loginDetails.user.uid);
+        let response = await loginUser(loginDetails.user.uid);
         if (response == false) {
           toast.info("Please enter your name to register");
           return "registerUser";
         } else {
           toast.info("Login Successfully");
-          return "navBack";
+          return response;
         }
       })
       .catch((err) => {
         console.log(err);
         toast.error(err.code);
-        return true;
+        return "inValidOtp";
       });
     console.log(data);
-    // if (data) this.setState({ loader: false });
     this.setState({
       loader: false,
       registrationSection: data == "registerUser" ? true : false,
     });
-    if (data == "navBack") {
+
+    if (data != "registerUser" && data != "inValidOtp") {
+      this.props.updateUser(data);
+      saveState("userDetails", data);
       this.props.history.go(-1);
     }
   };
@@ -103,8 +116,7 @@ class Login extends Component {
     const value = e.target.value;
     switch (name) {
       case "phone":
-        if (allowOnlyNumber(value))
-          state.numberController.current.value = value;
+        if (onlyNumRegEx(value)) state.numberController.current.value = value;
         else {
           state.numberController.current.value = value.slice(
             0,
@@ -119,7 +131,7 @@ class Login extends Component {
 
         break;
       case "otp":
-        if (allowOnlyNumber(value)) state.otpController.current.value = value;
+        if (onlyNumRegEx(value)) state.otpController.current.value = value;
         else {
           state.otpController.current.value = value.slice(0, value.length - 1);
         }
@@ -139,6 +151,10 @@ class Login extends Component {
     let response = await newUser(loginDetails);
     this.eventLoader(false);
     if (response != null) {
+      this.props.updateUser(response);
+      saveState("userDetails", response);
+      toast.success("Registration Completed");
+      this.props.history.go(-1);
     } else {
       toast.info("something went wrong");
     }
@@ -152,16 +168,20 @@ class Login extends Component {
     const state = this.state;
     console.log("screen started ......");
     return (
-      <div style={{ paddingTop: "50px" }}>
-        {state.loader ? <FullScreenLoader data="Please Wait..." /> : null}
-        <div className="loginForm">
+      <div>
+        <FullScreenWidget
+          type="loader"
+          show={state.loader}
+          data="Please Wait..."
+        />
+        <div className="loginForm" style={{ paddingTop: "60px" }}>
           <Form>
             <Form.Field>
               <label>Mobile Number</label>
               <input
                 placeholder="Enter Phone number hrer"
                 ref={state.numberController}
-                maxlength="10"
+                maxLength="10"
                 name="phone"
                 onChange={this.handleChange}
               />
@@ -176,7 +196,7 @@ class Login extends Component {
               <input
                 placeholder="Enter OTP here"
                 ref={state.otpController}
-                maxlength="6"
+                maxLength="6"
                 name="otp"
                 onChange={this.handleChange}
               />
@@ -212,8 +232,22 @@ class Login extends Component {
             ) : null}
           </Form>
         </div>
+        {/* <ReduxPersistent /> */}
       </div>
     );
   }
 }
-export default Login;
+
+const mapStateToProps = (state) => {
+  return {
+    reduxStore: state,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUser: (data) => {
+      dispatch({ type: "UPDATE_USER_DETAILS", value: data });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

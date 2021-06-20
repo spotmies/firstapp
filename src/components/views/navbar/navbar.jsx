@@ -6,8 +6,11 @@ import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
 import SmLogo from "../../../images/logo.svg";
-import {connect} from "react-redux";
-
+import { connect } from "react-redux";
+import { validURL } from "../../../helpers/dateconv";
+import { loadState, saveState } from "../../../helpers/localStorage";
+import { getUserOrders } from "../../controllers/new_post/order_controller";
+import { loginUser } from "../../controllers/login/login_controller";
 //react icons
 import { IconContext } from "react-icons";
 import {
@@ -22,29 +25,36 @@ import {
 import { BiLogOutCircle } from "react-icons/bi";
 import { FaCarAlt } from "react-icons/fa";
 
-const db = firebase.firestore();
-
-function Navibar() {
-  const [name, setName] = useState("undefined");
-  const [pic, setpic] = useState(
-    "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-  );
+function Navibar(props) {
+  const [name, setName] = useState("user name");
+  const [pic, setpic] = useState(undefined);
   const [isLogged, setisLogged] = useState(false);
 
   const history = useHistory();
 
-  firebase.auth().onAuthStateChanged(function (user) {
+  firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
+      if (Object.keys(props.userDetails).length === 0) {
+        let localUserDetails = loadState("userDetails");
+        if (localUserDetails != null) props.updateUser(localUserDetails);
+        else {
+          let newLoginResponse = await loginUser(
+            firebase.auth().currentUser.uid
+          );
+          if (newLoginResponse != false) props.updateUser(newLoginResponse);
+        }
+        let localOrders = loadState("orders");
+        if (localOrders != null) props.updateAllOrders(localOrders);
+        else {
+          let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
+
+          props.updateAllOrders(apiOrders);
+        }
+      }
+
+      setName(props.userDetails.name);
+      setpic(props.userDetails.pic);
       setisLogged(true);
-      db.collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .onSnapshot((snap) => {
-          if (!snap.data()) setName("demouser");
-          else {
-            setName(snap.data().name);
-            setpic(snap.data().pic);
-          }
-        });
     } else {
       setisLogged(false);
     }
@@ -55,6 +65,8 @@ function Navibar() {
       .auth()
       .signOut()
       .then(function () {
+        localStorage.removeItem("userDetails");
+        localStorage.removeItem("orders");
         history.push("/");
         setTimeout(() => {}, 1000);
         window.location.reload();
@@ -76,11 +88,14 @@ function Navibar() {
                 </Navbar.Brand>
               </Link>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-              <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
+              <Navbar.Collapse
+                id="responsive-navbar-nav"
+                className="justify-content-end"
+              >
                 <Nav className="mr-auto"></Nav>
                 <Nav
                   className="nav-linkList"
-                  style={{ color: "black", display: "inline-flex"}}
+                  style={{ color: "black", display: "inline-flex" }}
                 >
                   {isLogged ? (
                     <>
@@ -125,18 +140,23 @@ function Navibar() {
                         marginRight: "0",
                       }}
                     >
-                      <img
-                        src={pic}
-                        className="userdp"
-                        style={{
-                          height: "20px",
-                          width: "20px",
-                          borderRadius: "1rem",
-                          marginTop: "10px",
-                          marginLeft: "6px",
-                        }}
-                      />
-
+                      <span>
+                        {validURL(pic) ? (
+                          <img
+                            src={pic}
+                            className="userdp"
+                            style={{
+                              height: "20px",
+                              width: "20px",
+                              borderRadius: "1rem",
+                              marginTop: "10px",
+                              marginLeft: "6px",
+                            }}
+                          />
+                        ) : (
+                          <MdAccountCircle style={{ marginTop: "10px" }} />
+                        )}
+                      </span>
                       <NavDropdown
                         title={name}
                         style={{ marginTop: "3px" }}
@@ -212,4 +232,21 @@ function Navibar() {
     </div>
   );
 }
-export default Navibar;
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+    isUserLogin: state.isUserLogin,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUser: (data) => {
+      dispatch({ type: "UPDATE_USER_DETAILS", value: data });
+    },
+    updateAllOrders: (data) => {
+      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navibar);

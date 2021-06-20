@@ -6,8 +6,28 @@ module.exports = Object.freeze({
   partnerRegistration: "/partnerRegistration",
   contactUs: "/contactUs",
   feedBack: "/feedBack",
+  uploadFileLink: "",
   constants: {
     demoVersion: false,
+    restrictLogin: true,
+    categories: [
+      "Ac/Refrigirator Service",
+      "Computer/laptop Service",
+      "Tv Repair",
+      "Development",
+      "Tutor",
+      "Beauty",
+      "Photographer",
+      "Driver",
+      "Events",
+      "Electrician",
+      "Carpenter",
+      "Plumber",
+      "Interior Design",
+      "Design",
+      "CC Tv Installation",
+      "Catering",
+    ],
   },
   api: {
     USER_DETAILS: "/user/users", //PASS UID AT LAST

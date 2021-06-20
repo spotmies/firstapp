@@ -1,7 +1,12 @@
-function allowOnlyNumber(value) {
+function onlyNumRegEx(value) {
+  if (value == "") return true;
   const regEx = /^[0-9\b]+$/;
   if (regEx.test(value)) {
     return true;
   } else return false;
 }
-export { allowOnlyNumber };
+function allowOnlyNumber(e) {
+  let value = e.target.value;
+  if (!onlyNumRegEx(value)) e.target.value = value.slice(0, value.length - 1);
+}
+export { onlyNumRegEx, allowOnlyNumber };

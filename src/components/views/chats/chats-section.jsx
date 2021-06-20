@@ -16,7 +16,7 @@ import imageCompression from "browser-image-compression";
 import "firebase/storage";
 //micro service
 import { getpdetailsbyid, disablechat } from "../../../mservices/upldmedia";
-import { gettbystamps, ValidURL } from "../../../helpers/dateconv";
+import { gettbystamps, validURL } from "../../../helpers/dateconv";
 import { toast } from "react-toastify";
 import { msgdot } from "../../../helpers/msgdot";
 //import icons
@@ -224,7 +224,7 @@ function Mybookings(props) {
                               <p
                                 style={{ color: nap.uread ? "gray" : "black" }}
                               >
-                                {ValidURL(nap.body[nap.body.length - 1]) ==
+                                {validURL(nap.body[nap.body.length - 1]) ==
                                 false ? (
                                   msgdot(
                                     JSON.parse(nap.body[nap.body.length - 1])
@@ -341,7 +341,7 @@ function Mybookings(props) {
                           }}
                         >
                           <p style={{ color: nap.uread ? "gray" : "black" }}>
-                            {ValidURL(nap.body[nap.body.length - 1]) ==
+                            {validURL(nap.body[nap.body.length - 1]) ==
                             false ? (
                               msgdot(
                                 JSON.parse(nap.body[nap.body.length - 1]).msg,
@@ -1267,7 +1267,7 @@ function ImageModal(props) {
       {/* <Modal.Header>Photo</Modal.Header> */}
       {image != null ? (
         <Modal.Content image>
-          {ValidURL(image) ? (
+          {validURL(image) ? (
             <Image centered src={image} wrapped />
           ) : (
             <Modal.Description>
