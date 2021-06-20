@@ -9,6 +9,7 @@ module.exports = Object.freeze({
   uploadFileLink: "",
   constants: {
     demoVersion: false,
+    restrictLogin: true,
     categories: [
       "Ac/Refrigirator Service",
       "Computer/laptop Service",

@@ -130,11 +130,6 @@ function Mybookings(props) {
     history.push(`mybookings/id/${orderId}`);
   };
 
-  const orderDelete = (ordId) => {
-    // setAnchorEl(null);
-    delpost(ordId);
-  };
-
   const delpost = async (ordId) => {
     console.log("delete id", ordId);
     eventLoader(true, "Deleting Order...");
@@ -171,7 +166,7 @@ function Mybookings(props) {
                       cap={cap}
                       key={key}
                       viewPost={viewPost}
-                      orderDelete={orderDelete}
+                      orderDelete={delpost}
                     />
                   }
                   title={`${gettbystamps(Number(cap.join), "fulldate")} 
@@ -379,6 +374,10 @@ function DotMenu({ cap, orderDelete, viewPost }) {
     console.log("click", ordId);
     history.push(`mybookings/id/edit/${ordId}`);
   };
+  const deletePost = (ordId) => {
+    setAnchorEl(null);
+    orderDelete(ordId);
+  };
   return (
     <div id={cap.ordId}>
       <IconButton
@@ -413,7 +412,7 @@ function DotMenu({ cap, orderDelete, viewPost }) {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            orderDelete(cap.ordId);
+            deletePost(cap.ordId);
           }}
         >
           Delete

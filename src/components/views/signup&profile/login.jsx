@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { loginUser, newUser } from "../../controllers/login/login_controller";
 import { connect } from "react-redux";
 import { saveState } from "../../../helpers/localStorage";
-
+import { constants } from "../../../helpers/constants";
 var loginDetails;
 class Login extends Component {
   constructor(props) {
@@ -25,6 +25,10 @@ class Login extends Component {
       otpSection: false,
       registrationSection: false,
       userName: null,
+      allowedNumber: [
+        8341980196, 8309708021, 8019933883, 7095695690, 9502831877, 7993613685,
+        8330933883, 7075229282, 8919387141,
+      ],
     };
     this.genotp = this.genotp.bind(this);
   }
@@ -37,6 +41,12 @@ class Login extends Component {
 
   genotp = (e) => {
     let phNumber = this.state.numberController.current.value;
+    if (constants.restrictLogin) {
+      if (!this.state.allowedNumber.includes(Number(phNumber))) {
+        toast.info("Your number not allowed This web in demo");
+        return;
+      }
+    }
     if (phNumber.length < 10) {
       toast.warning("Enter valid Number");
       return;
