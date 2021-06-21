@@ -174,7 +174,7 @@ function Mybookings(props) {
                 />
                 <CardContent>
                   <Grid container spacing={2}>
-                    <Grid item>
+                    <Grid item className="mediaPic">
                       <CardMedia
                         className="post-img"
                         image={
@@ -183,6 +183,27 @@ function Mybookings(props) {
                         }
                         title="Paella dish"
                       />
+                      {/* this below div show only in mobile view */}
+                      <div className="msg-quote-count-mobile">
+                        <Tooltip title="Messages">
+                          <Badge
+                            badgeContent={cap.messages.length}
+                            color="primary"
+                            showZero={cap.messages.length === 0}
+                          >
+                            <MdChatBubble size="3rem" />
+                          </Badge>
+                        </Tooltip>
+                        <Tooltip title="Quotes">
+                          <Badge
+                            badgeContent={cap.responses.length}
+                            color="primary"
+                            showZero={cap.responses.length === 0}
+                          >
+                            <MdNotificationsActive size="3rem" />
+                          </Badge>
+                        </Tooltip>
+                      </div>
                     </Grid>
                     <Grid item xs={12} sm container>
                       <IconContext.Provider
@@ -257,6 +278,7 @@ function Mybookings(props) {
                         direction="row"
                         justify="space-around"
                         alignItems="center"
+                        className="msg-quote-count-section"
                       >
                         <Tooltip title="Messages">
                           <Badge

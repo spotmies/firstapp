@@ -2,10 +2,32 @@
   padding: 20px 0 20px 0;
 }
 .orderCard {
-  width: 65%;
+  width: 60%;
   margin: auto;
   border-radius: 20px !important;
   box-shadow: 0 3px 5px 2px rgb(214, 214, 214) !important;
+}
+.msg-quote-count-mobile {
+  display: none !important;
+}
+@media screen and (max-width: 460px) {
+  .orderCard {
+    width: 90%;
+  }
+  .msg-quote-count-section {
+    display: none !important;
+  }
+  .mediaPic {
+    /* background-color: rgb(202, 202, 202) !important; */
+    width: 100%;
+    display: flex;
+  }
+  .msg-quote-count-mobile {
+    display: flex !important;
+    justify-content: space-around;
+    width: 70%;
+    align-items: center;
+  }
 }
 .cardHeader {
   background-color: #e5e5e5;
