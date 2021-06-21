@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Card } from "semantic-ui-react";
 import { IconContext } from "react-icons";
@@ -24,6 +24,8 @@ import { toast } from "react-toastify";
 import FullScreenWidget from "../../reusable/helpers";
 import { BsHammer, BsHouseFill } from "react-icons/bs";
 import imageCompression from "browser-image-compression";
+import useRecorder from "./useRecorder";
+
 import "../rentals/rental.css";
 
 import {
@@ -40,9 +42,10 @@ import {
   MdDescription,
   MdCreate,
   MdMic,
-  MdVideoLibrary,
   MdAddAPhoto,
   MdClear,
+  MdClose,
+  MdCheck,
 } from "react-icons/md";
 import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
@@ -71,6 +74,8 @@ import { constants } from "../../../helpers/constants";
 import { blue } from "@material-ui/core/colors";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
 
+//audio recording
+import MicRecorder from "mic-recorder-to-mp3";
 //image compressorjs
 import Compressor from "compressorjs";
 import { getFileType, validURL } from "../../../helpers/dateconv";
@@ -98,7 +103,7 @@ class Postnew extends Component {
     let orders =
       this.props.orders.length > 0 ? this.props.orders : loadState("orders");
     let order = orders.filter((item) => item.ordId == ordId);
-    console.log(order);
+    // console.log(order);
     if (order.length > 0) {
       this.setState({
         job: order[0].job,
@@ -112,11 +117,11 @@ class Postnew extends Component {
   componentDidMount() {
     console.log("mount");
     if (this.props.editDate == "true") {
-      console.log("edit data coming >>>");
+      // console.log("edit data coming >>>");
       this.getOrder();
     }
-    console.log(this.state);
-    console.log(this.props);
+    // console.log(this.state);
+    // console.log(this.props);
   }
 
   eventLoader = (value, data) => {
@@ -124,7 +129,7 @@ class Postnew extends Component {
   };
 
   updateJob = (value) => {
-    console.log(this.state);
+    // console.log(this.state);
     this.setState({
       job: value,
       openJobModal: false,
@@ -132,7 +137,7 @@ class Postnew extends Component {
     });
   };
   triggerJobModal = (value) => {
-    console.log("triggered", value);
+    // console.log("triggered", value);
     this.setState({ openJobModal: value });
   };
   goToSignUp = () => {
@@ -183,11 +188,6 @@ class Postnew extends Component {
               />
             </Card.Content>
           </Card>
-          {/* <ModalExampleModal
-            job={this.state.job}
-            updateJob={this.updateJob}
-            trigger={this.state.openJobModal}
-          /> */}
 
           <SimpleDialog
             selectedValue={this.state.job}
@@ -271,10 +271,15 @@ class Postform extends Component {
       problem: null,
       description: null,
       money: "",
+
+      //auido files
+      audioFile: null,
+      stopRecoding: false,
     };
     this.updateSchedule = this.updateSchedule.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.compressorJs = this.compressorJs.bind(this);
+    this.setAudioFile = this.setAudioFile.bind(this);
   }
 
   updateSchedule(date) {
@@ -288,11 +293,11 @@ class Postform extends Component {
     this.setState({
       [formName]: value,
     });
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   async componentDidUpdate() {
-    console.log(this.props.editDate);
+    // console.log(this.props.editDate);
     if (
       Object.keys(this.props.editDate).length != 0 &&
       this.state.editFormFillFlag === false
@@ -310,7 +315,6 @@ class Postform extends Component {
       });
     }
     if (this.state.submitForm) {
-      console.log("submit >> didupdate");
       await this.handleSubmit();
     }
   }
@@ -355,27 +359,26 @@ class Postform extends Component {
     }
     this.props.eventLoader(false);
   };
-
+  allowFiles = (array) => {
+    let vidCount = 0;
+    let audCount = 0;
+    let imgCount = 0;
+    for (let index = 0; index < array.length; index++) {
+      // console.log("vid count >> ", vidCount);
+      const element = array[index];
+      if (getFileType(element) == "video") {
+        vidCount += 1;
+      } else if (getFileType(element) == "audio") {
+        audCount += 1;
+      } else if (getFileType(element) == "img") {
+        imgCount += 1;
+      }
+    }
+    return [imgCount, vidCount, audCount];
+  };
   compressorJs = async (e) => {
     let filesFromWeb = e.target.files;
     let allFiles = [...filesFromWeb, ...this.state.image];
-    const allowFiles = (array) => {
-      let vidCount = 0;
-      let audCount = 0;
-      let imgCount = 0;
-      for (let index = 0; index < array.length; index++) {
-        console.log("vid count >> ", vidCount);
-        const element = array[index];
-        if (getFileType(element) == "video") {
-          vidCount += 1;
-        } else if (getFileType(element) == "audio") {
-          audCount += 1;
-        } else if (getFileType(element) == "img") {
-          imgCount += 1;
-        }
-      }
-      return [imgCount, vidCount, audCount];
-    };
 
     //this function setFile to states
     const setFile = (compressedFile) => {
@@ -387,9 +390,16 @@ class Postform extends Component {
       toast.info("max files are 5 only");
       return;
     }
-    if (allowFiles(allFiles)[1] == 2) {
-      //this check the number of videos count
-      toast.info("max no of video is 1 only");
+
+    let blocker = this.allowFiles(allFiles);
+    if (blocker[0] > 5) {
+      toast.info("maximum allowed image 5 only");
+      return;
+    } else if (blocker[1] > 1) {
+      toast.info("max no of videos 1 only");
+      return;
+    } else if (blocker[2] > 2) {
+      toast.info("max no of audio file 2 only");
       return;
     }
     for (let i = 0; i < filesFromWeb.length; i++) {
@@ -418,41 +428,49 @@ class Postform extends Component {
 
     for (let i = 0; i < this.state.image.length; i++) {
       console.log(`img no ${i}`);
-      let k = Number(i);
-      const uploadTask = storage
-        .ref(
-          `users/${firebase.auth().currentUser.uid}/adpost/${
-            this.state.image[k].name
-          }`
-        )
-        .put(this.state.image[k]);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          this.setState({ valprogress: progress });
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          storage
-            .ref(`users/${firebase.auth().currentUser.uid}/adpost/`)
-            .child(this.state.image[k].name)
-            .getDownloadURL()
-            .then((url) => {
-              //setUrl(url);
-              console.log(url);
-
-              this.setState({
-                media: this.state.media.concat([url]),
-                submitForm: i === this.state.image.length - 1 ? true : false,
-              });
-            });
-        }
-      );
+      try {
+        let k = Number(i);
+        const uploadTask = storage
+          .ref(
+            `users/${firebase.auth().currentUser.uid}/adpost/${
+              this.state.image[k].name
+            }`
+          )
+          .put(this.state.image[k]);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            this.setState({ valprogress: progress });
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            try {
+              storage
+                .ref(`users/${firebase.auth().currentUser.uid}/adpost/`)
+                .child(this.state.image[k].name)
+                .getDownloadURL()
+                .then((url) => {
+                  //setUrl(url);
+                  console.log(url);
+                  this.setState({
+                    media: this.state.media.concat([url]),
+                    submitForm:
+                      i === this.state.image.length - 1 ? true : false,
+                  });
+                });
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
     if (this.state.image.length < 1) {
       this.setState({
@@ -476,7 +494,17 @@ class Postform extends Component {
   changeJob = () => {
     this.props.triggerJobModal(true);
   };
-
+  setAudioFile = (audioFile) => {
+    let allFiles = [audioFile, ...this.state.image];
+    let blocker = this.allowFiles(allFiles);
+    if (blocker[2] > 2) {
+      toast.info("max no of audio file 2 only");
+      return;
+    }
+    this.setState({
+      image: this.state.image.concat([audioFile]),
+    });
+  };
   render() {
     const { classes } = this.props.prop;
     return (
@@ -541,7 +569,6 @@ class Postform extends Component {
               ),
             }}
           />
-
           <Grid container justify="flex-start">
             <input
               accept="image/*,video/*"
@@ -558,30 +585,22 @@ class Postform extends Component {
                 </Fab>
               </Tooltip>
             </label>
-            <Tooltip title="Add Audio, record" aria-label="add">
-              <Fab className={classes.button}>
-                <MdMic size="1.5rem" />
-              </Fab>
-            </Tooltip>
-            <Tooltip title="Add Video" aria-label="add">
-              <Fab className={classes.button}>
-                <MdVideoLibrary size="1.5rem" />
-              </Fab>
-            </Tooltip>
+            <MediaImport setAudioFile={this.setAudioFile} />
           </Grid>
-          <ListMediaFiles
-            mediaFiles={this.state.media}
-            styles={classes}
-            typeOfMode="online"
-            deleteMedia={this.deleteMedia}
-          />
+          {this.state.editFormFillFlag ? (
+            <ListMediaFiles
+              mediaFiles={this.state.media}
+              styles={classes}
+              typeOfMode="online"
+              deleteMedia={this.deleteMedia}
+            />
+          ) : null}
           <ListMediaFiles
             mediaFiles={this.state.image}
             deleteMedia={this.deleteMedia}
             styles={classes}
             typeOfMode="offline"
           />
-
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
               required
@@ -768,13 +787,18 @@ class ListMediaFiles extends Component {
                 src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
                 title={nap.name}
               />
-            ) : (
+            ) : getFileType(nap) == "video" ? (
               <video
                 width="230"
                 height="154"
                 controls
                 src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
                 type="video/mp4"
+              />
+            ) : (
+              <audio
+                src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+                controls
               />
             )}
 
@@ -813,6 +837,61 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
+
+function MediaImport(props) {
+  let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
+  const [audioFile, setaudioFile] = useState("");
+  useEffect(() => {
+    setaudioFile(audioURL);
+    console.log(audioURL);
+  }, [audioURL]);
+
+  const setFile = () => {
+    props.setAudioFile(audioURL);
+    setaudioFile("");
+  };
+  const deleteFile = () => {
+    setaudioFile("");
+  };
+  return (
+    <>
+      {isRecording === false ? (
+        <Tooltip title="Add Audio, record" aria-label="add">
+          <Fab
+            onClick={startRecording}
+            style={{ margin: "10px" }}
+            disabled={audioFile != ""}
+          >
+            <MdMic size="1.5rem" />
+          </Fab>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Stop Audio, record" aria-label="add">
+          <Fab style={{ margin: "10px" }} onClick={stopRecording}>
+            <MdMic size="1.5rem" color="red" />
+          </Fab>
+        </Tooltip>
+      )}
+      {audioFile != "" ? (
+        <audio
+          src={URL.createObjectURL(audioURL)}
+          controls
+          style={{ margin: "10px" }}
+        />
+      ) : null}
+      {audioFile != "" ? (
+        <>
+          <Fab style={{ margin: "10px" }} size="small" onClick={setFile}>
+            <MdCheck size="1.4rem" color="green" />
+          </Fab>
+          <Fab style={{ margin: "10px" }} size="small" onClick={deleteFile}>
+            <MdClose size="1.4rem" color="red" />
+          </Fab>
+        </>
+      ) : null}
+    </>
+  );
+}
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -183,7 +183,7 @@ function getFileType(file) {
       case "mp4":
         return "video";
       default:
-        return "video";
+        return "audio";
     }
   } else {
     if (file.type.match("image.*")) return "img";
