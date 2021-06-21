@@ -143,7 +143,7 @@ class Profile extends Component {
           type="loader"
           show={this.state.loader}
         />
-        <div style={{ paddingBottom: "50px" }}>
+        <div className="mainContainer">
           <Card centered color="blue" className="detailsContainer">
             <Card.Content>
               <Card.Header style={{ textAlign: "center" }}>
