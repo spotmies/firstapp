@@ -20,6 +20,7 @@ import {
   MdSmartphone,
 } from "react-icons/md";
 import { allowOnlyNumber } from "../../../helpers/regex/regex";
+import { loadState } from "../../../helpers/localStorage";
 
 const db = firebase.firestore();
 const storage = firebase.storage();
@@ -142,7 +143,7 @@ class Profile extends Component {
           type="loader"
           show={this.state.loader}
         />
-        <div style={{ paddingBottom: "50px" }}>
+        <div className="mainContainer">
           <Card centered color="blue" className="detailsContainer">
             <Card.Content>
               <Card.Header style={{ textAlign: "center" }}>
@@ -338,7 +339,11 @@ class Profile extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    userDetails: state.userDetails,
+    userDetails:
+      Object.keys(state.userDetails).length != 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
+    orders: state.orders,
   };
 };
 const mapDispatchToProps = (dispatch) => {
