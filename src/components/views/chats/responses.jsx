@@ -6,7 +6,7 @@ import "../../../post.css";
 import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import "./my_book.css";
+import "../mybookings/my_book.css";
 
 //import icons
 import { IconContext } from "react-icons";
@@ -32,7 +32,6 @@ import {
 } from "../../controllers/new_post/order_controller";
 
 // material ui
-import { makeStyles } from "@material-ui/core/styles";
 import Cardd from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -46,46 +45,9 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { Chip } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-
-const useStyles = makeStyles({
-  cardDiv: {
-    padding: "20px 0 20px 0",
-  },
-  card: {
-    width: "70%",
-    margin: "auto",
-    borderRadius: 20,
-  },
-  cardHeader: {
-    backgroundColor: "#e5e5e5",
-    height: 55,
-  },
-  media: {
-    height: 60,
-    width: 60,
-  },
-  orderDetails: {
-    display: "inline-flex",
-    color: "grey",
-    maxWidth: 140,
-    height: "auto",
-  },
-
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
+import { getResponses } from "../../controllers/responses/responses_controller";
 
 function Mybookings(props) {
-  const classes = useStyles();
   const [orders, setOrders] = useState([]);
   const [loader, setLoader] = useState(true);
   const [loaderData, setloaderData] = useState("fetching your orders ...");
@@ -102,7 +64,7 @@ function Mybookings(props) {
       firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
           console.log("fetching API");
-          let orders = await getUserOrders(firebase.auth().currentUser.uid);
+          let orders = await getResponses(firebase.auth().currentUser.uid);
           console.log(orders);
           setOrders(orders);
           props.updateAllOrders(orders);
