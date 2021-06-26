@@ -6,7 +6,7 @@ const initState = {
   logs: [],
   messages: [],
   isUserLogin: false,
-  feedbackQuestion: {},
+  feedbackQuestion: [],
 };
 const rootReducer = (state = initState, action) => {
   console.log(action);
@@ -49,6 +49,13 @@ const rootReducer = (state = initState, action) => {
         ...state,
         userDetails: action.value,
         isUserLogin: true,
+      };
+
+    case "UPDATE_FEEDBACK_QUESTIONS":
+      saveState("feedbackQuestion", action.value);
+      return {
+        ...state,
+        feedbackQuestion: action.value,
       };
 
     default:
