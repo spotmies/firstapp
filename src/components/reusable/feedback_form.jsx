@@ -5,6 +5,7 @@ import { apiPostPut, apiGetMethod } from "../../mservices/contactUs";
 
 import { Modal, Form, Button, Header, TextArea } from "semantic-ui-react";
 import { toast } from "react-toastify";
+import { connect } from "react-redux";
 
 //icons
 import {
@@ -14,6 +15,7 @@ import {
   MdThumbDown,
   MdThumbUp,
 } from "react-icons/md";
+import { loadState } from "../../helpers/localStorage";
 
 function FeedbackForm(props) {
   const [open, setOpen] = useState(false);
@@ -24,9 +26,16 @@ function FeedbackForm(props) {
 
   useEffect(async () => {
     if (fQuestions.length < 1) {
-      let res = await apiGetMethod("/feed", "/feedBack");
-      console.log(res);
-      setfQuestions(res.questions);
+      if (props.feedBackQuestions.length < 1) {
+        console.log("feedback questions from api");
+        let res = await apiGetMethod("/feed", "/feedBack");
+        console.log(res);
+        setfQuestions(res.questions);
+        props.updateFeedBackQuestions(res.questions);
+      } else {
+        console.log("load question from local");
+        setfQuestions(props.feedBackQuestions);
+      }
     }
 
     setOpen(props.open);
@@ -337,5 +346,19 @@ function FeedbackForm(props) {
     </Modal>
   );
 }
-
-export { FeedbackForm };
+const mapStateToProps = (state) => {
+  return {
+    feedBackQuestions:
+      state.feedbackQuestion.length != 0
+        ? state.userDetails
+        : loadState("feedbackQuestion") ?? [],
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateFeedBackQuestions: (data) => {
+      dispatch({ type: "UPDATE_FEEDBACK_QUESTIONS", value: data });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(FeedbackForm);

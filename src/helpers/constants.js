@@ -37,5 +37,6 @@ module.exports = Object.freeze({
     NEW_CHAT: "/chat/createNewChatRoom",
     CREATE_ORDER: "/order/Create-Ord",
     NEW_USER: "/user/newUser",
+    USER_RESPONSES: "/response/user",
   },
 });
