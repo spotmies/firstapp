@@ -32,7 +32,7 @@
   overflow: auto;
 }
 
-/* .photoUpload {
-  visibility: hidden;
-  display: none;
-} */
+.cardHeaderPost {
+  text-align: center;
+  background-color: #e5e5e5;
+}
