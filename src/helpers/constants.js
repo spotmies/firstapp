@@ -1,5 +1,8 @@
 module.exports = Object.freeze({
   baseUrl: "https://spotmiesserver.herokuapp.com/api",
+  socketUrl: "https://spotmiesserver.herokuapp.com",
+  localHostSocketUrl: "http://localhost:4000",
+  localHostUrl: "http://localhost:4000/api",
   devBaseUrl:
     "https://cors-anywhere.herokuapp.com/https://spotmiesserver.herokuapp.com/api",
   feedBackurl: "/feed",
@@ -38,5 +41,6 @@ module.exports = Object.freeze({
     CREATE_ORDER: "/order/Create-Ord",
     NEW_USER: "/user/newUser",
     USER_RESPONSES: "/response/user",
+    ORDER_RESPONSES: "/response/responses",
   },
 });

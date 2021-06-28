@@ -25,13 +25,15 @@ import {
 import { BiLogOutCircle } from "react-icons/bi";
 import { FaCarAlt } from "react-icons/fa";
 import io from "socket.io-client";
+import constants from "../../../helpers/constants";
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
   const [isLogged, setisLogged] = useState(false);
 
   const history = useHistory();
-  // const socket = io.connect("http://localhost:4000", {
+
+  // const socket = io.connect(constants.socketUrl, {
   //   transports: ["websocket", "polling", "flashsocket"],
   // });
   // useEffect(() => {

@@ -17,3 +17,10 @@ export async function getResponses(uId) {
   }
   return response;
 }
+
+export async function deleteResponseById(id) {
+  let path = constants.api.ORDER_RESPONSES + `/${id}`;
+  let response = await apiDelMethod(path);
+  if (response === true) return true;
+  return false;
+}

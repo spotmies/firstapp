@@ -10,6 +10,18 @@
 .msg-quote-count-mobile {
   display: none !important;
 }
+.cardHeader {
+  background-color: #e5e5e5;
+  height: 55px;
+}
+.media {
+  height: 60;
+  width: 60;
+}
+.orderDetails {
+  display: inline-flex;
+  color: grey;
+}
 @media screen and (max-width: 460px) {
   .orderCard {
     width: 90%;
@@ -28,16 +40,26 @@
     width: 70%;
     align-items: center;
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                             RESPONSES OR QUOTES                            */
+  /* -------------------------------------------------------------------------- */
+  .problemTitle {
+    display: none !important;
+  }
+  .problemTitle-Mobile {
+    display: block !important;
+    margin: 0 auto;
+  }
 }
-.cardHeader {
-  background-color: #e5e5e5;
-  height: 55px;
+
+/* -------------------------------------------------------------------------- */
+/*                             RESPONSES OR QUOTES                            */
+/* -------------------------------------------------------------------------- */
+
+.problemTitle {
+  text-align: center;
 }
-.media {
-  height: 60;
-  width: 60;
-}
-.orderDetails {
-  display: inline-flex;
-  color: grey;
+.problemTitle-Mobile {
+  display: none;
 }
