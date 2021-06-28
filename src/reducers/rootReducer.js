@@ -9,7 +9,7 @@ const initState = {
   feedbackQuestion: [],
 };
 const rootReducer = (state = initState, action) => {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
     case "ADD_NEW_ORDER":
       return {
