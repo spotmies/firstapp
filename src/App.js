@@ -20,7 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import partnerRegistration from "./components/views/homeSlides/partnerRegistration";
 import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
-import Tab from "./components/views/chat-mui/chat";
+import Tab from "./components/views/chatMui/chat";
 
 const Routing = () => {
   return (
