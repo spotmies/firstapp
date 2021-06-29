@@ -7,7 +7,8 @@ import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../mybookings/my_book.css";
-
+import io from "socket.io-client";
+import constants from "../../../helpers/constants";
 //import icons
 import { IconContext } from "react-icons";
 
@@ -47,6 +48,9 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 
 function Mybookings(props) {
+  const socket = io.connect(constants.socketUrl, {
+    transports: ["websocket", "polling", "flashsocket"],
+  });
   const [orders, setOrders] = useState([]);
   const [loader, setLoader] = useState(true);
   const [loaderData, setloaderData] = useState("fetching your orders ...");
@@ -62,6 +66,7 @@ function Mybookings(props) {
     if (props.orders.length < 1) {
       firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
+          socket.emit("join-room", firebase.auth().currentUser.uid);
           console.log("fetching API");
           let orders = await getResponses(firebase.auth().currentUser.uid);
           console.log(orders);
@@ -97,6 +102,25 @@ function Mybookings(props) {
     } else toast.info("Unable To Delete Order");
     eventLoader(false);
   };
+
+  //compoent didmount and willunMount
+  useEffect(() => {
+    console.log("DidMount >>>");
+    socket.on("connect", (userSocket) => {
+      console.log("user connected >>>");
+    });
+
+    socket.on("newResponse", (newDoc) => {
+      console.log("new resp >>", newDoc);
+      setOrders((oldElement) => [...oldElement, newDoc]);
+    });
+    socket.on("disconnect", () => {
+      console.log("user disconnected>>>");
+    });
+    return () => {
+      console.log("unMount>>>");
+    };
+  }, []);
 
   return (
     <div>

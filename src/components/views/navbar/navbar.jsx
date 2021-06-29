@@ -33,7 +33,7 @@ function Navibar(props) {
 
   const history = useHistory();
 
-  // const socket = io.connect(constants.socketUrl, {
+  // const socket = io.connect(constants.localHostSocketUrl, {
   //   transports: ["websocket", "polling", "flashsocket"],
   // });
   // useEffect(() => {
@@ -52,7 +52,14 @@ function Navibar(props) {
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
-      //socket.emit("join-room", firebase.auth().currentUser.uid);
+      // socket.emit(
+      //   "join-room",
+      //   firebase.auth().currentUser.uid,
+      //   function (confirmation) {
+      //     console.log(confirmation, "join rome>>");
+      //   }
+      // );
+
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
         if (localUserDetails != null) props.updateUser(localUserDetails);
