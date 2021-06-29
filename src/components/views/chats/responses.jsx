@@ -7,7 +7,8 @@ import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../mybookings/my_book.css";
-
+import io from "socket.io-client";
+import constants from "../../../helpers/constants";
 //import icons
 import { IconContext } from "react-icons";
 
@@ -26,10 +27,6 @@ import {
 } from "react-icons/md";
 import { connect } from "react-redux";
 import FullScreenWidget from "../../reusable/helpers";
-import {
-  deleteOrderById,
-  getUserOrders,
-} from "../../controllers/new_post/order_controller";
 
 // material ui
 import Cardd from "@material-ui/core/Card";
@@ -41,13 +38,19 @@ import IconButton from "@material-ui/core/IconButton";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Badge from "@material-ui/core/Badge";
-import Tooltip from "@material-ui/core/Tooltip";
 import { Chip } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { getResponses } from "../../controllers/responses/responses_controller";
+import {
+  deleteResponseById,
+  getResponses,
+} from "../../controllers/responses/responses_controller";
+import Avatar from "@material-ui/core/Avatar";
 
 function Mybookings(props) {
+  const socket = io.connect(constants.socketUrl, {
+    transports: ["websocket", "polling", "flashsocket"],
+  });
   const [orders, setOrders] = useState([]);
   const [loader, setLoader] = useState(true);
   const [loaderData, setloaderData] = useState("fetching your orders ...");
@@ -63,11 +66,11 @@ function Mybookings(props) {
     if (props.orders.length < 1) {
       firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
+          socket.emit("join-room", firebase.auth().currentUser.uid);
           console.log("fetching API");
           let orders = await getResponses(firebase.auth().currentUser.uid);
           console.log(orders);
           setOrders(orders);
-          props.updateAllOrders(orders);
           eventLoader(false);
         }
       });
@@ -89,17 +92,35 @@ function Mybookings(props) {
     history.push(`mybookings/id/${orderId}`);
   };
 
-  const delpost = async (ordId) => {
-    console.log("delete id", ordId);
-    eventLoader(true, "Deleting Order...");
-    let response = await deleteOrderById(ordId);
+  const deleteResponse = async (iD) => {
+    console.log("delete id", iD);
+    eventLoader(true, "Deleting response...");
+    let response = await deleteResponseById(iD);
     if (response) {
-      setOrders(orders.filter((item) => item.ordId !== ordId));
-      props.deleteOrder(ordId);
+      setOrders(orders.filter((item) => item.responseId !== iD));
       toast.info("Order Deleted Successfully");
     } else toast.info("Unable To Delete Order");
     eventLoader(false);
   };
+
+  //compoent didmount and willunMount
+  useEffect(() => {
+    console.log("DidMount >>>");
+    socket.on("connect", (userSocket) => {
+      console.log("user connected >>>");
+    });
+
+    socket.on("newResponse", (newDoc) => {
+      console.log("new resp >>", newDoc);
+      setOrders((oldElement) => [...oldElement, newDoc]);
+    });
+    socket.on("disconnect", () => {
+      console.log("user disconnected>>>");
+    });
+    return () => {
+      console.log("unMount>>>");
+    };
+  }, []);
 
   return (
     <div>
@@ -114,215 +135,165 @@ function Mybookings(props) {
 
       {orders.length > 0 ? (
         <div style={{ paddingTop: "30px" }}>
-          {orders.map((cap, key) => (
-            <div className="cardDiv" key={cap._id} id={cap._id}>
-              <Cardd className="orderCard">
-                <CardHeader
-                  className="cardHeader"
-                  avatar={<BiTimeFive size="1.4rem" />}
-                  action={
-                    <DotMenu
-                      cap={cap}
-                      key={key}
-                      viewPost={viewPost}
-                      orderDelete={delpost}
-                    />
-                  }
-                  title={`${gettbystamps(Number(cap.join), "fulldate")} 
-                     ${gettbystamps(Number(cap.join), "time")}`}
-                />
-                <CardContent>
-                  <Grid container spacing={2}>
-                    <Grid item className="mediaPic">
-                      <CardMedia
-                        className="post-img"
-                        image={
-                          cap.media[0] ??
-                          "https://png.pngtree.com/element_pic/16/12/05/cf1b62b08a9b360b932cb93db844675a.jpg"
-                        }
-                        title="Paella dish"
+          {orders
+            .slice(0)
+            .reverse()
+            .map((cap, key) => (
+              <div className="cardDiv" key={cap._id} id={cap._id}>
+                <Cardd className="orderCard">
+                  <CardHeader
+                    className="cardHeader"
+                    avatar={<BiTimeFive size="1.4rem" />}
+                    action={
+                      <DotMenu
+                        cap={cap}
+                        key={key}
+                        viewPost={viewPost}
+                        deleteResp={deleteResponse}
                       />
-                      {/* this below div show only in mobile view */}
-                      <div className="msg-quote-count-mobile">
-                        <Tooltip title="Messages">
-                          <Badge
-                            badgeContent={cap.messages.length}
-                            color="primary"
-                            showZero={cap.messages.length === 0}
-                          >
-                            <MdChatBubble size="3rem" />
-                          </Badge>
-                        </Tooltip>
-                        <Tooltip title="Quotes">
-                          <Badge
-                            badgeContent={cap.responses.length}
-                            color="primary"
-                            showZero={cap.responses.length === 0}
-                          >
-                            <MdNotificationsActive size="3rem" />
-                          </Badge>
-                        </Tooltip>
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} sm container>
-                      <IconContext.Provider
-                        value={{
-                          size: "1.2rem",
-                          color: "grey",
-                        }}
-                      >
-                        <Grid item xs container direction="column">
-                          <Grid item xs>
-                            <h4>{cap.problem}</h4>
-                            <Grid
-                              item
-                              md
-                              container
-                              direction="row"
-                              justify="space-between"
-                            >
-                              <p className="orderDetails">
-                                <MdPayment />
-                                &nbsp;
-                                <b> Money : &#8377; {cap.money}</b>
-                              </p>
-                              <p className="orderDetails">
-                                <MdNearMe />
-                                &nbsp;
-                                <b>Distance : 5 km</b>
-                              </p>
-                            </Grid>
-                            <Grid
-                              item
-                              md
-                              container
-                              direction="row"
-                              justify="space-between"
-                            >
-                              <span
-                                style={{
-                                  display: "inline-flex",
-                                }}
+                    }
+                    title={`${gettbystamps(Number(cap.join), "fulldate")} 
+                     ${gettbystamps(Number(cap.join), "time")}`}
+                  />
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item className="mediaPic">
+                        <Badge
+                          overlap="circle"
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                          }}
+                          badgeContent={
+                            <Avatar
+                              alt="Remy Sharp"
+                              src={cap.pDetails.partnerPic}
+                            />
+                          }
+                        >
+                          <CardMedia
+                            className="post-img"
+                            image={
+                              cap.orderDetails.media[0] ??
+                              "https://png.pngtree.com/element_pic/16/12/05/cf1b62b08a9b360b932cb93db844675a.jpg"
+                            }
+                            title="Paella dish"
+                          />
+                        </Badge>
+                        {/* this div for mobile view only */}
+                        <div className="problemTitle-Mobile">
+                          <h3>{cap.orderDetails.problem}</h3>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm container>
+                        <IconContext.Provider
+                          value={{
+                            size: "1.2rem",
+                            color: "grey",
+                          }}
+                        >
+                          <Grid item xs container direction="column">
+                            <Grid item xs>
+                              <h3 className="problemTitle">
+                                {cap.orderDetails.problem}
+                              </h3>
+                              <Grid
+                                item
+                                md
+                                container
+                                direction="row"
+                                justify="space-evenly"
                               >
-                                <MdEventAvailable />
-                                &nbsp;
                                 <p className="orderDetails">
-                                  <b>
-                                    {" "}
-                                    Schedule :{" "}
-                                    {gettbystamps(
-                                      Number(cap.schedule),
-                                      "fulldate"
-                                    )}{" "}
-                                    &nbsp;
-                                    {gettbystamps(Number(cap.schedule), "time")}
-                                  </b>
+                                  <MdPayment />
+                                  &nbsp;
+                                  <b> Money : &#8377; {cap.money}</b>
                                 </p>
-                              </span>
-                              <p className="orderDetails">
-                                <MdExplore />
-                                &nbsp;
-                                <b>Location : vizag</b>
-                              </p>
+                                <p className="orderDetails">
+                                  <MdNearMe />
+                                  &nbsp;
+                                  <b>Distance from you : 5 km</b>
+                                </p>
+                              </Grid>
+                              <Grid
+                                item
+                                md
+                                container
+                                direction="row"
+                                justify="space-evenly"
+                              >
+                                <span
+                                  style={{
+                                    display: "inline-flex",
+                                  }}
+                                >
+                                  <MdEventAvailable />
+                                  &nbsp;
+                                  <p className="orderDetails">
+                                    <b>
+                                      {" "}
+                                      Schedule :{" "}
+                                      {gettbystamps(
+                                        Number(cap.schedule),
+                                        "fulldate"
+                                      )}{" "}
+                                      &nbsp;
+                                      {gettbystamps(
+                                        Number(cap.schedule),
+                                        "time"
+                                      )}
+                                    </b>
+                                  </p>
+                                </span>
+                                <p className="orderDetails">
+                                  <MdExplore />
+                                  &nbsp;
+                                  <b>Location : vizag</b>
+                                </p>
+                              </Grid>
                             </Grid>
                           </Grid>
-                        </Grid>
-                      </IconContext.Provider>
-                    </Grid>
-                    <Grid item xs={4} sm container>
-                      <Grid
-                        item
-                        md
-                        container
-                        direction="row"
-                        justify="space-around"
-                        alignItems="center"
-                        className="msg-quote-count-section"
-                      >
-                        <Tooltip title="Messages">
-                          <Badge
-                            badgeContent={cap.messages.length}
-                            color="primary"
-                            showZero={cap.messages.length === 0}
-                          >
-                            <MdChatBubble size="3rem" />
-                          </Badge>
-                        </Tooltip>
-                        <Tooltip title="Quotes">
-                          <Badge
-                            badgeContent={cap.responses.length}
-                            color="primary"
-                            showZero={cap.responses.length === 0}
-                          >
-                            <MdNotificationsActive size="3rem" />
-                          </Badge>
-                        </Tooltip>
+                        </IconContext.Provider>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </CardContent>
-                <CardActions>
-                  <Grid
-                    item
-                    xs={12}
-                    sm
-                    container
-                    justify="space-between"
-                    alignItems="center"
-                  >
-                    <Buttonn
-                      endIcon={<MdNavigateNext />}
-                      onClick={() => {
-                        viewPost(cap.ordId);
-                      }}
+                  </CardContent>
+                  <CardActions>
+                    <Grid
+                      item
+                      xs={12}
+                      sm
+                      container
+                      justify="space-between"
+                      alignItems="center"
                     >
-                      View order
-                    </Buttonn>
-                    <Chip
-                      icon={<MdWatchLater size="1rem" />}
-                      label={orderState(cap.ordState)}
-                      color="primary"
-                    />
-                  </Grid>
-                </CardActions>
-              </Cardd>
-            </div>
-          ))}
+                      <Chip
+                        icon={<MdWatchLater size="1rem" />}
+                        label="Accept"
+                        color="primary"
+                      />
+                      <Chip
+                        icon={<MdWatchLater size="1rem" />}
+                        label="Decline"
+                        color="secondary"
+                        onClick={() => {
+                          deleteResponse(cap.responseId);
+                        }}
+                      />
+                    </Grid>
+                  </CardActions>
+                </Cardd>
+              </div>
+            ))}
         </div>
       ) : null}
     </div>
   );
 }
-const orderState = (state) => {
-  switch (state) {
-    case "req":
-      return "Active";
-
-    case "noPartner":
-      return "noPartner";
-
-    case "updated":
-      return "updated";
-
-    case "onGoing":
-      return "onGoing";
-
-    case "completed":
-      return "order completed";
-
-    case "cancel":
-      return "order cancelled";
-
-    default:
-      return "Invalid";
-      break;
-  }
-};
 
 const mapStateToProps = (state) => {
   return {
     userDetails: state.userDetails,
-    orders: state.orders,
+    orders: [],
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -341,8 +312,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);
 
-function DotMenu({ cap, orderDelete, viewPost }) {
-  const history = useHistory();
+function DotMenu({ cap, deleteResp, viewPost }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -350,10 +320,6 @@ function DotMenu({ cap, orderDelete, viewPost }) {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-  const edit = (ordId) => {
-    console.log("click", ordId);
-    history.push(`mybookings/id/edit/${ordId}`);
   };
 
   return (
@@ -379,19 +345,15 @@ function DotMenu({ cap, orderDelete, viewPost }) {
             viewPost(cap.ordId);
           }}
         >
-          View{" "}
+          ViewOrder
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            edit(cap.ordId);
-          }}
-        >
-          Edit{" "}
-        </MenuItem>
+        <MenuItem>Partner Details</MenuItem>
+        <MenuItem>Chat with Partner </MenuItem>
+        <MenuItem>Call Partner</MenuItem>
         <MenuItem
           onClick={() => {
             setAnchorEl(null);
-            orderDelete(cap.ordId);
+            deleteResp(cap.responseId);
           }}
         >
           Delete

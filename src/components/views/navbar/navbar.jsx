@@ -25,13 +25,15 @@ import {
 import { BiLogOutCircle } from "react-icons/bi";
 import { FaCarAlt } from "react-icons/fa";
 import io from "socket.io-client";
+import constants from "../../../helpers/constants";
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
   const [isLogged, setisLogged] = useState(false);
 
   const history = useHistory();
-  // const socket = io.connect("http://localhost:4000", {
+
+  // const socket = io.connect(constants.localHostSocketUrl, {
   //   transports: ["websocket", "polling", "flashsocket"],
   // });
   // useEffect(() => {
@@ -50,7 +52,14 @@ function Navibar(props) {
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
-      //socket.emit("join-room", firebase.auth().currentUser.uid);
+      // socket.emit(
+      //   "join-room",
+      //   firebase.auth().currentUser.uid,
+      //   function (confirmation) {
+      //     console.log(confirmation, "join rome>>");
+      //   }
+      // );
+
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
         if (localUserDetails != null) props.updateUser(localUserDetails);
