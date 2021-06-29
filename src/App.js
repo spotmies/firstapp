@@ -20,6 +20,7 @@ import "react-toastify/dist/ReactToastify.css";
 import partnerRegistration from "./components/views/homeSlides/partnerRegistration";
 import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
+import Tab from "./components/views/chat-mui/chat";
 
 const Routing = () => {
   return (
@@ -43,6 +44,7 @@ const Routing = () => {
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />
         <Route path="/privacy" component={Privacy} />
+        <Route path="/tabs" component={Tab} />
       </Switch>
     </>
   );
