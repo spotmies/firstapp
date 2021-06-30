@@ -36,9 +36,18 @@ import Buttonn from "@material-ui/core/Button";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import CardMedia from "@material-ui/core/CardMedia";
-import Grid from "@material-ui/core/Grid";
 import Badge from "@material-ui/core/Badge";
-import { Chip } from "@material-ui/core";
+import {
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Paper,
+  Grid,
+  makeStyles,
+} from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {
@@ -119,6 +128,7 @@ function Mybookings(props) {
     });
     return () => {
       console.log("unMount>>>");
+      socket.disconnect();
     };
   }, []);
 
@@ -289,7 +299,26 @@ function Mybookings(props) {
     </div>
   );
 }
-
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    width: 400,
+  },
+  partnerPic: {
+    width: theme.spacing(12),
+    height: theme.spacing(12),
+    margin: "auto",
+  },
+  centerDiv: {
+    margin: "auto",
+    textAlign: "center",
+  },
+}));
 const mapStateToProps = (state) => {
   return {
     userDetails: state.userDetails,
@@ -313,12 +342,23 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);
 
 function DotMenu({ cap, deleteResp, viewPost }) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [modal, setModal] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
     setAnchorEl(null);
   };
 
@@ -347,7 +387,7 @@ function DotMenu({ cap, deleteResp, viewPost }) {
         >
           ViewOrder
         </MenuItem>
-        <MenuItem>Partner Details</MenuItem>
+        <MenuItem onClick={openModal}>Partner Details</MenuItem>
         <MenuItem>Chat with Partner </MenuItem>
         <MenuItem>Call Partner</MenuItem>
         <MenuItem
@@ -359,6 +399,62 @@ function DotMenu({ cap, deleteResp, viewPost }) {
           Delete
         </MenuItem>
       </Menu>
+      <div>
+        <Dialog
+          open={modal}
+          onClose={closeModal}
+          aria-labelledby="customized-dialog-title"
+        >
+          <DialogTitle id="customized-dialog-title" onClose={closeModal}>
+            Partner Details
+          </DialogTitle>
+          <DialogContent>
+            <div className={classes.root}>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <div className={classes.centerDiv}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={cap.pDetails.partnerPic}
+                      className={classes.partnerPic}
+                      // className="partnerPic"
+                    />
+                    <h3>{cap.pDetails.name}</h3>
+                    <div className="partnerThings">
+                      <p>online</p>
+                      <p>5 stars</p>
+                      <p>vizag</p>
+                    </div>
+                  </div>
+                </Grid>
+                <div className="otherDetails">
+                  <div className="miniCards">
+                    <p>{cap.pDetails.phNum}</p>
+                  </div>
+                  <div className="miniCards">
+                    <p>{cap.pDetails.eMail}</p>
+                  </div>
+                  <div className="miniCards">
+                    <p>{cap.pDetails.businessName}</p>
+                  </div>
+                  <div className="miniCards">
+                    <p>{cap.pDetails.lang[0]}</p>
+                    <p>{cap.pDetails.lang[1]}</p>
+                  </div>
+                </div>
+              </Grid>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Buttonn onClick={closeModal} color="primary">
+              Know more
+            </Buttonn>
+            <Buttonn onClick={closeModal} color="primary" autoFocus>
+              Close
+            </Buttonn>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 }
