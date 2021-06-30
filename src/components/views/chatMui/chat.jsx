@@ -155,7 +155,7 @@ const useStyles = makeStyles((theme) => ({
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{width: "100%"}}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
