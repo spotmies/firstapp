@@ -15,13 +15,10 @@ import { IconContext } from "react-icons";
 import { BiTimeFive } from "react-icons/bi";
 
 import {
-  MdChatBubble,
   MdEventAvailable,
   MdExplore,
   MdMoreHoriz,
-  MdNavigateNext,
   MdNearMe,
-  MdNotificationsActive,
   MdPayment,
   MdWatchLater,
 } from "react-icons/md";
@@ -42,9 +39,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  Paper,
   Grid,
   makeStyles,
 } from "@material-ui/core";
@@ -55,13 +50,15 @@ import {
   getResponses,
 } from "../../controllers/responses/responses_controller";
 import Avatar from "@material-ui/core/Avatar";
+import { loadState } from "../../../helpers/localStorage";
 
 function Mybookings(props) {
   const socket = io.connect(constants.socketUrl, {
     transports: ["websocket", "polling", "flashsocket"],
   });
   const [orders, setOrders] = useState([]);
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false); //
+  const [callApi, setcallApi] = useState(true);
   const [loaderData, setloaderData] = useState("fetching your orders ...");
 
   const eventLoader = (loaderState, data = false) => {
@@ -71,28 +68,23 @@ function Mybookings(props) {
   };
 
   const getOrders = async () => {
-    console.log(props.orders);
-    if (props.orders.length < 1) {
-      firebase.auth().onAuthStateChanged(async function (user) {
-        if (user) {
-          socket.emit("join-room", firebase.auth().currentUser.uid);
-          console.log("fetching API");
-          let orders = await getResponses(firebase.auth().currentUser.uid);
-          console.log(orders);
-          setOrders(orders);
-          eventLoader(false);
-        }
-      });
-    } else {
-      console.log(props.orders);
-      setOrders(props.orders);
-      eventLoader(false);
-    }
+    firebase.auth().onAuthStateChanged(async function (user) {
+      if (user) {
+        socket.emit("join-room", firebase.auth().currentUser.uid);
+        console.log("fetching API");
+        let resp = await getResponses(firebase.auth().currentUser.uid);
+        console.log(resp);
+        setcallApi(false);
+        setOrders(resp);
+        props.updateAllResponses(resp);
+        //eventLoader(false);
+      }
+    });
   };
 
   useEffect(() => {
     getOrders();
-  }, [orders.length < 1]);
+  }, [callApi == true]);
 
   const history = useHistory();
 
@@ -108,13 +100,15 @@ function Mybookings(props) {
     if (response) {
       setOrders(orders.filter((item) => item.responseId !== iD));
       toast.info("Order Deleted Successfully");
+      props.deleteResponse(iD);
     } else toast.info("Unable To Delete Order");
     eventLoader(false);
   };
 
   //compoent didmount and willunMount
   useEffect(() => {
-    console.log("DidMount >>>");
+    console.log("DidMount >>>", props.responses);
+    setOrders(props.responses);
     socket.on("connect", (userSocket) => {
       console.log("user connected >>>");
     });
@@ -122,15 +116,16 @@ function Mybookings(props) {
     socket.on("newResponse", (newDoc) => {
       console.log("new resp >>", newDoc);
       setOrders((oldElement) => [...oldElement, newDoc]);
+      props.addNewResponse(newDoc);
     });
     socket.on("disconnect", () => {
       console.log("user disconnected>>>");
     });
     return () => {
-      console.log("unMount>>>");
-      socket.disconnect();
+      // console.log("unMount>>>");
+      // socket.disconnect();
     };
-  }, []);
+  }, [constants.socketUrl]);
 
   return (
     <div>
@@ -319,27 +314,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
 }));
-const mapStateToProps = (state) => {
-  return {
-    userDetails: state.userDetails,
-    orders: [],
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addNewOrder: (data) => {
-      dispatch({ type: "ADD_NEW_ORDER", value: data });
-    },
-    updateAllOrders: (data) => {
-      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
-    },
-    deleteOrder: (ordId) => {
-      dispatch({ type: "DELETE_ORDER", value: ordId });
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);
 
 function DotMenu({ cap, deleteResp, viewPost }) {
   const classes = useStyles();
@@ -458,3 +432,28 @@ function DotMenu({ cap, deleteResp, viewPost }) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+    responses:
+      state.responses.length != 0
+        ? state.responses
+        : loadState("responses") ?? [],
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewResponse: (data) => {
+      dispatch({ type: "ADD_NEW_RESPONSE", value: data });
+    },
+    updateAllResponses: (data) => {
+      dispatch({ type: "UPDATE_ALL_RESPONSES", value: data });
+    },
+    deleteResponse: (responseId) => {
+      dispatch({ type: "DELETE_RESPONSE", value: responseId });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);

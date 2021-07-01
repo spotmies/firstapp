@@ -2,7 +2,7 @@ import { loadState, saveState } from "../helpers/localStorage";
 const initState = {
   userDetails: {},
   orders: [],
-  quotes: [],
+  responses: [],
   logs: [],
   messages: [],
   isUserLogin: false,
@@ -11,6 +11,29 @@ const initState = {
 const rootReducer = (state = initState, action) => {
   // console.log(action);
   switch (action.type) {
+    case "ADD_NEW_RESPONSE":
+      //need to add load state herhe
+      return {
+        ...state,
+        responses: [...state.responses, action.value],
+      };
+    case "UPDATE_ALL_RESPONSES":
+      saveState("responses", action.value);
+      return {
+        ...state,
+        responses: action.value,
+      };
+
+    case "DELETE_RESPONSE":
+      let newResponses = state.responses.filter((response) => {
+        return response.responseId !== action.value;
+      });
+      saveState("responses", newResponses);
+      return {
+        ...state,
+        responses: newResponses,
+      };
+
     case "ADD_NEW_ORDER":
       return {
         ...state,
