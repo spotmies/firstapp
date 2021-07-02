@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from "../../../firebase";
+
 import { useState, useEffect } from "react";
 import "../../../index.css";
 import "../../../post.css";
@@ -7,7 +7,7 @@ import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../mybookings/my_book.css";
-import io from "socket.io-client";
+
 import constants from "../../../helpers/constants";
 //import icons
 import { IconContext } from "react-icons";
@@ -45,20 +45,12 @@ import {
 } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {
-  deleteResponseById,
-  getResponses,
-} from "../../controllers/responses/responses_controller";
+import { deleteResponseById } from "../../controllers/responses/responses_controller";
 import Avatar from "@material-ui/core/Avatar";
-import { loadState } from "../../../helpers/localStorage";
 
 function Mybookings(props) {
-  const socket = io.connect(constants.socketUrl, {
-    transports: ["websocket", "polling", "flashsocket"],
-  });
   const [orders, setOrders] = useState([]);
-  const [loader, setLoader] = useState(false); //
-  const [callApi, setcallApi] = useState(true);
+  const [loader, setLoader] = useState(true); //
   const [loaderData, setloaderData] = useState("fetching your orders ...");
 
   const eventLoader = (loaderState, data = false) => {
@@ -66,25 +58,6 @@ function Mybookings(props) {
     setLoader(loaderState);
     if (data) setloaderData(data);
   };
-
-  const getOrders = async () => {
-    firebase.auth().onAuthStateChanged(async function (user) {
-      if (user) {
-        socket.emit("join-room", firebase.auth().currentUser.uid);
-        console.log("fetching API");
-        let resp = await getResponses(firebase.auth().currentUser.uid);
-        console.log(resp);
-        setcallApi(false);
-        setOrders(resp);
-        props.updateAllResponses(resp);
-        //eventLoader(false);
-      }
-    });
-  };
-
-  useEffect(() => {
-    getOrders();
-  }, [callApi == true]);
 
   const history = useHistory();
 
@@ -106,26 +79,12 @@ function Mybookings(props) {
   };
 
   //compoent didmount and willunMount
-  useEffect(() => {
-    console.log("DidMount >>>", props.responses);
-    setOrders(props.responses);
-    socket.on("connect", (userSocket) => {
-      console.log("user connected >>>");
-    });
 
-    socket.on("newResponse", (newDoc) => {
-      console.log("new resp >>", newDoc);
-      setOrders((oldElement) => [...oldElement, newDoc]);
-      props.addNewResponse(newDoc);
-    });
-    socket.on("disconnect", () => {
-      console.log("user disconnected>>>");
-    });
-    return () => {
-      // console.log("unMount>>>");
-      // socket.disconnect();
-    };
-  }, [constants.socketUrl]);
+  useEffect(() => {
+    console.log("use effect prop", props.responses);
+    setOrders(props.responses);
+    eventLoader(false);
+  }, [props.responses]);
 
   return (
     <div>
@@ -436,10 +395,7 @@ function DotMenu({ cap, deleteResp, viewPost }) {
 const mapStateToProps = (state) => {
   return {
     userDetails: state.userDetails,
-    responses:
-      state.responses.length != 0
-        ? state.responses
-        : loadState("responses") ?? [],
+    responses: state.responses,
   };
 };
 const mapDispatchToProps = (dispatch) => {

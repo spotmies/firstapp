@@ -18,7 +18,6 @@ const rootReducer = (state = initState, action) => {
         responses: [...state.responses, action.value],
       };
     case "UPDATE_ALL_RESPONSES":
-      saveState("responses", action.value);
       return {
         ...state,
         responses: action.value,
@@ -28,7 +27,6 @@ const rootReducer = (state = initState, action) => {
       let newResponses = state.responses.filter((response) => {
         return response.responseId !== action.value;
       });
-      saveState("responses", newResponses);
       return {
         ...state,
         responses: newResponses,
