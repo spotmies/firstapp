@@ -54,7 +54,7 @@ function ViewPost(props) {
     let ordId = window.location.pathname;
     ordId = ordId.replace("/mybookings/id/", "");
     let orders = props.orders.length > 0 ? props.orders : loadState("orders");
-    let order = orders.filter((item) => item.ordId == ordId);
+    let order = orders.filter((item) => item.ordId === ordId);
     console.log(order);
     if (order.length > 0) setPostData(order[0]);
     else console.log("unable to load data");
@@ -63,7 +63,7 @@ function ViewPost(props) {
 
   useEffect(() => {
     getOrder();
-  }, [postdata == null]);
+  }, [postdata === null]);
 
   const click = (prop) => {
     // console.log("click", prop);
@@ -84,7 +84,7 @@ function ViewPost(props) {
     <div>
       <FullScreenWidget type="loader" show={loader} data={loaderData} />
       <div>
-        {postdata != null ? (
+        {postdata !== null ? (
           <div style={{ paddingBottom: "10px" }}>
             <Card
               centered
@@ -177,7 +177,7 @@ function ViewPost(props) {
                         <Icon name="rupee sign" />
                         Price
                       </Card.Meta>
-                      {postdata.money != null ? (
+                      {postdata.money !== null ? (
                         <h2 style={{ textAlign: "center" }}>
                           <Icon name="rupee sign" />
                           {postdata.money}
@@ -189,7 +189,7 @@ function ViewPost(props) {
                       )}
                     </Card.Content>
                     <Card.Content>
-                      {postdata.ordState == 2 ? (
+                      {postdata.ordState === 2 ? (
                         <Label
                           color="green"
                           attached="bottom right"
@@ -264,7 +264,7 @@ function ViewPost(props) {
                     </Step.Description>
                   </Step.Content>
                 </Step>
-                {postdata.ordState == 2 ? (
+                {postdata.ordState === 2 ? (
                   <Step>
                     <MdBuild size="2.8rem" />
                     <Step.Content>
@@ -284,7 +284,7 @@ function ViewPost(props) {
                   </Step>
                 )}
 
-                {postdata.ordState == 2 ? (
+                {postdata.ordState === 2 ? (
                   <Step completed>
                     <Icon name="info" />
                     <Step.Content>
@@ -300,13 +300,13 @@ function ViewPost(props) {
                   </Step>
                 )}
               </Step.Group>
-              {postdata.ordState != 2 ? (
+              {postdata.ordState !== 2 ? (
                 <Cnfbtn id={postdata.orderid} />
               ) : (
                 <span></span>
               )}
 
-              {postdata.fback == 0 ? <Fback /> : <span></span>}
+              {postdata.fback === 0 ? <Fback /> : <span></span>}
               {postdata.partnerid ? (
                 <Partdetail id={postdata.partnerid} />
               ) : (
@@ -321,7 +321,7 @@ function ViewPost(props) {
                 <a onClick={(e) => delpost(postdata.ordId)}>
                   <Icon name="trash" />
                 </a>
-                {postdata.ordState == 2 ? (
+                {postdata.ordState === 2 ? (
                   <Label
                     color="green"
                     attached="bottom right"

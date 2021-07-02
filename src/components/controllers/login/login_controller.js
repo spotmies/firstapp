@@ -10,7 +10,7 @@ export async function loginUser(uId) {
   };
   let path = constants.api.USER_DETAILS + `/${uId}`;
   let response = await apiPostPut(obj, path, "PUT");
-  if (response == null) return false;
+  if (response === null) return false;
   return response;
 }
 
@@ -18,7 +18,7 @@ export async function updateUserDetails(uId, updateObject) {
   let path = constants.api.USER_DETAILS + `/${uId}`;
   let response = await apiPostPut(updateObject, path, "PUT");
   console.log(response);
-  if (response == null) return false;
+  if (response === null) return false;
   return response;
 }
 
@@ -33,7 +33,7 @@ export async function newUser(userObject) {
   console.log(newUserObj);
   let response = await apiPostPut(newUserObj, constants.api.NEW_USER, "POST");
   console.log(response);
-  if (response != null) {
+  if (response !== null) {
     return response;
   }
   return null;

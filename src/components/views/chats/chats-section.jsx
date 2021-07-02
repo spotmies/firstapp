@@ -131,7 +131,7 @@ function Mybookings(props) {
     return (
       <>
         <div style={{ height: "100%" }}>
-          {props.data == 0 ? (
+          {props.data === 0 ? (
             <Grid>
               {!showChat ? (
                 <Grid.Column
@@ -238,7 +238,7 @@ function Mybookings(props) {
                                   </span>
                                 )}
                               </p>
-                              {nap.uread == false ? (
+                              {nap.uread === false ? (
                                 <Label
                                   size="mini"
                                   color="blue"
@@ -354,7 +354,7 @@ function Mybookings(props) {
                               </span>
                             )}
                           </p>
-                          {nap.uread == false ? (
+                          {nap.uread === false ? (
                             <Label
                               size="mini"
                               color="blue"
@@ -446,7 +446,7 @@ function Chatarea(props) {
   }, [chat.body]);
 
   const click = (prop) => {
-    if (typemsg != "") {
+    if (typemsg !== "") {
       let newbody = [];
       newbody = chat.body;
 
@@ -458,7 +458,7 @@ function Chatarea(props) {
       msg2.type = "text";
       msg2.sender = "u";
       var msg = JSON.stringify(msg2);
-      if (msg != "") {
+      if (msg !== "") {
         newbody.push(msg);
         db.collection("messaging")
           .doc(prop)
@@ -525,7 +525,7 @@ function Chatarea(props) {
   };
 
   useEffect(() => {
-    if (upload == true) {
+    if (upload === true) {
       console.log("uploading..");
       uitf();
     }
@@ -618,7 +618,7 @@ function Chatarea(props) {
     history.push(`mybookings/id/${prop}`);
   };
   const delchat = async (prop) => {
-    if ((await disablechat(prop)) == 200) toast.info("chat deleted");
+    if ((await disablechat(prop)) === 200) toast.info("chat deleted");
     else toast.info("unable to delete chat try again later");
   };
 
@@ -639,9 +639,9 @@ function Chatarea(props) {
     const scrolly = scrollref.current.scrollHeight;
     const scrolltop = scrollref.current.scrollTop;
     const clientheight = scrollref.current.clientHeight;
-    if (scrolly - scrolltop == clientheight) {
+    if (scrolly - scrolltop === clientheight) {
       setScrolldisplay(false);
-      if (tbody != chat.body) {
+      if (tbody !== chat.body) {
         umread();
         settbody(chat.body);
         console.log("message read");
@@ -729,7 +729,7 @@ function Chatarea(props) {
           </List>
           {/* : null} */}
 
-          {ordst == 0 ? (
+          {ordst === 0 ? (
             <Button.Group
               style={{ width: "100%" }}
               onClick={orderstatus}
@@ -757,37 +757,39 @@ function Chatarea(props) {
             {chat.body.map((nap, key, array) => {
               var chatobj = JSON.parse(nap);
               return (
-                <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
+                <div
+                  className={chatobj.sender === "u" ? "out-chat" : "in-chat"}
+                >
                   <p className={cmpmsg(nap, array[key - 1]) ? "cmpmsg" : null}>
                     {cmpmsg(nap, array[key - 1])}
                   </p>
 
                   <div
                     className={
-                      chatobj.sender == "u" ? "out-chatbox" : "in-chatbox"
+                      chatobj.sender === "u" ? "out-chatbox" : "in-chatbox"
                     }
                     key={key}
                   >
-                    {chatobj.type == "text" ? (
+                    {chatobj.type === "text" ? (
                       <p
                         className={
-                          chatobj.sender == "u" ? "chatList" : "chatListp"
+                          chatobj.sender === "u" ? "chatList" : "chatListp"
                         }
                       >
                         {chatobj.msg}
 
                         <small
                           className={
-                            chatobj.sender == "u" ? "textTime" : "textTimep"
+                            chatobj.sender === "u" ? "textTime" : "textTimep"
                           }
                         >
                           {" "}
                           {getmsgtime(chatobj.timestamp)}
                         </small>
                       </p>
-                    ) : chatobj.type == "photo" ? (
+                    ) : chatobj.type === "photo" ? (
                       <Image
-                        floated={chatobj.sender == "u" ? "right" : "left"}
+                        floated={chatobj.sender === "u" ? "right" : "left"}
                         className="chatPic"
                         onClick={showimage}
                         src={chatobj.msg}
@@ -800,7 +802,7 @@ function Chatarea(props) {
               );
             })}
 
-            {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
+            {JSON.parse(chat.body[chat.body.length - 1]).sender === "u" ? (
               <div>
                 <p>
                   <small
@@ -994,7 +996,7 @@ function Chatarea(props) {
               </Dropdown>
             </List.Item>
           </List>
-          {ordst == 0 ? (
+          {ordst === 0 ? (
             <Button.Group
               style={{ width: "100%" }}
               onClick={orderstatus}
@@ -1021,37 +1023,39 @@ function Chatarea(props) {
             {chat.body.map((nap, key, array) => {
               var chatobj = JSON.parse(nap);
               return (
-                <div className={chatobj.sender == "u" ? "out-chat" : "in-chat"}>
+                <div
+                  className={chatobj.sender === "u" ? "out-chat" : "in-chat"}
+                >
                   <p className={cmpmsg(nap, array[key - 1]) ? "cmpmsg" : null}>
                     {cmpmsg(nap, array[key - 1])}
                   </p>
 
                   <div
                     className={
-                      chatobj.sender == "u" ? "out-chatbox" : "in-chatbox"
+                      chatobj.sender === "u" ? "out-chatbox" : "in-chatbox"
                     }
                     key={key}
                   >
-                    {chatobj.type == "text" ? (
+                    {chatobj.type === "text" ? (
                       <p
                         className={
-                          chatobj.sender == "u" ? "chatList" : "chatListp"
+                          chatobj.sender === "u" ? "chatList" : "chatListp"
                         }
                       >
                         {chatobj.msg}
 
                         <small
                           className={
-                            chatobj.sender == "u" ? "textTime" : "textTimep"
+                            chatobj.sender === "u" ? "textTime" : "textTimep"
                           }
                         >
                           {" "}
                           {getmsgtime(chatobj.timestamp)}
                         </small>
                       </p>
-                    ) : chatobj.type == "photo" ? (
+                    ) : chatobj.type === "photo" ? (
                       <Image
-                        floated={chatobj.sender == "u" ? "right" : "left"}
+                        floated={chatobj.sender === "u" ? "right" : "left"}
                         className="chatPic"
                         onClick={showimage}
                         src={chatobj.msg}
@@ -1063,7 +1067,7 @@ function Chatarea(props) {
               );
             })}
 
-            {JSON.parse(chat.body[chat.body.length - 1]).sender == "u" ? (
+            {JSON.parse(chat.body[chat.body.length - 1]).sender === "u" ? (
               <div>
                 <p>
                   <small
@@ -1183,14 +1187,14 @@ function Chatarea(props) {
 
   function cmpmsg(msg1, msg2) {
     let temp1 = JSON.parse(msg1);
-    let temp2 = msg2 == undefined ? JSON.parse(msg1) : JSON.parse(msg2);
+    let temp2 = msg2 === undefined ? JSON.parse(msg1) : JSON.parse(msg2);
 
     let ct = Number(temp1.timestamp);
     let pt = Number(temp2.timestamp);
-    if (gettbystamps(ct, "date") != gettbystamps(pt, "date")) {
+    if (gettbystamps(ct, "date") !== gettbystamps(pt, "date")) {
       let temp = gettbystamps(ct, "fulldate");
       return temp;
-    } else if (msg2 == undefined) {
+    } else if (msg2 === undefined) {
       let temp = gettbystamps(ct, "fulldate");
       return temp;
     } else return null;
@@ -1250,7 +1254,7 @@ function ImageModal(props) {
     setOpen(false);
   };
   useEffect(() => {
-    if (image != false && image != null) {
+    if (image !== false && image !== null) {
       setOpen(true);
     }
     console.log(image);
@@ -1265,7 +1269,7 @@ function ImageModal(props) {
       className="uploadModal"
     >
       {/* <Modal.Header>Photo</Modal.Header> */}
-      {image != null ? (
+      {image !== null ? (
         <Modal.Content image>
           {validURL(image) ? (
             <Image centered src={image} wrapped />

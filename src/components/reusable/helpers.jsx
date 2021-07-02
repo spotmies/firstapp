@@ -7,7 +7,7 @@ const FullScreenWidget = (props) => {
     case "loader":
       return (
         <div>
-          {props.show == true ? (
+          {props.show === true ? (
             <div className="fullScreenLoad">
               <Loader size="massive" active inline="centered">
                 {props.data ?? "Loading..."}
@@ -16,11 +16,10 @@ const FullScreenWidget = (props) => {
           ) : null}
         </div>
       );
-      break;
     case "noDataPlaceHolder":
       return (
         <div>
-          {props.show == true ? (
+          {props.show === true ? (
             <div className="fullScreenLoad">
               <div style={{ display: "block" }}>
                 <div className="centerDiv">
@@ -40,21 +39,9 @@ const FullScreenWidget = (props) => {
 
     default:
       return <></>;
-      break;
   }
 };
 
-const NoDataPlaceHolder = (props) => {
-  return (
-    <div>
-      {props.placeHolder == true ? (
-        <div className="fullScreenLoad">
-          <h2>{props.data ?? "You have no data here"}</h2>
-          <MdSentimentDissatisfied size="6rem" />
-        </div>
-      ) : null}
-    </div>
-  );
-};
+
 
 export default FullScreenWidget;

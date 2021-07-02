@@ -1,5 +1,5 @@
 function onlyNumRegEx(value) {
-  if (value == "") return true;
+  if (value === "") return true;
   const regEx = /^[0-9\b]+$/;
   if (regEx.test(value)) {
     return true;

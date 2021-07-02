@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import "./login.css";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
@@ -56,7 +56,7 @@ class Login extends Component {
     );
     const phno = "+91" + phNumber;
     console.log(phno);
-    let status = firebase
+    firebase
       .auth()
       .signInWithPhoneNumber(phno, window.recaptchaVerifier)
       .then(function (confirmationResult) {
@@ -84,7 +84,7 @@ class Login extends Component {
         console.log(result);
         loginDetails = result;
         let response = await loginUser(loginDetails.user.uid);
-        if (response == false) {
+        if (response === false) {
           toast.info("Please enter your name to register");
           return "registerUser";
         } else {
@@ -100,10 +100,10 @@ class Login extends Component {
     console.log(data);
     this.setState({
       loader: false,
-      registrationSection: data == "registerUser" ? true : false,
+      registrationSection: data === "registerUser" ? true : false,
     });
 
-    if (data != "registerUser" && data != "inValidOtp") {
+    if (data !== "registerUser" && data !== "inValidOtp") {
       this.props.updateUser(data);
       saveState("userDetails", data);
       this.props.history.go(-1);
@@ -135,7 +135,7 @@ class Login extends Component {
         else {
           state.otpController.current.value = value.slice(0, value.length - 1);
         }
-        if (state.otpController.current.value.length == 6) this.verifyOtp();
+        if (state.otpController.current.value.length === 6) this.verifyOtp();
         break;
 
       default:
@@ -145,12 +145,12 @@ class Login extends Component {
 
   registerUser = async () => {
     loginDetails.user.name = this.state.nameController.current.value;
-    if (loginDetails.user.name == null || loginDetails.user.name.trim() == "")
+    if (loginDetails.user.name === null || loginDetails.user.name.trim() === "")
       return;
     this.eventLoader(true);
     let response = await newUser(loginDetails);
     this.eventLoader(false);
-    if (response != null) {
+    if (response !== null) {
       this.props.updateUser(response);
       saveState("userDetails", response);
       toast.success("Registration Completed");

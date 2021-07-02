@@ -51,7 +51,7 @@ import Avatar from "@material-ui/core/Avatar";
 function Mybookings(props) {
   const [orders, setOrders] = useState([]);
   const [loader, setLoader] = useState(true); //
-  const [loaderData, setloaderData] = useState("fetching your orders ...");
+  const [loaderData, setloaderData] = useState("fetching your data ...");
 
   const eventLoader = (loaderState, data = false) => {
     console.log("eventLoader", loaderState);
@@ -88,7 +88,7 @@ function Mybookings(props) {
 
   return (
     <div>
-      {loader == false && orders.length == 0 ? (
+      {loader === false && orders.length === 0 ? (
         <FullScreenWidget
           type="noDataPlaceHolder"
           show={true}
@@ -342,7 +342,9 @@ function DotMenu({ cap, deleteResp, viewPost }) {
             Partner Details
           </DialogTitle>
           <DialogContent>
-            <div className={classes.root}>
+            <div
+            //  className={classes.root}
+            >
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <div className={classes.centerDiv}>

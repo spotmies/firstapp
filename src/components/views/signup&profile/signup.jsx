@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { Card } from "semantic-ui-react";
 import firebase from "../../../firebase";
 import { createHashHistory } from "history";
 import "../../../index.css";
 import { toast } from "react-toastify";
-import { constants } from "../../../helpers/constants";
 import ComingSoon from "../../reusable/coming_soon_widget";
 
 //import icons
@@ -140,7 +138,7 @@ function genotp(e) {
 
 function vrfyotp(e) {
   const otp = document.getElementById("otp");
-  if (otp.value == "") toast.error("Please enter valid OTP");
+  if (otp.value === "") toast.error("Please enter valid OTP");
   window.confirmationResult
     .confirm(otp.value)
     .then(function (result) {

@@ -9,7 +9,7 @@ import { useHistory } from "react-router-dom";
 import SmLogo from "../../../images/logo.svg";
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
-import { loadState, saveState } from "../../../helpers/localStorage";
+import { loadState } from "../../../helpers/localStorage";
 import { getUserOrders } from "../../controllers/new_post/order_controller";
 import { loginUser } from "../../controllers/login/login_controller";
 //react icons
@@ -66,15 +66,15 @@ function Navibar(props) {
 
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
-        if (localUserDetails != null) props.updateUser(localUserDetails);
+        if (localUserDetails !== null) props.updateUser(localUserDetails);
         else {
           let newLoginResponse = await loginUser(
             firebase.auth().currentUser.uid
           );
-          if (newLoginResponse != false) props.updateUser(newLoginResponse);
+          if (newLoginResponse !== false) props.updateUser(newLoginResponse);
         }
         let localOrders = loadState("orders");
-        if (localOrders != null) props.updateAllOrders(localOrders);
+        if (localOrders !== null) props.updateAllOrders(localOrders);
         else {
           let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
 
@@ -145,7 +145,7 @@ function Navibar(props) {
                           className="chaticon"
                           id="mybooks"
                           style={{
-                            display: name == "undefined" ? "none" : "block",
+                            display: name === "undefined" ? "none" : "block",
                           }}
                         >
                           <MdWork className="chaticon2" />
@@ -243,7 +243,7 @@ function Navibar(props) {
                       </NavDropdown>
                     </div>
                   ) : null}
-                  {isLogged == false ? (
+                  {isLogged === false ? (
                     <Link className="nav-links" to="/signup">
                       <Nav className="chaticon" id="signup">
                         <MdAccountCircle className="chaticon2" />

@@ -54,7 +54,7 @@ const rootReducer = (state = initState, action) => {
       };
     case "UPDATE_ORDER":
       const index = state.orders.findIndex(
-        (order) => order.ordId == action.value.ordId
+        (order) => order.ordId === action.value.ordId
       ); //finding index of the item
       console.log(index);
       const newArray = [...state.orders]; //making a new array
