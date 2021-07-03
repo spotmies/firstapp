@@ -1,28 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import firebase from "../../../firebase";
+import React from "react";
+import PropTypes from "prop-types";
 
-import { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
-import { Button, Card, Image, Dropdown, Icon } from "semantic-ui-react";
 import "../../../index.css";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 
-import SwipeableViews from 'react-swipeable-views';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import { connect } from "react-redux";
+import SwipeableViews from "react-swipeable-views";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import MyResponses from "../chats/responses";
 
 /*css*/
 import "./chat.css";
-import Chat from "./chat-component"
-
+//import Chat from "../newChat/chating";
+import Chat from "./chat-component";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,7 +47,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
@@ -64,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
- export default function Mybookings(props) {
+function Mybookings(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -79,11 +73,8 @@ const useStyles = makeStyles((theme) => ({
 
   /*  our functions*/
 
-  const history = useHistory();
-
-  
   return (
-    <div className={classes.root} style={{width: "100%", marginTop: "12px"}}>
+    <div className={classes.root} style={{ width: "100%", marginTop: "12px" }}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -98,27 +89,39 @@ const useStyles = makeStyles((theme) => ({
         </Tabs>
       </AppBar>
       <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-        
+          <MyResponses />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {/* <div className="chat-container">
-          <div className="chat-list">
-
-          </div>
-          <div className="chat">
-
-          </div>
-          </div> */}
-          <Chat className="chat"/>
+          <Chat className="chat" />
         </TabPanel>
       </SwipeableViews>
     </div>
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+    responses: state.responses,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewResponse: (data) => {
+      dispatch({ type: "ADD_NEW_RESPONSE", value: data });
+    },
+    updateAllResponses: (data) => {
+      dispatch({ type: "UPDATE_ALL_RESPONSES", value: data });
+    },
+    deleteResponse: (responseId) => {
+      dispatch({ type: "DELETE_RESPONSE", value: responseId });
+    },
+  };
+};
 
+export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);

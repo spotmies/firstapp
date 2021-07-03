@@ -48,7 +48,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { deleteResponseById } from "../../controllers/responses/responses_controller";
 import Avatar from "@material-ui/core/Avatar";
 
-function Mybookings(props) {
+function MyResponses(props) {
   const [orders, setOrders] = useState([]);
   const [loader, setLoader] = useState(true); //
   const [loaderData, setloaderData] = useState("fetching your data ...");
@@ -413,5 +413,5 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);
+// export default MyResponses;
+export default connect(mapStateToProps, mapDispatchToProps)(MyResponses);

@@ -28,6 +28,7 @@ import { FaCarAlt } from "react-icons/fa";
 import io from "socket.io-client";
 import constants from "../../../helpers/constants";
 import { getResponses } from "../../controllers/responses/responses_controller";
+import { getConversasions } from "../../controllers/chat/chat_controller";
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
@@ -35,9 +36,29 @@ function Navibar(props) {
 
   const history = useHistory();
 
-  const socket = io.connect(constants.socketUrl, {
-    transports: ["websocket", "polling", "flashsocket"],
-  });
+  const socket = io.connect(
+    constants.constants.localBacked
+      ? constants.localHostSocketUrl
+      : constants.socketUrl,
+    {
+      transports: ["websocket", "polling", "flashsocket"],
+    }
+  );
+
+  const hitAllApis = async () => {
+    firebase.auth().onAuthStateChanged(async function (user) {
+      if (user) {
+        console.log("hitting all apis");
+        let userId = firebase.auth().currentUser.uid;
+        let userResponses = await getResponses(userId);
+        console.log(userResponses);
+        let userChats = await getConversasions(userId);
+        console.log(userChats);
+        props.updateAllChats(userChats);
+        props.updateAllResponses(userResponses);
+      }
+    });
+  };
   useEffect(() => {
     console.log("started ..");
 
@@ -49,10 +70,15 @@ function Navibar(props) {
       props.addNewResponse(doc);
       toast.info("new response came");
     });
+    socket.on("recieveNewMessage", (data) => {
+      console.log("recived msg >>", data);
+      props.addNewMessage(data);
+    });
     socket.on("disconnect", () => {
       console.log("user disconnected>>>");
     });
-  }, []);
+    hitAllApis();
+  }, [constants.localHostSocketUrl, constants.socketUrl]);
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
@@ -85,11 +111,6 @@ function Navibar(props) {
       setName(props.userDetails.name);
       setpic(props.userDetails.pic);
       setisLogged(true);
-      let resp = await getResponses(firebase.auth().currentUser.uid);
-      console.log(resp);
-
-      // setOrders(resp);
-      props.updateAllResponses(resp);
     } else {
       setisLogged(false);
     }
@@ -178,6 +199,7 @@ function Navibar(props) {
                       <span>
                         {validURL(pic) ? (
                           <img
+                            alt="noting"
                             src={pic}
                             className="userdp"
                             style={{
@@ -278,8 +300,14 @@ const mapDispatchToProps = (dispatch) => {
     addNewResponse: (data) => {
       dispatch({ type: "ADD_NEW_RESPONSE", value: data });
     },
+    addNewMessage: (data) => {
+      dispatch({ type: "ADD_NEW_MESSAGE", value: data });
+    },
     updateAllResponses: (data) => {
       dispatch({ type: "UPDATE_ALL_RESPONSES", value: data });
+    },
+    updateAllChats: (data) => {
+      dispatch({ type: "UPDATE_ALL_CHATS", value: data });
     },
     updateUser: (data) => {
       dispatch({ type: "UPDATE_USER_DETAILS", value: data });

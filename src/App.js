@@ -7,7 +7,7 @@ import postview from "./components/views/viewpost/postview";
 import Mybooks from "./components/views/mybookings/mybooks";
 // import chat from "./components/views/chats/chat";
 // import chat from "./components/views/chats/responses"; //this is responses
-import chat from "./components/views/newChat/chating"
+// import chat from "./components/views/newChat/chating"
 import signup from "./components/views/signup&profile/signup";
 import login from "./components/views/signup&profile/login";
 import profile from "./components/views/signup&profile/profile";
@@ -35,7 +35,7 @@ const Routing = () => {
           <Mybooks />
         </Route>
         <Route path="/newpost" component={newpost2} />
-        <Route path="/chat" component={chat} />
+        <Route path="/chat" component={Tab} />
         <Route path="/chats-section" component={chatssection} />
         <Route path="/signup" component={login} />
         <Route path="/account" component={profile} />

@@ -1,254 +1,231 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import Fab from '@material-ui/core/Fab';
-import SendIcon from '@material-ui/icons/Send';
+import React, { useEffect, useState, useRef } from "react";
+import io from "socket.io-client";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import Fab from "@material-ui/core/Fab";
+import SendIcon from "@material-ui/icons/Send";
+import firebase from "../../../firebase";
+import { getConversasions } from "../../controllers/chat/chat_controller";
+import "./chat.css";
+import constants from "../../../helpers/constants";
+import { connect } from "react-redux";
+import { gettbystamps } from "../../../helpers/dateconv";
 
-import "./chat.css"
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
+const useStyles = makeStyles((theme) => ({
+  mainScreen: {
+    height: "auto",
   },
   chatSection: {
-    width: '100%',
-    height: '72vh'
+    width: "100%",
+    height: "100%",
+    margin: "auto",
   },
   headBG: {
-      backgroundColor: '#e0e0e0'
+    backgroundColor: "#e0e0e0",
   },
   borderRight500: {
-      borderRight: '1px solid #e0e0e0'
+    borderRight: "1px solid #e0e0e0",
   },
   messageArea: {
-    height: '60vh',
-    overflowY: 'auto'
-  }
-});
+    height: "65vh",
+    overflowY: "auto",
+  },
+  fab: {
+    // position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
+}));
 
-const Chat = () => {
+function Chat(props) {
   const classes = useStyles();
+  const [listChats, setListChats] = useState([]);
+  const [currentChat, setCurrentChat] = useState([]);
+  const [currentMsgId, setCurrentMsgId] = useState(null);
+  const [targetObject, setTargetObject] = useState(null);
+  const messageInput = useRef(null);
+  const scrollRef = useRef();
+  const socket = io.connect(
+    constants.constants.localBacked
+      ? constants.localHostSocketUrl
+      : constants.socketUrl,
+    {
+      transports: ["websocket", "polling", "flashsocket"],
+    }
+  );
 
+  useEffect(() => {
+    // getUserConversasions();
+    setListChats(props.userChats);
+    return () => {};
+  }, [props.userChats]);
+  useEffect(() => {
+    console.log("use effect >>>");
+
+    socket.on("connect", (socket) => {
+      console.log("user connected chat >...");
+    });
+    socket.on("disconnect", () => {
+      console.log("user disconnected chat >>>");
+    });
+  }, [constants.localHostSocketUrl]);
+
+  const chatBox = (msgId) => {
+    const found = listChats.find((element) => element.msgId === msgId);
+    let parsedMsgs = [];
+
+    for (let i = 0; i < found.msgs.length; i++) {
+      parsedMsgs.push(JSON.parse(found.msgs[Number(i)]));
+    }
+    // console.log(parsedMsgs);
+    let tempTarget = {
+      uId: found.uId,
+      pId: found.pId,
+      msgId: found.msgId,
+      ordId: found.ordId,
+    };
+    setTargetObject(tempTarget);
+    setCurrentChat(parsedMsgs);
+  };
+
+  useEffect(() => {
+    if (currentMsgId != null) chatBox(currentMsgId);
+  }, [listChats]);
+
+  //scroll to bottom useeffect below
+  useEffect(() => {
+    if (currentMsgId !== null)
+      scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [currentChat]);
+
+  const selectChat = (msgId) => {
+    setCurrentMsgId(msgId);
+    console.log(msgId);
+    chatBox(msgId);
+  };
+  const sendMessage = () => {
+    if (messageInput.current.value === "" || messageInput.current.value == null)
+      return;
+    console.log("sending msg >>>>>>");
+    let msgObject = {
+      type: "text",
+      msg: messageInput.current.value,
+      sender: "user",
+      time: new Date().valueOf(),
+    };
+    socket.emit("sendNewMessage", {
+      object: JSON.stringify(msgObject),
+      target: targetObject,
+    });
+    // setCurrentChat((ele) => [...ele, msgObject]);
+    messageInput.current.value = null;
+  };
   return (
-      <div className="chat-box">
-        {/* <Grid container>
-            <Grid item xs={12} >
-                <Typography variant="h5" className="header-message">Chat</Typography>
-            </Grid>
-        </Grid> */}
-        <Grid container component={Paper} className={classes.chatSection}>
-            <Grid item xs={3} className={classes.borderRight500}>
-                <List>
-                    <ListItem button key="RemySharp">
-                        <ListItemIcon>
-                        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                        </ListItemIcon>
-                        <ListItemText primary="John Wick"></ListItemText>
-                    </ListItem>
-                </List>
-                {/* <Divider />
-                <Grid item xs={12} style={{padding: '10px'}}>
-                    <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth />
-                </Grid>
-                <Divider /> */}
-                <List>
-                    <ListItem button key="RemySharp">
-                        <ListItemIcon>
-                            <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                        </ListItemIcon>
-                        <ListItemText primary="Remy Sharp">Remy Sharp</ListItemText>
-                        <ListItemText secondary="online" align="right"></ListItemText>
-                    </ListItem>
-                    <ListItem button key="Alice">
-                        <ListItemIcon>
-                            <Avatar alt="Alice" src="https://material-ui.com/static/images/avatar/3.jpg" />
-                        </ListItemIcon>
-                        <ListItemText primary="Alice">Alice</ListItemText>
-                    </ListItem>
-                    <ListItem button key="CindyBaker">
-                        <ListItemIcon>
-                            <Avatar alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/2.jpg" />
-                        </ListItemIcon>
-                        <ListItemText primary="Cindy Baker">Cindy Baker</ListItemText>
-                    </ListItem>
-                </List>
-            </Grid>
-            <Grid item xs={9}>
-                <List className={classes.messageArea}>
-                    <ListItem key="1">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Hey man, What's up ?"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="09:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="2">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="left" primary="Hey, Iam Good! What about you ?"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="left" secondary="09:31"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                    <ListItem key="3">
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" primary="Cool. i am good, let's catch up!"></ListItemText>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ListItemText align="right" secondary="10:30"></ListItemText>
-                            </Grid>
-                        </Grid>
-                    </ListItem>
-                </List>
-                <Divider />
-                <Grid container style={{padding: '5px'}}>
-                    <Grid item xs={11}>
-                        <TextField id="outlined-basic-email" label="Type Something" fullWidth />
-                    </Grid>
-                    <Grid xs={1} align="right" >
-                        <Fab color="primary" aria-label="add"><SendIcon style={{height: "20px"}}/></Fab>
-                    </Grid>
-                </Grid>
-            </Grid>
+    <div className={classes.mainScreen}>
+      <Grid container component={Paper} className={classes.chatSection} xs={12}>
+        <Grid item xs={3} className={classes.borderRight500}>
+          <List>
+            {listChats.map((list, key) => (
+              <ListItem
+                selected={currentMsgId === list.msgId}
+                button
+                key={key}
+                onClick={() => {
+                  selectChat(list.msgId);
+                }}
+              >
+                <ListItemIcon>
+                  <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
+                </ListItemIcon>
+                <ListItemText secondary="last message">
+                  {list.pDetails.name}
+                </ListItemText>
+                <ListItemText secondary="online" align="right">
+                  {gettbystamps(Number(list.lastModified), "time")}
+                </ListItemText>
+              </ListItem>
+            ))}
+          </List>
         </Grid>
-      </div>
+        <Grid item xs={9}>
+          <List className={classes.messageArea}>
+            {currentChat.map((chatBody, key) => (
+              <ListItem key={key}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <ListItemText
+                      align={chatBody.sender === "user" ? "right" : "left"}
+                      primary={chatBody.msg}
+                    ></ListItemText>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div ref={scrollRef}>
+                      <ListItemText
+                        align={chatBody.sender === "user" ? "right" : "left"}
+                        secondary={gettbystamps(Number(chatBody.time), "time")}
+                      ></ListItemText>
+                    </div>
+                  </Grid>
+                </Grid>
+              </ListItem>
+            ))}
+            {currentChat.length === 0 ? (
+              <div>select anyone to start conversation</div>
+            ) : null}
+            <span className={classes.fab}>
+              <Fab color="secondary" size="small" aria-label="add">
+                <SendIcon />
+              </Fab>
+            </span>
+          </List>
+          <Divider />
+          <Grid
+            container
+            style={{ padding: "5px" }}
+            direction="row"
+            justify="flex-end"
+            alignItems="center"
+          >
+            <Grid item xs={9}>
+              <TextField
+                id="outlined-basic-email"
+                label="Enter your message Here"
+                inputRef={messageInput}
+                fullWidth
+                autoComplete="off"
+              />
+            </Grid>
+            <Grid xs={1} align="right">
+              <Fab
+                color="primary"
+                aria-label="add"
+                onClick={sendMessage}
+                disabled={currentMsgId === null}
+              >
+                <SendIcon />
+              </Fab>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+    isUserLogin: state.isUserLogin,
+    userChats: state.userChats,
+  };
+};
 
-export default Chat;
+export default connect(mapStateToProps)(Chat);

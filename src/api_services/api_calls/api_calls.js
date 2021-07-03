@@ -3,7 +3,9 @@ import constants from "../../helpers/constants";
 
 export async function apiGetMethod(path) {
   const response = await fetch(
-    constants.baseUrl + path,
+    (constants.constants.localBacked
+      ? constants.localHostUrl
+      : constants.baseUrl) + path,
     await addHeaderWithOutBody("GET")
   );
   console.log(response);
@@ -16,7 +18,9 @@ export async function apiGetMethod(path) {
 
 export async function apiDelMethod(path) {
   const response = await fetch(
-    constants.baseUrl + path,
+    (constants.constants.localBacked
+      ? constants.localHostUrl
+      : constants.baseUrl) + path,
     await addHeaderWithOutBody("DELETE")
   );
   console.log(response);
@@ -27,7 +31,10 @@ export async function apiDelMethod(path) {
 }
 
 export async function apiPostPut(body, path, method) {
-  const uri = constants.baseUrl + path;
+  const uri =
+    (constants.constants.localBacked
+      ? constants.localHostUrl
+      : constants.baseUrl) + path;
   const response = await fetch(uri, await addHeader(body, method));
   if (response.status === 200) {
     const data = await response.json();
