@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
+import { toast } from "react-toastify";
 import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
 import SmLogo from "../../../images/logo.svg";
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
-import { loadState, saveState } from "../../../helpers/localStorage";
+import { loadState } from "../../../helpers/localStorage";
 import { getUserOrders } from "../../controllers/new_post/order_controller";
 import { loginUser } from "../../controllers/login/login_controller";
 //react icons
@@ -26,6 +27,7 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { FaCarAlt } from "react-icons/fa";
 import io from "socket.io-client";
 import constants from "../../../helpers/constants";
+import { getResponses } from "../../controllers/responses/responses_controller";
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
@@ -33,44 +35,46 @@ function Navibar(props) {
 
   const history = useHistory();
 
-  // const socket = io.connect(constants.localHostSocketUrl, {
-  //   transports: ["websocket", "polling", "flashsocket"],
-  // });
-  // useEffect(() => {
-  //   console.log("started ..");
+  const socket = io.connect(constants.socketUrl, {
+    transports: ["websocket", "polling", "flashsocket"],
+  });
+  useEffect(() => {
+    console.log("started ..");
 
-  //   socket.on("connect", (socket) => {
-  //     console.log("user connected ...");
-  //   });
-  //   socket.on("newResponse", (doc) => {
-  //     console.log("new resp", doc);
-  //   });
-  //   socket.on("disconnect", () => {
-  //     console.log("user disconnected>>>");
-  //   });
-  // }, []);
+    socket.on("connect", (socket) => {
+      console.log("user connected ...");
+    });
+    socket.on("newResponse", (doc) => {
+      console.log("new resp nav", doc);
+      props.addNewResponse(doc);
+      toast.info("new response came");
+    });
+    socket.on("disconnect", () => {
+      console.log("user disconnected>>>");
+    });
+  }, []);
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
-      // socket.emit(
-      //   "join-room",
-      //   firebase.auth().currentUser.uid,
-      //   function (confirmation) {
-      //     console.log(confirmation, "join rome>>");
-      //   }
-      // );
+      socket.emit(
+        "join-room",
+        firebase.auth().currentUser.uid,
+        function (confirmation) {
+          console.log(confirmation, "join rome>>");
+        }
+      );
 
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
-        if (localUserDetails != null) props.updateUser(localUserDetails);
+        if (localUserDetails !== null) props.updateUser(localUserDetails);
         else {
           let newLoginResponse = await loginUser(
             firebase.auth().currentUser.uid
           );
-          if (newLoginResponse != false) props.updateUser(newLoginResponse);
+          if (newLoginResponse !== false) props.updateUser(newLoginResponse);
         }
         let localOrders = loadState("orders");
-        if (localOrders != null) props.updateAllOrders(localOrders);
+        if (localOrders !== null) props.updateAllOrders(localOrders);
         else {
           let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
 
@@ -81,6 +85,11 @@ function Navibar(props) {
       setName(props.userDetails.name);
       setpic(props.userDetails.pic);
       setisLogged(true);
+      let resp = await getResponses(firebase.auth().currentUser.uid);
+      console.log(resp);
+
+      // setOrders(resp);
+      props.updateAllResponses(resp);
     } else {
       setisLogged(false);
     }
@@ -136,7 +145,7 @@ function Navibar(props) {
                           className="chaticon"
                           id="mybooks"
                           style={{
-                            display: name == "undefined" ? "none" : "block",
+                            display: name === "undefined" ? "none" : "block",
                           }}
                         >
                           <MdWork className="chaticon2" />
@@ -234,7 +243,7 @@ function Navibar(props) {
                       </NavDropdown>
                     </div>
                   ) : null}
-                  {isLogged == false ? (
+                  {isLogged === false ? (
                     <Link className="nav-links" to="/signup">
                       <Nav className="chaticon" id="signup">
                         <MdAccountCircle className="chaticon2" />
@@ -266,6 +275,12 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
+    addNewResponse: (data) => {
+      dispatch({ type: "ADD_NEW_RESPONSE", value: data });
+    },
+    updateAllResponses: (data) => {
+      dispatch({ type: "UPDATE_ALL_RESPONSES", value: data });
+    },
     updateUser: (data) => {
       dispatch({ type: "UPDATE_USER_DETAILS", value: data });
     },

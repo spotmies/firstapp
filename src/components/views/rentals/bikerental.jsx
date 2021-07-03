@@ -71,7 +71,7 @@ function Rentals() {
 
   function uncheckall(data) {
     setTimes([]);
-    if (data == "ctype") settype("cartype");
+    if (data === "ctype") settype("cartype");
     else {
       settype("status");
       setcount("true");
@@ -346,7 +346,7 @@ function Rentals() {
             {widths <= 420 ? (
               <ScrollEvent handleScrollCallback={scrollevent} />
             ) : null}
-            {times.length == 0 ? (
+            {times.length === 0 ? (
               <Card.Group>
                 <Card className="rentcard">
                   <Segment className="loaderSegment">
@@ -964,7 +964,7 @@ function Rentals() {
                                 </a>
                               </p>
 
-                              {nap.fuelincl == "true" ? (
+                              {nap.fuelincl === "true" ? (
                                 <p style={{ marginLeft: "20px" }}>
                                   {" "}
                                   <Icon name="tint" />

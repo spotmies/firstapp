@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from "../../../firebase";
+
 import { useState, useEffect } from "react";
 import "../../../index.css";
 import "../../../post.css";
@@ -7,7 +7,7 @@ import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../mybookings/my_book.css";
-import io from "socket.io-client";
+
 import constants from "../../../helpers/constants";
 //import icons
 import { IconContext } from "react-icons";
@@ -15,13 +15,10 @@ import { IconContext } from "react-icons";
 import { BiTimeFive } from "react-icons/bi";
 
 import {
-  MdChatBubble,
   MdEventAvailable,
   MdExplore,
   MdMoreHoriz,
-  MdNavigateNext,
   MdNearMe,
-  MdNotificationsActive,
   MdPayment,
   MdWatchLater,
 } from "react-icons/md";
@@ -36,54 +33,31 @@ import Buttonn from "@material-ui/core/Button";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import CardMedia from "@material-ui/core/CardMedia";
-import Grid from "@material-ui/core/Grid";
 import Badge from "@material-ui/core/Badge";
-import { Chip } from "@material-ui/core";
+import {
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  makeStyles,
+} from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {
-  deleteResponseById,
-  getResponses,
-} from "../../controllers/responses/responses_controller";
+import { deleteResponseById } from "../../controllers/responses/responses_controller";
 import Avatar from "@material-ui/core/Avatar";
 
 function Mybookings(props) {
-  const socket = io.connect(constants.socketUrl, {
-    transports: ["websocket", "polling", "flashsocket"],
-  });
   const [orders, setOrders] = useState([]);
-  const [loader, setLoader] = useState(true);
-  const [loaderData, setloaderData] = useState("fetching your orders ...");
+  const [loader, setLoader] = useState(true); //
+  const [loaderData, setloaderData] = useState("fetching your data ...");
 
   const eventLoader = (loaderState, data = false) => {
     console.log("eventLoader", loaderState);
     setLoader(loaderState);
     if (data) setloaderData(data);
   };
-
-  const getOrders = async () => {
-    console.log(props.orders);
-    if (props.orders.length < 1) {
-      firebase.auth().onAuthStateChanged(async function (user) {
-        if (user) {
-          socket.emit("join-room", firebase.auth().currentUser.uid);
-          console.log("fetching API");
-          let orders = await getResponses(firebase.auth().currentUser.uid);
-          console.log(orders);
-          setOrders(orders);
-          eventLoader(false);
-        }
-      });
-    } else {
-      console.log(props.orders);
-      setOrders(props.orders);
-      eventLoader(false);
-    }
-  };
-
-  useEffect(() => {
-    getOrders();
-  }, [orders.length < 1]);
 
   const history = useHistory();
 
@@ -99,32 +73,22 @@ function Mybookings(props) {
     if (response) {
       setOrders(orders.filter((item) => item.responseId !== iD));
       toast.info("Order Deleted Successfully");
+      props.deleteResponse(iD);
     } else toast.info("Unable To Delete Order");
     eventLoader(false);
   };
 
   //compoent didmount and willunMount
-  useEffect(() => {
-    console.log("DidMount >>>");
-    socket.on("connect", (userSocket) => {
-      console.log("user connected >>>");
-    });
 
-    socket.on("newResponse", (newDoc) => {
-      console.log("new resp >>", newDoc);
-      setOrders((oldElement) => [...oldElement, newDoc]);
-    });
-    socket.on("disconnect", () => {
-      console.log("user disconnected>>>");
-    });
-    return () => {
-      console.log("unMount>>>");
-    };
-  }, []);
+  useEffect(() => {
+    console.log("use effect prop", props.responses);
+    setOrders(props.responses);
+    eventLoader(false);
+  }, [props.responses]);
 
   return (
     <div>
-      {loader == false && orders.length == 0 ? (
+      {loader === false && orders.length === 0 ? (
         <FullScreenWidget
           type="noDataPlaceHolder"
           show={true}
@@ -289,36 +253,45 @@ function Mybookings(props) {
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    userDetails: state.userDetails,
-    orders: [],
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addNewOrder: (data) => {
-      dispatch({ type: "ADD_NEW_ORDER", value: data });
-    },
-    updateAllOrders: (data) => {
-      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
-    },
-    deleteOrder: (ordId) => {
-      dispatch({ type: "DELETE_ORDER", value: ordId });
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    width: 400,
+  },
+  partnerPic: {
+    width: theme.spacing(12),
+    height: theme.spacing(12),
+    margin: "auto",
+  },
+  centerDiv: {
+    margin: "auto",
+    textAlign: "center",
+  },
+}));
 
 function DotMenu({ cap, deleteResp, viewPost }) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [modal, setModal] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
     setAnchorEl(null);
   };
 
@@ -347,7 +320,7 @@ function DotMenu({ cap, deleteResp, viewPost }) {
         >
           ViewOrder
         </MenuItem>
-        <MenuItem>Partner Details</MenuItem>
+        <MenuItem onClick={openModal}>Partner Details</MenuItem>
         <MenuItem>Chat with Partner </MenuItem>
         <MenuItem>Call Partner</MenuItem>
         <MenuItem
@@ -359,6 +332,86 @@ function DotMenu({ cap, deleteResp, viewPost }) {
           Delete
         </MenuItem>
       </Menu>
+      <div>
+        <Dialog
+          open={modal}
+          onClose={closeModal}
+          aria-labelledby="customized-dialog-title"
+        >
+          <DialogTitle id="customized-dialog-title" onClose={closeModal}>
+            Partner Details
+          </DialogTitle>
+          <DialogContent>
+            <div
+            //  className={classes.root}
+            >
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <div className={classes.centerDiv}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={cap.pDetails.partnerPic}
+                      className={classes.partnerPic}
+                      // className="partnerPic"
+                    />
+                    <h3>{cap.pDetails.name}</h3>
+                    <div className="partnerThings">
+                      <p>online</p>
+                      <p>5 stars</p>
+                      <p>vizag</p>
+                    </div>
+                  </div>
+                </Grid>
+                <div className="otherDetails">
+                  <div className="miniCards">
+                    <p>{cap.pDetails.phNum}</p>
+                  </div>
+                  <div className="miniCards">
+                    <p>{cap.pDetails.eMail}</p>
+                  </div>
+                  <div className="miniCards">
+                    <p>{cap.pDetails.businessName}</p>
+                  </div>
+                  <div className="miniCards">
+                    <p>{cap.pDetails.lang[0]}</p>
+                    <p>{cap.pDetails.lang[1]}</p>
+                  </div>
+                </div>
+              </Grid>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Buttonn onClick={closeModal} color="primary">
+              Know more
+            </Buttonn>
+            <Buttonn onClick={closeModal} color="primary" autoFocus>
+              Close
+            </Buttonn>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+    responses: state.responses,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewResponse: (data) => {
+      dispatch({ type: "ADD_NEW_RESPONSE", value: data });
+    },
+    updateAllResponses: (data) => {
+      dispatch({ type: "UPDATE_ALL_RESPONSES", value: data });
+    },
+    deleteResponse: (responseId) => {
+      dispatch({ type: "DELETE_RESPONSE", value: responseId });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Mybookings);

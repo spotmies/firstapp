@@ -75,7 +75,7 @@ class SimpleMap extends Component {
     let temp = {};
     temp["body"] = JSON.stringify(this.state.details);
     let result = await apiPostPut(temp, "contactUs");
-    if (result.status == 200) {
+    if (result.status === 200) {
       this.clearfield();
       toast.info("Thank you we will contact you soon...");
     } else {
@@ -211,7 +211,7 @@ class SimpleMap extends Component {
               />
             </Form.Group>
             <br></br>
-            {this.state.sbtn == false ? (
+            {this.state.sbtn === false ? (
               <Button primary type="submit">
                 Submit
               </Button>

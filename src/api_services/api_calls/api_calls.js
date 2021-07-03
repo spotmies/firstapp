@@ -8,7 +8,7 @@ export async function apiGetMethod(path) {
   );
   console.log(response);
   //   return response;
-  if (response.status == 200) {
+  if (response.status === 200) {
     const data = await response.json();
     return data;
   } else return null;
@@ -21,7 +21,7 @@ export async function apiDelMethod(path) {
   );
   console.log(response);
   //   return response;
-  if (response.status == 204) {
+  if (response.status === 204) {
     return true;
   } else return false;
 }
@@ -29,7 +29,7 @@ export async function apiDelMethod(path) {
 export async function apiPostPut(body, path, method) {
   const uri = constants.baseUrl + path;
   const response = await fetch(uri, await addHeader(body, method));
-  if (response.status == 200) {
+  if (response.status === 200) {
     const data = await response.json();
     return data;
   } else return null;

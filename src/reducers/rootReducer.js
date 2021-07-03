@@ -2,7 +2,7 @@ import { loadState, saveState } from "../helpers/localStorage";
 const initState = {
   userDetails: {},
   orders: [],
-  quotes: [],
+  responses: [],
   logs: [],
   messages: [],
   isUserLogin: false,
@@ -11,6 +11,27 @@ const initState = {
 const rootReducer = (state = initState, action) => {
   // console.log(action);
   switch (action.type) {
+    case "ADD_NEW_RESPONSE":
+      //need to add load state herhe
+      return {
+        ...state,
+        responses: [...state.responses, action.value],
+      };
+    case "UPDATE_ALL_RESPONSES":
+      return {
+        ...state,
+        responses: action.value,
+      };
+
+    case "DELETE_RESPONSE":
+      let newResponses = state.responses.filter((response) => {
+        return response.responseId !== action.value;
+      });
+      return {
+        ...state,
+        responses: newResponses,
+      };
+
     case "ADD_NEW_ORDER":
       return {
         ...state,
@@ -33,7 +54,7 @@ const rootReducer = (state = initState, action) => {
       };
     case "UPDATE_ORDER":
       const index = state.orders.findIndex(
-        (order) => order.ordId == action.value.ordId
+        (order) => order.ordId === action.value.ordId
       ); //finding index of the item
       console.log(index);
       const newArray = [...state.orders]; //making a new array
