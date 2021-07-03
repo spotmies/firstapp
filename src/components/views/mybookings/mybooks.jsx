@@ -1,7 +1,6 @@
 import React from "react";
 import firebase from "../../../firebase";
 import { useState, useEffect } from "react";
-import { Card, Image, Label, Dropdown, Icon } from "semantic-ui-react";
 import "../../../index.css";
 import "../../../post.css";
 import { gettbystamps } from "../../../helpers/dateconv";
@@ -11,13 +10,11 @@ import "./my_book.css";
 
 //import icons
 import { IconContext } from "react-icons";
-import { BsEyeFill } from "react-icons/bs";
+
 import { BiTimeFive } from "react-icons/bi";
-import { RiPinDistanceFill } from "react-icons/ri";
-import { HiOutlineCurrencyRupee } from "react-icons/hi";
+
 import {
   MdChatBubble,
-  MdCheckCircle,
   MdEventAvailable,
   MdExplore,
   MdMoreHoriz,
@@ -396,10 +393,7 @@ function DotMenu({ cap, orderDelete, viewPost }) {
     console.log("click", ordId);
     history.push(`mybookings/id/edit/${ordId}`);
   };
-  const deletePost = (ordId) => {
-    setAnchorEl(null);
-    orderDelete(ordId);
-  };
+
   return (
     <div id={cap.ordId}>
       <IconButton
@@ -434,7 +428,8 @@ function DotMenu({ cap, orderDelete, viewPost }) {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            deletePost(cap.ordId);
+            setAnchorEl(null);
+            orderDelete(cap.ordId);
           }}
         >
           Delete

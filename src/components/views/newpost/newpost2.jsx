@@ -1,11 +1,12 @@
 import "date-fns";
 import React, { Component, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Card } from "semantic-ui-react";
 import { IconContext } from "react-icons";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
-import Cardd from "@material-ui/core/Card";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
 import Badge from "@material-ui/core/Badge";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
@@ -23,7 +24,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { toast } from "react-toastify";
 import FullScreenWidget from "../../reusable/helpers";
 import { BsHammer, BsHouseFill } from "react-icons/bs";
-import imageCompression from "browser-image-compression";
 import useRecorder from "./useRecorder";
 
 import "../rentals/rental.css";
@@ -165,17 +165,9 @@ class Postnew extends Component {
             padding: "20px",
           }}
         >
-          <Card centered id="formcard" className="postjobb1">
-            <Card.Content>
-              <Card.Header
-                style={{
-                  textAlign: "center",
-                }}
-              >
-                New Post
-              </Card.Header>
-            </Card.Content>
-            <Card.Content>
+          <Card className="orderCard">
+            <CardHeader className="cardHeaderPost" title="new post" />
+            <CardContent>
               <Postform
                 job={this.state.job}
                 triggerJobModal={this.triggerJobModal}
@@ -186,7 +178,7 @@ class Postnew extends Component {
                 prop={this.props}
                 editDate={this.state.editDateForm}
               />
-            </Card.Content>
+            </CardContent>
           </Card>
 
           <SimpleDialog
@@ -334,7 +326,7 @@ class Postform extends Component {
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",
       ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
-
+      uDetails: this.props.prop.userDetails._id,
       uId: state.uId,
     };
 

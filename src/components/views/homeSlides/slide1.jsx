@@ -20,7 +20,7 @@ import lock2 from "../../../images/lock2.png";
 import lock3 from "../../../images/lock3.png";
 import { feedBack1 } from "../../../mservices/contactUs";
 //import feedback form
-import { FeedbackForm } from "../../reusable/Modal";
+import FeedbackForm from "../../reusable/feedback_form";
 // gsap.registerPlugin(ScrollTrigger);
 // const lockdiv = document.querySelector("#LockDiv");
 // init(lockdiv, {

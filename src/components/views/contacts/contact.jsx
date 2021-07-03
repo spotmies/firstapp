@@ -9,7 +9,7 @@ import { Form } from "react-bootstrap";
 import { Button } from "semantic-ui-react";
 
 //feedback form
-import { FeedbackForm } from "../../reusable/Modal";
+import FeedbackForm from "../../reusable/feedback_form";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 

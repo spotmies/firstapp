@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
@@ -24,7 +24,8 @@ import {
 
 import { BiLogOutCircle } from "react-icons/bi";
 import { FaCarAlt } from "react-icons/fa";
-
+import io from "socket.io-client";
+import constants from "../../../helpers/constants";
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
@@ -32,8 +33,33 @@ function Navibar(props) {
 
   const history = useHistory();
 
+  // const socket = io.connect(constants.localHostSocketUrl, {
+  //   transports: ["websocket", "polling", "flashsocket"],
+  // });
+  // useEffect(() => {
+  //   console.log("started ..");
+
+  //   socket.on("connect", (socket) => {
+  //     console.log("user connected ...");
+  //   });
+  //   socket.on("newResponse", (doc) => {
+  //     console.log("new resp", doc);
+  //   });
+  //   socket.on("disconnect", () => {
+  //     console.log("user disconnected>>>");
+  //   });
+  // }, []);
+
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
+      // socket.emit(
+      //   "join-room",
+      //   firebase.auth().currentUser.uid,
+      //   function (confirmation) {
+      //     console.log(confirmation, "join rome>>");
+      //   }
+      // );
+
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
         if (localUserDetails != null) props.updateUser(localUserDetails);

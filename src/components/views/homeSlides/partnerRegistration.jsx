@@ -6,7 +6,7 @@ import Fade from "react-reveal/Fade";
 import "../../../assets/css/partner.css";
 //import feedback form
 
-import { FeedbackForm } from "../../reusable/Modal";
+import FeedbackForm from "../../reusable/feedback_form";
 
 import { FaGooglePlay } from "react-icons/fa";
 
