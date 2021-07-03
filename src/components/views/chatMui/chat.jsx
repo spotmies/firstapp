@@ -19,50 +19,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-/* Firebase */
+/*css*/
+import "./chat.css";
+import Chat from "./chat-component"
 
-import {
-  MdStar,
-  MdChatBubble,
-  MdFeaturedPlayList,
-  MdCheckCircle,
-  MdCancel,
-} from "react-icons/md";
-
-const db = firebase.firestore();
-
-async function useTimes() {
-  const [times, setTimes] = useState([]);
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        db.collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .collection("response")
-          .onSnapshot((snap) => {
-            const newtimes = snap.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
-            setTimes(newtimes);
-          });
-      }
-    });
-  }, []);
-  return times;
-}
-
-const Sekhar = () => {
-  const times = useTimes();
-  console.log(times);
-  return (
-    <div className="responses">
-      <Mybookings data={times} />
-    </div>
-  );
-};
-
-export default Sekhar;
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -104,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
- function Mybookings(props) {
+ export default function Mybookings(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -121,41 +81,9 @@ const useStyles = makeStyles((theme) => ({
 
   const history = useHistory();
 
-  const click = (prop) => {
-    console.log("click", prop);
-    history.push(`mybookings/id/${prop}`);
-  };
-  const pdet = (prop) => {
-    history.push(`pdetails/${prop}`);
-  };
-  const click2 = (prope) => {
-    console.log("click2", prope);
-    db.collection("messaging")
-      .doc(prope)
-      .update({
-        chatbuild: true,
-        userid: firebase.auth().currentUser.uid,
-        uname: uname,
-        upic: upic,
-      })
-      .then(() => {
-        // alert("go to chat for make a conversation")
-        history.push("chats-section");
-      });
-  };
-  const delpost = (pro) => {
-    db.collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("response")
-      .doc(pro)
-      .delete()
-      .then(() => {
-        toast.info("response deleted succefully");
-      });
-  };
-
+  
   return (
-    <div className={classes.root} style={{width: "100%"}}>
+    <div className={classes.root} style={{width: "100%", marginTop: "12px"}}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -175,113 +103,18 @@ const useStyles = makeStyles((theme) => ({
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-        <div>
-        {props.data.length > 0
-          ? props.data.map((cap) => (
-              <div id={cap.id} style={{ marginLeft: "22%" }}>
-                <Card.Group>
-                  <Card
-                    color="blue"
-                    style={{
-                      width: "80%",
-                      borderRadius: "1.5rem",
-                      backgroundColor: "#F9F9F9",
-                    }}
-                  >
-                    <Card.Content>
-                      <Card.Meta style={{ display: "inline-flex" }}>
-                        <Icon name="time" />{" "}
-                        {String(cap.time.toDate()).replace(
-                          "GMT+0530 (India Standard Time)",
-                          ""
-                        )}
-                      </Card.Meta>
-
-                      <Dropdown
-                        item
-                        icon="ellipsis horizontal"
-                        backgroundColor="white"
-                        simple
-                        style={{ float: "right" }}
-                        color="white"
-                      >
-                        <Dropdown.Menu>
-                          <Dropdown.Item onClick={(e) => pdet(cap.partnerid)}>
-                            Technician details
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={(e) => click2(cap.msgid)}>
-                            chat with partner
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={(e) => click(cap.orderid)}>
-                            view job
-                          </Dropdown.Item>
-                          <Dropdown.Divider />
-                          <Dropdown.Item onClick={(e) => delpost(cap.id)}>
-                            Delete
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </Card.Content>
-                    <Card.Content>
-                      <Image
-                        style={{
-                          width: "60px",
-                          height: "60px",
-                          borderRadius: "1rem",
-                          cursor: "pointer",
-                        }}
-                        floated="left"
-                        size="mini"
-                        src={cap.ppic}
-                      />
-                      <Card.Header>
-                        <u>{cap.pname}</u>
-                      </Card.Header>
-                      <Card.Meta>
-                        <small>computer</small> | <small>4.5</small>
-                        <MdStar color="gold" />
-                      </Card.Meta>
-                      <div
-                        style={{
-                          display: "inline-flex",
-                          fontSize: "22px",
-                          paddingLeft: "15%",
-                        }}
-                      >
-                        <p>
-                          {" "}
-                          Money: <strong>&#8377; {cap.pmoney}</strong>{" "}
-                        </p>
-                        <p style={{ marginLeft: "30px" }}>
-                          Away: <strong> 1km</strong>
-                        </p>
-                      </div>
-                    </Card.Content>
-                    <Card.Content extra>
-                      <div>
-                        <Button color="blue">
-                          Aprove <MdCheckCircle />
-                        </Button>
-                        <Button
-                          onClick={(e) => delpost(cap.id)}
-                          color="gray"
-                          floated="right"
-                          style={{ display: "inline-flex" }}
-                        >
-                          Decline <MdCancel />
-                        </Button>
-                      </div>
-                    </Card.Content>
-                  </Card>
-                </Card.Group>
-              </div>
-            ))
-          : null}
-      </div>
-    
+        
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Chat
+          {/* <div className="chat-container">
+          <div className="chat-list">
+
+          </div>
+          <div className="chat">
+
+          </div>
+          </div> */}
+          <Chat className="chat"/>
         </TabPanel>
       </SwipeableViews>
     </div>
@@ -289,20 +122,3 @@ const useStyles = makeStyles((theme) => ({
 }
 
 
-
-
-var uname;
-var upic;
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
-    db.collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .get()
-      .then((snap) => {
-        if (snap.data()) {
-          uname = snap.data().name;
-          upic = snap.data().pic;
-        }
-      });
-  }
-});

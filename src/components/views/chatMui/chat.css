@@ -1,0 +1,16 @@
+
+
+.chat-list {
+    width: 20%;
+    background: black;
+    height: 1000px;
+}
+
+.chat-box {
+    height: 450px;
+}
+
+.chat {
+    height: 450px;
+}
+
