@@ -22,7 +22,6 @@ import {
 import { allowOnlyNumber } from "../../../helpers/regex/regex";
 import { loadState } from "../../../helpers/localStorage";
 
-const db = firebase.firestore();
 const storage = firebase.storage();
 
 class Profile extends Component {
@@ -46,7 +45,7 @@ class Profile extends Component {
   }
 
   async componentDidUpdate() {
-    if (this.state.profile.name == "") {
+    if (this.state.profile.name === "") {
       let details = await sharemydetails(firebase.auth().currentUser.uid);
       this.setState({ profile: details });
     }
@@ -76,7 +75,7 @@ class Profile extends Component {
     let response = await updateUserDetails(uId, updateObject);
     this.eventLoader(false);
     this.editProfileSection(false);
-    if (response != false) {
+    if (response !== false) {
       this.props.updateUser(response);
     }
   }
@@ -340,7 +339,7 @@ class Profile extends Component {
 const mapStateToProps = (state) => {
   return {
     userDetails:
-      Object.keys(state.userDetails).length != 0
+      Object.keys(state.userDetails).length !== 0
         ? state.userDetails
         : loadState("userDetails") ?? [],
     orders: state.orders,

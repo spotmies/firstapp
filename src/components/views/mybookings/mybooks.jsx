@@ -141,7 +141,7 @@ function Mybookings(props) {
 
   return (
     <div>
-      {loader == false && orders.length == 0 ? (
+      {loader === false && orders.length === 0 ? (
         <FullScreenWidget
           type="noDataPlaceHolder"
           show={true}

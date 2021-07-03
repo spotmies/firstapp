@@ -44,7 +44,7 @@ function FeedbackForm(props) {
   }, [props.open]);
 
   useEffect(() => {
-    if (count == 10) {
+    if (count === 10) {
       setTimeout(() => {
         onClose();
       }, 1000);
@@ -64,7 +64,7 @@ function FeedbackForm(props) {
   };
 
   const prevQue = () => {
-    if (count != 0) setcount(count - 1);
+    if (count !== 0) setcount(count - 1);
   };
 
   const textArea = (e, index) => {
@@ -91,7 +91,7 @@ function FeedbackForm(props) {
     let strobj = {};
     strobj["body"] = JSON.stringify(obj);
     let result = await apiPostPut(strobj, "feedBack");
-    if (result.status == 200) {
+    if (result.status === 200) {
       setsbtn(false);
       localStorage.setItem("isFeedBackGiven", true);
       toast.info("Thanks For Your Feedback");
@@ -125,7 +125,7 @@ function FeedbackForm(props) {
           <p className="modalBack"></p>
         )}
         <Modal.Description>
-          {count == 0 ? (
+          {count === 0 ? (
             <div className="modalDiv">
               {/* <Header>Do You Understand What Does This Website Means</Header> */}
               <Header>{fQuestions[0]}</Header>
@@ -133,7 +133,7 @@ function FeedbackForm(props) {
               <div className="feedBbtn2">
                 <Button
                   basic
-                  color={que[0] == "yes" ? "blue" : "grey"}
+                  color={que[0] === "yes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("yes", 0);
                   }}
@@ -143,7 +143,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[0] == "no" ? "blue" : "grey"}
+                  color={que[0] === "no" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no", 0);
                   }}
@@ -153,7 +153,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[0] == "no idea" ? "blue" : "grey"}
+                  color={que[0] === "no idea" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no idea", 0);
                   }}
@@ -164,7 +164,7 @@ function FeedbackForm(props) {
             </div>
           ) : null}
 
-          {count == 1 ? (
+          {count === 1 ? (
             <div className="modalDiv">
               {/* <Header>How much often Do you think you will use this app?</Header> */}
               <Header>{fQuestions[1]}</Header>
@@ -172,7 +172,7 @@ function FeedbackForm(props) {
               <div>
                 <Button
                   basic
-                  color={que[1] == "Whenever I need" ? "blue" : "grey"}
+                  color={que[1] === "Whenever I need" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Whenever I need", 1);
                   }}
@@ -182,7 +182,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[1] == "Never" ? "blue" : "grey"}
+                  color={que[1] === "Never" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Never", 1);
                   }}
@@ -192,7 +192,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[1] == "Quite Often" ? "blue" : "grey"}
+                  color={que[1] === "Quite Often" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Quite Often", 1);
                   }}
@@ -202,7 +202,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[1] == "i don't know" ? "blue" : "grey"}
+                  color={que[1] === "i don't know" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("i don't know", 1);
                   }}
@@ -213,7 +213,7 @@ function FeedbackForm(props) {
             </div>
           ) : null}
 
-          {count == 2 ? (
+          {count === 2 ? (
             <div className="modalDiv">
               {/* <Header>Did you face any issue while browsing this site?</Header> */}
               <Header>{fQuestions[2]}</Header>
@@ -221,7 +221,7 @@ function FeedbackForm(props) {
               <div>
                 <Button
                   basic
-                  color={que[2] == "Yes" ? "blue" : "grey"}
+                  color={que[2] === "Yes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Yes", 2);
                   }}
@@ -231,7 +231,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[2] == "No" ? "blue" : "grey"}
+                  color={que[2] === "No" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("No", 2);
                   }}
@@ -241,7 +241,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[2] == "Sometimes" ? "blue" : "grey"}
+                  color={que[2] === "Sometimes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("Sometimes", 2);
                   }}
@@ -250,7 +250,7 @@ function FeedbackForm(props) {
                 </Button>
                 {/* <Button
                   basic
-                  color={que[2] == "i don't know" ? "blue" : "grey"}
+                  color={que[2] === "i don't know" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("i don't know", 2);
                   }}
@@ -261,7 +261,7 @@ function FeedbackForm(props) {
             </div>
           ) : null}
 
-          {count == 3 ? (
+          {count === 3 ? (
             <div className="modalDiv">
               {/* <Header>Expecting any other service from us? (If yes, please mention it in message below).</Header> */}
               <Header>{fQuestions[3]}</Header>
@@ -269,7 +269,7 @@ function FeedbackForm(props) {
               <div>
                 <Button
                   basic
-                  color={que[3] == "yes" ? "blue" : "grey"}
+                  color={que[3] === "yes" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("yes", 3);
                   }}
@@ -279,7 +279,7 @@ function FeedbackForm(props) {
                 <Button
                   basic
                   style={{ marginLeft: "6px", marginTop: "4px" }}
-                  color={que[3] == "no" ? "blue" : "grey"}
+                  color={que[3] === "no" ? "blue" : "grey"}
                   onClick={() => {
                     nextQue("no", 3);
                   }}
@@ -290,7 +290,7 @@ function FeedbackForm(props) {
             </div>
           ) : null}
 
-          {count == 4 ? (
+          {count === 4 ? (
             <div className="modalDiv">
               {/* <Header>
                 If you want to tell us something please let us know here. We love to
@@ -312,7 +312,7 @@ function FeedbackForm(props) {
             </div>
           ) : null}
 
-          {count == 10 ? (
+          {count === 10 ? (
             <div>
               <Header>Thanks For Your Feedback</Header>
             </div>
@@ -349,7 +349,7 @@ function FeedbackForm(props) {
 const mapStateToProps = (state) => {
   return {
     feedBackQuestions:
-      state.feedbackQuestion.length != 0
+      state.feedbackQuestion.length !== 0
         ? state.userDetails
         : loadState("feedbackQuestion") ?? [],
   };

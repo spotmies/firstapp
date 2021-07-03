@@ -12,7 +12,7 @@ export async function createNewServiceRequest(uId, reqObj) {
   let path = constants.api.CREATE_ORDER + `/${uId}`;
   let response = await apiPostPut(reqObj, path, "POST");
   console.log(response);
-  if (response == null) return false;
+  if (response === null) return false;
   return response;
 }
 
@@ -23,7 +23,7 @@ export async function updateOrder(ordId, reqObj) {
   let path = constants.api.ORDER_DETAILS + `/${ordId}`;
   let response = await apiPostPut(reqObj, path, "PUT");
   console.log(response);
-  if (response == null) return false;
+  if (response === null) return false;
   return response;
 }
 
@@ -34,7 +34,7 @@ export async function getUserOrders(uId) {
   console.log("getuserorders");
   let path = constants.api.USER_ORDERS + `/${uId}`;
   let response = await apiGetMethod(path);
-  if (response == null) {
+  if (response === null) {
     let emptyArr = [];
     return emptyArr;
   }
@@ -47,6 +47,6 @@ export async function getUserOrders(uId) {
 export async function deleteOrderById(ordId) {
   let path = constants.api.ORDER_DETAILS + `/${ordId}`;
   let response = await apiDelMethod(path);
-  if (response == true) return true;
+  if (response === true) return true;
   return response;
 }

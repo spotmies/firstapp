@@ -70,7 +70,7 @@ function PartnerRegistration() {
     const re = /^[0-9\b]+$/;
     //console.log("change")
     const name =
-      e.target.name == undefined ? e.target.parentElement.id : e.target.name;
+      e.target.name === undefined ? e.target.parentElement.id : e.target.name;
     const value = e.target.value;
 
     switch (name) {
@@ -93,14 +93,14 @@ function PartnerRegistration() {
 
   const formsubmit = async () => {
     let details = null;
-    if (pnum.length == 10 && pcate !== null) {
+    if (pnum.length === 10 && pcate !== null) {
       setsbtn(true);
       let pcatee = pcate.value;
       details = { pname, pnum, pcatee, date: new Date().valueOf() };
       await partprereg(details);
     } else {
       if (pnum.length < 10) toast.warning("enter valid number");
-      else if (pcate == null) toast.warning("please select your profession");
+      else if (pcate === null) toast.warning("please select your profession");
     }
   };
   const clearfield = () => {
@@ -120,7 +120,7 @@ function PartnerRegistration() {
     console.log(temp);
     let result = await apiPostPut(temp, "partnerRegistration");
     console.log("117", result);
-    if (result.status == 200) {
+    if (result.status === 200) {
       clearfield();
       toast.info("Thank you we will contact you soon...");
     } else {
@@ -144,7 +144,7 @@ function PartnerRegistration() {
       let scrolly = e.target.scrollingElement.scrollHeight;
       let scrolltop = e.target.scrollingElement.scrollTop;
       let clientheight = e.target.scrollingElement.clientHeight;
-      let scrolltop2 = ref1.current != null ? ref1.current.offsetTop : 0;
+      let scrolltop2 = ref1.current !== null ? ref1.current.offsetTop : 0;
       //  console.log("scroll", scrolly, scrolltop, clientheight, scrolltop2);
       if (scrolltop > 300) setchIcon(1);
       else setchIcon(0);
@@ -166,7 +166,7 @@ function PartnerRegistration() {
               <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
                 <div
                   className={
-                    (index == 1) | (index == 2) | (index == 3)
+                    (index === 1) | (index === 2) | (index === 3)
                       ? "resize"
                       : "home-photos"
                   }
@@ -205,7 +205,7 @@ function PartnerRegistration() {
           </section>
         ))}
         <div className="feedBack fbSlide">
-          {chIcon == 0 ? (
+          {chIcon === 0 ? (
             <Fade right>
               <h3
                 // style={{ margin: "auto", paddingRight: "10px" }}
@@ -216,7 +216,7 @@ function PartnerRegistration() {
               </h3>
             </Fade>
           ) : null}
-          {chIcon == 0 || chIcon == 1 ? (
+          {chIcon === 0 || chIcon === 1 ? (
             <span className="iconSpan">
               {" "}
               <BsFillPersonPlusFill
@@ -283,7 +283,7 @@ function PartnerRegistration() {
                 required
               />
             </Form.Field>
-            {sbtn == false ? (
+            {sbtn === false ? (
               <Button primary type="submit">
                 Submit
               </Button>
@@ -336,15 +336,15 @@ function PartnerRegistration() {
       <div className="pslide1">
         {textContent.map((message, index) => (
           <div>
-            {index % 2 == 0 ? (
+            {index % 2 === 0 ? (
               <section className="home-section">
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <Fade left>
                     <div
                       className={
-                        (index == 1) | (index == 2) | (index == 3)
+                        (index === 1) | (index === 2) | (index === 3)
                           ? "resize"
-                          : index == 7
+                          : index === 7
                           ? "navigateClass"
                           : "home-photos"
                       }
@@ -412,9 +412,9 @@ function PartnerRegistration() {
                   <ScrollAnimation animateIn="img-in" animateOut="img-out">
                     <div
                       className={
-                        (index == 1) | (index == 2) | (index == 3)
+                        (index === 1) | (index === 2) | (index === 3)
                           ? "resize"
-                          : index == 7
+                          : index === 7
                           ? "navigateClass"
                           : "home-photos"
                       }
@@ -428,7 +428,7 @@ function PartnerRegistration() {
           </div>
         ))}
         <div className="feedBack fbSlide">
-          {chIcon == 0 ? (
+          {chIcon === 0 ? (
             <Fade right>
               <h3
                 className="fbh3"
@@ -439,7 +439,7 @@ function PartnerRegistration() {
               </h3>
             </Fade>
           ) : null}
-          {chIcon == 0 || chIcon == 1 ? (
+          {chIcon === 0 || chIcon === 1 ? (
             <span className="iconSpan">
               {" "}
               <BsFillPersonPlusFill
@@ -514,7 +514,7 @@ function PartnerRegistration() {
                 required
               />
             </Form.Field>
-            {sbtn == false ? (
+            {sbtn === false ? (
               <Button primary type="submit">
                 Submit
               </Button>

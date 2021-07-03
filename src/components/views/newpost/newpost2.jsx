@@ -75,7 +75,7 @@ import { blue } from "@material-ui/core/colors";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
 
 //audio recording
-import MicRecorder from "mic-recorder-to-mp3";
+
 //image compressorjs
 import Compressor from "compressorjs";
 import { getFileType, validURL } from "../../../helpers/dateconv";
@@ -102,7 +102,7 @@ class Postnew extends Component {
     ordId = ordId.replace("/mybookings/id/edit/", "");
     let orders =
       this.props.orders.length > 0 ? this.props.orders : loadState("orders");
-    let order = orders.filter((item) => item.ordId == ordId);
+    let order = orders.filter((item) => item.ordId === ordId);
     // console.log(order);
     if (order.length > 0) {
       this.setState({
@@ -116,7 +116,7 @@ class Postnew extends Component {
   };
   componentDidMount() {
     console.log("mount");
-    if (this.props.editDate == "true") {
+    if (this.props.editDate === "true") {
       // console.log("edit data coming >>>");
       this.getOrder();
     }
@@ -133,7 +133,7 @@ class Postnew extends Component {
     this.setState({
       job: value,
       openJobModal: false,
-      isUserLogin: this.state.uId == null ? false : true,
+      isUserLogin: this.state.uId === null ? false : true,
     });
   };
   triggerJobModal = (value) => {
@@ -291,7 +291,7 @@ class Postform extends Component {
   async componentDidUpdate() {
     // console.log(this.props.editDate);
     if (
-      Object.keys(this.props.editDate).length != 0 &&
+      Object.keys(this.props.editDate).length !== 0 &&
       this.state.editFormFillFlag === false
     ) {
       let tempEditData = this.props.editDate;
@@ -335,7 +335,7 @@ class Postform extends Component {
       ? await createNewServiceRequest(reqObj.uId, reqObj)
       : await updateOrder(reqObj.ordId, reqObj);
     this.setState({ addPosted: true, submitForm: false });
-    if (response != false) {
+    if (response !== false) {
       if (!state.editFormFillFlag) {
         this.props.addNewOrder(response);
         toast.info("service requested successfully");
@@ -358,11 +358,11 @@ class Postform extends Component {
     for (let index = 0; index < array.length; index++) {
       // console.log("vid count >> ", vidCount);
       const element = array[index];
-      if (getFileType(element) == "video") {
+      if (getFileType(element) === "video") {
         vidCount += 1;
-      } else if (getFileType(element) == "audio") {
+      } else if (getFileType(element) === "audio") {
         audCount += 1;
-      } else if (getFileType(element) == "img") {
+      } else if (getFileType(element) === "img") {
         imgCount += 1;
       }
     }
@@ -396,7 +396,7 @@ class Postform extends Component {
     }
     for (let i = 0; i < filesFromWeb.length; i++) {
       let k = Number(i);
-      if (getFileType(filesFromWeb[k]) == "img") {
+      if (getFileType(filesFromWeb[k]) === "img") {
         new Compressor(filesFromWeb[k], {
           quality: 0.6,
           success(result) {
@@ -473,11 +473,11 @@ class Postform extends Component {
 
   deleteMedia = (key, typeOfMode) => {
     let ritem =
-      typeOfMode == "offline" ? this.state.image[key] : this.state.media[key];
-    let file = typeOfMode == "offline" ? "image" : "media";
+      typeOfMode === "offline" ? this.state.image[key] : this.state.media[key];
+    let file = typeOfMode === "offline" ? "image" : "media";
     this.setState({
       [file]:
-        typeOfMode == "offline"
+        typeOfMode === "offline"
           ? this.state.image.filter((e) => e !== ritem)
           : this.state.media.filter((e) => e !== ritem),
     });
@@ -718,7 +718,7 @@ function SimpleDialog(props) {
     onClose(value);
   };
   const handleClose = () => {
-    if (selectedValue != null) onClose(selectedValue);
+    if (selectedValue !== null) onClose(selectedValue);
   };
 
   const loadData = constants.categories;
@@ -758,7 +758,7 @@ function SimpleDialog(props) {
 
 class ListMediaFiles extends Component {
   shouldComponentUpdate(newProps) {
-    if (this.props.mediaFiles == newProps.mediaFiles) {
+    if (this.props.mediaFiles === newProps.mediaFiles) {
       return false;
     } else {
       return true;
@@ -771,25 +771,25 @@ class ListMediaFiles extends Component {
       <Grid container justify="flex-start">
         {mediaFiles.map((nap, key) => (
           <Badge color="white" badgeContent=" " variant="dot">
-            {getFileType(nap) == "img" ? (
+            {getFileType(nap) === "img" ? (
               <CardMedia
                 key={key}
                 className={styles.media}
                 component="img"
-                src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
                 title={nap.name}
               />
-            ) : getFileType(nap) == "video" ? (
+            ) : getFileType(nap) === "video" ? (
               <video
                 width="230"
                 height="154"
                 controls
-                src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
                 type="video/mp4"
               />
             ) : (
               <audio
-                src={typeOfMode == "offline" ? URL.createObjectURL(nap) : nap}
+                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
                 controls
               />
             )}
@@ -810,7 +810,7 @@ class ListMediaFiles extends Component {
 const mapStateToProps = (state) => {
   return {
     userDetails:
-      Object.keys(state.userDetails).length != 0
+      Object.keys(state.userDetails).length !== 0
         ? state.userDetails
         : loadState("userDetails") ?? [],
     orders: state.orders,
@@ -852,7 +852,7 @@ function MediaImport(props) {
           <Fab
             onClick={startRecording}
             style={{ margin: "10px" }}
-            disabled={audioFile != ""}
+            disabled={audioFile !== ""}
           >
             <MdMic size="1.5rem" />
           </Fab>
@@ -864,14 +864,14 @@ function MediaImport(props) {
           </Fab>
         </Tooltip>
       )}
-      {audioFile != "" ? (
+      {audioFile !== "" ? (
         <audio
           src={URL.createObjectURL(audioURL)}
           controls
           style={{ margin: "10px" }}
         />
       ) : null}
-      {audioFile != "" ? (
+      {audioFile !== "" ? (
         <>
           <Fab style={{ margin: "10px" }} size="small" onClick={setFile}>
             <MdCheck size="1.4rem" color="green" />

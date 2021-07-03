@@ -79,7 +79,7 @@ function Slide() {
       var scrolly = e.target.scrollingElement.scrollHeight;
       var scrolltop = e.target.scrollingElement.scrollTop;
       var scrolltop2 =
-        lockText.current != null ? lockText.current.offsetTop : 0;
+        lockText.current !== null ? lockText.current.offsetTop : 0;
       var clientheight = e.target.scrollingElement.clientHeight;
       var diff = scrolltop2 - scrolltop;
 
@@ -139,7 +139,7 @@ function Slide() {
       //   setCondiff(diff);
       //   console.log(condiff, "condiff");
       // }
-      if (scrolly - scrolltop == clientheight) {
+      if (scrolly - scrolltop === clientheight) {
         setCstext("Completely Secured!");
         setlockst(1);
       }
@@ -162,7 +162,7 @@ function Slide() {
             <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
               <div
                 className={
-                  (key == 1) | (key == 2) | (key == 3)
+                  (key === 1) | (key === 2) | (key === 3)
                     ? "resize"
                     : "home-photos"
                 }
@@ -176,7 +176,7 @@ function Slide() {
                   animateIn="headeranimate-in"
                   animateOut="headeranimate-out"
                 >
-                  <h1 className={key == 1 ? "headTop" : null}>
+                  <h1 className={key === 1 ? "headTop" : null}>
                     {message.heading}
                   </h1>
                 </ScrollAnimation>
@@ -202,7 +202,7 @@ function Slide() {
           </section>
         ))}
         <div className="feedBack fbSlide" onClick={() => setOpen(true)}>
-          {lockst == 1 ? (
+          {lockst === 1 ? (
             <Fade right>
               <h3 className="fbh3">Feedback</h3>
             </Fade>
@@ -218,7 +218,7 @@ function Slide() {
           <Fade top>
             <div id="LockDiv">
               {/* <img src={lock} alt="lock" /> */}
-              {lockst == 0 ? (
+              {lockst === 0 ? (
                 <BsFillUnlockFill size="4rem" />
               ) : (
                 <BsFillLockFill size="4rem" />
@@ -297,12 +297,12 @@ function Slide() {
       <div className="slide1" ref={scrollref}>
         {userText.map((message, index) => (
           <div id={index}>
-            {index % 2 == 0 ? (
+            {index % 2 === 0 ? (
               <section className="home-section">
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <div
                     className={
-                      (index == 1) | (index == 2) | (index == 3)
+                      (index === 1) | (index === 2) | (index === 3)
                         ? "resize"
                         : "home-photos"
                     }
@@ -371,7 +371,7 @@ function Slide() {
                 <ScrollAnimation animateIn="img-in" animateOut="img-out">
                   <div
                     className={
-                      (index == 1) | (index == 2) | (index == 3)
+                      (index === 1) | (index === 2) | (index === 3)
                         ? "resize"
                         : "home-photos"
                     }
@@ -387,7 +387,7 @@ function Slide() {
           </div>
         ))}
         <div className="feedBack fbSlide" onClick={() => setOpen(true)}>
-          {lockst == 1 ? (
+          {lockst === 1 ? (
             <Fade right>
               <h3 className="fbh3">Feedback</h3>
             </Fade>
@@ -403,7 +403,7 @@ function Slide() {
           <Fade top>
             <div id="LockDiv">
               {/* <img src={lock} alt="lock" /> */}
-              {lockst == 0 ? (
+              {lockst === 0 ? (
                 <BsFillUnlockFill size="4rem" />
               ) : (
                 <BsFillLockFill size="4rem" />

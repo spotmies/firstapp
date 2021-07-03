@@ -11,7 +11,7 @@ import {
 export async function getResponses(uId) {
   let path = constants.api.USER_RESPONSES + `/${uId}`;
   let response = await apiGetMethod(path);
-  if (response == null) {
+  if (response === null) {
     let emptyArr = [];
     return emptyArr;
   }
