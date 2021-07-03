@@ -38,6 +38,7 @@ module.exports = Object.freeze({
     ORDER_DETAILS: "/order/orders", //PASS ORDER ID AT LAST
     PARTNER_DETAILS: "/partner/partners", //PASS PID AT LAST
     NEW_CHAT: "/chat/createNewChatRoom",
+    USER_CHATS: "/chat/user",
     CREATE_ORDER: "/order/Create-Ord",
     NEW_USER: "/user/newUser",
     USER_RESPONSES: "/response/user",
