@@ -19,12 +19,23 @@ import "./chat.css";
 import constants from "../../../helpers/constants";
 import { connect } from "react-redux";
 import { gettbystamps } from "../../../helpers/dateconv";
+import Phone from "@material-ui/icons/Phone";
+import Photoalbum from "@material-ui/icons/PhotoAlbum"
+
+// appbar
+
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
   mainScreen: {
     height: "auto",
   },
   chatSection: {
+    padding: "0",
     width: "100%",
     height: "100%",
     margin: "auto",
@@ -40,9 +51,20 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
   },
   fab: {
-    // position: "fixed",
+    position: "fixed",
+    zIndex: "999",
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+  },
+//   appbar
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
   },
 }));
 
@@ -131,6 +153,8 @@ function Chat(props) {
   };
   return (
     <div className={classes.mainScreen}>
+
+{/* chats */}
       <Grid container component={Paper} className={classes.chatSection} xs={12}>
         <Grid item xs={3} className={classes.borderRight500}>
           <List>
@@ -156,7 +180,27 @@ function Chat(props) {
             ))}
           </List>
         </Grid>
+
         <Grid item xs={9}>
+ {/* appbar */}
+ <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <Avatar />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            Satish
+          </Typography>
+          <Phone />
+          <Button color="inherit">Menu</Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+
+
+
+
           <List className={classes.messageArea}>
             {currentChat.map((chatBody, key) => (
               <ListItem key={key}>
@@ -181,7 +225,7 @@ function Chat(props) {
             {currentChat.length === 0 ? (
               <div>select anyone to start conversation</div>
             ) : null}
-            <span className={classes.fab}>
+            <span className={classes.fab} >
               <Fab color="secondary" size="small" aria-label="add">
                 <SendIcon />
               </Fab>
@@ -195,6 +239,9 @@ function Chat(props) {
             justify="flex-end"
             alignItems="center"
           >
+              <Grid item xs={2}>
+              <Photoalbum style={{fontSize: "44px", width: "70px"}} />
+              </Grid>
             <Grid item xs={9}>
               <TextField
                 id="filled-basic"
