@@ -1,16 +1,14 @@
-
-
 .chat-list {
-    width: 20%;
-    background: black;
-    height: 1000px;
+  width: 20%;
+  background: black;
+  height: 1000px;
 }
 
 .chat-box {
-    height: 450px;
+  height: 450px;
+  background-color: aquamarine;
 }
 
 .chat {
-    height: 450px;
+  height: 450px;
 }
-

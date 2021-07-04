@@ -4,13 +4,52 @@ const initState = {
   orders: [],
   responses: [],
   logs: [],
-  messages: [],
+  userChats: [],
   isUserLogin: false,
   feedbackQuestion: [],
 };
+
 const rootReducer = (state = initState, action) => {
   // console.log(action);
+
+  const chatingRoot = {
+    updateAllChats: function () {
+      return {
+        ...state,
+        userChats: action.value,
+      };
+    },
+    addNewMessage: function () {
+      // console.log(action.value);
+      let msgId = action.value.target.msgId;
+      let targetConversasion = state.userChats.find(
+        (element) => element.msgId === msgId
+      );
+      let tempAllChats = state.userChats.filter(
+        (elements) => elements.msgId !== msgId
+      );
+
+      targetConversasion["msgs"].push(action.value.object);
+      // console.log(targetConversasion);
+      tempAllChats = [...tempAllChats, targetConversasion];
+      tempAllChats = [].concat(tempAllChats).reverse();
+
+      return {
+        ...state,
+        userChats: tempAllChats,
+      };
+    },
+  };
   switch (action.type) {
+    case "ADD_NEW_MESSAGE":
+      return chatingRoot.addNewMessage();
+    case "UPDATE_ALL_CHATS":
+      return chatingRoot.updateAllChats();
+    // return {
+    //   ...state,
+    //   userChats: action.value,
+    // };
+
     case "ADD_NEW_RESPONSE":
       //need to add load state herhe
       return {
