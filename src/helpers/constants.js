@@ -13,7 +13,7 @@ module.exports = Object.freeze({
   constants: {
     demoVersion: false,
     restrictLogin: true,
-    localBacked: true,
+    localBacked: false,
     categories: [
       "Ac/Refrigirator Service",
       "Computer/laptop Service",

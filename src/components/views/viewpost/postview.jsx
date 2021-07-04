@@ -53,9 +53,8 @@ function ViewPost(props) {
   const getOrder = async () => {
     let ordId = window.location.pathname;
     ordId = ordId.replace("/mybookings/id/", "");
-    let orders = props.orders.length > 0 ? props.orders : loadState("orders");
-    let order = orders.filter((item) => item.ordId === ordId);
-    console.log(order);
+    let orders = props.orders;
+    let order = orders.filter((item) => item.ordId == ordId);
     if (order.length > 0) setPostData(order[0]);
     else console.log("unable to load data");
     eventLoader(false);
@@ -510,7 +509,7 @@ function Partdetail(props) {
 const mapStateToProps = (state) => {
   return {
     userDetails: state.userDetails,
-    orders: state.orders,
+    orders: state.orders.length > 0 ? state.orders : loadState("orders"),
   };
 };
 const mapDispatchToProps = (dispatch) => {

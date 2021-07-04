@@ -197,7 +197,8 @@ function Chat(props) {
           >
             <Grid item xs={9}>
               <TextField
-                id="outlined-basic-email"
+                id="filled-basic"
+                variant="filled"
                 label="Enter your message Here"
                 inputRef={messageInput}
                 fullWidth

@@ -54,6 +54,8 @@ function Navibar(props) {
         console.log(userResponses);
         let userChats = await getConversasions(userId);
         console.log(userChats);
+        let userOrders = await getUserOrders(userId);
+        props.updateAllOrders(userOrders);
         props.updateAllChats(userChats);
         props.updateAllResponses(userResponses);
       }
