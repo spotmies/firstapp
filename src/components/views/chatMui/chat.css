@@ -17,3 +17,11 @@
 .MuiBox-root-7, .MuiBox-root {
   padding: 0 !important;
 }
+
+.MuiGrid-container {
+  width: 100% !important;
+}
+
+.MuiAppBar-root {
+  /* background: rgba(190, 190, 190, 0.925) !important; */
+}

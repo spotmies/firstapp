@@ -87,12 +87,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Chat(props) {
+function Chatmobile(props) {
   const classes = useStyles();
   const [listChats, setListChats] = useState([]);
   const [currentChat, setCurrentChat] = useState([]);
   const [currentMsgId, setCurrentMsgId] = useState(null);
   const [targetObject, setTargetObject] = useState(null);
+
+  const [showChat, setShowChat] = useState(true);
+
   const messageInput = useRef(null);
   const scrollRef = useRef();
   const socket = io.connect(
@@ -152,6 +155,7 @@ function Chat(props) {
     setCurrentMsgId(msgId);
     console.log(msgId);
     chatBox(msgId);
+    setShowChat = false;
   };
   const sendMessage = () => {
     if (messageInput.current.value === "" || messageInput.current.value == null)
@@ -212,8 +216,10 @@ function Chat(props) {
     <div className={classes.mainScreen}>
 
 {/* chats */}
+
       <Grid container component={Paper} className={classes.chatSection} xs={12}>
-        <Grid item xs={3} className={classes.borderRight500}>
+      {showChat ?
+        <Grid item xs={12} className={classes.borderRight500}>
           <List>
             {listChats.map((list, key) => (
               <ListItem
@@ -237,8 +243,8 @@ function Chat(props) {
             ))}
           </List>
         </Grid>
-
-        <Grid item xs={9}>
+:
+        <Grid item xs={12}>
  {/* appbar */}
  <div className={classes.root}>
       <AppBar position="static">
@@ -328,9 +334,9 @@ function Chat(props) {
             alignItems="center"
           >
               <Grid item xs={2}>
-              <Photoalbum style={{fontSize: "44px", width: "70px"}} />
+              <Photoalbum style={{fontSize: "34px", width: "30px"}} />
               </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={7} style={{margin: "0"}}>
               <TextField
                 id="filled-basic"
                 variant="filled"
@@ -340,7 +346,7 @@ function Chat(props) {
                 autoComplete="off"
               />
             </Grid>
-            <Grid xs={1} align="right">
+            <Grid xs={2} align="right" style={{width: "30px", fontSize: "34px"}} >
               <Fab
                 color="primary"
                 aria-label="add"
@@ -352,6 +358,7 @@ function Chat(props) {
             </Grid>
           </Grid>
         </Grid>
+}
       </Grid>
     </div>
   );
@@ -364,4 +371,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps)(Chatmobile);
