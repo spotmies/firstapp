@@ -11,5 +11,9 @@
 
 .chat {
   height: 450px;
-  padding: 0;
+  padding: 0 !important;
+}
+
+.MuiBox-root-7, .MuiBox-root {
+  padding: 0 !important;
 }
