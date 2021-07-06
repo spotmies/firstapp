@@ -24,4 +24,5 @@
 
 .MuiAppBar-root {
   /* background: rgba(190, 190, 190, 0.925) !important; */
+  padding: 0;
 }
