@@ -21,30 +21,25 @@ import { connect } from "react-redux";
 import { gettbystamps } from "../../../helpers/dateconv";
 import Phone from "@material-ui/icons/Phone";
 import Photoalbum from "@material-ui/icons/PhotoAlbum";
-import Menu from "@material-ui/icons/Menu"
-
+import Menu from "@material-ui/icons/Menu";
 
 // dropdown menu
 
-
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Popper from "@material-ui/core/Popper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
 
 // appbar
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme) => ({
-  
   mainScreen: {
     height: "auto",
     position: "relative",
@@ -71,10 +66,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
-//   appbar
+  //   appbar
   root: {
     flexGrow: 1,
-    display: 'flex',
+    display: "flex",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -155,7 +150,7 @@ function Chatmobile(props) {
     setCurrentMsgId(msgId);
     console.log(msgId);
     chatBox(msgId);
-    setShowChat = false;
+    setShowChat(false);
   };
   const sendMessage = () => {
     if (messageInput.current.value === "" || messageInput.current.value == null)
@@ -175,7 +170,6 @@ function Chatmobile(props) {
     messageInput.current.value = null;
   };
 
-
   // dropdown menu
 
   const [open, setOpen] = React.useState(false);
@@ -194,7 +188,7 @@ function Chatmobile(props) {
   };
 
   function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
     }
@@ -210,155 +204,184 @@ function Chatmobile(props) {
     prevOpen.current = open;
   }, [open]);
 
-
-
   return (
     <div className={classes.mainScreen}>
-
-{/* chats */}
+      {/* chats */}
 
       <Grid container component={Paper} className={classes.chatSection} xs={12}>
-      {showChat ?
-        <Grid item xs={12} className={classes.borderRight500}>
-          <List>
-            {listChats.map((list, key) => (
-              <ListItem
-                selected={currentMsgId === list.msgId}
-                button
-                key={key}
-                onClick={() => {
-                  selectChat(list.msgId);
-                }}
-              >
-                <ListItemIcon>
-                  <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
-                </ListItemIcon>
-                <ListItemText secondary="last message">
-                  {list.pDetails.name}
-                </ListItemText>
-                <ListItemText secondary="online" align="right">
-                  {gettbystamps(Number(list.lastModified), "time")}
-                </ListItemText>
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
-:
-        <Grid item xs={12}>
- {/* appbar */}
- <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <Avatar />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Satish
-          </Typography>
-          <Phone />
+        {showChat ? (
+          <Grid item xs={12} className={classes.borderRight500}>
+            <List>
+              {listChats.map((list, key) => (
+                <ListItem
+                  selected={currentMsgId === list.msgId}
+                  button
+                  key={key}
+                  onClick={() => {
+                    selectChat(list.msgId);
+                  }}
+                >
+                  <ListItemIcon>
+                    <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
+                  </ListItemIcon>
+                  <ListItemText secondary="last message">
+                    {list.pDetails.name}
+                  </ListItemText>
+                  <ListItemText secondary="online" align="right">
+                    {gettbystamps(Number(list.lastModified), "time")}
+                  </ListItemText>
+                </ListItem>
+              ))}
+            </List>
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            {/* appbar */}
+            <div className={classes.root}>
+              <AppBar position="static">
+                <Toolbar>
+                  <IconButton
+                    edge="start"
+                    className={classes.menuButton}
+                    color="inherit"
+                    aria-label="menu"
+                  >
+                    <Avatar />
+                  </IconButton>
+                  <Typography variant="h6" className={classes.title}>
+                    Satish
+                  </Typography>
+                  <Phone />
 
-          {/* dropdown menu */}
-          <Button color="inherit"><div className={classes.root}>
-      <div>
-        <Button
-          ref={anchorRef}
-          aria-controls={open ? 'menu-list-grow' : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-          <Menu style={{color: "white"}} />
-        </Button>
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>Technician Details</MenuItem>
-                    <MenuItem onClick={handleClose}>View Job</MenuItem>
-                    <MenuItem onClick={handleClose}>Delete</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
-    </div></Button>
-        </Toolbar>
-      </AppBar>
-    </div>
+                  {/* dropdown menu */}
+                  <Button color="inherit">
+                    <div className={classes.root}>
+                      <div>
+                        <Button
+                          ref={anchorRef}
+                          aria-controls={open ? "menu-list-grow" : undefined}
+                          aria-haspopup="true"
+                          onClick={handleToggle}
+                        >
+                          <Menu style={{ color: "white" }} />
+                        </Button>
+                        <Popper
+                          open={open}
+                          anchorEl={anchorRef.current}
+                          role={undefined}
+                          transition
+                          disablePortal
+                        >
+                          {({ TransitionProps, placement }) => (
+                            <Grow
+                              {...TransitionProps}
+                              style={{
+                                transformOrigin:
+                                  placement === "bottom"
+                                    ? "center top"
+                                    : "center bottom",
+                              }}
+                            >
+                              <Paper>
+                                <ClickAwayListener onClickAway={handleClose}>
+                                  <MenuList
+                                    autoFocusItem={open}
+                                    id="menu-list-grow"
+                                    onKeyDown={handleListKeyDown}
+                                  >
+                                    <MenuItem onClick={handleClose}>
+                                      Technician Details
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                      View Job
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                      Delete
+                                    </MenuItem>
+                                  </MenuList>
+                                </ClickAwayListener>
+                              </Paper>
+                            </Grow>
+                          )}
+                        </Popper>
+                      </div>
+                    </div>
+                  </Button>
+                </Toolbar>
+              </AppBar>
+            </div>
 
-
-
-
-          <List className={classes.messageArea}>
-            {currentChat.map((chatBody, key) => (
-              <ListItem key={key}>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <ListItemText
-                      align={chatBody.sender === "user" ? "right" : "left"}
-                      primary={chatBody.msg}
-                    ></ListItemText>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <div ref={scrollRef}>
+            <List className={classes.messageArea}>
+              {currentChat.map((chatBody, key) => (
+                <ListItem key={key}>
+                  <Grid container>
+                    <Grid item xs={12}>
                       <ListItemText
                         align={chatBody.sender === "user" ? "right" : "left"}
-                        secondary={gettbystamps(Number(chatBody.time), "time")}
+                        primary={chatBody.msg}
                       ></ListItemText>
-                    </div>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <div ref={scrollRef}>
+                        <ListItemText
+                          align={chatBody.sender === "user" ? "right" : "left"}
+                          secondary={gettbystamps(
+                            Number(chatBody.time),
+                            "time"
+                          )}
+                        ></ListItemText>
+                      </div>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </ListItem>
-            ))}
-            {currentChat.length === 0 ? (
-              <div>select anyone to start conversation</div>
-            ) : null}
-            <span className={classes.fab} >
-              <Fab color="secondary" size="small" aria-label="add">
-                <SendIcon />
-              </Fab>
-            </span>
-          </List>
-          <Divider />
-          <Grid
-            container
-            style={{ padding: "5px" }}
-            direction="row"
-            justify="flex-end"
-            alignItems="center"
-          >
+                </ListItem>
+              ))}
+              {currentChat.length === 0 ? (
+                <div>select anyone to start conversation</div>
+              ) : null}
+              <span className={classes.fab}>
+                <Fab color="secondary" size="small" aria-label="add">
+                  <SendIcon />
+                </Fab>
+              </span>
+            </List>
+            <Divider />
+            <Grid
+              container
+              style={{ padding: "5px" }}
+              direction="row"
+              justify="flex-end"
+              alignItems="center"
+            >
               <Grid item xs={2}>
-              <Photoalbum style={{fontSize: "34px", width: "30px"}} />
+                <Photoalbum style={{ fontSize: "34px", width: "30px" }} />
               </Grid>
-            <Grid item xs={7} style={{margin: "0"}}>
-              <TextField
-                id="filled-basic"
-                variant="filled"
-                label="Enter your message Here"
-                inputRef={messageInput}
-                fullWidth
-                autoComplete="off"
-              />
-            </Grid>
-            <Grid xs={2} align="right" style={{width: "30px", fontSize: "34px"}} >
-              <Fab
-                color="primary"
-                aria-label="add"
-                onClick={sendMessage}
-                disabled={currentMsgId === null}
+              <Grid item xs={7} style={{ margin: "0" }}>
+                <TextField
+                  id="filled-basic"
+                  variant="filled"
+                  label="Enter your message Here"
+                  inputRef={messageInput}
+                  fullWidth
+                  autoComplete="off"
+                />
+              </Grid>
+              <Grid
+                xs={2}
+                align="right"
+                style={{ width: "30px", fontSize: "34px" }}
               >
-                <SendIcon />
-              </Fab>
+                <Fab
+                  color="primary"
+                  aria-label="add"
+                  onClick={sendMessage}
+                  disabled={currentMsgId === null}
+                >
+                  <SendIcon />
+                </Fab>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-}
+        )}
       </Grid>
     </div>
   );

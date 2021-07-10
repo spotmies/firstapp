@@ -313,11 +313,11 @@ function Chat(props) {
             {currentChat.length === 0 ? (
               <div>select anyone to start conversation</div>
             ) : null}
-            <span className={classes.fab} >
+            {/* <span className={classes.fab} >
               <Fab color="secondary" size="small" aria-label="add">
                 <SendIcon />
               </Fab>
-            </span>
+            </span> */}
           </List>
           <Divider />
           <Grid
