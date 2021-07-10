@@ -13,10 +13,27 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import MyResponses from "../chats/responses";
 
+
+import Mobilechat from './chat-mobile';
+
 /*css*/
 import "./chat.css";
 //import Chat from "../newChat/chating";
 import Chat from "./chat-component";
+
+function useWindowSize() {
+  const [size, setSize] = React.useState([window.innerHeight, window.innerWidth]);
+  React.useEffect(() => {
+    const handleResize = () => {
+      setSize([window.innerHeight, window.innerWidth]);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  return size;
+}
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,6 +79,7 @@ function Mybookings(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+  const [height, width] = useWindowSize();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -70,6 +88,7 @@ function Mybookings(props) {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+
 
   /*  our functions*/
 
@@ -97,7 +116,7 @@ function Mybookings(props) {
           <MyResponses />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Chat className="chat" />
+         {width <= 420 ? <Mobilechat className="chat" /> : <Chat className="chat" />} 
         </TabPanel>
       </SwipeableViews>
     </div>
