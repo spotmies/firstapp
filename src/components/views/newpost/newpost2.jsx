@@ -102,7 +102,7 @@ class Postnew extends Component {
     ordId = ordId.replace("/mybookings/id/edit/", "");
     let orders =
       this.props.orders.length > 0 ? this.props.orders : loadState("orders");
-    let order = orders.filter((item) => item.ordId === ordId);
+    let order = orders.filter((item) => item.ordId == ordId);
     // console.log(order);
     if (order.length > 0) {
       this.setState({
