@@ -14,7 +14,8 @@
   padding: 0 !important;
 }
 
-.MuiBox-root-7, .MuiBox-root {
+.MuiBox-root-7,
+.MuiBox-root {
   padding: 0 !important;
 }
 
@@ -25,4 +26,50 @@
 .MuiAppBar-root {
   /* background: rgba(190, 190, 190, 0.925) !important; */
   padding: 0;
+}
+.chat-message-send {
+  background-color: rgb(206, 206, 206);
+  width: fit-content;
+  max-width: 60%;
+  min-width: 100px;
+  margin-right: 0;
+  margin-left: auto;
+  color: black;
+  border-radius: 10px;
+  border-bottom-right-radius: 0px;
+}
+.chat-message-recieve {
+  background-color: rgb(216, 216, 216);
+  width: fit-content;
+  max-width: 30%;
+  margin-right: auto;
+  margin-left: 0;
+  color: black;
+  min-width: 100px;
+  border-radius: 10px;
+  border-bottom-left-radius: 0;
+  border-style: solid;
+  border-width: 0.5px;
+  border-color: rgb(155, 155, 155);
+}
+
+.msg-content {
+  padding: 5px;
+  overflow-wrap: break-word;
+}
+.msg-time {
+  margin-right: 5px;
+  margin-top: -20px;
+  font-size: 10px;
+  text-align: right;
+  color: rgb(54, 54, 54);
+}
+.bottomNavigateIcon {
+  float: right;
+  margin-right: 25px;
+  position: relative;
+}
+.message-area {
+  overflow-y: auto;
+  height: 65vh;
 }

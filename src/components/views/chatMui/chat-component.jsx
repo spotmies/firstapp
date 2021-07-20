@@ -13,38 +13,32 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import Fab from "@material-ui/core/Fab";
 import SendIcon from "@material-ui/icons/Send";
-import firebase from "../../../firebase";
-import { getConversasions } from "../../controllers/chat/chat_controller";
 import "./chat.css";
 import constants from "../../../helpers/constants";
 import { connect } from "react-redux";
 import { gettbystamps } from "../../../helpers/dateconv";
 import Phone from "@material-ui/icons/Phone";
 import Photoalbum from "@material-ui/icons/PhotoAlbum";
-import Menu from "@material-ui/icons/Menu"
-
+import Menu from "@material-ui/icons/Menu";
 
 // dropdown menu
 
-
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Popper from "@material-ui/core/Popper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
 
 // appbar
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import { IoIosArrowDropdown, IoMdDoneAll } from "react-icons/io";
 
 const useStyles = makeStyles((theme) => ({
-  
   mainScreen: {
     height: "auto",
     position: "relative",
@@ -71,10 +65,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
-//   appbar
+  //   appbar
   root: {
     flexGrow: 1,
-    display: 'flex',
+    display: "flex",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -93,6 +87,10 @@ function Chat(props) {
   const [currentChat, setCurrentChat] = useState([]);
   const [currentMsgId, setCurrentMsgId] = useState(null);
   const [targetObject, setTargetObject] = useState(null);
+  const chatListScrollControl = useRef(null);
+  // const [scrollDisplay, setScrolldisplay] = useState(false);
+  const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
+
   const messageInput = useRef(null);
   const scrollRef = useRef();
   const socket = io.connect(
@@ -146,6 +144,7 @@ function Chat(props) {
   useEffect(() => {
     if (currentMsgId !== null)
       scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+    setstatusBarValue(0);
   }, [currentChat]);
 
   const selectChat = (msgId) => {
@@ -156,6 +155,7 @@ function Chat(props) {
   const sendMessage = () => {
     if (messageInput.current.value === "" || messageInput.current.value == null)
       return;
+    setstatusBarValue(2);
     console.log("sending msg >>>>>>");
     let msgObject = {
       type: "text",
@@ -170,7 +170,6 @@ function Chat(props) {
     // setCurrentChat((ele) => [...ele, msgObject]);
     messageInput.current.value = null;
   };
-
 
   // dropdown menu
 
@@ -190,7 +189,7 @@ function Chat(props) {
   };
 
   function handleListKeyDown(event) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
     }
@@ -206,12 +205,24 @@ function Chat(props) {
     prevOpen.current = open;
   }, [open]);
 
-
+  function scrollhandle(e) {
+    const scrolly = Math.floor(chatListScrollControl.current.scrollHeight);
+    const scrolltop = Math.floor(chatListScrollControl.current.scrollTop);
+    const clientheight = chatListScrollControl.current.clientHeight;
+    // console.log(`scrolling>> ${scrolly} - ${scrolltop} = ${clientheight}`);
+    if (scrolly - scrolltop === clientheight) {
+      console.log("scrolled to bottom >>");
+      setstatusBarValue(0);
+    } else {
+      setstatusBarValue(1);
+    }
+  }
+  const executeScroll = () =>
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
 
   return (
     <div className={classes.mainScreen}>
-
-{/* chats */}
+      {/* chats */}
       <Grid container component={Paper} className={classes.chatSection} xs={12}>
         <Grid item xs={3} className={classes.borderRight500}>
           <List>
@@ -239,86 +250,115 @@ function Chat(props) {
         </Grid>
 
         <Grid item xs={9}>
- {/* appbar */}
- <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <Avatar />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Satish
-          </Typography>
-          <Phone />
+          {/* appbar */}
+          <div className={classes.root}>
+            <AppBar position="static">
+              <Toolbar>
+                <IconButton
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="menu"
+                >
+                  <Avatar />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                  Satish
+                </Typography>
+                <Phone />
 
-          {/* dropdown menu */}
-          <Button color="inherit"><div className={classes.root}>
-      <div>
-        <Button
-          ref={anchorRef}
-          aria-controls={open ? 'menu-list-grow' : undefined}
-          aria-haspopup="true"
-          onClick={handleToggle}
-        >
-          <Menu style={{color: "white"}} />
-        </Button>
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                {/* dropdown menu */}
+                <Button color="inherit">
+                  <div className={classes.root}>
+                    <div>
+                      <Button
+                        ref={anchorRef}
+                        aria-controls={open ? "menu-list-grow" : undefined}
+                        aria-haspopup="true"
+                        onClick={handleToggle}
+                      >
+                        <Menu style={{ color: "white" }} />
+                      </Button>
+                      <Popper
+                        open={open}
+                        anchorEl={anchorRef.current}
+                        role={undefined}
+                        transition
+                        disablePortal
+                      >
+                        {({ TransitionProps, placement }) => (
+                          <Grow
+                            {...TransitionProps}
+                            style={{
+                              transformOrigin:
+                                placement === "bottom"
+                                  ? "center top"
+                                  : "center bottom",
+                            }}
+                          >
+                            <Paper>
+                              <ClickAwayListener onClickAway={handleClose}>
+                                <MenuList
+                                  autoFocusItem={open}
+                                  id="menu-list-grow"
+                                  onKeyDown={handleListKeyDown}
+                                >
+                                  <MenuItem onClick={handleClose}>
+                                    Technician Details
+                                  </MenuItem>
+                                  <MenuItem onClick={handleClose}>
+                                    View Job
+                                  </MenuItem>
+                                  <MenuItem onClick={handleClose}>
+                                    Delete
+                                  </MenuItem>
+                                </MenuList>
+                              </ClickAwayListener>
+                            </Paper>
+                          </Grow>
+                        )}
+                      </Popper>
+                    </div>
+                  </div>
+                </Button>
+              </Toolbar>
+            </AppBar>
+          </div>
+
+          <div>
+            <div
+              className="message-area"
+              ref={chatListScrollControl}
+              onScroll={(e) => {
+                scrollhandle(e);
+              }}
             >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}>Technician Details</MenuItem>
-                    <MenuItem onClick={handleClose}>View Job</MenuItem>
-                    <MenuItem onClick={handleClose}>Delete</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </div>
-    </div></Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-
-
-
-
-          <List className={classes.messageArea}>
-            {currentChat.map((chatBody, key) => (
-              <ListItem key={key}>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <ListItemText
-                      align={chatBody.sender === "user" ? "right" : "left"}
-                      primary={chatBody.msg}
-                    ></ListItemText>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <div ref={scrollRef}>
-                      <ListItemText
-                        align={chatBody.sender === "user" ? "right" : "left"}
-                        secondary={gettbystamps(Number(chatBody.time), "time")}
-                      ></ListItemText>
+              {currentChat.map((chatBody, key) => (
+                <ListItem key={key}>
+                  <Grid container>
+                    <div
+                      className={
+                        chatBody.sender === "user"
+                          ? "chat-message-send"
+                          : "chat-message-recieve"
+                      }
+                    >
+                      <p className="msg-content">{chatBody.msg}</p>
+                      <p className="msg-time" ref={scrollRef}>
+                        {gettbystamps(Number(chatBody.time), "time")}
+                      </p>
                     </div>
                   </Grid>
-                </Grid>
-              </ListItem>
-            ))}
-            {currentChat.length === 0 ? (
-              <div>select anyone to start conversation</div>
-            ) : null}
-            {/* <span className={classes.fab} >
-              <Fab color="secondary" size="small" aria-label="add">
-                <SendIcon />
-              </Fab>
-            </span> */}
-          </List>
+                </ListItem>
+              ))}
+
+              {currentChat.length === 0 ? (
+                <div>select anyone to start conversation</div>
+              ) : null}
+            </div>
+            <Statusbar executeScroll={executeScroll} status={statusBarValue} />
+          </div>
+
           <Divider />
           <Grid
             container
@@ -327,9 +367,9 @@ function Chat(props) {
             justify="flex-end"
             alignItems="center"
           >
-              <Grid item xs={2}>
-              <Photoalbum style={{fontSize: "44px", width: "70px"}} />
-              </Grid>
+            <Grid item xs={2}>
+              <Photoalbum style={{ fontSize: "44px", width: "70px" }} />
+            </Grid>
             <Grid item xs={9}>
               <TextField
                 id="filled-basic"
@@ -365,3 +405,50 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Chat);
+
+function Statusbar({ executeScroll, status }) {
+  return (
+    <div style={{ height: "30px" }}>
+      {(() => {
+        switch (status) {
+          case 1:
+            return (
+              <IoIosArrowDropdown
+                className="bottomNavigateIcon"
+                size="2rem"
+                onClick={executeScroll}
+              />
+            );
+
+          case 2:
+            return <p className="bottomNavigateIcon">sending...</p>;
+          case 3:
+            return (
+              <IoMdDoneAll
+                className="bottomNavigateIcon"
+                size="1.5rem"
+                color="blue"
+              />
+            );
+
+          default:
+            return null;
+        }
+      })()}
+
+      {/* {scrollDisplay ? (
+        <IoIosArrowDropdown
+          className="bottomNavigateIcon"
+          size="2rem"
+          onClick={executeScroll}
+        />
+      ) : (
+        <IoMdDoneAll
+          className="bottomNavigateIcon"
+          size="1.5rem"
+          color="blue"
+        />
+      )} */}
+    </div>
+  );
+}
