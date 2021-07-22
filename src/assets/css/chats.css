@@ -12,13 +12,13 @@
   /* position: absolute; */
 }
 .cmpmsg {
-  color: #ffffff;
+  color: #747474;
   margin: 0 auto;
   border-radius: 10px;
   align-items: center;
   padding: 5px 10px 5px 12px;
   width: fit-content;
-  background: #a1a1a1 none repeat scroll 0 0;
+  background: #ffffff none repeat scroll 0 0;
 }
 .textTime,
 .textTimep {

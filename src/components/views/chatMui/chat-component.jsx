@@ -92,7 +92,7 @@ function Chat(props) {
   const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
 
   const messageInput = useRef(null);
-  const scrollRef = useRef();
+  const scrollRef = useRef(null);
   const socket = io.connect(
     constants.constants.localBacked
       ? constants.localHostSocketUrl
@@ -142,8 +142,7 @@ function Chat(props) {
 
   //scroll to bottom useeffect below
   useEffect(() => {
-    if (currentMsgId !== null)
-      scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+    if (currentMsgId !== null) executeScroll();
     setstatusBarValue(0);
   }, [currentChat]);
 
@@ -218,8 +217,26 @@ function Chat(props) {
     }
   }
   const executeScroll = () =>
-    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef?.current?.scrollIntoView({ block: "end", behavior: "smooth" });
+  chatListScrollControl?.current?.scrollIntoView({
+    block: "end",
+    behavior: "smooth",
+    inline: "nearest",
+  });
+  function cmpmsg(msg1, msg2) {
+    let temp1 = msg1;
+    let temp2 = msg2 === undefined ? msg1 : msg2;
 
+    let ct = Number(temp1.time);
+    let pt = Number(temp2.time);
+    if (gettbystamps(ct, "date") !== gettbystamps(pt, "date")) {
+      let temp = gettbystamps(ct, "fulldate");
+      return temp;
+    } else if (msg2 === undefined) {
+      let temp = gettbystamps(ct, "fulldate");
+      return temp;
+    } else return null;
+  }
   return (
     <div className={classes.mainScreen}>
       {/* chats */}
@@ -333,23 +350,35 @@ function Chat(props) {
                 scrollhandle(e);
               }}
             >
-              {currentChat.map((chatBody, key) => (
-                <ListItem key={key}>
-                  <Grid container>
-                    <div
-                      className={
-                        chatBody.sender === "user"
-                          ? "chat-message-send"
-                          : "chat-message-recieve"
+              {currentChat.map((chatBody, key, array) => (
+                <div className="list-message">
+                  <p
+                    className={
+                      cmpmsg(chatBody, array[key - 1]) ? "cmpmsg" : null
+                    }
+                  >
+                    {cmpmsg(chatBody, array[key - 1])}
+                  </p>
+                  <div
+                    key={key}
+                    className={
+                      chatBody.sender === "user"
+                        ? "chat-message-send"
+                        : "chat-message-recieve"
+                    }
+                  >
+                    <p className="msg-content">{chatBody.msg}</p>
+                    <p
+                      className="msg-time"
+                      ref={scrollRef}
+                      id={
+                        key == currentChat.length - 1 ? "scrollRef" : "message"
                       }
                     >
-                      <p className="msg-content">{chatBody.msg}</p>
-                      <p className="msg-time" ref={scrollRef}>
-                        {gettbystamps(Number(chatBody.time), "time")}
-                      </p>
-                    </div>
-                  </Grid>
-                </ListItem>
+                      {gettbystamps(Number(chatBody.time), "time")}
+                    </p>
+                  </div>
+                </div>
               ))}
 
               {currentChat.length === 0 ? (
@@ -435,20 +464,6 @@ function Statusbar({ executeScroll, status }) {
             return null;
         }
       })()}
-
-      {/* {scrollDisplay ? (
-        <IoIosArrowDropdown
-          className="bottomNavigateIcon"
-          size="2rem"
-          onClick={executeScroll}
-        />
-      ) : (
-        <IoMdDoneAll
-          className="bottomNavigateIcon"
-          size="1.5rem"
-          color="blue"
-        />
-      )} */}
     </div>
   );
 }

@@ -27,6 +27,9 @@
   /* background: rgba(190, 190, 190, 0.925) !important; */
   padding: 0;
 }
+.list-message {
+  padding: 5px;
+}
 .chat-message-send {
   background-color: rgb(206, 206, 206);
   width: fit-content;
