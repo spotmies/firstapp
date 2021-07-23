@@ -35,7 +35,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import { IoIosArrowDropdown, IoMdDoneAll } from "react-icons/io";
 
 const useStyles = makeStyles((theme) => ({
@@ -208,8 +207,16 @@ function Chat(props) {
     const scrolly = Math.floor(chatListScrollControl.current.scrollHeight);
     const scrolltop = Math.floor(chatListScrollControl.current.scrollTop);
     const clientheight = chatListScrollControl.current.clientHeight;
-    // console.log(`scrolling>> ${scrolly} - ${scrolltop} = ${clientheight}`);
-    if (scrolly - scrolltop === clientheight) {
+    // console.log(
+    //   `scrolling>> ${scrolly} - ${scrolltop} = ${clientheight} here ${
+    //     scrolly - scrolltop
+    //   }`
+    // );
+    if (
+      scrolly - scrolltop === clientheight ||
+      scrolly - scrolltop === clientheight + 1 ||
+      scrolly - scrolltop === clientheight - 1
+    ) {
       console.log("scrolled to bottom >>");
       setstatusBarValue(0);
     } else {
@@ -218,12 +225,7 @@ function Chat(props) {
   }
   const executeScroll = () =>
     scrollRef?.current?.scrollIntoView({ block: "end", behavior: "smooth" });
-  chatListScrollControl?.current?.scrollIntoView({
-    block: "end",
-    behavior: "smooth",
-    inline: "nearest",
-  });
-  function cmpmsg(msg1, msg2) {
+  function dateBetweenMessages(msg1, msg2) {
     let temp1 = msg1;
     let temp2 = msg2 === undefined ? msg1 : msg2;
 
@@ -237,33 +239,17 @@ function Chat(props) {
       return temp;
     } else return null;
   }
+
   return (
     <div className={classes.mainScreen}>
       {/* chats */}
       <Grid container component={Paper} className={classes.chatSection} xs={12}>
         <Grid item xs={3} className={classes.borderRight500}>
-          <List>
-            {listChats.map((list, key) => (
-              <ListItem
-                selected={currentMsgId === list.msgId}
-                button
-                key={key}
-                onClick={() => {
-                  selectChat(list.msgId);
-                }}
-              >
-                <ListItemIcon>
-                  <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
-                </ListItemIcon>
-                <ListItemText secondary="last message">
-                  {list.pDetails.name}
-                </ListItemText>
-                <ListItemText secondary="online" align="right">
-                  {gettbystamps(Number(list.lastModified), "time")}
-                </ListItemText>
-              </ListItem>
-            ))}
-          </List>
+          <ListChatPersons
+            listChats={listChats}
+            currentMsgId={currentMsgId}
+            selectChat={selectChat}
+          />
         </Grid>
 
         <Grid item xs={9}>
@@ -343,48 +329,13 @@ function Chat(props) {
           </div>
 
           <div>
-            <div
-              className="message-area"
-              ref={chatListScrollControl}
-              onScroll={(e) => {
-                scrollhandle(e);
-              }}
-            >
-              {currentChat.map((chatBody, key, array) => (
-                <div className="list-message">
-                  <p
-                    className={
-                      cmpmsg(chatBody, array[key - 1]) ? "cmpmsg" : null
-                    }
-                  >
-                    {cmpmsg(chatBody, array[key - 1])}
-                  </p>
-                  <div
-                    key={key}
-                    className={
-                      chatBody.sender === "user"
-                        ? "chat-message-send"
-                        : "chat-message-recieve"
-                    }
-                  >
-                    <p className="msg-content">{chatBody.msg}</p>
-                    <p
-                      className="msg-time"
-                      ref={scrollRef}
-                      id={
-                        key == currentChat.length - 1 ? "scrollRef" : "message"
-                      }
-                    >
-                      {gettbystamps(Number(chatBody.time), "time")}
-                    </p>
-                  </div>
-                </div>
-              ))}
-
-              {currentChat.length === 0 ? (
-                <div>select anyone to start conversation</div>
-              ) : null}
-            </div>
+            <ChatArea
+              chatListScrollControl={chatListScrollControl}
+              scrollhandle={scrollhandle}
+              currentChat={currentChat}
+              scrollRef={scrollRef}
+              dateBetweenMessages={dateBetweenMessages}
+            />
             <Statusbar executeScroll={executeScroll} status={statusBarValue} />
           </div>
 
@@ -425,6 +376,100 @@ function Chat(props) {
     </div>
   );
 }
+
+const ListChatPersons = React.memo(
+  (props) => {
+    console.log("render chatlist>>>");
+    return (
+      <div>
+        <List className="contact-list">
+          {props.listChats.map((list, key) => (
+            <ListItem
+              selected={props.currentMsgId === list.msgId}
+              button
+              key={key}
+              onClick={() => {
+                props.selectChat(list.msgId);
+              }}
+            >
+              <ListItemIcon>
+                <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
+              </ListItemIcon>
+              <ListItemText>
+                {list.pDetails.name}
+                <p className="last-msg-list">
+                  {JSON.parse(list.msgs[list.msgs.length - 1]).msg}
+                </p>
+              </ListItemText>
+              <ListItemText align="right">
+                {gettbystamps(
+                  Number(JSON.parse(list.msgs[list.msgs.length - 1]).time),
+                  "time"
+                )}
+              </ListItemText>
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    if (prevProps.currentMsgId !== nextProps.currentMsgId) return false;
+    if (prevProps.listChats === nextProps.listChats) {
+      return true; // props are equal
+    }
+    return false; // props are not equal -> update the component
+  }
+);
+
+const ChatArea = React.memo(
+  (props) => {
+    console.log("reder chatArea>>>");
+    return (
+      <div
+        className="message-area"
+        ref={props.chatListScrollControl}
+        onScroll={(e) => {
+          props.scrollhandle(e);
+        }}
+      >
+        {props.currentChat.map((chatBody, key, array) => (
+          <div className="list-message" key={key}>
+            {props.dateBetweenMessages(chatBody, array[key - 1]) ? (
+              <p className="cmpmsg">
+                {props.dateBetweenMessages(chatBody, array[key - 1])}
+              </p>
+            ) : null}
+            <div
+              className={
+                chatBody.sender === "user"
+                  ? "chat-message-send"
+                  : "chat-message-recieve"
+              }
+            >
+              <p className="msg-content">{chatBody.msg}</p>
+              <p className="msg-time">
+                {gettbystamps(Number(chatBody.time), "time")}
+              </p>
+            </div>
+          </div>
+        ))}
+
+        {props.currentChat.length === 0 ? (
+          <div>select anyone to start conversation</div>
+        ) : null}
+        <div ref={props.scrollRef} />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    if (prevProps.currentChat === nextProps.currentChat) {
+      return true; // props are equal
+    }
+    return false; // props are not equal -> update the component
+  }
+);
+
 const mapStateToProps = (state) => {
   return {
     userDetails: state.userDetails,
