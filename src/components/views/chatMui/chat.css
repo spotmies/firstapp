@@ -76,3 +76,21 @@
   overflow-y: auto;
   height: 65vh;
 }
+.last-msg-list {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgb(146, 146, 146);
+}
+.column1 {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  justify-content: space-around;
+  background-color: #2196f3;
+}
+.row1 {
+  display: flex;
+  justify-content: space-around;
+}
+.row2 {
+  display: flex;
+}
