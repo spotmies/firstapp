@@ -11,6 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
+import Badge from "@material-ui/core/Badge";
 import Fab from "@material-ui/core/Fab";
 import SendIcon from "@material-ui/icons/Send";
 import "./chat.css";
@@ -384,6 +385,24 @@ const ListChatPersons = React.memo(
       <div>
         <List className="contact-list">
           {props.listChats.map((list, key) => (
+            // <>
+            //   <div className="friend-drawer friend-drawer--onhover">
+            //     <img
+            //       className="profile-image"
+            //       src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/termy.jpg"
+            //       alt=""
+            //     />
+            //     <div className="text">
+            //       <h6>Termy</h6>
+            //       <p className="text-muted last-msg-list">
+            //         Im studying
+            //         spanishasdfasdfasdfasdfasdfsadfasdjhsakdhfklahskjfhkjashdfk
+            //       </p>
+            //     </div>
+            //     <span className="time text-muted small">13:21</span>
+            //   </div>
+            //   <hr />
+            // </>
             <ListItem
               selected={props.currentMsgId === list.msgId}
               button
@@ -393,7 +412,13 @@ const ListChatPersons = React.memo(
               }}
             >
               <ListItemIcon>
-                <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
+                <Badge
+                  className="badgeDiv"
+                  overlap="circular"
+                  badgeContent={<span className="badgeContent"></span>}
+                >
+                  <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
+                </Badge>
               </ListItemIcon>
               <ListItemText>
                 {list.pDetails.name}

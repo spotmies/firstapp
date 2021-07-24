@@ -94,3 +94,19 @@
 .row2 {
   display: flex;
 }
+
+/* css fro codepen */
+.badgeDiv {
+  width: 100%;
+  height: 100%;
+}
+.badgeContent {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgb(53, 233, 53);
+
+  position: relative;
+  left: -3px;
+  top: -3px;
+}
