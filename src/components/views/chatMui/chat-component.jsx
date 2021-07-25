@@ -37,7 +37,16 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { IoIosArrowDropdown, IoMdDoneAll } from "react-icons/io";
+import {
+  MdAlarm,
+  MdAttachFile,
+  MdDone,
+  MdDoneAll,
+  MdMic,
+  MdSend,
+} from "react-icons/md";
 
+import Tooltip from "@material-ui/core/Tooltip";
 const useStyles = makeStyles((theme) => ({
   mainScreen: {
     height: "auto",
@@ -90,6 +99,7 @@ function Chat(props) {
   const chatListScrollControl = useRef(null);
   // const [scrollDisplay, setScrolldisplay] = useState(false);
   const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
+  const [sendStatus, setsendStatus] = useState(null);
 
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
@@ -134,6 +144,7 @@ function Chat(props) {
     };
     setTargetObject(tempTarget);
     setCurrentChat(parsedMsgs);
+    setsendStatus("send");
   };
 
   useEffect(() => {
@@ -151,10 +162,11 @@ function Chat(props) {
     console.log(msgId);
     chatBox(msgId);
   };
+
   const sendMessage = () => {
     if (messageInput.current.value === "" || messageInput.current.value == null)
       return;
-    setstatusBarValue(2);
+    setsendStatus("sending");
     console.log("sending msg >>>>>>");
     let msgObject = {
       type: "text",
@@ -162,12 +174,40 @@ function Chat(props) {
       sender: "user",
       time: new Date().valueOf(),
     };
-    socket.emit("sendNewMessage", {
-      object: JSON.stringify(msgObject),
-      target: targetObject,
-    });
-    // setCurrentChat((ele) => [...ele, msgObject]);
+    setCurrentChat((ele) => [...ele, msgObject]);
+    socket.emit(
+      "sendNewMessage",
+      {
+        object: JSON.stringify(msgObject),
+        target: targetObject,
+      } // ok
+    );
     messageInput.current.value = null;
+
+    setCurrentChat((ele) => [...ele, msgObject]);
+
+    //this code is for send message with callback
+    // socket.emit(
+    //   "sendNewMessageCallback",
+    //   {
+    //     object: JSON.stringify(msgObject),
+    //     target: targetObject,
+    //   },
+    //   (response) => {
+    //     console.log(response);
+    //     if (response === "success") {
+    //       setsendStatus("sended");
+    //       messageInput.current.value = null;
+    //     }
+    //   } // ok
+    // );
+  };
+
+  //enter click to send message
+  const onKeyDownHandler = (e) => {
+    if (e.keyCode === 13) {
+      sendMessage();
+    }
   };
 
   // dropdown menu
@@ -225,7 +265,7 @@ function Chat(props) {
     }
   }
   const executeScroll = () =>
-    scrollRef?.current?.scrollIntoView({ block: "end", behavior: "smooth" });
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   function dateBetweenMessages(msg1, msg2) {
     let temp1 = msg1;
     let temp2 = msg2 === undefined ? msg1 : msg2;
@@ -336,42 +376,24 @@ function Chat(props) {
               currentChat={currentChat}
               scrollRef={scrollRef}
               dateBetweenMessages={dateBetweenMessages}
+              sendStatus={sendStatus}
             />
             <Statusbar executeScroll={executeScroll} status={statusBarValue} />
           </div>
 
           <Divider />
-          <Grid
-            container
-            style={{ padding: "5px" }}
-            direction="row"
-            justify="flex-end"
-            alignItems="center"
-          >
-            <Grid item xs={2}>
-              <Photoalbum style={{ fontSize: "44px", width: "70px" }} />
-            </Grid>
-            <Grid item xs={9}>
-              <TextField
-                id="filled-basic"
-                variant="filled"
-                label="Enter your message Here"
-                inputRef={messageInput}
-                fullWidth
-                autoComplete="off"
-              />
-            </Grid>
-            <Grid xs={1} align="right">
-              <Fab
-                color="primary"
-                aria-label="add"
-                onClick={sendMessage}
-                disabled={currentMsgId === null}
-              >
-                <SendIcon />
-              </Fab>
-            </Grid>
-          </Grid>
+          <div className="message-tools">
+            <MdAttachFile className="message-icons" />
+            <MdMic className="message-icons" />
+            <input
+              className="input-message"
+              placeholder="Enter your message Here.................."
+              onKeyDown={onKeyDownHandler}
+              ref={messageInput}
+            />
+
+            <MdSend className="message-icons" onClick={sendMessage} />
+          </div>
         </Grid>
       </Grid>
     </div>
@@ -385,24 +407,6 @@ const ListChatPersons = React.memo(
       <div>
         <List className="contact-list">
           {props.listChats.map((list, key) => (
-            // <>
-            //   <div className="friend-drawer friend-drawer--onhover">
-            //     <img
-            //       className="profile-image"
-            //       src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/termy.jpg"
-            //       alt=""
-            //     />
-            //     <div className="text">
-            //       <h6>Termy</h6>
-            //       <p className="text-muted last-msg-list">
-            //         Im studying
-            //         spanishasdfasdfasdfasdfasdfsadfasdjhsakdhfklahskjfhkjashdfk
-            //       </p>
-            //     </div>
-            //     <span className="time text-muted small">13:21</span>
-            //   </div>
-            //   <hr />
-            // </>
             <ListItem
               selected={props.currentMsgId === list.msgId}
               button
@@ -420,6 +424,16 @@ const ListChatPersons = React.memo(
                   <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
                 </Badge>
               </ListItemIcon>
+              {/* <div className="column1">
+                <div className="row1">
+                  <p>sekhar</p>
+                  <p>13:25pm</p>
+                </div>
+                <div className="row2">
+                  <p>lastmessage</p>
+                  <p>online</p>
+                </div>
+              </div> */}
               <ListItemText>
                 {list.pDetails.name}
                 <p className="last-msg-list">
@@ -473,10 +487,31 @@ const ChatArea = React.memo(
               }
             >
               <p className="msg-content">{chatBody.msg}</p>
+
               <p className="msg-time">
                 {gettbystamps(Number(chatBody.time), "time")}
               </p>
             </div>
+            {key === props.currentChat.length - 1 &&
+            chatBody.sender === "user" ? (
+              // <p className="readStatus">{props.sendStatus}</p>
+              <span className="readStatus">
+                {(() => {
+                  switch (props.sendStatus) {
+                    case "sending":
+                      return <MdAlarm className="sendingStatus" />;
+
+                    case "send":
+                      return <MdDone />;
+                    case "seen":
+                      return <MdDoneAll color="blue" />;
+
+                    default:
+                      return null;
+                  }
+                })()}
+              </span>
+            ) : null}
           </div>
         ))}
 
@@ -488,6 +523,7 @@ const ChatArea = React.memo(
     );
   },
   (prevProps, nextProps) => {
+    if (prevProps.sendStatus != nextProps.sendStatus) return false;
     if (prevProps.currentChat === nextProps.currentChat) {
       return true; // props are equal
     }

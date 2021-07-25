@@ -61,12 +61,40 @@
   overflow-wrap: break-word;
 }
 .msg-time {
+  padding-top: 2px;
   margin-right: 5px;
   margin-top: -20px;
   font-size: 10px;
   text-align: right;
   color: rgb(54, 54, 54);
 }
+.readStatus {
+  float: right;
+}
+.message-tools {
+  background-color: rgb(236, 236, 236);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.input-message {
+  width: 80%;
+  height: 45px;
+  padding: 5px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 20px;
+}
+.message-icons {
+  font-size: 30px;
+  color: rgb(139, 139, 139);
+  cursor: pointer;
+}
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
 .bottomNavigateIcon {
   float: right;
   margin-right: 25px;
@@ -81,14 +109,13 @@
   text-overflow: ellipsis;
   color: rgb(146, 146, 146);
 }
-.column1 {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  justify-content: space-around;
-  background-color: #2196f3;
-}
+/* .column1 {
+  display: flex;
+  flex-direction: column;
+} */
 .row1 {
   display: flex;
+  width: 100%;
   justify-content: space-around;
 }
 .row2 {
@@ -109,4 +136,19 @@
   position: relative;
   left: -3px;
   top: -3px;
+}
+
+/* from codepen */
+.formgroup,
+.formgroup-active,
+.formgroup-error {
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: 10.5%;
+  transition: background-image 0.7s;
+  -webkit-transition: background-image 0.7s;
+  -moz-transition: background-image 0.7s;
+  -o-transition: background-image 0.7s;
+  width: 566px;
+  padding-top: 2px;
 }
