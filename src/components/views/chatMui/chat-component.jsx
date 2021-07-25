@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import io from "socket.io-client";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
@@ -323,26 +323,19 @@ function Chat(props) {
                       color="inherit"
                       aria-label="menu"
                     >
-                      <Badge
-                        badgeContent={
-                          <span className="partner-rating">
-                            <b>4.5</b>&nbsp;
-                            <MdStar color="gold" />
-                          </span>
-                        }
-                        anchorOrigin={{
-                          vertical: "bottom",
-                          horizontal: "right",
-                        }}
-                      >
-                        <Avatar
-                          className="appbar-avatar"
-                          src={orderDetails?.pDetails?.partnerPic}
-                        />
-                      </Badge>
+                      <Avatar
+                        className="appbar-avatar"
+                        src={orderDetails?.pDetails?.partnerPic}
+                      />
                     </IconButton>
                     <div className="appbar-title">
-                      <h2>{orderDetails?.pDetails?.name ?? "unknown"}</h2>
+                      <h2>
+                        <u>{orderDetails?.pDetails?.name ?? "unknown"}</u>
+                      </h2>
+                      <p>
+                        business name | 4.5
+                        <MdStar color="gold" />
+                      </p>
                     </div>
 
                     <MdPhone className="message-icons" />
@@ -448,6 +441,18 @@ function Chat(props) {
 const ListChatPersons = React.memo(
   (props) => {
     console.log("render chatlist>>>");
+    const SmallAvatar = withStyles((theme) => ({
+      root: {
+        width: 12,
+        height: 12,
+        color: "lime",
+        backgroundColor: "lime",
+        border: `2px solid ${theme.palette.background.paper}`,
+        right: -20,
+        bottom: -20,
+        position: "absolute",
+      },
+    }))(Avatar);
     return (
       <div>
         <List className="contact-list">
@@ -462,6 +467,16 @@ const ListChatPersons = React.memo(
             >
               <ListItemIcon>
                 <Badge
+                  overlap="circular"
+                  // anchorOrigin={{
+                  //   vertical: "bottom",
+                  //   horizontal: "right",
+                  // }}
+                  badgeContent={<SmallAvatar alt="Remy Sharp" src="" />}
+                >
+                  <Avatar alt="Travis Howard" src={list.pDetails.partnerPic} />
+                </Badge>
+                {/* <Badge
                   color="secondary"
                   overlap="circular"
                   badgeContent=" "
@@ -472,7 +487,7 @@ const ListChatPersons = React.memo(
                   }}
                 >
                   <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
-                </Badge>
+                </Badge> */}
               </ListItemIcon>
               {/* <div className="column1">
                 <div className="row1">
