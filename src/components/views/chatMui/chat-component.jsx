@@ -40,6 +40,8 @@ import { IoIosArrowDropdown, IoMdDoneAll } from "react-icons/io";
 import {
   MdAlarm,
   MdAttachFile,
+  MdCheck,
+  MdClose,
   MdDone,
   MdDoneAll,
   MdMenu,
@@ -53,6 +55,7 @@ import {
 import emptychatPic from "../../../images/emptychatPic.svg";
 
 import Tooltip from "@material-ui/core/Tooltip";
+import useRecorder from "../newpost/useRecorder";
 const useStyles = makeStyles((theme) => ({
   mainScreen: {
     height: "auto",
@@ -414,7 +417,12 @@ function Chat(props) {
               </div>
 
               <Divider />
-              <div className="message-tools">
+              <MessageTools
+                onKeyDownHandler={onKeyDownHandler}
+                messageInput={messageInput}
+                sendMessage={sendMessage}
+              />
+              {/* <div className="message-tools">
                 <MdAttachFile className="message-icons" />
                 <MdMic className="message-icons" />
                 <input
@@ -425,7 +433,7 @@ function Chat(props) {
                 />
 
                 <MdSend className="message-icons" onClick={sendMessage} />
-              </div>
+              </div> */}
             </div>
           ) : (
             <div className="introChatContainer">
@@ -520,6 +528,73 @@ const ListChatPersons = React.memo(
   (prevProps, nextProps) => {
     if (prevProps.currentMsgId !== nextProps.currentMsgId) return false;
     if (prevProps.listChats === nextProps.listChats) {
+      return true; // props are equal
+    }
+    return false; // props are not equal -> update the component
+  }
+);
+
+const MessageTools = React.memo(
+  (props) => {
+    const [audioFile, setaudioFile] = useState("");
+    let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
+    useEffect(() => {
+      setaudioFile(audioURL);
+      console.log(audioURL);
+    }, [audioURL]);
+    const setFile = () => {
+      //send file to message here
+      setaudioFile("");
+    };
+    const deleteFile = () => {
+      setaudioFile("");
+    };
+    return (
+      <div className="message-tools">
+        <MdAttachFile className="message-icons" />
+        {isRecording === false ? (
+          <MdMic
+            className="message-icons"
+            onClick={audioFile === "" ? startRecording : null}
+          />
+        ) : (
+          <MdMic
+            className="message-icons"
+            color="red"
+            onClick={stopRecording}
+          />
+        )}
+        {audioFile !== "" ? (
+          <audio
+            src={URL.createObjectURL(audioURL)}
+            controls
+            style={{ margin: "10px" }}
+          />
+        ) : (
+          <input
+            className="input-message"
+            placeholder="Enter your message Here.................."
+            onKeyDown={props.onKeyDownHandler}
+            ref={props.messageInput}
+          />
+        )}
+        {audioFile !== "" ? (
+          <>
+            <Fab style={{ margin: "10px" }} size="small" onClick={setFile}>
+              <MdCheck size="1.4rem" color="green" />
+            </Fab>
+            <Fab style={{ margin: "10px" }} size="small" onClick={deleteFile}>
+              <MdClose size="1.4rem" color="red" />
+            </Fab>
+          </>
+        ) : null}
+
+        <MdSend className="message-icons" onClick={props.sendMessage} />
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    if (prevProps === nextProps) {
       return true; // props are equal
     }
     return false; // props are not equal -> update the component
