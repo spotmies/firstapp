@@ -42,9 +42,15 @@ import {
   MdAttachFile,
   MdDone,
   MdDoneAll,
+  MdMenu,
   MdMic,
+  MdMoreHoriz,
+  MdMoreVert,
+  MdPhone,
   MdSend,
+  MdStar,
 } from "react-icons/md";
+import emptychatPic from "../../../images/emptychatPic.svg";
 
 import Tooltip from "@material-ui/core/Tooltip";
 const useStyles = makeStyles((theme) => ({
@@ -96,6 +102,7 @@ function Chat(props) {
   const [currentChat, setCurrentChat] = useState([]);
   const [currentMsgId, setCurrentMsgId] = useState(null);
   const [targetObject, setTargetObject] = useState(null);
+  const [orderDetails, setorderDetails] = useState(null);
   const chatListScrollControl = useRef(null);
   // const [scrollDisplay, setScrolldisplay] = useState(false);
   const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
@@ -131,7 +138,7 @@ function Chat(props) {
   const chatBox = (msgId) => {
     const found = listChats.find((element) => element.msgId === msgId);
     let parsedMsgs = [];
-
+    console.log(found);
     for (let i = 0; i < found.msgs.length; i++) {
       parsedMsgs.push(JSON.parse(found.msgs[Number(i)]));
     }
@@ -142,6 +149,7 @@ function Chat(props) {
       msgId: found.msgId,
       ordId: found.ordId,
     };
+    setorderDetails(found);
     setTargetObject(tempTarget);
     setCurrentChat(parsedMsgs);
     setsendStatus("send");
@@ -295,105 +303,133 @@ function Chat(props) {
 
         <Grid item xs={9}>
           {/* appbar */}
-          <div className={classes.root}>
-            <AppBar position="static">
-              <Toolbar>
-                <IconButton
-                  edge="start"
-                  className={classes.menuButton}
-                  color="inherit"
-                  aria-label="menu"
-                >
-                  <Avatar />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                  Satish
-                </Typography>
-                <Phone />
-
-                {/* dropdown menu */}
-                <Button color="inherit">
-                  <div className={classes.root}>
-                    <div>
-                      <Button
-                        ref={anchorRef}
-                        aria-controls={open ? "menu-list-grow" : undefined}
-                        aria-haspopup="true"
-                        onClick={handleToggle}
+          {currentMsgId !== null ? (
+            <div>
+              <div>
+                <AppBar position="static" className="chat-appbar" elevation="0">
+                  <Toolbar>
+                    <IconButton
+                      edge="start"
+                      className={classes.menuButton}
+                      color="inherit"
+                      aria-label="menu"
+                    >
+                      <Badge
+                        badgeContent={
+                          <span className="partner-rating">
+                            <b>4.5</b>&nbsp;
+                            <MdStar color="gold" />
+                          </span>
+                        }
+                        anchorOrigin={{
+                          vertical: "bottom",
+                          horizontal: "right",
+                        }}
                       >
-                        <Menu style={{ color: "white" }} />
-                      </Button>
-                      <Popper
-                        open={open}
-                        anchorEl={anchorRef.current}
-                        role={undefined}
-                        transition
-                        disablePortal
-                      >
-                        {({ TransitionProps, placement }) => (
-                          <Grow
-                            {...TransitionProps}
-                            style={{
-                              transformOrigin:
-                                placement === "bottom"
-                                  ? "center top"
-                                  : "center bottom",
-                            }}
-                          >
-                            <Paper>
-                              <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList
-                                  autoFocusItem={open}
-                                  id="menu-list-grow"
-                                  onKeyDown={handleListKeyDown}
-                                >
-                                  <MenuItem onClick={handleClose}>
-                                    Technician Details
-                                  </MenuItem>
-                                  <MenuItem onClick={handleClose}>
-                                    View Job
-                                  </MenuItem>
-                                  <MenuItem onClick={handleClose}>
-                                    Delete
-                                  </MenuItem>
-                                </MenuList>
-                              </ClickAwayListener>
-                            </Paper>
-                          </Grow>
-                        )}
-                      </Popper>
+                        <Avatar
+                          className="appbar-avatar"
+                          src={orderDetails?.pDetails?.partnerPic}
+                        />
+                      </Badge>
+                    </IconButton>
+                    <div className="appbar-title">
+                      <h2>{orderDetails?.pDetails?.name ?? "unknown"}</h2>
                     </div>
-                  </div>
-                </Button>
-              </Toolbar>
-            </AppBar>
-          </div>
 
-          <div>
-            <ChatArea
-              chatListScrollControl={chatListScrollControl}
-              scrollhandle={scrollhandle}
-              currentChat={currentChat}
-              scrollRef={scrollRef}
-              dateBetweenMessages={dateBetweenMessages}
-              sendStatus={sendStatus}
-            />
-            <Statusbar executeScroll={executeScroll} status={statusBarValue} />
-          </div>
+                    <MdPhone className="message-icons" />
 
-          <Divider />
-          <div className="message-tools">
-            <MdAttachFile className="message-icons" />
-            <MdMic className="message-icons" />
-            <input
-              className="input-message"
-              placeholder="Enter your message Here.................."
-              onKeyDown={onKeyDownHandler}
-              ref={messageInput}
-            />
+                    {/* dropdown menu */}
+                    <Button color="inherit">
+                      <div className={classes.root}>
+                        <div>
+                          <Button
+                            ref={anchorRef}
+                            aria-controls={open ? "menu-list-grow" : undefined}
+                            aria-haspopup="true"
+                            onClick={handleToggle}
+                          >
+                            <MdMenu className="message-icons" />
+                          </Button>
+                          <Popper
+                            open={open}
+                            anchorEl={anchorRef.current}
+                            role={undefined}
+                            transition
+                            disablePortal
+                          >
+                            {({ TransitionProps, placement }) => (
+                              <Grow
+                                {...TransitionProps}
+                                style={{
+                                  transformOrigin:
+                                    placement === "bottom"
+                                      ? "center top"
+                                      : "center bottom",
+                                }}
+                              >
+                                <Paper>
+                                  <ClickAwayListener onClickAway={handleClose}>
+                                    <MenuList
+                                      autoFocusItem={open}
+                                      id="menu-list-grow"
+                                      onKeyDown={handleListKeyDown}
+                                    >
+                                      <MenuItem onClick={handleClose}>
+                                        Technician Details
+                                      </MenuItem>
+                                      <MenuItem onClick={handleClose}>
+                                        View Job
+                                      </MenuItem>
+                                      <MenuItem onClick={handleClose}>
+                                        Delete
+                                      </MenuItem>
+                                    </MenuList>
+                                  </ClickAwayListener>
+                                </Paper>
+                              </Grow>
+                            )}
+                          </Popper>
+                        </div>
+                      </div>
+                    </Button>
+                  </Toolbar>
+                </AppBar>
+              </div>
 
-            <MdSend className="message-icons" onClick={sendMessage} />
-          </div>
+              <div>
+                <ChatArea
+                  chatListScrollControl={chatListScrollControl}
+                  scrollhandle={scrollhandle}
+                  currentChat={currentChat}
+                  scrollRef={scrollRef}
+                  dateBetweenMessages={dateBetweenMessages}
+                  sendStatus={sendStatus}
+                />
+                <Statusbar
+                  executeScroll={executeScroll}
+                  status={statusBarValue}
+                />
+              </div>
+
+              <Divider />
+              <div className="message-tools">
+                <MdAttachFile className="message-icons" />
+                <MdMic className="message-icons" />
+                <input
+                  className="input-message"
+                  placeholder="Enter your message Here.................."
+                  onKeyDown={onKeyDownHandler}
+                  ref={messageInput}
+                />
+
+                <MdSend className="message-icons" onClick={sendMessage} />
+              </div>
+            </div>
+          ) : (
+            <div className="introChatContainer">
+              <img src={emptychatPic} className="chat-intro-image" />
+            </div>
+          )}
         </Grid>
       </Grid>
     </div>
@@ -417,9 +453,14 @@ const ListChatPersons = React.memo(
             >
               <ListItemIcon>
                 <Badge
-                  className="badgeDiv"
+                  color="secondary"
                   overlap="circular"
-                  badgeContent={<span className="badgeContent"></span>}
+                  badgeContent=" "
+                  variant="dot"
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
                 >
                   <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
                 </Badge>

@@ -55,7 +55,22 @@
   border-width: 0.5px;
   border-color: rgb(155, 155, 155);
 }
-
+.chat-appbar {
+  background-color: rgb(236, 236, 236) !important;
+}
+.appbar-title {
+  flex-grow: 1;
+  color: rgb(46, 46, 46);
+  line-height: 0px;
+}
+.partner-rating {
+  display: flex;
+  color: rgb(34, 34, 34);
+}
+.appbar-avatar {
+  height: 50px !important;
+  width: 50px !important;
+}
 .msg-content {
   padding: 5px;
   overflow-wrap: break-word;
@@ -136,6 +151,13 @@ input:focus {
   position: relative;
   left: -3px;
   top: -3px;
+}
+.chat-intro-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 60%;
+  width: 60%;
 }
 
 /* from codepen */
