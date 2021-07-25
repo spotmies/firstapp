@@ -118,7 +118,13 @@ function Chat(props) {
       transports: ["websocket", "polling", "flashsocket"],
     }
   );
-
+  // useEffect(() => {
+  // console.log("list changed >>");
+  // let temo = listChats.sort(function (x, y) {
+  //   return x.lastModified - y.lastModified;
+  // });
+  // console.log(temo);
+  // }, [listChats]);
   useEffect(() => {
     // getUserConversasions();
     setListChats(props.userChats);
@@ -152,7 +158,6 @@ function Chat(props) {
     setorderDetails(found);
     setTargetObject(tempTarget);
     setCurrentChat(parsedMsgs);
-    setsendStatus("send");
   };
 
   useEffect(() => {
@@ -182,32 +187,37 @@ function Chat(props) {
       sender: "user",
       time: new Date().valueOf(),
     };
-    setCurrentChat((ele) => [...ele, msgObject]);
-    socket.emit(
-      "sendNewMessage",
-      {
-        object: JSON.stringify(msgObject),
-        target: targetObject,
-      } // ok
-    );
-    messageInput.current.value = null;
 
-    //this code is for send message with callback
     // setCurrentChat((ele) => [...ele, msgObject]);
     // socket.emit(
-    //   "sendNewMessageCallback",
+    //   "sendNewMessage",
     //   {
     //     object: JSON.stringify(msgObject),
     //     target: targetObject,
-    //   },
-    //   (response) => {
-    //     console.log(response);
-    //     if (response === "success") {
-    //       setsendStatus("sended");
-    //       messageInput.current.value = null;
-    //     }
     //   } // ok
     // );
+    // messageInput.current.value = null;
+
+    //  this code is for send message with callback
+    //  setCurrentChat((ele) => [...ele, msgObject]);
+    props.addNewMessage({
+      object: JSON.stringify(msgObject),
+      target: targetObject,
+    });
+    socket.emit(
+      "sendNewMessageCallback",
+      {
+        object: JSON.stringify(msgObject),
+        target: targetObject,
+      },
+      (response) => {
+        console.log(response);
+        if (response === "success") {
+          setsendStatus("send");
+          messageInput.current.value = null;
+        }
+      } // ok
+    );
   };
 
   //enter click to send message
@@ -532,32 +542,29 @@ const ChatArea = React.memo(
                 {gettbystamps(Number(chatBody.time), "time")}
               </p>
             </div>
-            {key === props.currentChat.length - 1 &&
-            chatBody.sender === "user" ? (
-              // <p className="readStatus">{props.sendStatus}</p>
-              <span className="readStatus">
-                {(() => {
-                  switch (props.sendStatus) {
-                    case "sending":
-                      return <MdAlarm className="sendingStatus" />;
+            <div>
+              {key === props.currentChat.length - 1 &&
+              chatBody.sender === "user" ? (
+                <span className="readStatus">
+                  {(() => {
+                    switch (props.sendStatus) {
+                      case "sending":
+                        return <MdAlarm className="sendingStatus" />;
 
-                    case "send":
-                      return <MdDone />;
-                    case "seen":
-                      return <MdDoneAll color="blue" />;
+                      case "send":
+                        return <MdDone />;
+                      case "seen":
+                        return <MdDoneAll color="blue" />;
 
-                    default:
-                      return null;
-                  }
-                })()}
-              </span>
-            ) : null}
+                      default:
+                        return null;
+                    }
+                  })()}
+                </span>
+              ) : null}
+            </div>
           </div>
         ))}
-
-        {props.currentChat.length === 0 ? (
-          <div>select anyone to start conversation</div>
-        ) : null}
         <div ref={props.scrollRef} />
       </div>
     );
@@ -570,16 +577,6 @@ const ChatArea = React.memo(
     return false; // props are not equal -> update the component
   }
 );
-
-const mapStateToProps = (state) => {
-  return {
-    userDetails: state.userDetails,
-    isUserLogin: state.isUserLogin,
-    userChats: state.userChats,
-  };
-};
-
-export default connect(mapStateToProps)(Chat);
 
 function Statusbar({ executeScroll, status }) {
   return (
@@ -613,3 +610,21 @@ function Statusbar({ executeScroll, status }) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.userDetails,
+    isUserLogin: state.isUserLogin,
+    userChats: state.userChats,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewMessage: (data) => {
+      dispatch({ type: "ADD_NEW_MESSAGE", value: data });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);
