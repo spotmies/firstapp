@@ -192,9 +192,8 @@ function Chat(props) {
     );
     messageInput.current.value = null;
 
-    setCurrentChat((ele) => [...ele, msgObject]);
-
     //this code is for send message with callback
+    // setCurrentChat((ele) => [...ele, msgObject]);
     // socket.emit(
     //   "sendNewMessageCallback",
     //   {
