@@ -17,7 +17,7 @@ import SendIcon from "@material-ui/icons/Send";
 import "./chat.css";
 import constants from "../../../helpers/constants";
 import { connect } from "react-redux";
-import { gettbystamps } from "../../../helpers/dateconv";
+import { getFileType, gettbystamps } from "../../../helpers/dateconv";
 import Phone from "@material-ui/icons/Phone";
 import Photoalbum from "@material-ui/icons/PhotoAlbum";
 import Menu from "@material-ui/icons/Menu";
@@ -114,7 +114,7 @@ function Chat(props) {
   const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
   const [sendStatus, setsendStatus] = useState(null);
 
-  const [localMedia, setlocalMedia] = useState([1, 2, 3]);
+  const [localMedia, setlocalMedia] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isFilesUploaded, setisFilesUploaded] = useState(false);
 
@@ -169,7 +169,10 @@ function Chat(props) {
     setTargetObject(tempTarget);
     setCurrentChat(parsedMsgs);
   };
-
+  const clearMediaFiles = () => {
+    setlocalMedia([]);
+    setUploadedFiles([]);
+  };
   useEffect(() => {
     if (currentMsgId != null) chatBox(currentMsgId);
   }, [listChats]);
@@ -185,7 +188,34 @@ function Chat(props) {
     console.log(msgId);
     chatBox(msgId);
   };
-
+  const sendMediaFile = (files) => {
+    let tempFiles = files ?? uploadedFiles;
+    for (let i = 0; i < tempFiles.length; i++) {
+      let msgObject = {
+        type: "text",
+        msg: tempFiles[i],
+        sender: "user",
+        time: new Date().valueOf(),
+      };
+      props.addNewMessage({
+        object: JSON.stringify(msgObject),
+        target: targetObject,
+      });
+      socket.emit(
+        "sendNewMessageCallback",
+        {
+          object: JSON.stringify(msgObject),
+          target: targetObject,
+        },
+        (response) => {
+          console.log(response);
+          if (response === "success") {
+            setsendStatus("send");
+          }
+        } // ok
+      );
+    }
+  };
   const sendMessage = () => {
     if (messageInput.current.value === "" || messageInput.current.value == null)
       return;
@@ -308,8 +338,12 @@ function Chat(props) {
     } else return null;
   }
   useEffect(() => {
-    console.log(uploadedFiles);
-  }, [uploadedFiles]);
+    if (isFilesUploaded) {
+      console.log(uploadedFiles);
+      sendMediaFile();
+      setisFilesUploaded(false);
+    }
+  }, [isFilesUploaded]);
   const uploadMediaToCloud = async (files) => {
     console.log(files); //files will be undefined if no files
     let tempFiles = files ?? localMedia;
@@ -344,7 +378,7 @@ function Chat(props) {
                 .then((url) => {
                   console.log(url);
                   setUploadedFiles(uploadedFiles.concat([url]));
-                  if (i === tempFiles.length - 1) setisFilesUploaded(true);
+                  if (i === tempFiles.length - 1) setisFilesUploaded(true); //->continue from here ???????
                 });
             } catch (error) {
               console.log(error);
@@ -478,6 +512,7 @@ function Chat(props) {
                 messageInput={messageInput}
                 sendMessage={sendMessage}
                 uploadMediaToCloud={uploadMediaToCloud}
+                clearMediaFiles={clearMediaFiles}
               />
               {/* <div className="message-tools">
                 <MdAttachFile className="message-icons" />
@@ -599,6 +634,10 @@ const MessageTools = React.memo(
       setaudioFile(audioURL);
       console.log(audioURL);
     }, [audioURL]);
+    const startRecord = () => {
+      props.clearMediaFiles();
+      startRecording();
+    };
     const setFile = () => {
       //send file to message here
       let audioArray = [];
@@ -615,7 +654,7 @@ const MessageTools = React.memo(
         {isRecording === false ? (
           <MdMic
             className="message-icons"
-            onClick={audioFile === "" ? startRecording : null}
+            onClick={audioFile === "" ? startRecord : null}
           />
         ) : (
           <MdMic
@@ -686,7 +725,20 @@ const ChatArea = React.memo(
                   : "chat-message-recieve"
               }
             >
-              <p className="msg-content">{chatBody.msg}</p>
+              {(() => {
+                switch (getFileType(chatBody.msg)) {
+                  case "text":
+                    return <p className="msg-content">{chatBody.msg}</p>;
+                  case "audio":
+                    return (
+                      <p className="msg-content">
+                        <audio src={chatBody.msg} controls />
+                      </p>
+                    );
+                  default:
+                    return null;
+                }
+              })()}
 
               <p className="msg-time">
                 {gettbystamps(Number(chatBody.time), "time")}
