@@ -21,6 +21,8 @@ import { gettbystamps } from "../../../helpers/dateconv";
 import Phone from "@material-ui/icons/Phone";
 import Photoalbum from "@material-ui/icons/PhotoAlbum";
 import Menu from "@material-ui/icons/Menu";
+import firebase from "../../../firebase";
+import "firebase/storage";
 
 // dropdown menu
 
@@ -56,6 +58,7 @@ import emptychatPic from "../../../images/emptychatPic.svg";
 
 import Tooltip from "@material-ui/core/Tooltip";
 import useRecorder from "../newpost/useRecorder";
+const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
   mainScreen: {
     height: "auto",
@@ -110,6 +113,10 @@ function Chat(props) {
   // const [scrollDisplay, setScrolldisplay] = useState(false);
   const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
   const [sendStatus, setsendStatus] = useState(null);
+
+  const [localMedia, setlocalMedia] = useState([1, 2, 3]);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [isFilesUploaded, setisFilesUploaded] = useState(false);
 
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
@@ -300,6 +307,55 @@ function Chat(props) {
       return temp;
     } else return null;
   }
+  useEffect(() => {
+    console.log(uploadedFiles);
+  }, [uploadedFiles]);
+  const uploadMediaToCloud = async (files) => {
+    console.log(files); //files will be undefined if no files
+    let tempFiles = files ?? localMedia;
+    for (let i = 0; i < tempFiles.length; i++) {
+      console.log(tempFiles[i]);
+      try {
+        let k = Number(i);
+        const uploadTask = storage
+          .ref(
+            `users/${firebase.auth().currentUser.uid}/chatMedia/${
+              tempFiles[k].name
+            }`
+          )
+          .put(tempFiles[k]);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            console.log("uploading...", progress);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            try {
+              storage
+                .ref(`users/${firebase.auth().currentUser.uid}/chatMedia/`)
+                .child(tempFiles[k].name)
+                .getDownloadURL()
+                .then((url) => {
+                  console.log(url);
+                  setUploadedFiles(uploadedFiles.concat([url]));
+                  if (i === tempFiles.length - 1) setisFilesUploaded(true);
+                });
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <div className={classes.mainScreen}>
@@ -421,6 +477,7 @@ function Chat(props) {
                 onKeyDownHandler={onKeyDownHandler}
                 messageInput={messageInput}
                 sendMessage={sendMessage}
+                uploadMediaToCloud={uploadMediaToCloud}
               />
               {/* <div className="message-tools">
                 <MdAttachFile className="message-icons" />
@@ -544,6 +601,9 @@ const MessageTools = React.memo(
     }, [audioURL]);
     const setFile = () => {
       //send file to message here
+      let audioArray = [];
+      audioArray.push(audioFile);
+      props.uploadMediaToCloud(audioArray);
       setaudioFile("");
     };
     const deleteFile = () => {
