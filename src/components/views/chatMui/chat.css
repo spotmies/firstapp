@@ -159,7 +159,12 @@ input:focus {
   height: 60%;
   width: 60%;
 }
-
+.getMediaButton {
+  display: none;
+}
+.status-bar-icon {
+  height: 30px;
+}
 /* from codepen */
 .formgroup,
 .formgroup-active,

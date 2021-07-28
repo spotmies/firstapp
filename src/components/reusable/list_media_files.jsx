@@ -7,8 +7,10 @@ import { MdClear } from "react-icons/md";
 export default class ListMediaFiles extends Component {
   shouldComponentUpdate(newProps) {
     if (this.props.mediaFiles === newProps.mediaFiles) {
+      console.log("props equal");
       return false;
     } else {
+      console.log("rendering >>");
       return true;
     }
   }
@@ -17,10 +19,9 @@ export default class ListMediaFiles extends Component {
     return (
       <Grid container justify="flex-start">
         {mediaFiles.map((nap, key) => (
-          <Badge color="white" badgeContent=" " variant="dot">
+          <Badge color="white" badgeContent=" " variant="dot" key={key}>
             {getFileType(nap) === "img" ? (
               <CardMedia
-                key={key}
                 className={styles.media}
                 component="img"
                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}

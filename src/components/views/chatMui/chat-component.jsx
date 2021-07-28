@@ -58,6 +58,9 @@ import emptychatPic from "../../../images/emptychatPic.svg";
 
 import Tooltip from "@material-ui/core/Tooltip";
 import useRecorder from "../newpost/useRecorder";
+import { imageCompressor } from "../../../helpers/image_compressor";
+import ListMediaFiles from "../../reusable/list_media_files";
+
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
   mainScreen: {
@@ -99,6 +102,12 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+  },
+  media: {
+    height: 70,
+    width: 110,
+    margin: 10,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
   },
 }));
 
@@ -390,7 +399,30 @@ function Chat(props) {
       }
     }
   };
-
+  const mediaFiles = async (e) => {
+    let filesFromWeb = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      filesFromWeb.push(e.target.files[i]);
+    }
+    let compressedFiles = [];
+    const compressedFile = (file) => {
+      compressedFiles.push(file);
+      if (compressedFiles.length === filesFromWeb.length) {
+        console.log(compressedFiles);
+        setlocalMedia(compressedFiles);
+      }
+    };
+    const unCompressedFile = (file) => {
+      filesFromWeb = filesFromWeb.filter((item) => item !== file); //->this will remove uncompressed file
+    };
+    await imageCompressor(filesFromWeb, compressedFile, unCompressedFile);
+  };
+  const deleteLocalMedia = (key, typeOfMode) => {
+    let tempLocalMedia = localMedia;
+    tempLocalMedia.splice(key, 1);
+    console.log(localMedia);
+    setlocalMedia(tempLocalMedia);
+  };
   return (
     <div className={classes.mainScreen}>
       {/* chats */}
@@ -504,6 +536,12 @@ function Chat(props) {
                   executeScroll={executeScroll}
                   status={statusBarValue}
                 />
+                <ListMediaFiles
+                  mediaFiles={localMedia}
+                  styles={classes}
+                  typeOfMode="offline"
+                  deleteMedia={deleteLocalMedia}
+                />
               </div>
 
               <Divider />
@@ -513,6 +551,7 @@ function Chat(props) {
                 sendMessage={sendMessage}
                 uploadMediaToCloud={uploadMediaToCloud}
                 clearMediaFiles={clearMediaFiles}
+                mediaFiles={mediaFiles}
               />
               {/* <div className="message-tools">
                 <MdAttachFile className="message-icons" />
@@ -650,7 +689,18 @@ const MessageTools = React.memo(
     };
     return (
       <div className="message-tools">
-        <MdAttachFile className="message-icons" />
+        <input
+          accept="image/*,video/*"
+          className="getMediaButton"
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={props.mediaFiles}
+        />
+        <label htmlFor="contained-button-file">
+          <MdAttachFile className="message-icons" />
+        </label>
+
         {isRecording === false ? (
           <MdMic
             className="message-icons"
@@ -779,39 +829,92 @@ const ChatArea = React.memo(
     return false; // props are not equal -> update the component
   }
 );
+const Statusbar = React.memo(
+  (props) => {
+    return (
+      <div>
+        <div className="status-bar-icon">
+          {(() => {
+            switch (props.status) {
+              case 1:
+                return (
+                  <IoIosArrowDropdown
+                    className="bottomNavigateIcon"
+                    size="2rem"
+                    onClick={props.executeScroll}
+                  />
+                );
 
-function Statusbar({ executeScroll, status }) {
-  return (
-    <div style={{ height: "30px" }}>
-      {(() => {
-        switch (status) {
-          case 1:
-            return (
-              <IoIosArrowDropdown
-                className="bottomNavigateIcon"
-                size="2rem"
-                onClick={executeScroll}
-              />
-            );
+              case 2:
+                return <p className="bottomNavigateIcon">sending...</p>;
+              case 3:
+                return (
+                  <IoMdDoneAll
+                    className="bottomNavigateIcon"
+                    size="1.5rem"
+                    color="blue"
+                  />
+                );
 
-          case 2:
-            return <p className="bottomNavigateIcon">sending...</p>;
-          case 3:
-            return (
-              <IoMdDoneAll
-                className="bottomNavigateIcon"
-                size="1.5rem"
-                color="blue"
-              />
-            );
+              default:
+                return null;
+            }
+          })()}
+        </div>
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    if (prevProps === nextProps) {
+      return true; // props are equal
+    }
+    return false; // props are not equal -> update the component
+  }
+);
+// function Statusbar(props) {
+//   const classes = useStyles();
+//   console.log(props.localMedia);
+//   return (
+//     <div>
+//       <div>
+//         <ListMediaFiles
+//           mediaFiles={props.localMedia}
+//           styles={classes}
+//           typeOfMode="offline"
+//           deleteMedia={props.deleteLocalMedia}
+//         />
+//       </div>
+//       <div className="status-bar-icon">
+//         {(() => {
+//           switch (props.status) {
+//             case 1:
+//               return (
+//                 <IoIosArrowDropdown
+//                   className="bottomNavigateIcon"
+//                   size="2rem"
+//                   onClick={props.executeScroll}
+//                 />
+//               );
 
-          default:
-            return null;
-        }
-      })()}
-    </div>
-  );
-}
+//             case 2:
+//               return <p className="bottomNavigateIcon">sending...</p>;
+//             case 3:
+//               return (
+//                 <IoMdDoneAll
+//                   className="bottomNavigateIcon"
+//                   size="1.5rem"
+//                   color="blue"
+//                 />
+//               );
+
+//             default:
+//               return null;
+//           }
+//         })()}
+//       </div>
+//     </div>
+//   );
+// }
 
 const mapStateToProps = (state) => {
   return {
