@@ -165,6 +165,12 @@ input:focus {
 .status-bar-icon {
   height: 30px;
 }
+.msg-image {
+  height: 200px;
+  width: 200px;
+  padding-bottom: 7px;
+  border-radius: 10px;
+}
 /* from codepen */
 .formgroup,
 .formgroup-active,

@@ -418,10 +418,14 @@ function Chat(props) {
     await imageCompressor(filesFromWeb, compressedFile, unCompressedFile);
   };
   const deleteLocalMedia = (key, typeOfMode) => {
-    let tempLocalMedia = localMedia;
-    tempLocalMedia.splice(key, 1);
-    console.log(localMedia);
-    setlocalMedia(tempLocalMedia);
+    // let tempLocalMedia = localMedia;
+    // tempLocalMedia.splice(key, 1);
+    // console.log(localMedia);
+    // setlocalMedia(tempLocalMedia);
+    const newPeople = localMedia.filter(
+      (person) => localMedia.indexOf(person) !== key
+    );
+    setlocalMedia(newPeople);
   };
   return (
     <div className={classes.mainScreen}>
@@ -783,6 +787,12 @@ const ChatArea = React.memo(
                     return (
                       <p className="msg-content">
                         <audio src={chatBody.msg} controls />
+                      </p>
+                    );
+                  case "img":
+                    return (
+                      <p className="msg-content">
+                        <img className="msg-image" src={chatBody.msg} />
                       </p>
                     );
                   default:

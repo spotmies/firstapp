@@ -3,7 +3,9 @@ import { getFileType } from "../../helpers/dateconv";
 import Grid from "@material-ui/core/Grid";
 import Badge from "@material-ui/core/Badge";
 import CardMedia from "@material-ui/core/CardMedia";
-import { MdClear } from "react-icons/md";
+import { MdAddBox, MdClear } from "react-icons/md";
+
+const useStyles = (theme) => ({});
 export default class ListMediaFiles extends Component {
   shouldComponentUpdate(newProps) {
     if (this.props.mediaFiles === newProps.mediaFiles) {
@@ -18,6 +20,9 @@ export default class ListMediaFiles extends Component {
     const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
     return (
       <Grid container justify="flex-start">
+        <div>
+          <MdAddBox className={styles.media} />
+        </div>
         {mediaFiles.map((nap, key) => (
           <Badge color="white" badgeContent=" " variant="dot" key={key}>
             {getFileType(nap) === "img" ? (
