@@ -60,6 +60,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import useRecorder from "../newpost/useRecorder";
 import { imageCompressor } from "../../../helpers/image_compressor";
 import ListMediaFiles from "../../reusable/list_media_files";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
@@ -112,6 +113,7 @@ function Chat(props) {
   const [currentMsgId, setCurrentMsgId] = useState(null);
   const [targetObject, setTargetObject] = useState(null);
   const [orderDetails, setorderDetails] = useState(null);
+  const [loader, setLoader] = useState(false);
   const chatListScrollControl = useRef(null);
   // const [scrollDisplay, setScrolldisplay] = useState(false);
   const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
@@ -225,7 +227,10 @@ function Chat(props) {
       uploadMediaToCloud();
       return;
     }
-    if (messageInput.current.value === "" || messageInput.current.value == null)
+    if (
+      messageInput?.current?.value === "" ||
+      messageInput?.current?.value == null
+    )
       return;
     setsendStatus("sending");
     console.log("sending msg >>>>>>");
@@ -355,6 +360,7 @@ function Chat(props) {
     }
   }, [isFilesUploaded]);
   const uploadMediaToCloud = async (files) => {
+    setLoader(true);
     console.log(files); //files will be undefined if no files
     let tempFiles = files ?? localMedia;
     let localUploads = [];
@@ -394,6 +400,7 @@ function Chat(props) {
                     setUploadedFiles([...uploadedFiles, ...localUploads]);
                     console.log("all files uploaded..");
                     setisFilesUploaded(true);
+                    setLoader(false);
                   }
                 });
             } catch (error) {
@@ -406,7 +413,7 @@ function Chat(props) {
       }
     }
   };
-  const mediaFiles = async (e, { resetPrevMedia = false } = {}) => {
+  const getMediaFiles = async (e, { resetPrevMedia = false } = {}) => {
     console.log(resetPrevMedia);
     let filesFromWeb = [];
     for (let i = 0; i < e.target.files.length; i++) {
@@ -550,8 +557,13 @@ function Chat(props) {
                   mediaFiles={localMedia}
                   typeOfMode="offline"
                   deleteMedia={deleteLocalMedia}
-                  addMore={mediaFiles}
+                  addMore={getMediaFiles}
                 />
+                {loader ? (
+                  <div className="linear-progress">
+                    <LinearProgress />
+                  </div>
+                ) : null}
               </div>
 
               <Divider />
@@ -561,7 +573,7 @@ function Chat(props) {
                 sendMessage={sendMessage}
                 uploadMediaToCloud={uploadMediaToCloud}
                 clearMediaFiles={clearMediaFiles}
-                mediaFiles={mediaFiles}
+                getMediaFiles={getMediaFiles}
               />
             </div>
           ) : (
@@ -605,37 +617,12 @@ const ListChatPersons = React.memo(
               <ListItemIcon>
                 <Badge
                   overlap="circular"
-                  // anchorOrigin={{
-                  //   vertical: "bottom",
-                  //   horizontal: "right",
-                  // }}
                   badgeContent={<SmallAvatar alt="Remy Sharp" src="" />}
                 >
                   <Avatar alt="Travis Howard" src={list.pDetails.partnerPic} />
                 </Badge>
-                {/* <Badge
-                  color="secondary"
-                  overlap="circular"
-                  badgeContent=" "
-                  variant="dot"
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                >
-                  <Avatar alt="Remy Sharp" src={list.pDetails.partnerPic} />
-                </Badge> */}
               </ListItemIcon>
-              {/* <div className="column1">
-                <div className="row1">
-                  <p>sekhar</p>
-                  <p>13:25pm</p>
-                </div>
-                <div className="row2">
-                  <p>lastmessage</p>
-                  <p>online</p>
-                </div>
-              </div> */}
+
               <ListItemText>
                 {list.pDetails.name}
                 <p className="last-msg-list">
@@ -694,7 +681,7 @@ const MessageTools = React.memo(
           multiple
           type="file"
           onChange={(e) => {
-            props.mediaFiles(e, { resetPrevMedia: true });
+            props.getMediaFiles(e, { resetPrevMedia: true });
           }}
         />
         <label htmlFor="contained-button-file">
@@ -791,6 +778,17 @@ const ChatArea = React.memo(
                         <img className="msg-image" src={chatBody.msg} />
                       </p>
                     );
+                  case "video":
+                    return (
+                      <p className="msg-content">
+                        <video
+                          className="msg-image"
+                          controls
+                          src={chatBody.msg}
+                          type="video/mp4"
+                        />
+                      </p>
+                    );
                   default:
                     return null;
                 }
@@ -877,50 +875,6 @@ const Statusbar = React.memo(
     return false; // props are not equal -> update the component
   }
 );
-// function Statusbar(props) {
-//   const classes = useStyles();
-//   console.log(props.localMedia);
-//   return (
-//     <div>
-//       <div>
-//         <ListMediaFiles
-//           mediaFiles={props.localMedia}
-//           styles={classes}
-//           typeOfMode="offline"
-//           deleteMedia={props.deleteLocalMedia}
-//         />
-//       </div>
-//       <div className="status-bar-icon">
-//         {(() => {
-//           switch (props.status) {
-//             case 1:
-//               return (
-//                 <IoIosArrowDropdown
-//                   className="bottomNavigateIcon"
-//                   size="2rem"
-//                   onClick={props.executeScroll}
-//                 />
-//               );
-
-//             case 2:
-//               return <p className="bottomNavigateIcon">sending...</p>;
-//             case 3:
-//               return (
-//                 <IoMdDoneAll
-//                   className="bottomNavigateIcon"
-//                   size="1.5rem"
-//                   color="blue"
-//                 />
-//               );
-
-//             default:
-//               return null;
-//           }
-//         })()}
-//       </div>
-//     </div>
-//   );
-// }
 
 const mapStateToProps = (state) => {
   return {
