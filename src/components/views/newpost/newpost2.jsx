@@ -584,12 +584,14 @@ class Postform extends Component {
               mediaFiles={this.state.media}
               typeOfMode="online"
               deleteMedia={this.deleteMedia}
+              disableAddmore={true}
             />
           ) : null}
           <ListMediaFiles
             mediaFiles={this.state.image}
             deleteMedia={this.deleteMedia}
             typeOfMode="offline"
+            addMore={this.compressorJs}
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker

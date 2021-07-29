@@ -395,12 +395,6 @@ function Chat(props) {
                     console.log("all files uploaded..");
                     setisFilesUploaded(true);
                   }
-                  // setUploadedFiles([...uploadedFiles, url]);
-                  // console.log(i, tempFiles.length);
-                  // if (i === tempFiles.length - 1) {
-                  // console.log("all files uploaded..");
-                  // setisFilesUploaded(true);
-                  // }
                 });
             } catch (error) {
               console.log(error);

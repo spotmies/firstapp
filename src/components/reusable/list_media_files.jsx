@@ -25,10 +25,16 @@ class ListMediaFiles extends Component {
     }
   }
   render() {
-    const { mediaFiles, deleteMedia, addMore, typeOfMode } = this.props;
+    const {
+      mediaFiles,
+      deleteMedia,
+      addMore,
+      typeOfMode,
+      disableAddmore = false,
+    } = this.props;
     return (
       <Grid container justify="flex-start">
-        {mediaFiles.length > 0 ? (
+        {mediaFiles.length > 0 && !disableAddmore ? (
           <div>
             <input
               accept="image/*,video/*"
