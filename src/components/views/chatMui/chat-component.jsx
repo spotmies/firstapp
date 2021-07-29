@@ -194,6 +194,7 @@ function Chat(props) {
   const sendMediaFile = (files) => {
     let tempFiles = files ?? uploadedFiles;
     for (let i = 0; i < tempFiles.length; i++) {
+      console.log("sending", i, "of", tempFiles.length);
       let msgObject = {
         type: "text",
         msg: tempFiles[i],
@@ -211,7 +212,7 @@ function Chat(props) {
           target: targetObject,
         },
         (response) => {
-          console.log(response);
+          console.log("return resp ", response);
           if (response === "success") {
             setsendStatus("send");
           }
@@ -220,6 +221,10 @@ function Chat(props) {
     }
   };
   const sendMessage = () => {
+    if (localMedia.length > 0) {
+      uploadMediaToCloud();
+      return;
+    }
     if (messageInput.current.value === "" || messageInput.current.value == null)
       return;
     setsendStatus("sending");
@@ -344,12 +349,16 @@ function Chat(props) {
     if (isFilesUploaded) {
       console.log(uploadedFiles);
       sendMediaFile();
+      setlocalMedia([]);
+      setUploadedFiles([]);
       setisFilesUploaded(false);
     }
   }, [isFilesUploaded]);
   const uploadMediaToCloud = async (files) => {
     console.log(files); //files will be undefined if no files
     let tempFiles = files ?? localMedia;
+    let localUploads = [];
+    console.log(tempFiles);
     for (let i = 0; i < tempFiles.length; i++) {
       console.log(tempFiles[i]);
       try {
@@ -380,8 +389,18 @@ function Chat(props) {
                 .getDownloadURL()
                 .then((url) => {
                   console.log(url);
-                  setUploadedFiles(uploadedFiles.concat([url]));
-                  if (i === tempFiles.length - 1) setisFilesUploaded(true); //->continue from here ???????
+                  localUploads.push(url);
+                  if (localUploads.length === tempFiles.length) {
+                    setUploadedFiles([...uploadedFiles, ...localUploads]);
+                    console.log("all files uploaded..");
+                    setisFilesUploaded(true);
+                  }
+                  // setUploadedFiles([...uploadedFiles, url]);
+                  // console.log(i, tempFiles.length);
+                  // if (i === tempFiles.length - 1) {
+                  // console.log("all files uploaded..");
+                  // setisFilesUploaded(true);
+                  // }
                 });
             } catch (error) {
               console.log(error);
