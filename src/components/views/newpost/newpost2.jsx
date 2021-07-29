@@ -582,7 +582,6 @@ class Postform extends Component {
           {this.state.editFormFillFlag ? (
             <ListMediaFiles
               mediaFiles={this.state.media}
-              styles={classes}
               typeOfMode="online"
               deleteMedia={this.deleteMedia}
             />
@@ -590,7 +589,6 @@ class Postform extends Component {
           <ListMediaFiles
             mediaFiles={this.state.image}
             deleteMedia={this.deleteMedia}
-            styles={classes}
             typeOfMode="offline"
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>

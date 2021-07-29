@@ -103,12 +103,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  media: {
-    height: 70,
-    width: 110,
-    margin: 10,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-  },
 }));
 
 function Chat(props) {
@@ -399,7 +393,8 @@ function Chat(props) {
       }
     }
   };
-  const mediaFiles = async (e) => {
+  const mediaFiles = async (e, { resetPrevMedia = false } = {}) => {
+    console.log(resetPrevMedia);
     let filesFromWeb = [];
     for (let i = 0; i < e.target.files.length; i++) {
       filesFromWeb.push(e.target.files[i]);
@@ -409,7 +404,9 @@ function Chat(props) {
       compressedFiles.push(file);
       if (compressedFiles.length === filesFromWeb.length) {
         console.log(compressedFiles);
-        setlocalMedia(compressedFiles);
+        resetPrevMedia
+          ? setlocalMedia(compressedFiles)
+          : setlocalMedia([...localMedia, ...compressedFiles]);
       }
     };
     const unCompressedFile = (file) => {
@@ -418,10 +415,6 @@ function Chat(props) {
     await imageCompressor(filesFromWeb, compressedFile, unCompressedFile);
   };
   const deleteLocalMedia = (key, typeOfMode) => {
-    // let tempLocalMedia = localMedia;
-    // tempLocalMedia.splice(key, 1);
-    // console.log(localMedia);
-    // setlocalMedia(tempLocalMedia);
     const newPeople = localMedia.filter(
       (person) => localMedia.indexOf(person) !== key
     );
@@ -542,9 +535,9 @@ function Chat(props) {
                 />
                 <ListMediaFiles
                   mediaFiles={localMedia}
-                  styles={classes}
                   typeOfMode="offline"
                   deleteMedia={deleteLocalMedia}
+                  addMore={mediaFiles}
                 />
               </div>
 
@@ -557,18 +550,6 @@ function Chat(props) {
                 clearMediaFiles={clearMediaFiles}
                 mediaFiles={mediaFiles}
               />
-              {/* <div className="message-tools">
-                <MdAttachFile className="message-icons" />
-                <MdMic className="message-icons" />
-                <input
-                  className="input-message"
-                  placeholder="Enter your message Here.................."
-                  onKeyDown={onKeyDownHandler}
-                  ref={messageInput}
-                />
-
-                <MdSend className="message-icons" onClick={sendMessage} />
-              </div> */}
             </div>
           ) : (
             <div className="introChatContainer">
@@ -699,7 +680,9 @@ const MessageTools = React.memo(
           id="contained-button-file"
           multiple
           type="file"
-          onChange={props.mediaFiles}
+          onChange={(e) => {
+            props.mediaFiles(e, { resetPrevMedia: true });
+          }}
         />
         <label htmlFor="contained-button-file">
           <MdAttachFile className="message-icons" />

@@ -171,6 +171,12 @@ input:focus {
   padding-bottom: 7px;
   border-radius: 10px;
 }
+.media-card {
+  height: 70px;
+  width: 110px;
+  margin: 10px;
+  box-shadow: 0 3px 5px 2px rgba(255, 105, 135, 0.3);
+}
 /* from codepen */
 .formgroup,
 .formgroup-active,

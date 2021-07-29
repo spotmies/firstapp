@@ -4,9 +4,17 @@ import Grid from "@material-ui/core/Grid";
 import Badge from "@material-ui/core/Badge";
 import CardMedia from "@material-ui/core/CardMedia";
 import { MdAddBox, MdClear } from "react-icons/md";
+import { withStyles } from "@material-ui/core/styles";
 
-const useStyles = (theme) => ({});
-export default class ListMediaFiles extends Component {
+const useStyles = (theme) => ({
+  media: {
+    height: 70,
+    width: 110,
+    margin: 10,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  },
+});
+class ListMediaFiles extends Component {
   shouldComponentUpdate(newProps) {
     if (this.props.mediaFiles === newProps.mediaFiles) {
       console.log("props equal");
@@ -17,17 +25,29 @@ export default class ListMediaFiles extends Component {
     }
   }
   render() {
-    const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
+    const { mediaFiles, deleteMedia, addMore, typeOfMode } = this.props;
     return (
       <Grid container justify="flex-start">
-        <div>
-          <MdAddBox className={styles.media} />
-        </div>
+        {mediaFiles.length > 0 ? (
+          <div>
+            <input
+              accept="image/*,video/*"
+              className="getMediaButton"
+              id="contained-button-file2"
+              multiple
+              type="file"
+              onChange={addMore}
+            />
+            <label htmlFor="contained-button-file2">
+              <MdAddBox size="6.5rem" />
+            </label>
+          </div>
+        ) : null}
         {mediaFiles.map((nap, key) => (
           <Badge color="white" badgeContent=" " variant="dot" key={key}>
             {getFileType(nap) === "img" ? (
               <CardMedia
-                className={styles.media}
+                className="media-card"
                 component="img"
                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
                 title={nap.name}
@@ -59,3 +79,5 @@ export default class ListMediaFiles extends Component {
     );
   }
 }
+
+export default withStyles(useStyles)(ListMediaFiles);
