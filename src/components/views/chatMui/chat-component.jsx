@@ -995,7 +995,7 @@ const MobileChat = React.memo(
             />
             <Statusbar
               executeScroll={props.executeScroll}
-              status={props.statusBarValue}
+              status={props.status}
             />
             <ListMediaFiles
               mediaFiles={props.mediaFiles}

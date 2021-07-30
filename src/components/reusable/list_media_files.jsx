@@ -33,55 +33,64 @@ class ListMediaFiles extends Component {
       disableAddmore = false,
     } = this.props;
     return (
-      <Grid container justify="flex-start">
-        {mediaFiles.length > 0 && !disableAddmore ? (
-          <div>
-            <input
-              accept="image/*,video/*"
-              className="getMediaButton"
-              id="contained-button-file2"
-              multiple
-              type="file"
-              onChange={addMore}
-            />
-            <label htmlFor="contained-button-file2">
-              <MdAddBox size="6.5rem" />
-            </label>
-          </div>
-        ) : null}
-        {mediaFiles.map((nap, key) => (
-          <Badge color="white" badgeContent=" " variant="dot" key={key}>
-            {getFileType(nap) === "img" ? (
-              <CardMedia
-                className="media-card"
-                component="img"
-                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-                title={nap.name}
+      <div>
+        <Grid container justify="flex-start">
+          {mediaFiles.length > 0 && !disableAddmore ? (
+            <div>
+              <input
+                accept="image/*,video/*"
+                className="getMediaButton"
+                id="contained-button-file2"
+                multiple
+                type="file"
+                onChange={addMore}
               />
-            ) : getFileType(nap) === "video" ? (
-              <video
-                width="230"
-                height="154"
-                controls
-                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-                type="video/mp4"
-              />
-            ) : (
-              <audio
-                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-                controls
-              />
-            )}
+              <label htmlFor="contained-button-file2">
+                <MdAddBox className="media-card" />
+              </label>
+            </div>
+          ) : null}
+          {/* <div className="list-media-files"></div> */}
+          {mediaFiles.map((nap, key) => (
+            <Badge badgeContent=" " variant="dot" key={key}>
+              {getFileType(nap) === "img" ? (
+                <CardMedia
+                  className="media-card"
+                  component="img"
+                  src={
+                    typeOfMode === "offline" ? URL.createObjectURL(nap) : nap
+                  }
+                  title={nap.name}
+                />
+              ) : getFileType(nap) === "video" ? (
+                <video
+                  width="230"
+                  height="154"
+                  controls
+                  src={
+                    typeOfMode === "offline" ? URL.createObjectURL(nap) : nap
+                  }
+                  type="video/mp4"
+                />
+              ) : (
+                <audio
+                  src={
+                    typeOfMode === "offline" ? URL.createObjectURL(nap) : nap
+                  }
+                  controls
+                />
+              )}
 
-            <MdClear
-              color="red"
-              onClick={() => {
-                deleteMedia(key, typeOfMode);
-              }}
-            />
-          </Badge>
-        ))}
-      </Grid>
+              <MdClear
+                color="red"
+                onClick={() => {
+                  deleteMedia(key, typeOfMode);
+                }}
+              />
+            </Badge>
+          ))}
+        </Grid>
+      </div>
     );
   }
 }
