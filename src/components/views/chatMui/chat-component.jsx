@@ -492,6 +492,13 @@ function Chat(props) {
           uploadMediaToCloud={uploadMediaToCloud}
           clearMediaFiles={clearMediaFiles}
           getMediaFiles={getMediaFiles}
+          //list media files props
+          mediaFiles={localMedia}
+          typeOfMode="offline"
+          deleteMedia={deleteLocalMedia}
+          addMore={getMediaFiles}
+          // loader props
+          loader={loader}
         />
       )}
     </div>
@@ -750,33 +757,36 @@ const MessageTools = React.memo(
     };
     return (
       <div className="message-tools">
-        <input
-          accept="image/*,video/*"
-          className="getMediaButton"
-          id="contained-button-file"
-          multiple
-          type="file"
-          onChange={(e) => {
-            props.getMediaFiles(e, { resetPrevMedia: true });
-          }}
-        />
-        <label htmlFor="contained-button-file">
-          <MdAttachFile className="message-icons" />
-        </label>
+        {audioFile == "" ? (
+          <>
+            <input
+              accept="image/*,video/*"
+              className="getMediaButton"
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={(e) => {
+                props.getMediaFiles(e, { resetPrevMedia: true });
+              }}
+            />
+            <label htmlFor="contained-button-file">
+              <MdAttachFile className="message-icons" />
+            </label>
 
-        {isRecording === false ? (
-          <MdMic
-            className="message-icons"
-            onClick={audioFile === "" ? startRecord : null}
-          />
-        ) : (
-          <MdMic
-            className="message-icons"
-            color="red"
-            onClick={stopRecording}
-          />
-        )}
-
+            {isRecording === false ? (
+              <MdMic
+                className="message-icons"
+                onClick={audioFile === "" ? startRecord : null}
+              />
+            ) : (
+              <MdMic
+                className="message-icons"
+                color="red"
+                onClick={stopRecording}
+              />
+            )}
+          </>
+        ) : null}
         {audioFile !== "" ? (
           <audio
             src={URL.createObjectURL(audioURL)}
@@ -802,7 +812,9 @@ const MessageTools = React.memo(
           </>
         ) : null}
 
-        <MdSend className="message-icons" onClick={props.sendMessage} />
+        {audioFile == "" ? (
+          <MdSend className="message-icons" onClick={props.sendMessage} />
+        ) : null}
       </div>
     );
   },
@@ -985,6 +997,17 @@ const MobileChat = React.memo(
               executeScroll={props.executeScroll}
               status={props.statusBarValue}
             />
+            <ListMediaFiles
+              mediaFiles={props.mediaFiles}
+              typeOfMode="offline"
+              deleteMedia={props.deleteMedia}
+              addMore={props.addMore}
+            />
+            {props.loader ? (
+              <div className="linear-progress">
+                <LinearProgress />
+              </div>
+            ) : null}
             <MessageTools
               onKeyDownHandler={props.onKeyDownHandler}
               messageInput={props.messageInput}
