@@ -100,6 +100,11 @@
   border: 1px solid rgb(255, 255, 255);
   border-radius: 20px;
 }
+@media screen and (max-width: 700px) {
+  .input-message {
+    width: 60% !important;
+  }
+}
 .message-icons {
   font-size: 30px;
   color: rgb(139, 139, 139);

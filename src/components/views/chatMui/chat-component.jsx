@@ -4,8 +4,6 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -13,14 +11,10 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import Fab from "@material-ui/core/Fab";
-import SendIcon from "@material-ui/icons/Send";
 import "./chat.css";
 import constants from "../../../helpers/constants";
 import { connect } from "react-redux";
 import { getFileType, gettbystamps } from "../../../helpers/dateconv";
-import Phone from "@material-ui/icons/Phone";
-import Photoalbum from "@material-ui/icons/PhotoAlbum";
-import Menu from "@material-ui/icons/Menu";
 import firebase from "../../../firebase";
 import "firebase/storage";
 
@@ -46,17 +40,17 @@ import {
   MdClose,
   MdDone,
   MdDoneAll,
+  MdImage,
+  MdKeyboardArrowLeft,
   MdMenu,
   MdMic,
-  MdMoreHoriz,
-  MdMoreVert,
   MdPhone,
   MdSend,
+  MdSlowMotionVideo,
   MdStar,
 } from "react-icons/md";
 import emptychatPic from "../../../images/emptychatPic.svg";
 
-import Tooltip from "@material-ui/core/Tooltip";
 import useRecorder from "../newpost/useRecorder";
 import { imageCompressor } from "../../../helpers/image_compressor";
 import ListMediaFiles from "../../reusable/list_media_files";
@@ -108,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Chat(props) {
   const classes = useStyles();
+  const [deviceHeight, deviceWidth] = useWindowSize();
   const [listChats, setListChats] = useState([]);
   const [currentChat, setCurrentChat] = useState([]);
   const [currentMsgId, setCurrentMsgId] = useState(null);
@@ -115,7 +110,6 @@ function Chat(props) {
   const [orderDetails, setorderDetails] = useState(null);
   const [loader, setLoader] = useState(false);
   const chatListScrollControl = useRef(null);
-  // const [scrollDisplay, setScrolldisplay] = useState(false);
   const [statusBarValue, setstatusBarValue] = useState(2); //0 null 1 scrolled to bottom 2 sending message 3 read tick
   const [sendStatus, setsendStatus] = useState(null);
 
@@ -191,7 +185,7 @@ function Chat(props) {
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
     console.log(msgId);
-    chatBox(msgId);
+    if (msgId != null) chatBox(msgId);
   };
   const sendMediaFile = (files) => {
     let tempFiles = files ?? uploadedFiles;
@@ -279,40 +273,6 @@ function Chat(props) {
       sendMessage();
     }
   };
-
-  // dropdown menu
-
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    }
-  }
-
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
 
   function scrollhandle(e) {
     const scrolly = Math.floor(chatListScrollControl.current.scrollHeight);
@@ -442,150 +402,236 @@ function Chat(props) {
   };
   return (
     <div className={classes.mainScreen}>
-      {/* chats */}
-      <Grid container component={Paper} className={classes.chatSection} xs={12}>
-        <Grid item xs={3} className={classes.borderRight500}>
-          <ListChatPersons
-            listChats={listChats}
-            currentMsgId={currentMsgId}
-            selectChat={selectChat}
-          />
-        </Grid>
+      {deviceWidth > 700 ? (
+        <Grid
+          container
+          component={Paper}
+          className={classes.chatSection}
+          xs={12}
+        >
+          <Grid item xs={3} className={classes.borderRight500}>
+            <ListChatPersons
+              listChats={listChats}
+              currentMsgId={currentMsgId}
+              selectChat={selectChat}
+            />
+          </Grid>
 
-        <Grid item xs={9}>
-          {/* appbar */}
-          {currentMsgId !== null ? (
-            <div>
+          <Grid item xs={9}>
+            {/* appbar */}
+            {currentMsgId !== null ? (
               <div>
-                <AppBar position="static" className="chat-appbar" elevation="0">
-                  <Toolbar>
-                    <IconButton
-                      edge="start"
-                      className={classes.menuButton}
-                      color="inherit"
-                      aria-label="menu"
-                    >
-                      <Avatar
-                        className="appbar-avatar"
-                        src={orderDetails?.pDetails?.partnerPic}
-                      />
-                    </IconButton>
-                    <div className="appbar-title">
-                      <h2>
-                        <u>{orderDetails?.pDetails?.name ?? "unknown"}</u>
-                      </h2>
-                      <p>
-                        business name | 4.5
-                        <MdStar color="gold" />
-                      </p>
+                <ChatBanner orderDetails={orderDetails} />
+
+                <div>
+                  <ChatArea
+                    chatListScrollControl={chatListScrollControl}
+                    scrollhandle={scrollhandle}
+                    currentChat={currentChat}
+                    scrollRef={scrollRef}
+                    dateBetweenMessages={dateBetweenMessages}
+                    sendStatus={sendStatus}
+                  />
+                  <Statusbar
+                    executeScroll={executeScroll}
+                    status={statusBarValue}
+                  />
+                  <ListMediaFiles
+                    mediaFiles={localMedia}
+                    typeOfMode="offline"
+                    deleteMedia={deleteLocalMedia}
+                    addMore={getMediaFiles}
+                  />
+                  {loader ? (
+                    <div className="linear-progress">
+                      <LinearProgress />
                     </div>
+                  ) : null}
+                </div>
 
-                    <MdPhone className="message-icons" />
-
-                    {/* dropdown menu */}
-                    <Button color="inherit">
-                      <div className={classes.root}>
-                        <div>
-                          <Button
-                            ref={anchorRef}
-                            aria-controls={open ? "menu-list-grow" : undefined}
-                            aria-haspopup="true"
-                            onClick={handleToggle}
-                          >
-                            <MdMenu className="message-icons" />
-                          </Button>
-                          <Popper
-                            open={open}
-                            anchorEl={anchorRef.current}
-                            role={undefined}
-                            transition
-                            disablePortal
-                          >
-                            {({ TransitionProps, placement }) => (
-                              <Grow
-                                {...TransitionProps}
-                                style={{
-                                  transformOrigin:
-                                    placement === "bottom"
-                                      ? "center top"
-                                      : "center bottom",
-                                }}
-                              >
-                                <Paper>
-                                  <ClickAwayListener onClickAway={handleClose}>
-                                    <MenuList
-                                      autoFocusItem={open}
-                                      id="menu-list-grow"
-                                      onKeyDown={handleListKeyDown}
-                                    >
-                                      <MenuItem onClick={handleClose}>
-                                        Technician Details
-                                      </MenuItem>
-                                      <MenuItem onClick={handleClose}>
-                                        View Job
-                                      </MenuItem>
-                                      <MenuItem onClick={handleClose}>
-                                        Delete
-                                      </MenuItem>
-                                    </MenuList>
-                                  </ClickAwayListener>
-                                </Paper>
-                              </Grow>
-                            )}
-                          </Popper>
-                        </div>
-                      </div>
-                    </Button>
-                  </Toolbar>
-                </AppBar>
+                <Divider />
+                <MessageTools
+                  onKeyDownHandler={onKeyDownHandler}
+                  messageInput={messageInput}
+                  sendMessage={sendMessage}
+                  uploadMediaToCloud={uploadMediaToCloud}
+                  clearMediaFiles={clearMediaFiles}
+                  getMediaFiles={getMediaFiles}
+                />
               </div>
-
-              <div>
-                <ChatArea
-                  chatListScrollControl={chatListScrollControl}
-                  scrollhandle={scrollhandle}
-                  currentChat={currentChat}
-                  scrollRef={scrollRef}
-                  dateBetweenMessages={dateBetweenMessages}
-                  sendStatus={sendStatus}
-                />
-                <Statusbar
-                  executeScroll={executeScroll}
-                  status={statusBarValue}
-                />
-                <ListMediaFiles
-                  mediaFiles={localMedia}
-                  typeOfMode="offline"
-                  deleteMedia={deleteLocalMedia}
-                  addMore={getMediaFiles}
-                />
-                {loader ? (
-                  <div className="linear-progress">
-                    <LinearProgress />
-                  </div>
-                ) : null}
+            ) : (
+              <div className="introChatContainer">
+                <img src={emptychatPic} className="chat-intro-image" />
               </div>
-
-              <Divider />
-              <MessageTools
-                onKeyDownHandler={onKeyDownHandler}
-                messageInput={messageInput}
-                sendMessage={sendMessage}
-                uploadMediaToCloud={uploadMediaToCloud}
-                clearMediaFiles={clearMediaFiles}
-                getMediaFiles={getMediaFiles}
-              />
-            </div>
-          ) : (
-            <div className="introChatContainer">
-              <img src={emptychatPic} className="chat-intro-image" />
-            </div>
-          )}
+            )}
+          </Grid>
         </Grid>
-      </Grid>
+      ) : (
+        <MobileChat
+          //list chat props
+          listChats={listChats}
+          currentChat={currentChat}
+          currentMsgId={currentMsgId}
+          selectChat={selectChat}
+          //chat banner props
+          orderDetails={orderDetails}
+          //chatArea props
+          chatListScrollControl={chatListScrollControl}
+          scrollhandle={scrollhandle}
+          currentChat={currentChat}
+          scrollRef={scrollRef}
+          dateBetweenMessages={dateBetweenMessages}
+          sendStatus={sendStatus}
+          //statusbar props
+          executeScroll={executeScroll}
+          status={statusBarValue}
+          //message tools props
+          onKeyDownHandler={onKeyDownHandler}
+          messageInput={messageInput}
+          sendMessage={sendMessage}
+          uploadMediaToCloud={uploadMediaToCloud}
+          clearMediaFiles={clearMediaFiles}
+          getMediaFiles={getMediaFiles}
+        />
+      )}
     </div>
   );
 }
+
+const ChatBanner = React.memo(
+  (props) => {
+    const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    const anchorRef = useRef(null);
+
+    const handleToggle = () => {
+      setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event) => {
+      if (anchorRef.current && anchorRef.current.contains(event.target)) {
+        return;
+      }
+
+      setOpen(false);
+    };
+
+    function handleListKeyDown(event) {
+      if (event.key === "Tab") {
+        event.preventDefault();
+        setOpen(false);
+      }
+    }
+    const backToChatList = () => {
+      props.selectChat(null);
+    };
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = useRef(open);
+    useEffect(() => {
+      if (prevOpen.current === true && open === false) {
+        anchorRef.current.focus();
+      }
+
+      prevOpen.current = open;
+    }, [open]);
+    return (
+      <div>
+        <AppBar position="static" className="chat-appbar" elevation="0">
+          <Toolbar>
+            {props.mobile ? (
+              <MdKeyboardArrowLeft
+                size="3rem"
+                color="grey"
+                onClick={backToChatList}
+              />
+            ) : null}
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <Avatar
+                className="appbar-avatar"
+                src={props.orderDetails?.pDetails?.partnerPic}
+              />
+            </IconButton>
+            <div className="appbar-title">
+              <h2>
+                <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
+              </h2>
+              <p>
+                business name | 4.5
+                <MdStar color="gold" />
+              </p>
+            </div>
+
+            <MdPhone className="message-icons" />
+
+            {/* dropdown menu */}
+            <Button color="inherit">
+              <div className={classes.root}>
+                <div>
+                  <Button
+                    ref={anchorRef}
+                    aria-controls={open ? "menu-list-grow" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                  >
+                    <MdMenu className="message-icons" />
+                  </Button>
+                  <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === "bottom"
+                              ? "center top"
+                              : "center bottom",
+                        }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList
+                              autoFocusItem={open}
+                              id="menu-list-grow"
+                              onKeyDown={handleListKeyDown}
+                            >
+                              <MenuItem onClick={handleClose}>
+                                Technician Details
+                              </MenuItem>
+                              <MenuItem onClick={handleClose}>
+                                View Job
+                              </MenuItem>
+                              <MenuItem onClick={handleClose}>Delete</MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
+                </div>
+              </div>
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    if (prevProps.orderDetails === nextProps.orderDetails) {
+      return true; // props are equal
+    }
+    return false; // props are not equal -> update the component
+  }
+);
 
 const ListChatPersons = React.memo(
   (props) => {
@@ -625,9 +671,39 @@ const ListChatPersons = React.memo(
 
               <ListItemText>
                 {list.pDetails.name}
-                <p className="last-msg-list">
-                  {JSON.parse(list.msgs[list.msgs.length - 1]).msg}
-                </p>
+
+                {(() => {
+                  switch (
+                    getFileType(JSON.parse(list.msgs[list.msgs.length - 1]).msg)
+                  ) {
+                    case "text":
+                      return (
+                        <p className="last-msg-list">
+                          {JSON.parse(list.msgs[list.msgs.length - 1]).msg}
+                        </p>
+                      );
+                    case "audio":
+                      return (
+                        <p className="last-msg-list">
+                          <MdMic /> Audio file
+                        </p>
+                      );
+                    case "img":
+                      return (
+                        <p className="last-msg-list">
+                          <MdImage /> Image file
+                        </p>
+                      );
+                    case "video":
+                      return (
+                        <p className="last-msg-list">
+                          <MdSlowMotionVideo /> Video file
+                        </p>
+                      );
+                    default:
+                      return null;
+                  }
+                })()}
               </ListItemText>
               <ListItemText align="right">
                 {gettbystamps(
@@ -700,6 +776,7 @@ const MessageTools = React.memo(
             onClick={stopRecording}
           />
         )}
+
         {audioFile !== "" ? (
           <audio
             src={URL.createObjectURL(audioURL)}
@@ -875,6 +952,73 @@ const Statusbar = React.memo(
     return false; // props are not equal -> update the component
   }
 );
+
+// mobile component
+
+const MobileChat = React.memo(
+  (props) => {
+    console.log("mobile hat>>>");
+    return (
+      <div>
+        {props.currentMsgId == null ? (
+          <ListChatPersons
+            listChats={props.listChats}
+            currentMsgId={props.currentMsgId}
+            selectChat={props.selectChat}
+          />
+        ) : (
+          <div>
+            <ChatBanner
+              orderDetails={props.orderDetails}
+              mobile={true}
+              selectChat={props.selectChat}
+            />
+            <ChatArea
+              chatListScrollControl={props.chatListScrollControl}
+              scrollhandle={props.scrollhandle}
+              currentChat={props.currentChat}
+              scrollRef={props.scrollRef}
+              dateBetweenMessages={props.dateBetweenMessages}
+              sendStatus={props.sendStatus}
+            />
+            <Statusbar
+              executeScroll={props.executeScroll}
+              status={props.statusBarValue}
+            />
+            <MessageTools
+              onKeyDownHandler={props.onKeyDownHandler}
+              messageInput={props.messageInput}
+              sendMessage={props.sendMessage}
+              uploadMediaToCloud={props.uploadMediaToCloud}
+              clearMediaFiles={props.clearMediaFiles}
+              getMediaFiles={props.getMediaFiles}
+            />
+          </div>
+        )}
+      </div>
+    );
+  },
+  (prevProps, nextProps) => {
+    if (prevProps === nextProps) {
+      return true; // props are equal
+    }
+    return false; // props are not equal -> update the component
+  }
+);
+
+function useWindowSize() {
+  const [size, setSize] = useState([window.innerHeight, window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => {
+      setSize([window.innerHeight, window.innerWidth]);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  return size;
+}
 
 const mapStateToProps = (state) => {
   return {
