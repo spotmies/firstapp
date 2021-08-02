@@ -13,8 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import MyResponses from "../chats/responses";
 
-
-import Mobilechat from './chat-mobile';
+import Mobilechat from "./chat-mobile";
 
 /*css*/
 import "./chat.css";
@@ -22,7 +21,10 @@ import "./chat.css";
 import Chat from "./chat-component";
 
 function useWindowSize() {
-  const [size, setSize] = React.useState([window.innerHeight, window.innerWidth]);
+  const [size, setSize] = React.useState([
+    window.innerHeight,
+    window.innerWidth,
+  ]);
   React.useEffect(() => {
     const handleResize = () => {
       setSize([window.innerHeight, window.innerWidth]);
@@ -89,7 +91,6 @@ function Mybookings(props) {
     setValue(index);
   };
 
-
   /*  our functions*/
 
   return (
@@ -116,7 +117,8 @@ function Mybookings(props) {
           <MyResponses />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-         {width <= 420 ? <Mobilechat className="chat" /> : <Chat className="chat" />} 
+          {/* {width <= 420 ? <Mobilechat className="chat" /> : <Chat className="chat" />}  */}
+          <Chat className="chat" />
         </TabPanel>
       </SwipeableViews>
     </div>

@@ -27,7 +27,7 @@ import { BsHammer, BsHouseFill } from "react-icons/bs";
 import useRecorder from "./useRecorder";
 
 import "../rentals/rental.css";
-
+import ListMediaFiles from "../../reusable/list_media_files";
 import {
   MdLaptopMac,
   MdTv,
@@ -102,7 +102,7 @@ class Postnew extends Component {
     ordId = ordId.replace("/mybookings/id/edit/", "");
     let orders =
       this.props.orders.length > 0 ? this.props.orders : loadState("orders");
-    let order = orders.filter((item) => item.ordId === ordId);
+    let order = orders.filter((item) => item.ordId == ordId);
     // console.log(order);
     if (order.length > 0) {
       this.setState({
@@ -582,16 +582,16 @@ class Postform extends Component {
           {this.state.editFormFillFlag ? (
             <ListMediaFiles
               mediaFiles={this.state.media}
-              styles={classes}
               typeOfMode="online"
               deleteMedia={this.deleteMedia}
+              disableAddmore={true}
             />
           ) : null}
           <ListMediaFiles
             mediaFiles={this.state.image}
             deleteMedia={this.deleteMedia}
-            styles={classes}
             typeOfMode="offline"
+            addMore={this.compressorJs}
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
@@ -756,56 +756,56 @@ function SimpleDialog(props) {
   );
 }
 
-class ListMediaFiles extends Component {
-  shouldComponentUpdate(newProps) {
-    if (this.props.mediaFiles === newProps.mediaFiles) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+// class ListMediaFiles extends Component {
+//   shouldComponentUpdate(newProps) {
+//     if (this.props.mediaFiles === newProps.mediaFiles) {
+//       return false;
+//     } else {
+//       return true;
+//     }
+//   }
 
-  render() {
-    const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
-    return (
-      <Grid container justify="flex-start">
-        {mediaFiles.map((nap, key) => (
-          <Badge color="white" badgeContent=" " variant="dot">
-            {getFileType(nap) === "img" ? (
-              <CardMedia
-                key={key}
-                className={styles.media}
-                component="img"
-                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-                title={nap.name}
-              />
-            ) : getFileType(nap) === "video" ? (
-              <video
-                width="230"
-                height="154"
-                controls
-                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-                type="video/mp4"
-              />
-            ) : (
-              <audio
-                src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-                controls
-              />
-            )}
+//   render() {
+//     const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
+//     return (
+//       <Grid container justify="flex-start">
+//         {mediaFiles.map((nap, key) => (
+//           <Badge color="white" badgeContent=" " variant="dot">
+//             {getFileType(nap) === "img" ? (
+//               <CardMedia
+//                 key={key}
+//                 className={styles.media}
+//                 component="img"
+//                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
+//                 title={nap.name}
+//               />
+//             ) : getFileType(nap) === "video" ? (
+//               <video
+//                 width="230"
+//                 height="154"
+//                 controls
+//                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
+//                 type="video/mp4"
+//               />
+//             ) : (
+//               <audio
+//                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
+//                 controls
+//               />
+//             )}
 
-            <MdClear
-              color="red"
-              onClick={() => {
-                deleteMedia(key, typeOfMode);
-              }}
-            />
-          </Badge>
-        ))}
-      </Grid>
-    );
-  }
-}
+//             <MdClear
+//               color="red"
+//               onClick={() => {
+//                 deleteMedia(key, typeOfMode);
+//               }}
+//             />
+//           </Badge>
+//         ))}
+//       </Grid>
+//     );
+//   }
+// }
 
 const mapStateToProps = (state) => {
   return {

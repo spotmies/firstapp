@@ -186,11 +186,10 @@ function getFileType(file) {
         return "audio";
     }
   } else {
-    if (file.type.match("image.*")) return "img";
-
-    if (file.type.match("video.*")) return "video";
-
-    if (file.type.match("audio.*")) return "audio";
+    if (file?.type?.match("image.*")) return "img";
+    else if (file?.type?.match("video.*")) return "video";
+    else if (file?.type?.match("audio.*")) return "audio";
+    else return "text";
   }
 
   // etc...

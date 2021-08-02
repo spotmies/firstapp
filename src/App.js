@@ -8,7 +8,7 @@ import Mybooks from "./components/views/mybookings/mybooks";
 // import chat from "./components/views/chats/chat";
 // import chat from "./components/views/chats/responses"; //this is responses
 // import chat from "./components/views/newChat/chating"
-import chatComponent from "./components/views/chatMui/chat-mobile";
+import chatComponent from "./components/views/chatMui/chat-component";
 import signup from "./components/views/signup&profile/signup";
 import login from "./components/views/signup&profile/login";
 import profile from "./components/views/signup&profile/profile";

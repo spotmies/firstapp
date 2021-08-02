@@ -32,7 +32,14 @@ const rootReducer = (state = initState, action) => {
       targetConversasion["msgs"].push(action.value.object);
       // console.log(targetConversasion);
       tempAllChats = [...tempAllChats, targetConversasion];
-      tempAllChats = [].concat(tempAllChats).reverse();
+      // tempAllChats = [].concat(tempAllChats).reverse();
+
+      tempAllChats.sort(function (x, y) {
+        return (
+          JSON.parse(y.msgs[y.msgs.length - 1]).time -
+          JSON.parse(x.msgs[x.msgs.length - 1]).time
+        );
+      });
 
       return {
         ...state,
