@@ -208,3 +208,11 @@ input:focus {
   width: 566px;
   padding-top: 2px;
 }
+
+@media screen and (max-width: 420px) {
+  .message-area {
+    padding: 0 !important;
+    /* width: 100%; */
+  }
+
+}
