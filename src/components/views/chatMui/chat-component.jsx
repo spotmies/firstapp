@@ -567,7 +567,7 @@ const ChatBanner = React.memo(
               <h2>
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
-              <p>
+              <p style={{marginTop: "-15px"}}>
                 business name | 4.5
                 <MdStar color="gold" />
               </p>
