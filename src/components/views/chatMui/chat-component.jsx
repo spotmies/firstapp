@@ -567,7 +567,7 @@ const ChatBanner = React.memo(
               <h2>
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
-              <p style={{marginTop: "-15px"}}>
+              <p style={{ marginTop: "-15px" }}>
                 business name | 4.5
                 <MdStar color="gold" />
               </p>
@@ -858,7 +858,12 @@ const ChatArea = React.memo(
                   case "audio":
                     return (
                       <p className="msg-content">
-                        <audio src={chatBody.msg} controls />
+                        <audio
+                          src={chatBody.msg}
+                          controls
+                          className="Audio-msg"
+                          // style={{ width: "fit-content" }}
+                        />
                       </p>
                     );
                   case "img":
