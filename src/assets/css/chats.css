@@ -163,6 +163,10 @@
   color: grey;
 }
 
+.Audio-msg {
+  width: 100%;
+}
+
 @media screen and (max-width: 420px) {
   .chat-form {
     width: 100%;
