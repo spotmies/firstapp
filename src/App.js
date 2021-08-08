@@ -24,6 +24,7 @@ import partnerRegistration from "./components/views/homeSlides/partnerRegistrati
 import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
 import Tab from "./components/views/chatMui/chat";
+import Leaflet from "./components/views/leaflet/leaflet";
 
 const Routing = () => {
   return (
@@ -43,12 +44,13 @@ const Routing = () => {
         <Route path="/account" component={profile} />
         <Route path="/mybookings/id/edit" component={editpost2} />
         <Route path="/mybookings/id" component={postview} />
-        <Route path="/contact" component={SimpleMap} />
+        {/* <Route path="/contact" component={SimpleMap} /> */}
         <Route path="/rentals" component={Rentals} />
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />
         <Route path="/privacy" component={Privacy} />
         <Route path="/tabs" component={Tab} />
+        <Route path ="/contact" component ={Leaflet} />
       </Switch>
     </>
   );

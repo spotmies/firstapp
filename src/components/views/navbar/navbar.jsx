@@ -7,6 +7,8 @@ import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
 import SmLogo from "../../../images/logo.svg";
+// import SmLogo from "../../../images/sm3dlogo.svg";
+
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
 import { loadState } from "../../../helpers/localStorage";
