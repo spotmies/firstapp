@@ -100,6 +100,14 @@
   border: 1px solid rgb(255, 255, 255);
   border-radius: 20px;
 }
+
+.smallAvatar {
+  height: 20px !important;
+  width: 20px !important;
+  top: 25px !important
+}
+
+
 @media screen and (max-width: 700px) {
   .input-message {
     width: 60% !important;
@@ -134,8 +142,13 @@ input:focus {
 }
 .last-msg-list {
   overflow: hidden;
+  /* width: 70%; */
   text-overflow: ellipsis;
   color: rgb(146, 146, 146);
+}
+
+.listText {
+  width: 50%;
 }
 /* .column1 {
   display: flex;

@@ -48,6 +48,7 @@ import {
   MdSend,
   MdSlowMotionVideo,
   MdStar,
+  MdMoreVert
 } from "react-icons/md";
 import emptychatPic from "../../../images/emptychatPic.svg";
 
@@ -585,7 +586,7 @@ const ChatBanner = React.memo(
                     aria-haspopup="true"
                     onClick={handleToggle}
                   >
-                    <MdMenu className="message-icons" />
+                    <MdMoreVert className="message-icons" />
                   </Button>
                   <Popper
                     open={open}
@@ -670,13 +671,13 @@ const ListChatPersons = React.memo(
               <ListItemIcon>
                 <Badge
                   overlap="circular"
-                  badgeContent={<SmallAvatar alt="Remy Sharp" src="" />}
+                  badgeContent={<SmallAvatar className="smallAvatar" alt="Remy Sharp" src="" />}
                 >
                   <Avatar alt="Travis Howard" src={list.pDetails.partnerPic} />
                 </Badge>
               </ListItemIcon>
 
-              <ListItemText>
+              <ListItemText className="listText">
                 {list.pDetails.name}
 
                 {(() => {
@@ -712,7 +713,7 @@ const ListChatPersons = React.memo(
                   }
                 })()}
               </ListItemText>
-              <ListItemText align="right">
+              <ListItemText align="right" >
                 {gettbystamps(
                   Number(JSON.parse(list.msgs[list.msgs.length - 1]).time),
                   "time"
