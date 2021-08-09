@@ -671,7 +671,7 @@ const ListChatPersons = React.memo(
               <ListItemIcon>
                 <Badge
                   overlap="circular"
-                  badgeContent={<SmallAvatar className="smallAvatar" alt="Remy Sharp" src="" />}
+                  badgeContent={<SmallAvatar alt="Remy Sharp" src="" />}
                 >
                   <Avatar alt="Travis Howard" src={list.pDetails.partnerPic} />
                 </Badge>
@@ -714,10 +714,18 @@ const ListChatPersons = React.memo(
                 })()}
               </ListItemText>
               <ListItemText align="right" >
+                <div>
                 {gettbystamps(
                   Number(JSON.parse(list.msgs[list.msgs.length - 1]).time),
                   "time"
                 )}
+                </div>
+                <Badge
+                  overlap="circular"
+                  badgeContent={<SmallAvatar className="smallAvatar" alt="Remy Sharp" src="" />}
+                >
+                  {/* <Avatar alt="Travis Howard" src={list.pDetails.partnerPic} /> */}
+                </Badge>
               </ListItemText>
             </ListItem>
           ))}

@@ -102,9 +102,12 @@
 }
 
 .smallAvatar {
-  height: 20px !important;
-  width: 20px !important;
-  top: 25px !important
+  height: 25px !important;
+  width: 25px !important;
+  top: -10px !important;
+  left: -40px !important;
+  right: 0 !important;
+  bottom: 0 !important;
 }
 
 
