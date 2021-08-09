@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
 import { Form } from "react-bootstrap";
 import { Button } from "semantic-ui-react";
-
+import LeafletMap from "../leaflet/leaflet";
 //feedback form
 import FeedbackForm from "../../reusable/feedback_form";
 
@@ -116,14 +116,15 @@ class SimpleMap extends Component {
           marginTop: "50px",
         }}
       >
-        <GoogleMapReact
+        {/* <GoogleMapReact
           // bootstrapURLKeys={{ key: "AIzaSyDUAqHmXwTZU1caOWJ-LC-dBl3R7uzOkPo" }}
           bootstrapURLKeys={{ key: "AIzaSyAJuo4r4xk6TkcDOCMk16G_AIIBBbOPV88" }}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
           <AnyReactComponent lat={17.686815} lng={83.218483} text="SPOTMIES" />
-        </GoogleMapReact>
+        </GoogleMapReact> */}
+        <LeafletMap latitude={17.745273} logitude={83.249968} />
         <div
           style={{
             marginTop: "30px",
