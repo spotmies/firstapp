@@ -110,7 +110,6 @@
   bottom: 0 !important;
 }
 
-
 @media screen and (max-width: 700px) {
   .input-message {
     width: 60% !important;
@@ -141,7 +140,7 @@ input:focus {
 }
 .message-area {
   overflow-y: auto;
-  height: 65vh;
+  height: 52vh;
 }
 .last-msg-list {
   overflow: hidden;
@@ -230,5 +229,4 @@ input:focus {
     padding: 0 !important;
     /* width: 100%; */
   }
-
 }

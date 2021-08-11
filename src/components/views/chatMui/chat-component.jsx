@@ -610,6 +610,7 @@ const ChatBanner = React.memo(
                             <MenuList
                               autoFocusItem={open}
                               id="menu-list-grow"
+                              className="menu-list"
                               onKeyDown={handleListKeyDown}
                             >
                               <MenuItem onClick={handleClose}>
