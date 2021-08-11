@@ -48,7 +48,7 @@ import {
   MdSend,
   MdSlowMotionVideo,
   MdStar,
-  MdMoreVert
+  MdMoreVert,
 } from "react-icons/md";
 import emptychatPic from "../../../images/emptychatPic.svg";
 
@@ -424,7 +424,7 @@ function Chat(props) {
               <div>
                 <ChatBanner orderDetails={orderDetails} />
 
-                <div>
+                <div className="chat-main">
                   <ChatArea
                     chatListScrollControl={chatListScrollControl}
                     scrollhandle={scrollhandle}
@@ -565,10 +565,10 @@ const ChatBanner = React.memo(
               />
             </IconButton>
             <div className="appbar-title">
-              <h2>
+              <h2 className="personName">
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
-              <p style={{ marginTop: "-15px" }}>
+              <p className="businessName">
                 business name | 4.5
                 <MdStar color="gold" />
               </p>
@@ -713,16 +713,22 @@ const ListChatPersons = React.memo(
                   }
                 })()}
               </ListItemText>
-              <ListItemText align="right" >
+              <ListItemText align="right">
                 <div>
-                {gettbystamps(
-                  Number(JSON.parse(list.msgs[list.msgs.length - 1]).time),
-                  "time"
-                )}
+                  {gettbystamps(
+                    Number(JSON.parse(list.msgs[list.msgs.length - 1]).time),
+                    "time"
+                  )}
                 </div>
                 <Badge
                   overlap="circular"
-                  badgeContent={<SmallAvatar className="smallAvatar" alt="Remy Sharp" src="" />}
+                  badgeContent={
+                    <SmallAvatar
+                      className="smallAvatar"
+                      alt="Remy Sharp"
+                      src=""
+                    />
+                  }
                 >
                   {/* <Avatar alt="Travis Howard" src={list.pDetails.partnerPic} /> */}
                 </Badge>

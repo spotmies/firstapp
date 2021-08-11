@@ -87,7 +87,7 @@
   height: 400px;
 }
 .chatdiv {
-  height: calc(100vh - 280px);
+  height: calc(100vh - 330px);
   width: 100%;
   overflow-y: scroll;
   /* color: rgb(141, 139, 139); */
@@ -167,6 +167,18 @@
   width: 100%;
 }
 
+.personName {
+  font-weight: 550;
+}
+
+.businessName {
+  margin-top: -15px;
+}
+
+/* .chat-main {
+  height: 300px !important;
+} */
+
 @media screen and (max-width: 420px) {
   .chat-form {
     width: 100%;
@@ -190,5 +202,21 @@
   .chatdiv {
     height: calc(100vh - 255px);
     max-width: 420px;
+  }
+
+  .chat-appbar {
+    height: 60px;
+  }
+
+  .personName {
+    font-size: 22px;
+    margin-left: -10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .businessName {
+    margin-top: -15px;
+    margin-left: -10px;
   }
 }
