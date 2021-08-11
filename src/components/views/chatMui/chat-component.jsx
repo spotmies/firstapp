@@ -402,7 +402,7 @@ function Chat(props) {
     setlocalMedia(newPeople);
   };
   return (
-    <div className={classes.mainScreen}>
+    <div className={classes.mainScreen} id="complete-page">
       {deviceWidth > 700 ? (
         <Grid
           container
