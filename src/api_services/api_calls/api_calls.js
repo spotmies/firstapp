@@ -16,6 +16,14 @@ export async function apiGetMethod(path) {
   } else return null;
 }
 
+export async function apiGetOpenSource(uriPath) {
+  const response = await fetch(uriPath, await addHeaderWithOutBody("GET"));
+  if (response.status === 200) {
+    const data = await response.json();
+    return data;
+  } else return null;
+}
+
 export async function apiDelMethod(path) {
   const response = await fetch(
     (constants.constants.localBacked

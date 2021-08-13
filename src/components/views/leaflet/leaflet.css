@@ -1,3 +1,11 @@
 .map {
-    height:100vh;
+  height: 80vh;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 630px) {
+  .map {
+    height: 50vh;
+    margin: 0 auto;
   }
+}
