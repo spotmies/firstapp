@@ -163,10 +163,6 @@
   color: grey;
 }
 
-.Audio-msg {
-  width: 100%;
-  z-index: 100 !important;
-}
 
 .menu-list {
   z-index: 1000 !important;
@@ -188,9 +184,10 @@
   .chat-form {
     width: 100%;
   }
-
-  /* #complete-page {
+/* 
+  #complete-page {
     margin-top: -100px !important;
+    z-index: 999;
   } */
 
   .gridHead {
@@ -228,4 +225,10 @@
     margin-top: -15px;
     margin-left: -10px;
   }
+
+  
+.Audio-msg {
+  width: 220px;
+  z-index: 100 !important;
+}
 }
