@@ -226,6 +226,11 @@
     margin-left: -10px;
   }
 
+  .listChatMobile {
+    /* height: 500px; */
+    width: 320px;
+  }
+
   
 .Audio-msg {
   width: 220px;

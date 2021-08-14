@@ -998,6 +998,7 @@ const MobileChat = React.memo(
             listChats={props.listChats}
             currentMsgId={props.currentMsgId}
             selectChat={props.selectChat}
+            class="listChatMobile"
           />
         ) : (
           <div>
