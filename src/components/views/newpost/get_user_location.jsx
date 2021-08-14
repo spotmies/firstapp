@@ -3,32 +3,35 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import { connect } from "react-redux";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import LeafletMapp from "../leaflet/leaflet";
 
 function GetLocationDialog(props) {
   const [open, setOpen] = useState(false);
-  const [latitude, setLatitude] = useState(17.7367265);
-  const [logitude, setlogitude] = useState(83.3073091);
-  useEffect(() => {
+
+  const getUserLocation = () => {
     if (window.navigator.geolocation) {
-      // Geolocation available
       navigator.geolocation.getCurrentPosition(function (location) {
-        console.log(location.coords.latitude, location.coords.longitude);
-        setLatitude(location.coords.latitude);
-        setlogitude(location.coords.longitude);
-        console.log(location.coords.accuracy);
+        props.updateCoordinates({
+          lat: location.coords.latitude,
+          lng: location.coords.longitude,
+        });
       });
     }
-    console.log(props.openDialog);
-    setOpen(props.openDialog);
-    return () => {};
-  }, [props.openDialog]);
-  const handleClickOpen = () => {
-    setOpen(true);
   };
+
+  useEffect(() => {
+    if (Object.keys(props.editOrderData).length === 0) {
+      getUserLocation();
+    } else {
+      props.updateCoordinates({
+        lat: props.editOrderData.loc[0],
+        lng: props.editOrderData.loc[1],
+      });
+    }
+    setOpen(props.openDialog);
+  }, [props.openDialog]);
 
   const handleClose = () => {
     setOpen(false);
@@ -37,9 +40,6 @@ function GetLocationDialog(props) {
 
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button> */}
       <Dialog
         fullWidth={true}
         maxWidth="xl"
@@ -53,11 +53,12 @@ function GetLocationDialog(props) {
         </DialogTitle>
         <DialogContent>
           <>
-            <div>{props.mapAddress}</div>
+            <div>{props.mapAddress.display_name}</div>
+            <Button onClick={getUserLocation} color="primary">
+              Get current Location
+            </Button>
             <LeafletMapp
               style={{ width: "300px" }}
-              latitude={latitude}
-              logitude={logitude}
               draggable={true}
               popup={false}
             />
@@ -84,6 +85,14 @@ function GetLocationDialog(props) {
 const mapStateToProps = (state) => {
   return {
     mapAddress: state.currentMapAddress,
+    editOrderData: state.editOrderData,
   };
 };
-export default connect(mapStateToProps, null)(GetLocationDialog);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateCoordinates: (data) => {
+      dispatch({ type: "UPDATE_JOB_POST_LOCATION", value: data });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(GetLocationDialog);

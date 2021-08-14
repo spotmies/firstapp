@@ -115,14 +115,13 @@ class Postnew extends Component {
     // eventLoader(false);
   };
   componentDidMount() {
-    console.log(
-      "mount",
-      this.props.reqGeocodes.lat,
-      this.props.reqGeocodes.lng
-    );
+    console.log("mount");
     if (this.props.editDate === "true") {
       // console.log("edit data coming >>>");
       this.getOrder();
+    } else {
+      let emptyObject = {};
+      this.props.editOrder(emptyObject);
     }
     // console.log(this.state);
     // console.log(this.props);
@@ -329,6 +328,7 @@ class Postform extends Component {
       schedule: new Date(state.schedule).valueOf(),
       job: this.props.job,
       loc: [this.props.prop.reqGeocodes.lat, this.props.prop.reqGeocodes.lng],
+      address: JSON.stringify(this.props.prop.reqAddress),
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",
       ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
@@ -773,31 +773,6 @@ function SimpleDialog(props) {
     </Dialog>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    userDetails:
-      Object.keys(state.userDetails).length !== 0
-        ? state.userDetails
-        : loadState("userDetails") ?? [],
-    orders: state.orders,
-    reqGeocodes: state.jobPostLocation,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addNewOrder: (data) => {
-      dispatch({ type: "ADD_NEW_ORDER", value: data });
-    },
-    updateAllOrders: (data) => {
-      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
-    },
-    updateOrder: (data) => {
-      dispatch({ type: "UPDATE_ORDER", value: data });
-    },
-  };
-};
-
 function MediaImport(props) {
   let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
   const [audioFile, setaudioFile] = useState("");
@@ -852,6 +827,35 @@ function MediaImport(props) {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userDetails:
+      Object.keys(state.userDetails).length !== 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
+    orders: state.orders,
+    reqGeocodes: state.jobPostLocation,
+    reqAddress: state.currentMapAddress,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewOrder: (data) => {
+      dispatch({ type: "ADD_NEW_ORDER", value: data });
+    },
+    updateAllOrders: (data) => {
+      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+    updateOrder: (data) => {
+      dispatch({ type: "UPDATE_ORDER", value: data });
+    },
+    editOrder: (data) => {
+      dispatch({ type: "EDIT_ORDER_DATA", value: data });
+    },
+  };
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

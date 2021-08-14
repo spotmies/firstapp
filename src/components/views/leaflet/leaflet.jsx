@@ -9,24 +9,22 @@ import { connect } from "react-redux";
 // import LocationPicker from "react-leaflet-location-picker";
 
 function LeafletMap(props) {
-  const center = {
-    lat: props.latitude,
-    lng: props.logitude,
-  };
   const [zoom, setZoom] = useState(17);
   const [popup, setpopup] = useState("spotmies");
-  const [position, setPosition] = useState(center);
+  const [map, setMap] = useState(null);
   const markerRef = useRef(null);
-
+  useEffect(() => {
+    console.log("new lat", props.latitude);
+  }, [props.latitude]);
   useEffect(async () => {
     const addressObject = await reverseGeocode({
-      lat: position.lat,
-      long: position.lng,
+      lat: props.position.lat,
+      long: props.position.lng,
     });
     setpopup(addressObject.display_name);
-    props.updateMapAddress(addressObject.display_name);
-    props.updateCoordinates(position);
-  }, [position]);
+    props.updateMapAddress(addressObject);
+    if (map != null) map.flyTo(props.position, zoom);
+  }, [props.position]);
   const grenIcon = L.icon({
     iconUrl: leafGreen,
     shadowUrl: leafGreen,
@@ -37,8 +35,9 @@ function LeafletMap(props) {
       dragend() {
         const marker = markerRef.current;
         if (marker != null) {
-          setPosition(marker.getLatLng());
-          console.log("inside if");
+          props.updateCoordinates(marker.getLatLng());
+
+          console.log("inside if", marker.getLatLng());
         }
       },
     }),
@@ -50,18 +49,18 @@ function LeafletMap(props) {
       <MapContainer
         className="map"
         style={{ height: "50vh", width: "700px" }}
-        center={position}
+        center={props.position}
         zoom={zoom}
         minZoom={1}
+        whenCreated={setMap}
       >
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
         <Marker
           ref={markerRef}
-          position={position}
+          position={props.position}
           icon={grenIcon}
           draggable={props.draggable ?? false}
           eventHandlers={eventHandlers}
@@ -72,7 +71,11 @@ function LeafletMap(props) {
     </div>
   );
 }
-
+const mapStateToProps = (state) => {
+  return {
+    position: state.jobPostLocation,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     updateMapAddress: (data) => {
@@ -83,5 +86,5 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(null, mapDispatchToProps)(LeafletMap);
+export default connect(mapStateToProps, mapDispatchToProps)(LeafletMap);
 // export default LeafletMap;

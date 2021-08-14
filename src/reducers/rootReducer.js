@@ -7,8 +7,9 @@ const initState = {
   userChats: [],
   isUserLogin: false,
   feedbackQuestion: [],
-  currentMapAddress: "",
+  currentMapAddress: {},
   jobPostLocation: { lat: 17.686815, lng: 83.218483 },
+  editOrderData: {},
 };
 
 const rootReducer = (state = initState, action) => {
@@ -136,6 +137,11 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         jobPostLocation: action.value,
+      };
+    case "EDIT_ORDER_DATA":
+      return {
+        ...state,
+        editOrderData: action.value,
       };
 
     default:
