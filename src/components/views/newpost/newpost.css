@@ -1,0 +1,40 @@
+.input-search {
+  width: 300px;
+  height: 45px;
+  padding: 5px;
+  border: 1px solid rgb(199, 199, 199);
+  border-radius: 20px;
+
+  background-color: rgb(214, 214, 214);
+}
+.main-content-map {
+  margin: 0 auto;
+  display: inline-flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.map-search-controls {
+  display: table;
+  /* width: 100%; */
+  margin: 0 auto;
+}
+.list-search-locations {
+  width: 300px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+.list-item {
+  display: inline-flex;
+  padding: 3px;
+}
+.list-item :hover {
+  cursor: pointer;
+}
+.list-text {
+  margin-left: 15px;
+  font-weight: lighter;
+}
+.list-text h4 {
+  font-weight: lighter;
+  text-overflow: ellipsis;
+}
