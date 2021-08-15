@@ -17,7 +17,15 @@ import Avatar from "@material-ui/core/Avatar";
 import ImageIcon from "@material-ui/icons/Image";
 import StarIcon from "@material-ui/icons/Star";
 //import icons
-import { MdLocationOn, MdLocationSearching, MdSearch } from "react-icons/md";
+import {
+  MdHistory,
+  MdLocationOn,
+  MdLocationSearching,
+  MdNearMe,
+  MdSearch,
+} from "react-icons/md";
+import { apiGetMethod } from "../../../api_services/api_calls/api_calls";
+import { searchLocation } from "../../controllers/search_location_controller/search_location_controller";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function GetLocationDialog(props) {
   const [open, setOpen] = useState(false);
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
   const classes = useStyles();
   const getUserLocation = () => {
     console.log("user l");
@@ -60,7 +69,20 @@ function GetLocationDialog(props) {
     setOpen(false);
     props.close(false);
   };
-
+  const searchHandle = async (e) => {
+    let search = e.target.value;
+    if (search.length > 3) {
+      let response = await searchLocation(search);
+      console.log(response);
+      setSearchSuggestions(response);
+    }
+  };
+  const setLocation = (data) => {
+    props.updateCoordinates({
+      lat: data.coordinates.latitude,
+      lng: data.coordinates.logitude,
+    });
+  };
   return (
     <div>
       <Dialog
@@ -82,54 +104,51 @@ function GetLocationDialog(props) {
                   <input
                     className="input-search"
                     placeholder="Search Street, area, colony, city.................."
+                    onChange={searchHandle}
                   />
                   {/* <MdSearch size="2.5rem" /> */}
                   {/* <MdLocationSearching size="2.2rem" onClick={getUserLocation} /> */}
                 </div>
                 <div className="list-search-locations">
                   <List dense={true}>
-                    <ListItem button>
+                    <ListItem
+                      button
+                      style={{ paddingBottom: "10px" }}
+                      onClick={getUserLocation}
+                    >
                       <div>
-                        <MdLocationOn />
+                        <MdNearMe color="grey" size="1.2rem" />
                       </div>
                       <div className="list-text">
-                        <p>lksjfdlk</p>
+                        {props.mapAddress.display_name}
                       </div>
                     </ListItem>
-                    <ListItem button>
-                      <ListItemIcon>
-                        <MdLocationOn />
-                      </ListItemIcon>
-                      <ListItemText primary="Chelsea Otakan" />
-                    </ListItem>
-                    <ListItem button>
-                      <ListItemIcon>
-                        <MdLocationOn />
-                      </ListItemIcon>
-                      <ListItemText primary="Eric Hoffman" />
-                    </ListItem>
-                    <ListItem button>
-                      <ListItemIcon>
-                        <MdLocationOn />
-                      </ListItemIcon>
-                      <ListItemText primary="Chelsea Otakan" />
-                    </ListItem>
-                    <ListItem button>
-                      <ListItemIcon>
-                        <MdLocationOn />
-                      </ListItemIcon>
-                      <ListItemText primary="Eric Hoffman" />
-                    </ListItem>
+                    {searchSuggestions.map((cap, key) => (
+                      <ListItem
+                        button
+                        key={key}
+                        style={{ paddingBottom: "10px" }}
+                        onClick={() => {
+                          setLocation(cap);
+                        }}
+                      >
+                        <div>
+                          <MdLocationOn color="grey" size="1.2rem" />
+                        </div>
+                        <div className="list-text">{cap.addressLine}</div>
+                      </ListItem>
+                    ))}
                   </List>
                 </div>
               </div>
               {/* <div>{props.mapAddress.display_name}</div> */}
               <div>
                 <LeafletMapp
-                  style={{ width: "260px" }}
+                  style={{ width: "500px" }}
                   draggable={true}
                   popup={false}
                 />
+                <p>{props.mapAddress.display_name}</p>
               </div>
             </div>
           </>

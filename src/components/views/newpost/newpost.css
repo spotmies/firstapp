@@ -10,7 +10,7 @@
 .main-content-map {
   margin: 0 auto;
   display: inline-flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
 }
 .map-search-controls {
@@ -32,9 +32,12 @@
 }
 .list-text {
   margin-left: 15px;
+  /* width: 80%; */
   font-weight: lighter;
-}
-.list-text h4 {
-  font-weight: lighter;
+  white-space: nowrap;
+  width: 120%;
+  overflow: hidden;
   text-overflow: ellipsis;
+  color: grey;
+  font-size: small;
 }

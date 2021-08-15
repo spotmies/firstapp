@@ -48,7 +48,7 @@ function LeafletMap(props) {
     <div>
       <MapContainer
         className="map"
-        style={{ height: "50vh", width: "700px" }}
+        // style={{ height: "50vh", width: "1000px" }}
         center={props.position}
         zoom={zoom}
         minZoom={1}
