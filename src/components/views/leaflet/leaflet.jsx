@@ -22,7 +22,7 @@ function LeafletMap(props) {
       long: props.position.lng,
     });
     setpopup(addressObject.display_name);
-    props.updateMapAddress(addressObject);
+    if (props.isupdateMapAddress) props.updateMapAddress(addressObject);
     if (map != null) map.flyTo(props.position, zoom);
   }, [props.position]);
   const grenIcon = L.icon({
@@ -35,6 +35,7 @@ function LeafletMap(props) {
       dragend() {
         const marker = markerRef.current;
         if (marker != null) {
+          props.allowUpdateMapAddressFromLeaflet(true);
           props.updateCoordinates(marker.getLatLng());
 
           console.log("inside if", marker.getLatLng());
@@ -74,6 +75,7 @@ function LeafletMap(props) {
 const mapStateToProps = (state) => {
   return {
     position: state.jobPostLocation,
+    isupdateMapAddress: state.isupdateMapAddress,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -83,6 +85,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateCoordinates: (data) => {
       dispatch({ type: "UPDATE_JOB_POST_LOCATION", value: data });
+    },
+    allowUpdateMapAddressFromLeaflet: (data) => {
+      dispatch({ type: "IS_UPDATE_MAP_ADDRESS", value: data });
     },
   };
 };

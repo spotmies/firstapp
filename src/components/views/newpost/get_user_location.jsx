@@ -21,6 +21,7 @@ import {
   MdHistory,
   MdLocationOn,
   MdLocationSearching,
+  MdMyLocation,
   MdNearMe,
   MdSearch,
 } from "react-icons/md";
@@ -39,6 +40,7 @@ function GetLocationDialog(props) {
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const classes = useStyles();
   const getUserLocation = () => {
+    props.allowUpdateMapAddressFromLeaflet(true);
     console.log("user l");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (location) {
@@ -78,6 +80,8 @@ function GetLocationDialog(props) {
     }
   };
   const setLocation = (data) => {
+    props.allowUpdateMapAddressFromLeaflet(false);
+    props.updateMapAddress(data);
     props.updateCoordinates({
       lat: data.coordinates.latitude,
       lng: data.coordinates.logitude,
@@ -111,18 +115,6 @@ function GetLocationDialog(props) {
                 </div>
                 <div className="list-search-locations">
                   <List dense={true}>
-                    <ListItem
-                      button
-                      style={{ paddingBottom: "10px" }}
-                      onClick={getUserLocation}
-                    >
-                      <div>
-                        <MdNearMe color="grey" size="1.2rem" />
-                      </div>
-                      <div className="list-text">
-                        {props.mapAddress.display_name}
-                      </div>
-                    </ListItem>
                     {searchSuggestions.map((cap, key) => (
                       <ListItem
                         button
@@ -133,9 +125,13 @@ function GetLocationDialog(props) {
                         }}
                       >
                         <div>
-                          <MdLocationOn color="grey" size="1.2rem" />
+                          <MdNearMe color="grey" size="1.2rem" />
                         </div>
-                        <div className="list-text">{cap.addressLine}</div>
+                        <div className="list-text">
+                          <b>{cap.searchTargetWord}</b>
+                          {cap.remaingTargetWord}
+                          {cap.remainingAddress}
+                        </div>
                       </ListItem>
                     ))}
                   </List>
@@ -143,12 +139,25 @@ function GetLocationDialog(props) {
               </div>
               {/* <div>{props.mapAddress.display_name}</div> */}
               <div>
+                <div className="current-location-tools">
+                  <p>
+                    <MdNearMe color="grey" size="1.4rem" />
+                    &nbsp;{" "}
+                    {props.mapAddress?.display_name ??
+                      props.mapAddress?.addressLine}
+                  </p>
+                  <MdMyLocation
+                    size="1.6rem"
+                    onClick={getUserLocation}
+                    className="cursor-pointer"
+                  />
+                </div>
                 <LeafletMapp
                   style={{ width: "500px" }}
                   draggable={true}
                   popup={false}
+                  // updateMapAddress={false}
                 />
-                <p>{props.mapAddress.display_name}</p>
               </div>
             </div>
           </>
@@ -181,6 +190,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateCoordinates: (data) => {
       dispatch({ type: "UPDATE_JOB_POST_LOCATION", value: data });
+    },
+    updateMapAddress: (data) => {
+      dispatch({ type: "UPDATE_CURRENT_MAP_ADDRESS", value: data });
+    },
+    allowUpdateMapAddressFromLeaflet: (data) => {
+      dispatch({ type: "IS_UPDATE_MAP_ADDRESS", value: data });
     },
   };
 };

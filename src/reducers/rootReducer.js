@@ -10,6 +10,8 @@ const initState = {
   currentMapAddress: {},
   jobPostLocation: { lat: 17.686815, lng: 83.218483 },
   editOrderData: {},
+  universalLoader: false,
+  isupdateMapAddress: true,
 };
 
 const rootReducer = (state = initState, action) => {
@@ -132,8 +134,12 @@ const rootReducer = (state = initState, action) => {
         ...state,
         currentMapAddress: action.value,
       };
+    case "IS_UPDATE_MAP_ADDRESS":
+      return {
+        ...state,
+        isupdateMapAddress: action.value,
+      };
     case "UPDATE_JOB_POST_LOCATION":
-      console.log("updating postloc", action.value);
       return {
         ...state,
         jobPostLocation: action.value,
@@ -142,6 +148,11 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         editOrderData: action.value,
+      };
+    case "UPDATE_UNIVERSAL_LOADER":
+      return {
+        ...state,
+        universalLoader: action.value,
       };
 
     default:
