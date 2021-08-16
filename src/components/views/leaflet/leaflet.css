@@ -1,6 +1,11 @@
 .map {
   height: 50vh;
-  width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+.map-modal {
+  height: 40vh;
+  width: 100%;
   margin: 0 auto;
 }
 

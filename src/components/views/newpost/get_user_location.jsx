@@ -5,8 +5,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { connect } from "react-redux";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import LeafletMapp from "../leaflet/leaflet";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import "./newpost.css";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -68,31 +69,52 @@ function GetLocationDialog(props) {
       lng: data.coordinates.logitude,
     });
   };
+  const currentLocation = () => {
+    return (
+      <div className="current-location-tools">
+        <div className="leftpart">
+          <p className="current-map-address">
+            <MdNearMe color="grey" size="1.4rem" />
+            &nbsp;{" "}
+            {props.mapAddress?.display_name ?? props.mapAddress?.addressLine}
+          </p>
+        </div>
+        <div className="rightpart">
+          <MdMyLocation
+            size="1.6rem"
+            onClick={getUserLocation}
+            className="cursor-pointer"
+          />
+        </div>
+      </div>
+    );
+  };
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <div>
-      <Dialog
-        fullWidth={true}
-        maxWidth="xl"
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
+    <Dialog
+      fullWidth={true}
+      maxWidth="xl"
+      open={open}
+      onClose={handleClose}
+      scroll="paper"
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {"Select your Location Here ?"}
+      </DialogTitle>
+      <DialogContent>
+        <div className="dialog-body">
           <>
             <div className="main-content-map">
-              <div>
+              <div className="leftpart">
                 <div className="map-search-controls">
                   <input
                     className="input-search"
                     placeholder="Search Street, area, colony, city.................."
                     onChange={searchHandle}
                   />
-                  {/* <MdSearch size="2.5rem" /> */}
-                  {/* <MdLocationSearching size="2.2rem" onClick={getUserLocation} /> */}
                 </div>
                 <div className="list-search-locations">
                   <List dense={true}>
@@ -123,47 +145,33 @@ function GetLocationDialog(props) {
                   </List>
                 </div>
               </div>
-              {/* <div>{props.mapAddress.display_name}</div> */}
-              <div>
-                <div className="current-location-tools">
-                  <p>
-                    <MdNearMe color="grey" size="1.4rem" />
-                    &nbsp;{" "}
-                    {props.mapAddress?.display_name ??
-                      props.mapAddress?.addressLine}
-                  </p>
-                  <MdMyLocation
-                    size="1.6rem"
-                    onClick={getUserLocation}
-                    className="cursor-pointer"
-                  />
+
+              <div className="rightpart">
+                <div className="current-location-web"> {currentLocation()}</div>
+                <LeafletMapp draggable={true} popup={false} mapHeight={40} />
+                <div className="current-location-mobile">
+                  {currentLocation()}
                 </div>
-                <LeafletMapp
-                  style={{ width: "500px" }}
-                  draggable={true}
-                  popup={false}
-                  // updateMapAddress={false}
-                />
               </div>
             </div>
           </>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button
-            onClick={() => {
-              props.onComplete();
-            }}
-            color="primary"
-            autoFocus
-          >
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Disagree
+        </Button>
+        <Button
+          onClick={() => {
+            props.onComplete();
+          }}
+          color="primary"
+          autoFocus
+        >
+          Agree
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 const mapStateToProps = (state) => {

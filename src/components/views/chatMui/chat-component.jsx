@@ -184,8 +184,13 @@ function Chat(props) {
 
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
-    console.log(msgId);
-    if (msgId != null) chatBox(msgId);
+    // console.log(msgId);
+    if (msgId != null) {
+      chatBox(msgId);
+      props.disableChatResponseTab(true);
+    } else {
+      props.disableChatResponseTab(false);
+    }
   };
   const sendMediaFile = (files) => {
     let tempFiles = files ?? uploadedFiles;
@@ -421,7 +426,7 @@ function Chat(props) {
             {/* appbar */}
             {currentMsgId !== null ? (
               <div>
-                <ChatBanner orderDetails={orderDetails} />
+                <ChatBanner orderDetails={orderDetails} prop={props} />
 
                 <div>
                   <ChatArea
@@ -499,6 +504,7 @@ function Chat(props) {
           addMore={getMediaFiles}
           // loader props
           loader={loader}
+          prop={props}
         />
       )}
     </div>
@@ -530,6 +536,7 @@ const ChatBanner = React.memo(
       }
     }
     const backToChatList = () => {
+      console.log(props);
       props.selectChat(null);
     };
     // return focus to the button when we transitioned from !open -> open
@@ -541,6 +548,11 @@ const ChatBanner = React.memo(
 
       prevOpen.current = open;
     }, [open]);
+    useEffect(() => {
+      return () => {
+        props.prop.disableChatResponseTab(false);
+      };
+    }, []);
     return (
       <div>
         <AppBar position="static" className="chat-appbar" elevation="0">
@@ -989,6 +1001,7 @@ const MobileChat = React.memo(
               orderDetails={props.orderDetails}
               mobile={true}
               selectChat={props.selectChat}
+              prop={props.prop}
             />
             <ChatArea
               chatListScrollControl={props.chatListScrollControl}
@@ -1060,6 +1073,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addNewMessage: (data) => {
       dispatch({ type: "ADD_NEW_MESSAGE", value: data });
+    },
+    disableChatResponseTab: (data) => {
+      dispatch({ type: "DISABLE_CHAT_RESPONSE_TAB", value: data });
     },
   };
 };

@@ -12,6 +12,7 @@ const initState = {
   editOrderData: {},
   universalLoader: false,
   isupdateMapAddress: true,
+  disableChatResponseTab: false,
 };
 
 const rootReducer = (state = initState, action) => {
@@ -153,6 +154,12 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         universalLoader: action.value,
+      };
+    case "DISABLE_CHAT_RESPONSE_TAB":
+      console.log("disable chat>>>>>>>>>>>", action.value);
+      return {
+        ...state,
+        disableChatResponseTab: action.value,
       };
 
     default:
