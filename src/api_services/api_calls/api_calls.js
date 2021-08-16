@@ -10,7 +10,7 @@ function testAction(loaderState) {
   };
 }
 export async function apiGetMethod(path) {
-  store.dispatch(testAction(true));
+  // store.dispatch(testAction(true));
   // console.log("store", rootReducer);
   const response = await fetch(
     (constants.constants.localBacked
@@ -20,7 +20,7 @@ export async function apiGetMethod(path) {
   );
   console.log(response);
   //   return response;
-  store.dispatch(testAction(false));
+  // store.dispatch(testAction(false));
   if (response.status === 200) {
     const data = await response.json();
     return data;

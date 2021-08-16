@@ -10,35 +10,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import "./newpost.css";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
-import StarIcon from "@material-ui/icons/Star";
 //import icons
-import {
-  MdHistory,
-  MdLocationOn,
-  MdLocationSearching,
-  MdMyLocation,
-  MdNearMe,
-  MdSearch,
-} from "react-icons/md";
-import { apiGetMethod } from "../../../api_services/api_calls/api_calls";
+import { MdMyLocation, MdNearMe } from "react-icons/md";
 import { searchLocation } from "../../controllers/search_location_controller/search_location_controller";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 function GetLocationDialog(props) {
   const [open, setOpen] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const classes = useStyles();
+
   const getUserLocation = () => {
     props.allowUpdateMapAddressFromLeaflet(true);
     console.log("user l");
@@ -74,9 +53,11 @@ function GetLocationDialog(props) {
   const searchHandle = async (e) => {
     let search = e.target.value;
     if (search.length > 3) {
+      props.updateLoader(true);
       let response = await searchLocation(search);
       console.log(response);
       setSearchSuggestions(response);
+      props.updateLoader(false);
     }
   };
   const setLocation = (data) => {
@@ -128,9 +109,14 @@ function GetLocationDialog(props) {
                           <MdNearMe color="grey" size="1.2rem" />
                         </div>
                         <div className="list-text">
-                          <b>{cap.searchTargetWord}</b>
-                          {cap.remaingTargetWord}
-                          {cap.remainingAddress}
+                          {cap.remaingTargetWord != null ||
+                          cap.remaingTargetWord != undefined ? (
+                            <>
+                              <b>{cap.searchTargetWord}</b>
+                              {cap.remaingTargetWord}
+                            </>
+                          ) : null}
+                          {cap.remainingAddress ?? cap.addressLine}
                         </div>
                       </ListItem>
                     ))}
@@ -184,6 +170,7 @@ const mapStateToProps = (state) => {
   return {
     mapAddress: state.currentMapAddress,
     editOrderData: state.editOrderData,
+    loader: state.universalLoader,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -196,6 +183,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     allowUpdateMapAddressFromLeaflet: (data) => {
       dispatch({ type: "IS_UPDATE_MAP_ADDRESS", value: data });
+    },
+    updateLoader: (data) => {
+      dispatch({ type: "UPDATE_UNIVERSAL_LOADER", value: data });
     },
   };
 };
