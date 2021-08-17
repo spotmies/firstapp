@@ -142,7 +142,7 @@ input:focus {
 }
 .message-area {
   overflow-y: auto;
-  height: 52vh;
+  height: 53vh;
 }
 .last-msg-list {
   overflow: hidden;

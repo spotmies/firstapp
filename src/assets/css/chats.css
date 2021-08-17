@@ -86,12 +86,12 @@
 .scrollchat {
   height: 400px;
 }
-.chatdiv {
-  height: calc(100vh - 330px);
+/* .chatdiv {
+  height: calc(100vh - 280px);
   width: 100%;
   overflow-y: scroll;
-  /* color: rgb(141, 139, 139); */
-}
+  /* color: rgb(141, 139, 139); 
+} */
 
 .resHead {
   display: "inline-flex";
@@ -190,6 +190,7 @@
     z-index: 999;
   } */
 
+
   .gridHead {
     /* padding: 0 !important; */
     padding-right: 0 !important;
@@ -205,10 +206,10 @@
     margin-left: 10px;
   }
 
-  .chatdiv {
-    height: calc(100vh - 255px);
+  /* .chatdiv {
+    height: calc(100vh - 200px);
     max-width: 420px;
-  }
+  } */
 
   .chat-appbar {
     height: 60px;
@@ -232,8 +233,13 @@
   }
 
   
+.message-area {
+  overflow-y: auto;
+  height: 60vh;
+}
+  
 .Audio-msg {
-  width: 220px;
+  width: 200px;
   z-index: 100 !important;
 }
 }
