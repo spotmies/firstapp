@@ -553,6 +553,7 @@ const ChatBanner = React.memo(
     useEffect(() => {
       return () => {
         props.prop.disableChatResponseTab(false);
+        props.prop.disableBottomBar(false);
       };
     }, []);
     return (

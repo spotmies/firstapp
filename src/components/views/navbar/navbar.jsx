@@ -64,6 +64,7 @@ function Navibar(props) {
         props.updateAllOrders(userOrders);
         props.updateAllChats(userChats);
         props.updateAllResponses(userResponses);
+        props.enableBottomBar(true);
       }
     });
   };
@@ -336,6 +337,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateAllOrders: (data) => {
       dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+    enableBottomBar: (data) => {
+      dispatch({ type: "DISABLE_BOTTOM_BAR", value: !data });
     },
   };
 };

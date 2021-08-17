@@ -1,18 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./navbar.css";
 import { IconContext } from "react-icons";
-import {
-  MdAccountBox,
-  MdAccountCircle,
-  MdChatBubble,
-  MdHome,
-  MdWork,
-} from "react-icons/md";
+import { MdAccountCircle, MdChatBubble, MdHome, MdWork } from "react-icons/md";
+
 function LabelBottomNavigation(props) {
+  var history = useHistory();
+
+  useEffect(() => {
+    props.history.listen((location) => {
+      let browserPath = location.pathname.split("/");
+      //console.log("path >>>>>>>> ", browserPath);
+      props.setBottomBarState(browserPath[1]);
+      //   if (history.action === "POP") {
+      //     console.log("back button >>>");
+      //     history.go(1);
+      //   }
+      //   window.onpopstate = function (event) {
+      //     event.preventDefault();
+      //     console.log("back >>>>>");
+      //     history.go(1);
+      //   };
+    });
+  }, [props.history]);
   const handleChange = (event, newValue) => {
     props.setBottomBarState(newValue);
 

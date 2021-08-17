@@ -13,7 +13,7 @@ const initState = {
   universalLoader: false,
   isupdateMapAddress: true,
   disableChatResponseTab: false,
-  disableBottomBar: false,
+  disableBottomBar: true,
   bottomBarState: "",
 };
 
