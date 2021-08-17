@@ -32,6 +32,7 @@ import io from "socket.io-client";
 import constants from "../../../helpers/constants";
 import { getResponses } from "../../controllers/responses/responses_controller";
 import { getConversasions } from "../../controllers/chat/chat_controller";
+import LabelBottomNavigation from "./bottom_navigation";
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
@@ -299,6 +300,11 @@ function Navibar(props) {
             </div>
           ) : null}
         </div>
+        {!props.disableBottomBar ? (
+          <div className="bottom-navigation">
+            <LabelBottomNavigation history={history} />
+          </div>
+        ) : null}
       </header>
     </div>
   );
@@ -308,6 +314,7 @@ const mapStateToProps = (state) => {
     userDetails: state.userDetails,
     isUserLogin: state.isUserLogin,
     loader: state.universalLoader,
+    disableBottomBar: state.disableBottomBar,
   };
 };
 const mapDispatchToProps = (dispatch) => {

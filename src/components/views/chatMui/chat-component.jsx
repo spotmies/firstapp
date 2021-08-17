@@ -188,8 +188,10 @@ function Chat(props) {
     if (msgId != null) {
       chatBox(msgId);
       props.disableChatResponseTab(true);
+      props.disableBottomBar(true);
     } else {
       props.disableChatResponseTab(false);
+      props.disableBottomBar(false);
     }
   };
   const sendMediaFile = (files) => {
@@ -1076,6 +1078,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     disableChatResponseTab: (data) => {
       dispatch({ type: "DISABLE_CHAT_RESPONSE_TAB", value: data });
+    },
+    disableBottomBar: (data) => {
+      dispatch({ type: "DISABLE_BOTTOM_BAR", value: data });
     },
   };
 };

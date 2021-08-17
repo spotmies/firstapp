@@ -124,8 +124,21 @@
   width: 100%;
   margin-top: 1px;
 }
+.bottom-navigation {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
 @media screen and (max-width: 900px) {
   .nav-linkList {
+    width: 100%;
+  }
+
+  .bottom-navigation {
+    display: block;
+    position: fixed;
+    bottom: 0;
     width: 100%;
   }
 
@@ -140,7 +153,12 @@
     height: 40px;
     width: 30px;
   }
-
+  .bottom-navigation {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
   .title h2 {
     font-size: 22px;
     margin-top: 5px !important;

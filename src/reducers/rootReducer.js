@@ -13,6 +13,8 @@ const initState = {
   universalLoader: false,
   isupdateMapAddress: true,
   disableChatResponseTab: false,
+  disableBottomBar: false,
+  bottomBarState: "",
 };
 
 const rootReducer = (state = initState, action) => {
@@ -156,10 +158,19 @@ const rootReducer = (state = initState, action) => {
         universalLoader: action.value,
       };
     case "DISABLE_CHAT_RESPONSE_TAB":
-      console.log("disable chat>>>>>>>>>>>", action.value);
       return {
         ...state,
         disableChatResponseTab: action.value,
+      };
+    case "DISABLE_BOTTOM_BAR":
+      return {
+        ...state,
+        disableBottomBar: action.value,
+      };
+    case "UPDATE_BOTTOM_BAR_STATE":
+      return {
+        ...state,
+        bottomBarState: action.value,
       };
 
     default:
