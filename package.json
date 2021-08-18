@@ -16,6 +16,9 @@
     "date-fns": "^2.22.1",
     "firebase": "^8.2.6",
     "google-map-react": "^2.1.9",
+    "leaflet": "^1.7.1",
+    "leaflet-control-geocoder": "^2.3.0",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
     "mic-recorder-to-mp3": "^2.2.2",
     "react": "^17.0.2",
     "react-animate-on-scroll": "^2.1.5",
@@ -23,6 +26,7 @@
     "react-datepicker": "^4.1.0",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
+    "react-leaflet": "^3.2.1",
     "react-onscroll": "^1.0.4",
     "react-redux": "^7.2.4",
     "react-reveal": "^1.2.2",
@@ -49,16 +53,9 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

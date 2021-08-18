@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import "../../../index.css";
@@ -12,8 +12,6 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import MyResponses from "../chats/responses";
-
-import Mobilechat from "./chat-mobile";
 
 /*css*/
 import "./chat.css";
@@ -79,49 +77,80 @@ const useStyles = makeStyles((theme) => ({
 
 function Mybookings(props) {
   const classes = useStyles();
+  const history = props.history;
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [height, width] = useWindowSize();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    if (newValue == 0) {
+      history.push("/response");
+    } else if (newValue == 1) {
+      history.push("/chat");
+    }
   };
-
+  const changeSwipeIndex = (newValue) => {
+    handleChange(null, newValue);
+  };
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-
+  useEffect(() => {
+    let browserPath = history.location.pathname.split("/");
+    if (browserPath[1] == "chat") {
+      handleChangeIndex(1);
+    } else if (browserPath[1] == "response") handleChangeIndex(0);
+  }, [history.location]);
   /*  our functions*/
 
   return (
-    <div className={classes.root} style={{ width: "100%", marginTop: "12px" }}>
-      <AppBar position="static" color="default">
-        <Tabs
+    <div className={classes.root} style={{ width: "100%" }}>
+      {width > 700 ? (
+        <div style={{ marginTop: "12px" }}>
+          <ChatResponseBar
+            value={value}
+            handleChange={handleChange}
+            a11yProps={a11yProps}
+          />
+        </div>
+      ) : props.disableAppBar == false ? (
+        <ChatResponseBar
           value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Response" {...a11yProps(0)} />
-          <Tab label="Chat" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
+          handleChange={handleChange}
+          a11yProps={a11yProps}
+        />
+      ) : null}
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
-        onChangeIndex={handleChangeIndex}
+        onChangeIndex={changeSwipeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <MyResponses />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          {/* {width <= 420 ? <Mobilechat className="chat" /> : <Chat className="chat" />}  */}
-          <Chat className="chat" />
+          <Chat className="chat" history={history} />
         </TabPanel>
       </SwipeableViews>
     </div>
+  );
+}
+
+function ChatResponseBar({ value, handleChange, a11yProps }) {
+  return (
+    <AppBar position="static" color="default">
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="fullWidth"
+        aria-label="full width tabs example"
+      >
+        <Tab label="Response" {...a11yProps(0)} />
+        <Tab label="Chat" {...a11yProps(1)} />
+      </Tabs>
+    </AppBar>
   );
 }
 
@@ -129,6 +158,7 @@ const mapStateToProps = (state) => {
   return {
     userDetails: state.userDetails,
     responses: state.responses,
+    disableAppBar: state.disableChatResponseTab,
   };
 };
 const mapDispatchToProps = (dispatch) => {

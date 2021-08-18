@@ -185,8 +185,29 @@ function Chat(props) {
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
     console.log(msgId);
-    if (msgId != null) chatBox(msgId);
+    if (msgId != null) {
+      chatBox(msgId);
+      props.disableChatResponseTab(true);
+      props.disableBottomBar(true);
+      props.history.push(`/chat/${msgId}`);
+    } else {
+      props.disableChatResponseTab(false);
+      props.disableBottomBar(false);
+    }
   };
+  useEffect(() => {
+    props.history.listen((location) => {
+      let browserPath = location.pathname.split("/");
+      if (
+        browserPath[2] == "" ||
+        browserPath[2] == undefined ||
+        browserPath[2] == null
+      ) {
+        selectChat(null);
+      }
+    });
+  }, [props.history.location]);
+
   const sendMediaFile = (files) => {
     let tempFiles = files ?? uploadedFiles;
     for (let i = 0; i < tempFiles.length; i++) {
@@ -421,7 +442,7 @@ function Chat(props) {
             {/* appbar */}
             {currentMsgId !== null ? (
               <div>
-                <ChatBanner orderDetails={orderDetails} />
+                <ChatBanner orderDetails={orderDetails} prop={props} />
 
                 <div>
                   <ChatArea
@@ -499,6 +520,7 @@ function Chat(props) {
           addMore={getMediaFiles}
           // loader props
           loader={loader}
+          prop={props}
         />
       )}
     </div>
@@ -530,6 +552,7 @@ const ChatBanner = React.memo(
       }
     }
     const backToChatList = () => {
+      console.log(props);
       props.selectChat(null);
     };
     // return focus to the button when we transitioned from !open -> open
@@ -541,6 +564,12 @@ const ChatBanner = React.memo(
 
       prevOpen.current = open;
     }, [open]);
+    useEffect(() => {
+      return () => {
+        props.prop.disableChatResponseTab(false);
+        props.prop.disableBottomBar(false);
+      };
+    }, []);
     return (
       <div>
         <AppBar position="static" className="chat-appbar" elevation="0">
@@ -989,6 +1018,7 @@ const MobileChat = React.memo(
               orderDetails={props.orderDetails}
               mobile={true}
               selectChat={props.selectChat}
+              prop={props.prop}
             />
             <ChatArea
               chatListScrollControl={props.chatListScrollControl}
@@ -1060,6 +1090,12 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addNewMessage: (data) => {
       dispatch({ type: "ADD_NEW_MESSAGE", value: data });
+    },
+    disableChatResponseTab: (data) => {
+      dispatch({ type: "DISABLE_CHAT_RESPONSE_TAB", value: data });
+    },
+    disableBottomBar: (data) => {
+      dispatch({ type: "DISABLE_BOTTOM_BAR", value: data });
     },
   };
 };

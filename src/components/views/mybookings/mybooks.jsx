@@ -46,6 +46,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { Chip } from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { reverseGeocode } from "../../../helpers/geocodes/reverse_geocode";
 
 const useStyles = makeStyles({
   cardDiv: {
@@ -115,7 +116,23 @@ function Mybookings(props) {
       eventLoader(false);
     }
   };
-
+  useEffect(async () => {
+    let tempOrders = orders;
+    tempOrders.forEach(async (order, key) => {
+      if (order.addressLine == undefined) {
+        let addressObject = await reverseGeocode({
+          lat: order.loc[0],
+          long: order.loc[1],
+        });
+        tempOrders[key].addressLine = addressObject.display_name;
+      }
+      if (key == tempOrders.length - 1) {
+        console.log("setting..");
+        setOrders(tempOrders);
+      }
+    });
+    // setOrders(props.orders);
+  }, [orders]);
   useEffect(() => {
     getOrders();
   }, [orders.length < 1]);
@@ -260,7 +277,7 @@ function Mybookings(props) {
                               <p className="orderDetails">
                                 <MdExplore />
                                 &nbsp;
-                                <b>Location : vizag</b>
+                                <b>Location : {cap.addressLine}</b>
                               </p>
                             </Grid>
                           </Grid>

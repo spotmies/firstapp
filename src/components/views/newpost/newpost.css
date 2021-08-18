@@ -1,0 +1,114 @@
+.input-search {
+  width: 100%;
+  height: 45px;
+  padding: 7px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 20px;
+
+  background-color: rgb(231, 231, 231);
+}
+.input-search:hover {
+  box-shadow: 4px 4px 10px -1px rgba(137, 131, 131, 0.41);
+  -webkit-box-shadow: 4px 4px 10px -1px rgba(137, 131, 131, 0.41);
+  -moz-box-shadow: 4px 4px 10px -1px rgba(137, 131, 131, 0.41);
+}
+.main-content-map {
+  margin: 0 auto;
+  display: inline-flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.main-content-map > .leftpart {
+  width: 30%;
+  padding-right: 20px;
+  height: auto;
+}
+.main-content-map > .rightpart {
+  width: 70%;
+
+  height: auto;
+}
+.map-search-controls {
+  display: table;
+  width: 100%;
+  margin: 0 auto;
+}
+.list-search-locations {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+.list-item {
+  display: inline-flex;
+  padding: 3px;
+}
+.list-item :hover {
+  cursor: pointer;
+}
+.list-text {
+  margin-left: 15px;
+  /* width: 80%; */
+  /* font-weight: lighter; */
+  white-space: nowrap;
+  width: 120%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: grey;
+  font-size: small;
+}
+.current-location-web {
+  display: block;
+}
+.current-location-mobile {
+  display: none;
+}
+.current-location-tools {
+  width: 100%;
+  justify-content: space-between;
+  display: inline-flex;
+}
+.current-location-tools > .leftpart {
+  width: 90%;
+  height: auto;
+}
+.current-location-tools > .rightpart {
+  width: 10%;
+  height: auto;
+  text-align: right;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .main-content-map {
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+  }
+  .main-content-map > .leftpart {
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+  }
+  .main-content-map > .rightpart {
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+  }
+  .current-location-web {
+    display: none !important;
+  }
+  .current-location-mobile {
+    display: block !important;
+  }
+  .current-map-address {
+    font-size: 12px;
+  }
+  .location-modal {
+    padding-top: 80px;
+  }
+  .dialog-body {
+    max-height: 55vh;
+  }
+}

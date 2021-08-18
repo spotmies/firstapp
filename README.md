@@ -81,3 +81,8 @@ readme changed
 packages need to uninstall
 browser image compressor
 date picker
+
+
+steps for deploy in firebase
+npm run-script build
+firebase deploy
