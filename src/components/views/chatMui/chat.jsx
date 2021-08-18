@@ -13,8 +13,6 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import MyResponses from "../chats/responses";
 
-import Mobilechat from "./chat-mobile";
-
 /*css*/
 import "./chat.css";
 //import Chat from "../newChat/chating";
@@ -79,20 +77,30 @@ const useStyles = makeStyles((theme) => ({
 
 function Mybookings(props) {
   const classes = useStyles();
+  const history = props.history;
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [height, width] = useWindowSize();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    if (newValue == 0) {
+      history.push("/response");
+    } else if (newValue == 1) {
+      history.push("/chat");
+    }
   };
-
+  const changeSwipeIndex = (newValue) => {
+    handleChange(null, newValue);
+  };
   const handleChangeIndex = (index) => {
     setValue(index);
   };
   useEffect(() => {
-    console.log("appbar state", props.disableAppBar);
-  }, []);
+    let browserPath = history.location.pathname.split("/");
+    if (browserPath[1] == "chat") {
+      handleChangeIndex(1);
+    } else if (browserPath[1] == "response") handleChangeIndex(0);
+  }, [history.location]);
   /*  our functions*/
 
   return (
@@ -115,13 +123,13 @@ function Mybookings(props) {
       <SwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
-        onChangeIndex={handleChangeIndex}
+        onChangeIndex={changeSwipeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <MyResponses />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Chat className="chat" />
+          <Chat className="chat" history={history} />
         </TabPanel>
       </SwipeableViews>
     </div>

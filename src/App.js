@@ -23,7 +23,7 @@ import "react-toastify/dist/ReactToastify.css";
 import partnerRegistration from "./components/views/homeSlides/partnerRegistration";
 import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
-import Tab from "./components/views/chatMui/chat";
+import ChatResponseTab from "./components/views/chatMui/chat";
 import Leaflet from "./components/views/leaflet/leaflet";
 
 const Routing = () => {
@@ -37,7 +37,8 @@ const Routing = () => {
           <Mybooks />
         </Route>
         <Route path="/newpost" component={newpost2} />
-        <Route path="/chat" component={Tab} />
+        <Route path="/chat" component={ChatResponseTab} />
+        <Route path="/response" component={ChatResponseTab} />
         <Route path="/chats-section" component={chatssection} />
         <Route path="/newChat" component={chatComponent} />
         <Route path="/signup" component={login} />
@@ -49,8 +50,6 @@ const Routing = () => {
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />
         <Route path="/privacy" component={Privacy} />
-        <Route path="/tabs" component={Tab} />
-        {/* <Route path ="/contact" component ={Leaflet} /> */}
       </Switch>
     </>
   );

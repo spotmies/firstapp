@@ -184,16 +184,30 @@ function Chat(props) {
 
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
-    // console.log(msgId);
+    console.log(msgId);
     if (msgId != null) {
       chatBox(msgId);
       props.disableChatResponseTab(true);
       props.disableBottomBar(true);
+      props.history.push(`/chat/${msgId}`);
     } else {
       props.disableChatResponseTab(false);
       props.disableBottomBar(false);
     }
   };
+  useEffect(() => {
+    props.history.listen((location) => {
+      let browserPath = location.pathname.split("/");
+      if (
+        browserPath[2] == "" ||
+        browserPath[2] == undefined ||
+        browserPath[2] == null
+      ) {
+        selectChat(null);
+      }
+    });
+  }, [props.history.location]);
+
   const sendMediaFile = (files) => {
     let tempFiles = files ?? uploadedFiles;
     for (let i = 0; i < tempFiles.length; i++) {
