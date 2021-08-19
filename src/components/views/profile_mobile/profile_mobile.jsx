@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import firebase from "../../../firebase";
-
+import { useHistory } from "react-router-dom";
 import {
   Avatar,
   Badge,
@@ -32,9 +32,9 @@ import {
 import { updateUserDetails } from "../../controllers/login/login_controller";
 const storage = firebase.storage();
 const ProfileMobileUi = (props) => {
+  const history = useHistory();
   const user = props.userDetails;
   const [readyForSubmit, setreadyForSubmit] = useState(false);
-  const [editedUser, seteditedUser] = useState({});
   const [showUi, setShowUi] = useState(true);
   const [userPic, setuserPic] = useState(null);
   const photoPic = React.useRef(null);
@@ -43,6 +43,7 @@ const ProfileMobileUi = (props) => {
   const altNumRef = React.useRef(null);
   useEffect(() => {
     console.log(props.userDetails);
+    console.log(props.userDetails.eMail);
   }, []);
   useEffect(() => {
     if (readyForSubmit) {
@@ -50,27 +51,45 @@ const ProfileMobileUi = (props) => {
     }
   }, [readyForSubmit]);
 
-  const onclick = () => {};
+  const onclick = (labelName) => {
+    switch (labelName) {
+      case "Logout":
+        userlogout();
+        break;
+
+      default:
+        break;
+    }
+  };
   const toggleEditUi = (value) => {
     setShowUi(value);
   };
   const formSubmit = async () => {
+    console.log(nameRef);
+    setreadyForSubmit(false);
     console.log("submitting...");
     let uplodObject = user;
-    uplodObject["name"] = nameRef.current.value;
-    uplodObject["altNum"] = altNumRef.current.value;
-    uplodObject["eMail"] = emailRef.current.value;
+    uplodObject["name"] = nameRef.current?.value ?? "unknow";
+    uplodObject["altNum"] = altNumRef.current?.value ?? "unknow";
+    uplodObject["eMail"] = emailRef.current?.value ?? "unknow";
     console.log(uplodObject);
     let response = await updateUserDetails(user.uId, uplodObject);
+
     if (response !== false) {
       props.updateUser(response);
     }
+    props.updateLoader(false);
+    toggleEditUi(true);
   };
   const uploadFiles = async (e) => {
-    console.log("upload...");
+    console.log(nameRef);
     e.preventDefault();
+    props.updateLoader(true);
+    console.log("upload...");
+
     if (userPic == null) {
       setreadyForSubmit(true);
+      return;
     }
     let blob = await fetch(userPic).then((r) => r.blob());
     let cfile = blob;
@@ -88,6 +107,7 @@ const ProfileMobileUi = (props) => {
       },
       () => {
         task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log("downloadURL....", downloadURL);
           user["pic"] = downloadURL;
           setreadyForSubmit(true);
         });
@@ -106,13 +126,27 @@ const ProfileMobileUi = (props) => {
       },
     });
   };
+  const userlogout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        localStorage.clear();
+        console.log("logout");
+        history.push("/");
+        setTimeout(() => {}, 1000);
+        window.location.reload();
+      });
+  };
   const settingsCard = (title, iconss) => {
     return (
       <div
         className={
           title === "Logout" ? "settings-card background-red" : "settings-card"
         }
-        onClick={onclick}
+        onClick={() => {
+          onclick(title);
+        }}
       >
         <div className="card-elements">
           <div className="setting-name">
@@ -150,13 +184,13 @@ const ProfileMobileUi = (props) => {
               >
                 <Avatar
                   className="profile-avatar"
-                  alt="Travis Howard"
+                  alt={user.name}
                   src={user.pic}
                 />
               </Badge>
               <div className="profile-name">
                 <h3>{user.name}</h3>
-                <p>{user.eMail ?? user.phNum}</p>
+                <p>{user.eMail != "" ? user.eMail : user.phNum}</p>
               </div>
             </div>
             <div className="info">
@@ -257,8 +291,10 @@ const ProfileMobileUi = (props) => {
                 label="Alternative number"
                 className="text-field"
                 inputRef={altNumRef}
-                maxLength="10"
                 onChange={allowOnlyNumber}
+                inputProps={{
+                  maxLength: 10,
+                }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="start">
@@ -307,6 +343,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateUser: (data) => {
       dispatch({ type: "UPDATE_USER_DETAILS", value: data });
+    },
+    updateLoader: (data) => {
+      dispatch({ type: "UPDATE_UNIVERSAL_LOADER", value: data });
     },
   };
 };

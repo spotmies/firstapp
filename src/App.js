@@ -25,7 +25,7 @@ import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
 import ChatResponseTab from "./components/views/chatMui/chat";
 import Leaflet from "./components/views/leaflet/leaflet";
-import ProfileMobileUi from "./components/views/profile_mobile/profile_mobile";
+import ProfileWebMobileUi from "./components/views/profile_mobile/profile_mobile";
 
 const Routing = () => {
   return (
@@ -43,7 +43,6 @@ const Routing = () => {
         <Route path="/chats-section" component={chatssection} />
         <Route path="/newChat" component={chatComponent} />
         <Route path="/signup" component={login} />
-        <Route path="/account" component={profile} />
         <Route path="/mybookings/id/edit" component={editpost2} />
         <Route path="/mybookings/id" component={postview} />
         <Route path="/contact" component={SimpleMap} />
@@ -51,7 +50,7 @@ const Routing = () => {
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />
         <Route path="/privacy" component={Privacy} />
-        <Route path="/profile" component={ProfileMobileUi} />
+        <Route path="/account" component={ProfileWebMobileUi} />
       </Switch>
     </>
   );
