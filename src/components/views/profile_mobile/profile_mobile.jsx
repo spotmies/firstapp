@@ -1,4 +1,7 @@
-import React, { Component, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import firebase from "../../../firebase";
+
 import {
   Avatar,
   Badge,
@@ -6,7 +9,11 @@ import {
   TextField,
   InputAdornment,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import Compressor from "compressorjs";
+import { allowOnlyNumber } from "../../../helpers/regex/regex";
+import { loadState } from "../../../helpers/localStorage";
+
+// import { makeStyles } from "@material-ui/core/styles";
 import "./profile_mobile.css";
 import {
   MdShare,
@@ -22,18 +29,83 @@ import {
   MdPhone,
   MdMail,
 } from "react-icons/md";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
-  },
-}));
+import { updateUserDetails } from "../../controllers/login/login_controller";
+const storage = firebase.storage();
 const ProfileMobileUi = (props) => {
-  const classes = useStyles();
-  const [showUi, setShowUi] = useState(false);
+  const user = props.userDetails;
+  const [readyForSubmit, setreadyForSubmit] = useState(false);
+  const [editedUser, seteditedUser] = useState({});
+  const [showUi, setShowUi] = useState(true);
+  const [userPic, setuserPic] = useState(null);
+  const photoPic = React.useRef(null);
+  const nameRef = React.useRef(null);
+  const emailRef = React.useRef(null);
+  const altNumRef = React.useRef(null);
+  useEffect(() => {
+    console.log(props.userDetails);
+  }, []);
+  useEffect(() => {
+    if (readyForSubmit) {
+      formSubmit();
+    }
+  }, [readyForSubmit]);
+
   const onclick = () => {};
+  const toggleEditUi = (value) => {
+    setShowUi(value);
+  };
+  const formSubmit = async () => {
+    console.log("submitting...");
+    let uplodObject = user;
+    uplodObject["name"] = nameRef.current.value;
+    uplodObject["altNum"] = altNumRef.current.value;
+    uplodObject["eMail"] = emailRef.current.value;
+    console.log(uplodObject);
+    let response = await updateUserDetails(user.uId, uplodObject);
+    if (response !== false) {
+      props.updateUser(response);
+    }
+  };
+  const uploadFiles = async (e) => {
+    console.log("upload...");
+    e.preventDefault();
+    if (userPic == null) {
+      setreadyForSubmit(true);
+    }
+    let blob = await fetch(userPic).then((r) => r.blob());
+    let cfile = blob;
+    var storageref = storage.ref(
+      `users/${firebase.auth().currentUser.uid}/profile/` + cfile.name
+    );
+
+    var task = storageref.put(cfile);
+
+    task.on(
+      "state_changed",
+      function progress(snapshot) {},
+      function error(err) {
+        console.log(err);
+      },
+      () => {
+        task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          user["pic"] = downloadURL;
+          setreadyForSubmit(true);
+        });
+      }
+    );
+  };
+  const compressorJs = (e) => {
+    let file = e.target.files[0];
+    new Compressor(file, {
+      quality: 0.3,
+      success(result) {
+        setuserPic(URL.createObjectURL(result));
+      },
+      error(err) {
+        console.log(err.message);
+      },
+    });
+  };
   const settingsCard = (title, iconss) => {
     return (
       <div
@@ -62,6 +134,9 @@ const ProfileMobileUi = (props) => {
           <div className="profile-card">
             <div className="profile">
               <Badge
+                onClick={() => {
+                  toggleEditUi(false);
+                }}
                 overlap="circle"
                 anchorOrigin={{
                   vertical: "bottom",
@@ -76,12 +151,12 @@ const ProfileMobileUi = (props) => {
                 <Avatar
                   className="profile-avatar"
                   alt="Travis Howard"
-                  src="https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png"
+                  src={user.pic}
                 />
               </Badge>
               <div className="profile-name">
-                <h3>Prabhas Uppalapati</h3>
-                <p>prabashupalapada@gmail.com</p>
+                <h3>{user.name}</h3>
+                <p>{user.eMail ?? user.phNum}</p>
               </div>
             </div>
             <div className="info">
@@ -122,15 +197,36 @@ const ProfileMobileUi = (props) => {
             <Avatar
               className="profile-avatar"
               alt="Travis Howard"
-              src="https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png"
+              src={userPic ?? user.pic}
             />
-            <Button>change</Button>
+
+            <Button
+              onClick={() => {
+                photoPic.current.click();
+              }}
+            >
+              change
+            </Button>
+
+            <input
+              accept="image/*"
+              ref={photoPic}
+              type="file"
+              onChange={compressorJs}
+              hidden
+            />
           </div>
           <div className="edit-section">
-            <form noValidate autoComplete="off" className="form-fields">
+            <form
+              autoComplete="off"
+              className="form-fields"
+              onSubmit={uploadFiles}
+            >
               <TextField
                 id="standard-basic"
                 label="Name"
+                required
+                inputRef={nameRef}
                 className="text-field"
                 InputProps={{
                   endAdornment: (
@@ -138,32 +234,59 @@ const ProfileMobileUi = (props) => {
                       <MdPerson />
                     </InputAdornment>
                   ),
+                  defaultValue: `${user.name}`,
                 }}
               />
               <TextField
                 id="standard-basic"
                 label="Email Address"
                 className="text-field"
+                type="email"
+                inputRef={emailRef}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="start">
                       <MdMail />
                     </InputAdornment>
                   ),
+                  defaultValue: `${user.eMail ?? ""}`,
                 }}
               />
               <TextField
                 id="standard-basic"
                 label="Alternative number"
                 className="text-field"
+                inputRef={altNumRef}
+                maxLength="10"
+                onChange={allowOnlyNumber}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="start">
                       <MdPhone />
                     </InputAdornment>
                   ),
+                  defaultValue: `${user.altNum ?? ""}`,
                 }}
               />
+              <div className="action-buttons">
+                <Button
+                  variant="contained"
+                  disableElevation
+                  onClick={() => {
+                    toggleEditUi(true);
+                  }}
+                >
+                  cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  disableElevation
+                >
+                  save
+                </Button>
+              </div>
             </form>
           </div>
         </div>
@@ -171,4 +294,20 @@ const ProfileMobileUi = (props) => {
     </div>
   );
 };
-export default ProfileMobileUi;
+const mapStateToProps = (state) => {
+  return {
+    userDetails:
+      Object.keys(state.userDetails).length !== 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
+    orders: state.orders,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUser: (data) => {
+      dispatch({ type: "UPDATE_USER_DETAILS", value: data });
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileMobileUi);
