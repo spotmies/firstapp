@@ -1,3 +1,6 @@
+.profileUi {
+  padding-bottom: 60px;
+}
 .profile-avatar {
   width: 100px !important;
   height: 100px !important;
@@ -30,12 +33,12 @@
   margin: 15px;
   height: 50px;
   width: 85%;
-  /* color: #050505; */
-  background-color: #e1e1e1;
+  background-color: #f7f7f7;
   border-radius: 25px;
 }
 .setting-name {
   display: inline-flex;
+  color: #545454;
 }
 .setting-name > h3 {
   margin-left: 20px;
@@ -50,3 +53,28 @@
 h3 {
   margin: 0 auto;
 }
+.editIcon {
+  background-color: #efefef;
+  border-radius: 20px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.edit-section {
+  padding-top: 5%;
+  margin: 0 auto;
+  text-align: center;
+  width: fit-content;
+}
+.form-fields {
+  display: grid;
+}
+.text-field {
+  width: fit-content;
+  margin: 10px !important;
+}
+/* .background-red {
+  background-color: rgb(255, 81, 81);
+} */
