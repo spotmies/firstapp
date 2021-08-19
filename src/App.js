@@ -25,6 +25,7 @@ import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
 import ChatResponseTab from "./components/views/chatMui/chat";
 import Leaflet from "./components/views/leaflet/leaflet";
+import ProfileMobileUi from "./components/views/profile_mobile/profile_mobile";
 
 const Routing = () => {
   return (
@@ -50,6 +51,7 @@ const Routing = () => {
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />
         <Route path="/privacy" component={Privacy} />
+        <Route path="/profile" component={ProfileMobileUi} />
       </Switch>
     </>
   );

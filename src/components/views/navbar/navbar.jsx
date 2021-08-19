@@ -232,7 +232,7 @@ function Navibar(props) {
                           className="userhere"
                           active
                         >
-                          <Link to="/account">
+                          <Link to="/profile">
                             <NavDropdown.Item href="#action/3">
                               <MdAccountCircle color="gray" size="1.5em" />
                               <b> Account</b>{" "}
