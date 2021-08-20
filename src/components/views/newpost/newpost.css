@@ -90,6 +90,7 @@
     width: 100%;
     margin: 0 auto;
     height: auto;
+    padding-right: 0;
   }
   .main-content-map > .rightpart {
     width: 100%;
@@ -110,5 +111,8 @@
   }
   .dialog-body {
     max-height: 55vh;
+  }
+  .list-search-locations {
+    padding-top: 0 !important;
   }
 }

@@ -7,7 +7,17 @@ import { connect } from "react-redux";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import LeafletMapp from "../leaflet/leaflet";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+
+//search bar imp
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import InputBase from "@material-ui/core/InputBase";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import DirectionsIcon from "@material-ui/icons/Directions";
+
 import "./newpost.css";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -15,9 +25,65 @@ import ListItem from "@material-ui/core/ListItem";
 import { MdMyLocation, MdNearMe } from "react-icons/md";
 import { searchLocation } from "../../controllers/search_location_controller/search_location_controller";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: "2px 4px",
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+  iconButton: {
+    padding: 10,
+  },
+  divider: {
+    height: 28,
+    margin: 4,
+  },
+}));
+
+function CustomSearchBar(props) {
+  const searchRef = React.useRef(null);
+  let searchInputTemp;
+  const classes = useStyles();
+  const changeHandle = (e) => {
+    searchInputTemp = e.target.value;
+    props.onChangeFunc(searchInputTemp);
+  };
+  const clickHandle = () => {
+    props.onChangeFunc(searchRef.current?.value);
+  };
+  return (
+    <Paper component="form" className={classes.root}>
+      <IconButton className={classes.iconButton} aria-label="menu">
+        <MenuIcon />
+      </IconButton>
+      <InputBase
+        className={classes.input}
+        placeholder="Search location here......"
+        inputProps={{ "aria-label": "search google maps" }}
+        // onChange={props.onChangeFunc}
+        onChange={changeHandle}
+        inputRef={searchRef}
+      />
+      <IconButton
+        className={classes.iconButton}
+        aria-label="search"
+        onClick={clickHandle}
+      >
+        <SearchIcon />
+      </IconButton>
+    </Paper>
+  );
+}
+
 function GetLocationDialog(props) {
   const [open, setOpen] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const scrollRef = React.useRef(null);
 
   const getUserLocation = () => {
     props.allowUpdateMapAddressFromLeaflet(true);
@@ -51,8 +117,9 @@ function GetLocationDialog(props) {
     setOpen(false);
     props.close(false);
   };
-  const searchHandle = async (e) => {
-    let search = e.target.value;
+  const searchHandle = async (input) => {
+    if (input === undefined || input === null) return;
+    let search = input;
     if (search.length > 3) {
       props.updateLoader(true);
       let response = await searchLocation(search);
@@ -68,6 +135,7 @@ function GetLocationDialog(props) {
       lat: data.coordinates.latitude,
       lng: data.coordinates.logitude,
     });
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
   const currentLocation = () => {
     return (
@@ -89,8 +157,7 @@ function GetLocationDialog(props) {
       </div>
     );
   };
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Dialog
       fullWidth={true}
@@ -110,11 +177,7 @@ function GetLocationDialog(props) {
             <div className="main-content-map">
               <div className="leftpart">
                 <div className="map-search-controls">
-                  <input
-                    className="input-search"
-                    placeholder="Search Street, area, colony, city.................."
-                    onChange={searchHandle}
-                  />
+                  <CustomSearchBar onChangeFunc={searchHandle} />
                 </div>
                 <div className="list-search-locations">
                   <List dense={true}>
@@ -149,7 +212,7 @@ function GetLocationDialog(props) {
               <div className="rightpart">
                 <div className="current-location-web"> {currentLocation()}</div>
                 <LeafletMapp draggable={true} popup={false} mapHeight={40} />
-                <div className="current-location-mobile">
+                <div className="current-location-mobile" ref={scrollRef}>
                   {currentLocation()}
                 </div>
               </div>
