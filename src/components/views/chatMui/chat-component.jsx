@@ -184,7 +184,7 @@ function Chat(props) {
 
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
-    console.log(msgId);
+    // console.log(msgId);
     if (msgId != null) {
       chatBox(msgId);
       props.disableChatResponseTab(true);

@@ -42,8 +42,7 @@ const ProfileMobileUi = (props) => {
   const emailRef = React.useRef(null);
   const altNumRef = React.useRef(null);
   useEffect(() => {
-    console.log(props.userDetails);
-    console.log(props.userDetails.eMail);
+    console.log(user);
   }, []);
   useEffect(() => {
     if (readyForSubmit) {
@@ -202,7 +201,7 @@ const ProfileMobileUi = (props) => {
               </div>
               <div className="line"></div>
               <div className="orders">
-                <h3>24</h3>
+                <h3>{user?.orders?.length}</h3>
                 <p>
                   <small>Total orders</small>
                 </p>
@@ -330,6 +329,7 @@ const ProfileMobileUi = (props) => {
     </div>
   );
 };
+
 const mapStateToProps = (state) => {
   return {
     userDetails:

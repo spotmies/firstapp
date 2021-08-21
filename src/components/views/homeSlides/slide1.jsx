@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import { Button } from "semantic-ui-react";
 import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
 //toast
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
@@ -21,19 +22,17 @@ import lock3 from "../../../images/lock3.png";
 import { feedBack1 } from "../../../mservices/contactUs";
 //import feedback form
 import FeedbackForm from "../../reusable/feedback_form";
+import { loadState } from "../../../helpers/localStorage";
 // gsap.registerPlugin(ScrollTrigger);
 // const lockdiv = document.querySelector("#LockDiv");
 // init(lockdiv, {
 //   strings: ["Completely Secured!", "********** ********"],
 // });
 
-var newpost = "/signup";
 firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
-    newpost = "/newpost";
     console.log("user exists");
   } else {
-    newpost = "/signup";
     console.log("user didn't exixst");
   }
 });
@@ -52,7 +51,7 @@ function useWindowSize1() {
   return swidth;
 }
 
-function Slide() {
+function Slide(props) {
   const lockText = useRef(null);
   const [open, setOpen] = useState(false);
   const [sheight1, swidths1] = useWindowSize1();
@@ -201,7 +200,14 @@ function Slide() {
             </Zoom>
           </section>
         ))}
-        <div className="feedBack fbSlide" onClick={() => setOpen(true)}>
+        <div
+          className={`${
+            props.userDetails.uId !== undefined
+              ? "feedBack fbSlide fab"
+              : "feedBack fbSlide"
+          }`}
+          onClick={() => setOpen(true)}
+        >
           {lockst === 1 ? (
             <Fade right>
               <h3 className="fbh3">Feedback</h3>
@@ -499,4 +505,14 @@ function Slide() {
   }
 }
 
-export default Slide;
+const mapStateToProps = (state) => {
+  return {
+    userDetails:
+      Object.keys(state.userDetails).length !== 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
+    orders: state.orders,
+  };
+};
+
+export default connect(mapStateToProps, null)(Slide);

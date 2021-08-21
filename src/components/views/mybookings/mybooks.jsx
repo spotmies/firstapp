@@ -92,26 +92,26 @@ function Mybookings(props) {
   const [loaderData, setloaderData] = useState("fetching your orders ...");
 
   const eventLoader = (loaderState, data = false) => {
-    console.log("eventLoader", loaderState);
+    // console.log("eventLoader", loaderState);
     setLoader(loaderState);
     if (data) setloaderData(data);
   };
 
   const getOrders = async () => {
-    console.log(props.orders);
+    //  console.log(props.orders);
     if (props.orders.length < 1) {
       firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
-          console.log("fetching API");
+          //    console.log("fetching API");
           let orders = await getUserOrders(firebase.auth().currentUser.uid);
-          console.log(orders);
+          //    console.log(orders);
           setOrders(orders);
           props.updateAllOrders(orders);
           eventLoader(false);
         }
       });
     } else {
-      console.log(props.orders);
+      // console.log(props.orders);
       setOrders(props.orders);
       eventLoader(false);
     }
@@ -127,7 +127,7 @@ function Mybookings(props) {
         tempOrders[key].addressLine = addressObject.display_name;
       }
       if (key == tempOrders.length - 1) {
-        console.log("setting..");
+        //   console.log("setting..");
         setOrders(tempOrders);
       }
     });
@@ -140,12 +140,12 @@ function Mybookings(props) {
   const history = useHistory();
 
   const viewPost = (orderId) => {
-    console.log("click", orderId);
+    //  console.log("click", orderId);
     history.push(`mybookings/id/${orderId}`);
   };
 
   const delpost = async (ordId) => {
-    console.log("delete id", ordId);
+    //  console.log("delete id", ordId);
     eventLoader(true, "Deleting Order...");
     let response = await deleteOrderById(ordId);
     if (response) {
@@ -168,7 +168,7 @@ function Mybookings(props) {
       <FullScreenWidget type="loader" show={loader} data={loaderData} />
 
       {orders.length > 0 ? (
-        <div style={{ paddingTop: "30px" }}>
+        <div style={{ paddingTop: "30px", paddingBottom: "50px" }}>
           {orders.map((cap, key) => (
             <div className="cardDiv" key={cap._id} id={cap._id}>
               <Cardd className="orderCard">
@@ -407,7 +407,7 @@ function DotMenu({ cap, orderDelete, viewPost }) {
     setAnchorEl(null);
   };
   const edit = (ordId) => {
-    console.log("click", ordId);
+    // console.log("click", ordId);
     history.push(`mybookings/id/edit/${ordId}`);
   };
 
@@ -430,7 +430,7 @@ function DotMenu({ cap, orderDelete, viewPost }) {
       >
         <MenuItem
           onClick={() => {
-            console.log(cap._id);
+            //    console.log(cap._id);
             viewPost(cap.ordId);
           }}
         >
