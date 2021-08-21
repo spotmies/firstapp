@@ -14,6 +14,13 @@ function LabelBottomNavigation(props) {
     props.history.listen((location) => {
       let browserPath = location.pathname.split("/");
       //console.log("path >>>>>>>> ", browserPath);
+      if (browserPath[1] == "response") {
+        props.setBottomBarState("chat");
+        return;
+      } else if (browserPath[1] == "newpost") {
+        props.setBottomBarState("");
+        return;
+      }
       props.setBottomBarState(browserPath[1]);
       //   if (history.action === "POP") {
       //     console.log("back button >>>");

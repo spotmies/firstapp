@@ -102,12 +102,10 @@ function Navibar(props) {
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
         if (localUserDetails !== null) props.updateUser(localUserDetails);
-        else {
-          let newLoginResponse = await loginUser(
-            firebase.auth().currentUser.uid
-          );
-          if (newLoginResponse !== false) props.updateUser(newLoginResponse);
-        }
+
+        let newLoginResponse = await loginUser(firebase.auth().currentUser.uid);
+        if (newLoginResponse !== false) props.updateUser(newLoginResponse);
+
         let localOrders = loadState("orders");
         if (localOrders !== null) props.updateAllOrders(localOrders);
         else {
