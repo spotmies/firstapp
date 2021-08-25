@@ -131,6 +131,8 @@ const ProfileMobileUi = (props) => {
       .signOut()
       .then(function () {
         localStorage.clear();
+        // localStorage.removeItem("userDetails");
+        // localStorage.removeItem("orders");
         console.log("logout");
         history.push("/");
         setTimeout(() => {}, 1000);
@@ -201,7 +203,7 @@ const ProfileMobileUi = (props) => {
               </div>
               <div className="line"></div>
               <div className="orders">
-                <h3>{user?.orders?.length}</h3>
+                <h3>{props?.orders?.length ?? "0"}</h3>
                 <p>
                   <small>Total orders</small>
                 </p>

@@ -102,7 +102,7 @@ function Mybookings(props) {
     if (props.orders.length < 1) {
       firebase.auth().onAuthStateChanged(async function (user) {
         if (user) {
-          //    console.log("fetching API");
+          console.log("fetching API");
           let orders = await getUserOrders(firebase.auth().currentUser.uid);
           //    console.log(orders);
           setOrders(orders);
@@ -111,7 +111,7 @@ function Mybookings(props) {
         }
       });
     } else {
-      // console.log(props.orders);
+      console.log(props.orders);
       setOrders(props.orders);
       eventLoader(false);
     }

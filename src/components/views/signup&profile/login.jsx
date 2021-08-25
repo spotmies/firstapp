@@ -44,7 +44,7 @@ class Login extends Component {
     if (constants.restrictLogin) {
       if (!this.state.allowedNumber.includes(Number(phNumber))) {
         toast.info("Your number not allowed This web in demo");
-        return;
+        // return;
       }
     }
     if (phNumber.length < 10) {
