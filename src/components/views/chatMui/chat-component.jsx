@@ -55,6 +55,7 @@ import useRecorder from "../newpost/useRecorder";
 import { imageCompressor } from "../../../helpers/image_compressor";
 import ListMediaFiles from "../../reusable/list_media_files";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import ImageViewerDialog from "./image_viewer";
 
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
@@ -857,94 +858,130 @@ const MessageTools = React.memo(
 
 const ChatArea = React.memo(
   (props) => {
+    const [viewerSrc, setviewerSrc] = useState("");
+    const [openViewer, setOpenViewer] = useState(false);
+    const imageViewerCallBack = (state) => {
+      setOpenViewer(state);
+    };
     console.log("reder chatArea>>>");
     return (
-      <div
-        className="message-area"
-        ref={props.chatListScrollControl}
-        onScroll={(e) => {
-          props.scrollhandle(e);
-        }}
-      >
-        {props.currentChat.map((chatBody, key, array) => (
-          <div className="list-message" key={key}>
-            {props.dateBetweenMessages(chatBody, array[key - 1]) ? (
-              <p className="cmpmsg">
-                {props.dateBetweenMessages(chatBody, array[key - 1])}
-              </p>
-            ) : null}
-            <div
-              className={
-                chatBody.sender === "user"
-                  ? "chat-message-send"
-                  : "chat-message-recieve"
-              }
-            >
-              {(() => {
-                switch (getFileType(chatBody.msg)) {
-                  case "text":
-                    return <p className="msg-content">{chatBody.msg}</p>;
-                  case "audio":
-                    return (
-                      <p className="msg-content">
-                        <audio
-                          src={chatBody.msg}
-                          controls
-                          className="Audio-msg"
-                          // style={{ width: "fit-content" }}
-                        />
-                      </p>
-                    );
-                  case "img":
-                    return (
-                      <p className="msg-content">
-                        <img className="msg-image" src={chatBody.msg} />
-                      </p>
-                    );
-                  case "video":
-                    return (
-                      <p className="msg-content">
-                        <video
-                          className="msg-image"
-                          controls
-                          src={chatBody.msg}
-                          type="video/mp4"
-                        />
-                      </p>
-                    );
-                  default:
-                    return null;
-                }
-              })()}
-
-              <p className="msg-time">
-                {gettbystamps(Number(chatBody.time), "time")}
-              </p>
-            </div>
-            <div>
-              {key === props.currentChat.length - 1 &&
-              chatBody.sender === "user" ? (
-                <span className="readStatus">
+      <div>
+        {!openViewer ? (
+          <div
+            className="message-area"
+            ref={props.chatListScrollControl}
+            onScroll={(e) => {
+              props.scrollhandle(e);
+            }}
+          >
+            {props.currentChat.map((chatBody, key, array) => (
+              <div className="list-message" key={key}>
+                {props.dateBetweenMessages(chatBody, array[key - 1]) ? (
+                  <p className="cmpmsg">
+                    {props.dateBetweenMessages(chatBody, array[key - 1])}
+                  </p>
+                ) : null}
+                <div
+                  className={
+                    chatBody.sender === "user"
+                      ? "chat-message-send"
+                      : "chat-message-recieve"
+                  }
+                >
                   {(() => {
-                    switch (props.sendStatus) {
-                      case "sending":
-                        return <MdAlarm className="sendingStatus" />;
-
-                      case "send":
-                        return <MdDone />;
-                      case "seen":
-                        return <MdDoneAll color="blue" />;
-
+                    switch (getFileType(chatBody.msg)) {
+                      case "text":
+                        return <p className="msg-content">{chatBody.msg}</p>;
+                      case "audio":
+                        return (
+                          <p className="msg-content">
+                            <audio
+                              src={chatBody.msg}
+                              controls
+                              className="Audio-msg"
+                              // style={{ width: "fit-content" }}
+                            />
+                          </p>
+                        );
+                      case "img":
+                        return (
+                          <p
+                            className="msg-content"
+                            onClick={() => {
+                              setviewerSrc(chatBody.msg);
+                              imageViewerCallBack(true);
+                            }}
+                          >
+                            <img className="msg-image" src={chatBody.msg} />
+                          </p>
+                        );
+                      case "video":
+                        return (
+                          <p className="msg-content">
+                            <video
+                              className="msg-image"
+                              controls
+                              src={chatBody.msg}
+                              type="video/mp4"
+                            />
+                          </p>
+                        );
                       default:
                         return null;
                     }
                   })()}
-                </span>
-              ) : null}
+
+                  <p className="msg-time">
+                    {gettbystamps(Number(chatBody.time), "time")}
+                  </p>
+                </div>
+                <div>
+                  {key === props.currentChat.length - 1 &&
+                  chatBody.sender === "user" ? (
+                    <span className="readStatus">
+                      {(() => {
+                        switch (props.sendStatus) {
+                          case "sending":
+                            return <MdAlarm className="sendingStatus" />;
+
+                          case "send":
+                            return <MdDone />;
+                          case "seen":
+                            return <MdDoneAll color="blue" />;
+
+                          default:
+                            return null;
+                        }
+                      })()}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+            <div ref={props.scrollRef} />
+            {/* <ImageViewerDialog
+                 open={openViewer}
+                 imageViewerCallBack={imageViewerCallBack}
+                 src={viewerSrc}
+                 allSrc={props.currentChat}
+               /> */}
+          </div>
+        ) : (
+          <div className="img-viewer">
+            <div className="viewer-content">
+              <img src={viewerSrc} alt="simething" className="view-image" />
+            </div>
+            <div>
+              <Button
+                onClick={() => {
+                  setOpenViewer(false);
+                }}
+              >
+                Close{" "}
+              </Button>
             </div>
           </div>
-        ))}
-        <div ref={props.scrollRef} />
+        )}
       </div>
     );
   },
