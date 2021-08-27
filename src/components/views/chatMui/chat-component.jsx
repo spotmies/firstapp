@@ -968,17 +968,17 @@ const ChatArea = React.memo(
           </div>
         ) : (
           <div className="img-viewer">
-            <div className="viewer-content">
-              <img src={viewerSrc} alt="simething" className="view-image" />
-            </div>
-            <div>
-              <Button
+            <div className="viewer-close">
+              <MdClose
+                size="2rem"
                 onClick={() => {
                   setOpenViewer(false);
                 }}
-              >
-                Close{" "}
-              </Button>
+              />
+              {/* <Button>Close </Button> */}
+            </div>
+            <div className="viewer-content">
+              <img src={viewerSrc} alt="simething" className="view-image" />
             </div>
           </div>
         )}
