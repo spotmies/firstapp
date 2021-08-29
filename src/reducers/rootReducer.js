@@ -15,6 +15,8 @@ const initState = {
   disableChatResponseTab: false,
   disableBottomBar: true,
   bottomBarState: "",
+  sendMessageQueue:[],
+  readyToSendMessage:true
 };
 
 const rootReducer = (state = initState, action) => {
@@ -172,6 +174,24 @@ const rootReducer = (state = initState, action) => {
         ...state,
         bottomBarState: action.value,
       };
+    case "ADD_MESSAGE_TO_QUEUE":
+      return {
+        ...state,
+        sendMessageQueue:[...state.sendMessageQueue,action.value]
+      }
+    case "REMOVE_MESSAGE_FROM_QUEUE":
+      let filtered = state.sendMessageQueue.filter(function(value){ 
+        return value != action.value;
+    }); 
+      return {
+        ...state,
+        sendMessageQueue:filtered
+      }
+    case "READY_TO_SEND_MESSAGE":
+      return{
+        ...state,
+        readyToSendMessage:action.value
+      }
 
     default:
       return state;

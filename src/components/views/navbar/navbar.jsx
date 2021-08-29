@@ -88,6 +88,33 @@ function Navibar(props) {
     });
     hitAllApis();
   }, [constants.localHostSocketUrl, constants.socketUrl]);
+  useEffect(() => {
+    let queue = props.getMessageQueue;
+    if(!props.readyToSendMessage || queue.length<1){
+      console.log("already in progress >>>>>>>>>>>>>..")
+      return}
+    console.log("msg queue>>>>>>>>>>",queue)
+    props.readyToSend(false)
+    queue.forEach((element,key) => {
+     
+          socket.emit(
+      "sendNewMessageCallback",
+      element,
+      (response) => {
+        console.log(response,key);
+        if (response === "success") {
+          props.removeMessageFromQueue(element);
+          if(key==queue.length-1){
+            props.readyToSend(true)
+
+            console.log("queue completed");
+          }
+        }
+      } // ok
+    );
+    });
+
+  }, [props.getMessageQueue])
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
@@ -314,6 +341,8 @@ const mapStateToProps = (state) => {
     isUserLogin: state.isUserLogin,
     loader: state.universalLoader,
     disableBottomBar: state.disableBottomBar,
+    getMessageQueue:state.sendMessageQueue,
+    readyToSendMessage:state.readyToSendMessage
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -339,6 +368,12 @@ const mapDispatchToProps = (dispatch) => {
     enableBottomBar: (data) => {
       dispatch({ type: "DISABLE_BOTTOM_BAR", value: !data });
     },
+    removeMessageFromQueue:(data) =>{
+      dispatch({type:"REMOVE_MESSAGE_FROM_QUEUE",value:data})
+    },
+    readyToSend:(data) => {
+      dispatch({type:"READY_TO_SEND_MESSAGE",value:data})
+    }
   };
 };
 

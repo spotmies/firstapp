@@ -120,14 +120,14 @@ function Chat(props) {
 
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
-  const socket = io.connect(
-    constants.constants.localBacked
-      ? constants.localHostSocketUrl
-      : constants.socketUrl,
-    {
-      transports: ["websocket", "polling", "flashsocket"],
-    }
-  );
+  // const socket = io.connect(
+  //   constants.constants.localBacked
+  //     ? constants.localHostSocketUrl
+  //     : constants.socketUrl,
+  //   {
+  //     transports: ["websocket", "polling", "flashsocket"],
+  //   }
+  // );
   // useEffect(() => {
   // console.log("list changed >>");
   // let temo = listChats.sort(function (x, y) {
@@ -140,16 +140,7 @@ function Chat(props) {
     setListChats(props.userChats);
     return () => {};
   }, [props.userChats]);
-  useEffect(() => {
-    console.log("use effect >>>");
-
-    socket.on("connect", (socket) => {
-      console.log("user connected chat >...");
-    });
-    socket.on("disconnect", () => {
-      console.log("user disconnected chat >>>");
-    });
-  }, [constants.localHostSocketUrl]);
+ 
 
   const chatBox = (msgId) => {
     const found = listChats.find((element) => element.msgId === msgId);
@@ -223,19 +214,10 @@ function Chat(props) {
         object: JSON.stringify(msgObject),
         target: targetObject,
       });
-      socket.emit(
-        "sendNewMessageCallback",
-        {
-          object: JSON.stringify(msgObject),
-          target: targetObject,
-        },
-        (response) => {
-          console.log("return resp ", response);
-          if (response === "success") {
-            setsendStatus("send");
-          }
-        } // ok
-      );
+      props.addMessageToQueue({
+        object: JSON.stringify(msgObject),
+        target: targetObject,
+      })
     }
   };
   const sendMessage = () => {
@@ -257,36 +239,17 @@ function Chat(props) {
       time: new Date().valueOf(),
     };
 
-    // setCurrentChat((ele) => [...ele, msgObject]);
-    // socket.emit(
-    //   "sendNewMessage",
-    //   {
-    //     object: JSON.stringify(msgObject),
-    //     target: targetObject,
-    //   } // ok
-    // );
-    // messageInput.current.value = null;
 
-    //  this code is for send message with callback
-    //  setCurrentChat((ele) => [...ele, msgObject]);
     props.addNewMessage({
       object: JSON.stringify(msgObject),
       target: targetObject,
     });
-    socket.emit(
-      "sendNewMessageCallback",
-      {
-        object: JSON.stringify(msgObject),
-        target: targetObject,
-      },
-      (response) => {
-        console.log(response);
-        if (response === "success") {
-          setsendStatus("send");
-          messageInput.current.value = null;
-        }
-      } // ok
-    );
+    props.addMessageToQueue({
+      object: JSON.stringify(msgObject),
+      target: targetObject,
+    })
+    messageInput.current.value = null;
+ 
   };
 
   //enter click to send message
@@ -1134,6 +1097,9 @@ const mapDispatchToProps = (dispatch) => {
     disableBottomBar: (data) => {
       dispatch({ type: "DISABLE_BOTTOM_BAR", value: data });
     },
+    addMessageToQueue: (data) =>{
+      dispatch({type:"ADD_MESSAGE_TO_QUEUE",value:data})
+    }
   };
 };
 
