@@ -1009,6 +1009,8 @@ const MobileChat = React.memo(
               scrollRef={props.scrollRef}
               dateBetweenMessages={props.dateBetweenMessages}
               sendStatus={props.sendStatus}
+                        orderDetails={props.orderDetails}
+
             />
             <Statusbar
               executeScroll={props.executeScroll}

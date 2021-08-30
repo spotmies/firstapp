@@ -39,7 +39,8 @@ const rootReducer = (state = initState, action) => {
       let tempAllChats = state.userChats.filter(
         (elements) => elements.msgId !== msgId
       );
-      targetConversasion["uState"] = readState;
+      if(state.sendMessageQueue.length<2)targetConversasion["uState"] = readState;
+      
       // console.log(targetConversasion);
       tempAllChats = [...tempAllChats, targetConversasion];
       // tempAllChats = [].concat(tempAllChats).reverse();
