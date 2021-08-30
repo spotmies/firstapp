@@ -183,9 +183,8 @@ function Chat(props) {
   const sendMediaFile = (files) => {
     let tempFiles = files ?? uploadedFiles;
     for (let i = 0; i < tempFiles.length; i++) {
-      console.log("sending", i, "of", tempFiles.length);
       let msgObject = {
-        type: "text",
+        type: getFileType(tempFiles[i]),
         msg: tempFiles[i],
         sender: "user",
         time: new Date().valueOf(),
@@ -198,6 +197,8 @@ function Chat(props) {
         object: JSON.stringify(msgObject),
         target: targetObject,
       })
+      console.log(msgObject,"msg obje")
+
     }
   };
   const sendMessage = () => {
@@ -213,7 +214,7 @@ function Chat(props) {
     setsendStatus("sending");
     console.log("sending msg >>>>>>");
     let msgObject = {
-      type: "text",
+      type: getFileType(messageInput.current.value),
       msg: messageInput.current.value,
       sender: "user",
       time: new Date().valueOf(),
