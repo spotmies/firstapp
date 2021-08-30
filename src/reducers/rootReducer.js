@@ -16,7 +16,8 @@ const initState = {
   disableBottomBar: true,
   bottomBarState: "",
   sendMessageQueue:[],
-  readyToSendMessage:true
+  readyToSendMessage:true,
+  sendRemaingMessages:true,
 };
 
 const rootReducer = (state = initState, action) => {
@@ -27,6 +28,35 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         userChats: action.value,
+      };
+    },
+    readReceipt : function(msgId,readState,messageQueue){
+      // console.log(action.value);
+      
+      let targetConversasion = state.userChats.find(
+        (element) => element.msgId === msgId
+      );
+      let tempAllChats = state.userChats.filter(
+        (elements) => elements.msgId !== msgId
+      );
+      targetConversasion["uState"] = readState;
+      // console.log(targetConversasion);
+      tempAllChats = [...tempAllChats, targetConversasion];
+      // tempAllChats = [].concat(tempAllChats).reverse();
+
+      tempAllChats.sort(function (x, y) {
+        return (
+          JSON.parse(y.msgs[y.msgs.length - 1]).time -
+          JSON.parse(x.msgs[x.msgs.length - 1]).time
+        );
+      });
+
+      return {
+        ...state,
+        userChats: tempAllChats,
+        sendMessageQueue: messageQueue ?? state.sendMessageQueue,
+        sendRemaingMessages: !state.sendRemaingMessages
+        
       };
     },
     addNewMessage: function () {
@@ -40,6 +70,9 @@ const rootReducer = (state = initState, action) => {
       );
 
       targetConversasion["msgs"].push(action.value.object);
+      console.log(targetConversasion.uState);
+      targetConversasion.uState = 0;
+      console.log(targetConversasion.uState);
       // console.log(targetConversasion);
       tempAllChats = [...tempAllChats, targetConversasion];
       // tempAllChats = [].concat(tempAllChats).reverse();
@@ -183,10 +216,14 @@ const rootReducer = (state = initState, action) => {
       let filtered = state.sendMessageQueue.filter(function(value){ 
         return value != action.value;
     }); 
-      return {
-        ...state,
-        sendMessageQueue:filtered
-      }
+      return chatingRoot.readReceipt(action.value.target.msgId,1,filtered)
+    //   let filtered = state.sendMessageQueue.filter(function(value){ 
+    //     return value != action.value;
+    // }); 
+    //   return {
+    //     ...state,
+    //     sendMessageQueue:filtered
+    //   }
     case "READY_TO_SEND_MESSAGE":
       return{
         ...state,

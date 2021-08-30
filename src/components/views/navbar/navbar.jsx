@@ -101,7 +101,7 @@ function Navibar(props) {
       "sendNewMessageCallback",
       element,
       (response) => {
-        console.log(response,key);
+        console.log(response,element.object);
         if (response === "success") {
           props.removeMessageFromQueue(element);
           if(key==queue.length-1){
@@ -114,7 +114,7 @@ function Navibar(props) {
     );
     });
 
-  }, [props.getMessageQueue])
+  }, [props.getMessageQueue,props.sendRemaingMessages])
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
@@ -342,7 +342,8 @@ const mapStateToProps = (state) => {
     loader: state.universalLoader,
     disableBottomBar: state.disableBottomBar,
     getMessageQueue:state.sendMessageQueue,
-    readyToSendMessage:state.readyToSendMessage
+    readyToSendMessage:state.readyToSendMessage,
+    sendRemaingMessages:state.sendRemaingMessages
   };
 };
 const mapDispatchToProps = (dispatch) => {

@@ -120,30 +120,10 @@ function Chat(props) {
 
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
-  // const socket = io.connect(
-  //   constants.constants.localBacked
-  //     ? constants.localHostSocketUrl
-  //     : constants.socketUrl,
-  //   {
-  //     transports: ["websocket", "polling", "flashsocket"],
-  //   }
-  // );
-  // useEffect(() => {
-  // console.log("list changed >>");
-  // let temo = listChats.sort(function (x, y) {
-  //   return x.lastModified - y.lastModified;
-  // });
-  // console.log(temo);
-  // }, [listChats]);
-  useEffect(() => {
-    // getUserConversasions();
-    setListChats(props.userChats);
-    return () => {};
-  }, [props.userChats]);
- 
+
 
   const chatBox = (msgId) => {
-    const found = listChats.find((element) => element.msgId === msgId);
+    const found = props.userChats.find((element) => element.msgId === msgId);
     let parsedMsgs = [];
     console.log(found);
     for (let i = 0; i < found.msgs.length; i++) {
@@ -166,7 +146,7 @@ function Chat(props) {
   };
   useEffect(() => {
     if (currentMsgId != null) chatBox(currentMsgId);
-  }, [listChats]);
+  }, [props.userChats]);
 
   //scroll to bottom useeffect below
   useEffect(() => {
@@ -396,7 +376,7 @@ function Chat(props) {
         >
           <Grid item xs={3} className={classes.borderRight500}>
             <ListChatPersons
-              listChats={listChats}
+              listChats={props.userChats}
               currentMsgId={currentMsgId}
               selectChat={selectChat}
             />
@@ -416,6 +396,7 @@ function Chat(props) {
                     scrollRef={scrollRef}
                     dateBetweenMessages={dateBetweenMessages}
                     sendStatus={sendStatus}
+                    orderDetails = {orderDetails}
                   />
                   <Statusbar
                     executeScroll={executeScroll}
@@ -454,7 +435,7 @@ function Chat(props) {
       ) : (
         <MobileChat
           //list chat props
-          listChats={listChats}
+          listChats={props.userChats}
           currentChat={currentChat}
           currentMsgId={currentMsgId}
           selectChat={selectChat}
@@ -626,10 +607,11 @@ const ChatBanner = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    if (prevProps.orderDetails === nextProps.orderDetails) {
-      return true; // props are equal
+    if (prevProps.orderDetails.msgId !== nextProps.orderDetails.msgId) {
+      console.log("<<<<<<<<<<<<Refress chat banner>>>>>>>>>>>>>>>>>")
+      return false; // props are not  equal update 
     }
-    return false; // props are not equal -> update the component
+    return true;
   }
 );
 
@@ -903,13 +885,13 @@ const ChatArea = React.memo(
                   chatBody.sender === "user" ? (
                     <span className="readStatus">
                       {(() => {
-                        switch (props.sendStatus) {
-                          case "sending":
+                        switch (props.orderDetails.uState) {
+                          case 0:
                             return <MdAlarm className="sendingStatus" />;
 
-                          case "send":
+                          case 1:
                             return <MdDone />;
-                          case "seen":
+                          case 2:
                             return <MdDoneAll color="blue" />;
 
                           default:
