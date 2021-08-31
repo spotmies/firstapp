@@ -88,7 +88,8 @@ function Navibar(props) {
     });
     hitAllApis();
   }, [constants.localHostSocketUrl, constants.socketUrl]);
-  useEffect(() => {
+
+  const sendMessageThroghtSocket = () => {
     let queue = props.getMessageQueue;
     if(!props.readyToSendMessage || queue.length<1){
       console.log("already in progress >>>>>>>>>>>>>..")
@@ -113,8 +114,15 @@ function Navibar(props) {
       } // ok
     );
     });
-
+  }
+  useEffect(() => {
+    sendMessageThroghtSocket();
+// let refreshIntervalId = setInterval(sendMessageThroghtSocket(), 3000);
+      
+//   if(props.getMessageQueue.length <1)clearInterval(refreshIntervalId);
+  
   }, [props.getMessageQueue,props.sendRemaingMessages])
+
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {

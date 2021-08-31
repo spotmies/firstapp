@@ -153,7 +153,15 @@ function Chat(props) {
     if (currentMsgId !== null) executeScroll();
     setstatusBarValue(0);
   }, [currentChat]);
-
+  useEffect(() => {
+    props.sendRemainingMessages();
+  }, [currentMsgId])
+  useEffect(() => {
+    
+    return () => {
+      props.sendRemainingMessages();
+    }
+  }, [])
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
     // console.log(msgId);
@@ -1084,6 +1092,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     addMessageToQueue: (data) =>{
       dispatch({type:"ADD_MESSAGE_TO_QUEUE",value:data})
+    },
+    sendRemainingMessages: () => {
+      dispatch({type: "SEND_REMAINING_MESSAGES",value:"data"})
     }
   };
 };

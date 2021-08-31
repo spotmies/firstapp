@@ -230,6 +230,11 @@ const rootReducer = (state = initState, action) => {
         ...state,
         readyToSendMessage:action.value
       }
+    case "SEND_REMAINING_MESSAGES":
+      return{
+        ...state,
+        sendRemaingMessages:!state.sendRemaingMessages
+      }
 
     default:
       return state;
