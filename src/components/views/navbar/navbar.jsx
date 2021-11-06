@@ -25,6 +25,7 @@ import {
 
 import { BiLogOutCircle } from "react-icons/bi";
 import { FaCarAlt } from "react-icons/fa";
+// import { fa } from "react-icons/fa";
 import io from "socket.io-client";
 import constants from "../../../helpers/constants";
 import { getResponses } from "../../controllers/responses/responses_controller";
@@ -157,10 +158,16 @@ function Navibar(props) {
                 >
                   {isLogged ? (
                     <>
-                      <Link className="nav-links" to="/rentals">
+                      {/* <Link className="nav-links" to="/rentals">
                         <Nav className="chaticon" id="mybooks">
                           <FaCarAlt className="chaticon2" />
                           <b>Rentals</b>
+                        </Nav>
+                      </Link> */}
+                      <Link className="nav-links" to="/careers">
+                        <Nav className="chaticon" id="mybooks">
+                          <FaCarAlt className="chaticon2" />
+                          <b>Careers</b>
                         </Nav>
                       </Link>
                       <Link className="nav-links" to="/mybookings">

@@ -1,0 +1,25 @@
+.careers {
+  margin-top: 40px;
+}
+
+.TextField {
+  width: 100%;
+  justify-self: center;
+
+  padding: 30px 0;
+  margin: 20px !important;
+}
+
+.Checks {
+  text-align: left;
+}
+
+.slider {
+  margin: 0 !important;
+}
+
+.careers-div {
+  width: 40%;
+  margin: 0 auto;
+  text-align: center;
+}
