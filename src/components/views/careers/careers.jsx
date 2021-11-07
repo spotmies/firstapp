@@ -25,11 +25,13 @@ export default function Careers() {
   const phoneRef = useRef("");
   const cityRef = useRef("");
   const commentRef = useRef("");
-  const rateOnTechnology = useRef("");
-  const appliedForRef = useRef("");
-  const rateOnJobRef = useRef("");
+
+  var appliedFor = "reactJs";
   var languagesKnown = [];
   var previousExperience = [];
+  var monthsOfExperience = "1-4";
+  var rateYourself = 0;
+
   // create arrow function to handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,6 +40,11 @@ export default function Careers() {
     console.log(phoneRef.current.value);
     console.log(cityRef.current.value);
     console.log(commentRef.current.value);
+    console.log(appliedFor);
+    console.log(languagesKnown);
+    console.log(previousExperience);
+    console.log(monthsOfExperience);
+    console.log(rateYourself);
   };
 
   const handleChange = (value, arrayName, state) => {
@@ -65,8 +72,8 @@ export default function Careers() {
         // sx={{
         //   "& .MuiTextField-root": { m: 1, width: "25ch" },
         // }}
-        noValidate
-        autoComplete="off"
+        // noValidate
+        autoComplete="on"
         onSubmit={handleSubmit}
       >
         <div className="careers-div">
@@ -133,7 +140,7 @@ export default function Careers() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    value="html5"
+                    value="reactJs"
                     onChange={(e) => {
                       handleChange(
                         e.target.value,
@@ -143,13 +150,13 @@ export default function Careers() {
                     }}
                   />
                 }
-                label="HTML5"
+                label="React Js"
                 className="slider"
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    value="css3"
+                    value="flutter"
                     onChange={(e) => {
                       handleChange(
                         e.target.value,
@@ -159,13 +166,13 @@ export default function Careers() {
                     }}
                   />
                 }
-                label="Css3"
+                label="Flutter"
                 className="slider"
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    value="reactjs"
+                    value="node Js"
                     onChange={(e) => {
                       handleChange(
                         e.target.value,
@@ -175,12 +182,12 @@ export default function Careers() {
                     }}
                   />
                 }
-                label="React.js"
+                label="Node Js"
                 className="slider"
               />
               <FormControlLabel
                 control={<Checkbox />}
-                label="Others"
+                label="Other"
                 className="slider"
               />
             </FormGroup>
@@ -199,6 +206,9 @@ export default function Careers() {
               Rate yourself, How good you are in React.js?
             </h5>
             <Slider
+              onChange={(e) => {
+                rateYourself = e.target.value;
+              }}
               aria-label="Small steps"
               defaultValue={10}
               getAriaValueText={valuetext}
@@ -224,24 +234,30 @@ export default function Careers() {
               <FormLabel component="legend">
                 Months of experience in react.js?
               </FormLabel>
-              <RadioGroup aria-label="experience" name="radio-buttons-group">
+              <RadioGroup
+                aria-label="experience"
+                name="radio-buttons-group"
+                onChange={(e) => {
+                  monthsOfExperience = e.target.value;
+                }}
+              >
                 <FormControlLabel
-                  value="1 to 4 months"
+                  value="1-4"
                   control={<Radio />}
                   label="1 to 4 months"
                 />
                 <FormControlLabel
-                  value="4 to 8 months"
+                  value="4-8"
                   control={<Radio />}
                   label="4 to 8 months"
                 />
                 <FormControlLabel
-                  value="8 to 12 months"
+                  value="8-12"
                   control={<Radio />}
                   label="8 to 12 months"
                 />
                 <FormControlLabel
-                  value="Above 12 months"
+                  value=">12"
                   control={<Radio />}
                   label="Above 12 months"
                 />
@@ -371,13 +387,16 @@ export default function Careers() {
                 Applying for?
               </InputLabel>
               <NativeSelect
-                defaultValue="React.js"
+                onChange={(e) => {
+                  appliedFor = e.target.value;
+                }}
+                defaultValue="reactJs"
                 inputProps={{
                   name: "applying",
                   id: "uncontrolled-native",
                 }}
               >
-                <option value="react">React.js</option>
+                <option value="reactJs">React.js</option>
                 <option value="flutter">Flutter</option>
                 <option value="designer">Designer</option>
               </NativeSelect>
