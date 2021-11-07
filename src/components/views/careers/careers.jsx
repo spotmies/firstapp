@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "../../../assets/css/careers.css";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -32,6 +32,8 @@ export default function Careers() {
   var monthsOfExperience = "1-4";
   var rateYourself = 0;
 
+  const [applyingFor, setApplyingFor] = useState("React Js");
+
   // create arrow function to handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +42,7 @@ export default function Careers() {
     console.log(phoneRef.current.value);
     console.log(cityRef.current.value);
     console.log(commentRef.current.value);
-    console.log(appliedFor);
+    console.log(applyingFor);
     console.log(languagesKnown);
     console.log(previousExperience);
     console.log(monthsOfExperience);
@@ -138,8 +140,52 @@ export default function Careers() {
             variant="standard"
             className="TextField"
           />{" "} */}
+
+          <div className="form-card">
+            <FormControl fullWidth className="TextField">
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                Applying for?
+              </InputLabel>
+              <NativeSelect
+                onChange={(e) => {
+                  appliedFor = e.target.value;
+                  setApplyingFor(e.target.value);
+                }}
+                defaultValue="React Js"
+                inputProps={{
+                  name: "applying",
+                  id: "uncontrolled-native",
+                }}
+              >
+                <option value="React Js">React.js</option>
+                <option value="Flutter">Flutter</option>
+                <option value="Designing">Designer</option>
+              </NativeSelect>
+            </FormControl>
+          </div>
+
           <div className="Checks form-card">
-            <h5 className="Labels">Languages Known?</h5>
+            <h5 className="Labels">
+              Rate yourself, How good you are in {applyingFor} ?
+            </h5>
+            <Slider
+              onChange={(e) => {
+                rateYourself = e.target.value;
+              }}
+              aria-label="Small steps"
+              defaultValue={1}
+              getAriaValueText={valuetext}
+              step={1}
+              marks
+              min={0}
+              max={10}
+              valueLabelDisplay="auto"
+              className="slider"
+            />
+          </div>
+
+          <div className="Checks form-card">
+            <h5 className="Labels">Frameworks Known?</h5>
             <FormGroup className="Checks TextField1">
               <FormControlLabel
                 control={
@@ -205,25 +251,6 @@ export default function Careers() {
             variant="standard"
             className="TextField"
           /> */}
-          <div className="Checks form-card">
-            <h5 className="Labels">
-              Rate yourself, How good you are in React.js?
-            </h5>
-            <Slider
-              onChange={(e) => {
-                rateYourself = e.target.value;
-              }}
-              aria-label="Small steps"
-              defaultValue={10}
-              getAriaValueText={valuetext}
-              step={1}
-              marks
-              min={0}
-              max={10}
-              valueLabelDisplay="auto"
-              className="slider"
-            />
-          </div>
 
           {/* <TextField
             required
@@ -233,55 +260,7 @@ export default function Careers() {
             variant="standard"
             className="TextField"
           /> */}
-          <div className="Checks form-card">
-            <FormControl component="fieldset">
-              <FormLabel component="legend">
-                Months of experience in react.js?
-              </FormLabel>
-              <RadioGroup
-                aria-label="experience"
-                name="radio-buttons-group"
-                onChange={(e) => {
-                  monthsOfExperience = e.target.value;
-                }}
-              >
-                <FormControlLabel
-                  value="1-4"
-                  control={<Radio />}
-                  label="1 to 4 months"
-                />
-                <FormControlLabel
-                  value="4-8"
-                  control={<Radio />}
-                  label="4 to 8 months"
-                />
-                <FormControlLabel
-                  value="8-12"
-                  control={<Radio />}
-                  label="8 to 12 months"
-                />
-                <FormControlLabel
-                  value=">12"
-                  control={<Radio />}
-                  label="Above 12 months"
-                />
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                />
-              </RadioGroup>
-            </FormControl>
-          </div>
 
-          {/* <TextField
-            required
-            id="standard-required"
-            label="Previous experiences?"
-            defaultValue="Hello World"
-            variant="standard"
-            className="TextField"
-          /> */}
           <div className="Checks form-card">
             <h5 className="Labels">Previous Experience?</h5>
             <FormGroup className="Checks TextField1">
@@ -385,27 +364,51 @@ export default function Careers() {
             </FormGroup>
           </div>
 
-          <div className="form-card">
-            <FormControl fullWidth className="TextField">
-              <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                Applying for?
-              </InputLabel>
-              <NativeSelect
+          <div className="Checks form-card">
+            <FormControl component="fieldset">
+              <FormLabel component="legend">
+                experience in {applyingFor} ?
+              </FormLabel>
+              <RadioGroup
+                aria-label="experience"
+                name="radio-buttons-group"
                 onChange={(e) => {
-                  appliedFor = e.target.value;
-                }}
-                defaultValue="reactJs"
-                inputProps={{
-                  name: "applying",
-                  id: "uncontrolled-native",
+                  monthsOfExperience = e.target.value;
                 }}
               >
-                <option value="reactJs">React.js</option>
-                <option value="flutter">Flutter</option>
-                <option value="designer">Designer</option>
-              </NativeSelect>
+                <FormControlLabel
+                  value="1-6"
+                  control={<Radio />}
+                  label="1 to 6 months"
+                />
+                <FormControlLabel
+                  value="6-12"
+                  control={<Radio />}
+                  label="6 to 12 months"
+                />
+
+                <FormControlLabel
+                  value=">12"
+                  control={<Radio />}
+                  label="Above 12 months"
+                />
+                <FormControlLabel
+                  value="none"
+                  control={<Radio />}
+                  label="No Experience"
+                />
+              </RadioGroup>
             </FormControl>
           </div>
+
+          {/* <TextField
+            required
+            id="standard-required"
+            label="Previous experiences?"
+            defaultValue="Hello World"
+            variant="standard"
+            className="TextField"
+          /> */}
 
           <div className="Checks form-card">
             <h5 className="Labels">Upload Resume</h5>
