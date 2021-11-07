@@ -1,17 +1,47 @@
+.Banner {
+  width: 100%;
+  margin: 0 auto !important;
+  text-align: center;
+  border-radius: 10px;
+}
+
 .careers {
-  margin-top: 40px;
+  /* margin-top: 40px; */
+  padding-top: 40px;
+  background: rgba(214, 214, 214, 0.966);
+}
+
+.form-card {
+  width: 100%;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+  margin: 20px 0;
 }
 
 .TextField {
   width: 100%;
-  justify-self: center;
+  justify-self: left;
 
   padding: 30px 0;
-  margin: 20px !important;
+  margin: 20px 0 !important;
+}
+
+.Submit {
+  margin: 20px 0 40px 0 !important;
+}
+
+.TextField1 {
+  width: 100%;
+  justify-self: left;
 }
 
 .Checks {
   text-align: left;
+}
+
+.Labels {
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .slider {
