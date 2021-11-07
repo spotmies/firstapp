@@ -25,6 +25,7 @@ import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
 import Tab from "./components/views/chatMui/chat";
 import Careers from "./components/views/careers/careers";
+import SuccessForm from "./components/views/careers/successForm";
 
 const Routing = () => {
   return (
@@ -51,6 +52,7 @@ const Routing = () => {
         <Route path="/privacy" component={Privacy} />
         <Route path="/tabs" component={Tab} />
         <Route path="/careers" component={Careers} />
+        <Route path="/success-form" component={SuccessForm} />
       </Switch>
     </>
   );

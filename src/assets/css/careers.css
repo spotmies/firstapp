@@ -5,10 +5,18 @@
   border-radius: 10px;
 }
 
-.careers {
+.careers,
+.success-div {
   /* margin-top: 40px; */
   padding-top: 40px;
-  background: rgba(214, 214, 214, 0.966);
+  /* background: rgba(214, 214, 214, 0.966); */
+  background: rgba(206, 219, 224, 0.966);
+}
+
+.success-div {
+  height: 535px;
+  text-align: center;
+  padding: 0 auto;
 }
 
 .form-card {
@@ -49,7 +57,17 @@
 }
 
 .careers-div {
-  width: 40%;
+  width: 50%;
   margin: 0 auto;
   text-align: center;
+}
+
+@media screen and (max-width: 420px) {
+  .careers-div {
+    width: 95%;
+  }
+
+  .success-div {
+    height: 330px;
+  }
 }

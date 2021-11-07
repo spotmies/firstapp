@@ -76,7 +76,8 @@ export default function Careers() {
               required
               id="standard-required"
               label="Name"
-              defaultValue="Hello World"
+              // defaultValue="Hello World"
+              placeholder="ENTER YOUR NAME HERE"
               variant="standard"
               className="TextField"
               inputRef={nameRef}
@@ -89,7 +90,8 @@ export default function Careers() {
               id="standard-required"
               label="Email"
               inputRef={emailRef}
-              defaultValue="Hello World"
+              // defaultValue="Hello World"
+              placeholder="ENTER YOUR EMAIL ADDRESS HERE"
               variant="standard"
               className="TextField"
             />{" "}
@@ -101,7 +103,8 @@ export default function Careers() {
               id="standard-required"
               label="City/District"
               inputRef={cityRef}
-              defaultValue="Hello World"
+              // defaultValue="Hello World"
+              placeholder="ENTER YOUR CITY NAME"
               variant="standard"
               className="TextField"
             />{" "}
@@ -113,7 +116,8 @@ export default function Careers() {
               id="standard-required"
               label="Contact Number"
               inputRef={phoneRef}
-              defaultValue="Hello World"
+              // defaultValue="Hello World"
+              placeholder="ENTER YOUR CONTACT NUMBER"
               variant="standard"
               className="TextField"
             />{" "}
@@ -392,11 +396,11 @@ export default function Careers() {
 
           <div className="form-card">
             <TextField
-              required
               id="standard-required"
               label="Comments"
               inputRef={commentRef}
-              defaultValue="Hello World"
+              // defaultValue="Hello World"
+              placeholder="TELL US IF YOU WANT TO SAY SOMETHING"
               variant="standard"
               className="TextField"
             />
