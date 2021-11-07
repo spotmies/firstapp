@@ -1,5 +1,9 @@
 import React, { useRef, useState } from "react";
 import "../../../assets/css/careers.css";
+import { apiPostPut } from "../../../api_services/api_calls/api_calls";
+import firebase from "../../../firebase";
+
+import "firebase/storage";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
@@ -14,10 +18,14 @@ import InputLabel from "@mui/material/InputLabel";
 import NativeSelect from "@mui/material/NativeSelect";
 import Button from "@mui/material/Button";
 import Banner from "../../../images/35_writing.png";
+import constants from "../../../helpers/constants";
+import { allowOnlyNumber } from "../../../helpers/regex/regex";
+import { CircularProgress } from "@mui/material";
 
 function valuetext(value) {
   return `${value}°C`;
 }
+const storage = firebase.storage();
 
 export default function Careers() {
   const nameRef = useRef("");
@@ -25,18 +33,30 @@ export default function Careers() {
   const phoneRef = useRef("");
   const cityRef = useRef("");
   const commentRef = useRef("");
+  const collegeRef = useRef("");
+  const moreLangugaesRef = useRef("");
 
-  var appliedFor = "reactJs";
-  var languagesKnown = [];
-  var previousExperience = [];
-  var monthsOfExperience = "1-4";
-  var rateYourself = 0;
+  // var languagesKnown = [];
+  // var previousExperience = [];
+  // var monthsOfExperience = "none";
+  // var rateYourself = 1;//make this a usestate
+  const [languagesKnown, setlanguagesKnown] = useState([]);
+  const [previousExperience, setpreviousExperience] = useState([]);
+  const [monthsOfExperience, setmonthsOfExperience] = useState("none");
+  const [rateYourself, setrateYourself] = useState(1);
 
-  const [applyingFor, setApplyingFor] = useState("React Js");
-
+  const [applyingFor, setApplyingFor] = useState("");
+  const [addMoreLang, setAddMoreLang] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [imageAsFile, setImageAsFile] = useState('')
   // create arrow function to handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (resumeLinkk) => {
+
+
+    console.log(languagesKnown);
+    if (addMoreLang) {
+      languagesKnown.push(moreLangugaesRef.current.value);
+    }
     console.log(nameRef.current.value);
     console.log(emailRef.current.value);
     console.log(phoneRef.current.value);
@@ -47,20 +67,90 @@ export default function Careers() {
     console.log(previousExperience);
     console.log(monthsOfExperience);
     console.log(rateYourself);
+    var body = {
+      name: nameRef.current?.value,
+      email: emailRef.current?.value,
+      phone: phoneRef.current?.value,
+      programmingLanguage: languagesKnown,
+      previousExperience: previousExperience,
+      isGraduate: true,
+      address: cityRef.current?.value,
+      college: collegeRef.current?.value,
+      company: "spotmies",
+      description: commentRef.current?.value,
+      appliedFor: applyingFor,
+      createdAt: new Date().valueOf(),
+      createdFrom: "web",
+      monthsOfExperience: monthsOfExperience,
+      resume: resumeLinkk,
+      rateYourselfOnTechnology: rateYourself
+
+    }
+    console.log(body);
+    setSubmitting(true);
+    let path = constants.api.NEW_INTERN_REGISTRATION;
+    let result = await apiPostPut(body, path, "POST")
+    console.log(result);
+    if (result != null) alert("Thank you for applying. We will get back to you soon.");
+    setSubmitting(false);
+
   };
+
+  const handleImageAsFile = (e) => {
+    const image = e.target.files[0]
+    setImageAsFile(image);
+  }
+
+  const handleFireBaseUpload = (e) => {
+    e.preventDefault();
+    if (applyingFor === "") {
+      alert("Please select the position you are applying for");
+      return;
+    }
+    console.log('start of upload')
+    // async magic goes here...
+    if (imageAsFile === '') {
+      console.error(`not an image, the image file is a ${typeof (imageAsFile)}`)
+      return;
+    }
+    setSubmitting(true);
+    const uploadTask = storage.ref(`/inters/resumes/${imageAsFile.name}`).put(imageAsFile)
+    //initiates the firebase side uploading 
+    uploadTask.on('state_changed',
+      (snapShot) => {
+        //takes a snap shot of the process as it is happening
+        console.log(snapShot)
+      }, (err) => {
+        //catches the errors
+        console.log(err)
+      }, () => {
+        // gets the functions from storage refences the image storage in firebase by the children
+        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+        storage.ref('inters/resumes').child(imageAsFile.name).getDownloadURL()
+          .then(fireBaseUrl => {
+            console.log(fireBaseUrl);
+            setSubmitting(false);
+            handleSubmit(fireBaseUrl);
+          })
+      })
+  }
 
   const handleChange = (value, arrayName, state) => {
     if (arrayName === "languagesKnown") {
       if (state === "add") {
-        languagesKnown.push(value);
+        setlanguagesKnown(oldArray => [...oldArray, value]);
+
       } else {
-        languagesKnown.splice(languagesKnown.indexOf(value), 1);
+        // languagesKnown.splice(languagesKnown.indexOf(value), 1);
+        setlanguagesKnown(languagesKnown.filter(item => item !== value));
       }
     } else if (arrayName === "previousExperience") {
       if (state === "add") {
-        previousExperience.push(value);
+        //  previousExperience.push(value);
+        setpreviousExperience(oldArray => [...oldArray, value]);
       } else {
-        previousExperience.splice(previousExperience.indexOf(value), 1);
+        //previousExperience.splice(previousExperience.indexOf(value), 1);
+        setpreviousExperience(previousExperience.filter(item => item !== value));
       }
     }
     console.log(languagesKnown);
@@ -76,7 +166,7 @@ export default function Careers() {
         // }}
         // noValidate
         autoComplete="on"
-        onSubmit={handleSubmit}
+        onSubmit={handleFireBaseUpload}
       >
         <div className="careers-div">
           <img src={Banner} alt="banner" className="Banner" />
@@ -98,9 +188,23 @@ export default function Careers() {
               required
               id="standard-required"
               label="Email"
+              type="email"
               inputRef={emailRef}
               // defaultValue="Hello World"
               placeholder="ENTER YOUR EMAIL ADDRESS HERE"
+              variant="standard"
+              className="TextField"
+            />{" "}
+          </div>
+
+          <div className="form-card">
+            <TextField
+              required
+              id="standard-required"
+              label="College Name"
+              inputRef={collegeRef}
+              // defaultValue="Hello World"
+              placeholder="ENTER YOUR COLLEGE NAME"
               variant="standard"
               className="TextField"
             />{" "}
@@ -125,6 +229,9 @@ export default function Careers() {
               id="standard-required"
               label="Contact Number"
               inputRef={phoneRef}
+              onChange={allowOnlyNumber}
+              inputProps={{ maxLength: 10, minLength: 10 }}
+
               // defaultValue="Hello World"
               placeholder="ENTER YOUR CONTACT NUMBER"
               variant="standard"
@@ -142,21 +249,23 @@ export default function Careers() {
           />{" "} */}
 
           <div className="form-card">
-            <FormControl fullWidth className="TextField">
-              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+            <FormControl fullWidth className="TextField" required>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native" >
                 Applying for?
               </InputLabel>
               <NativeSelect
+
+                label="Applying for?"
                 onChange={(e) => {
-                  appliedFor = e.target.value;
                   setApplyingFor(e.target.value);
                 }}
-                defaultValue="React Js"
+                // defaultValue="React Js"
                 inputProps={{
                   name: "applying",
                   id: "uncontrolled-native",
                 }}
               >
+                <option value="none" hidden>Please select here</option>
                 <option value="React Js">React.js</option>
                 <option value="Flutter">Flutter</option>
                 <option value="Designing">Designer</option>
@@ -170,7 +279,7 @@ export default function Careers() {
             </h5>
             <Slider
               onChange={(e) => {
-                rateYourself = e.target.value;
+                setrateYourself(e.target.value);
               }}
               aria-label="Small steps"
               defaultValue={1}
@@ -185,7 +294,7 @@ export default function Careers() {
           </div>
 
           <div className="Checks form-card">
-            <h5 className="Labels">Frameworks Known?</h5>
+            <h5 className="Labels">Languages / Frameworks Known?</h5>
             <FormGroup className="Checks TextField1">
               <FormControlLabel
                 control={
@@ -236,11 +345,29 @@ export default function Careers() {
                 className="slider"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={<Checkbox onChange={(e) => {
+                  setAddMoreLang(e.target.checked ? true : false);
+                }} />}
                 label="Other"
                 className="slider"
               />
             </FormGroup>
+            {addMoreLang ?
+              <div className="moreLange"
+              >
+                <TextField
+
+                  id="standard-required"
+                  label="others"
+                  inputRef={moreLangugaesRef}
+                  // defaultValue="Hello World"
+                  placeholder="Enter more"
+                  variant="standard"
+
+                />
+              </div>
+              : null}
+
           </div>
 
           {/* <TextField
@@ -312,23 +439,6 @@ export default function Careers() {
                 label="Freelancer"
                 className="slider"
               />
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="learning"
-                    onChange={(e) => {
-                      handleChange(
-                        e.target.value,
-                        "previousExperience",
-                        e.target.checked ? "add" : "remove"
-                      );
-                    }}
-                  />
-                }
-                label="Learning"
-                className="slider"
-              />
               <FormControlLabel
                 control={
                   <Checkbox
@@ -342,23 +452,7 @@ export default function Careers() {
                     }}
                   />
                 }
-                label="None of the above"
-                className="slider"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="other"
-                    onChange={(e) => {
-                      handleChange(
-                        e.target.value,
-                        "previousExperience",
-                        e.target.checked ? "add" : "remove"
-                      );
-                    }}
-                  />
-                }
-                label="Others"
+                label="None of the above 'I AM STUDENT' "
                 className="slider"
               />
             </FormGroup>
@@ -373,7 +467,7 @@ export default function Careers() {
                 aria-label="experience"
                 name="radio-buttons-group"
                 onChange={(e) => {
-                  monthsOfExperience = e.target.value;
+                  setmonthsOfExperience(e.target.value);
                 }}
               >
                 <FormControlLabel
@@ -412,8 +506,8 @@ export default function Careers() {
 
           <div className="Checks form-card">
             <h5 className="Labels">Upload Resume</h5>
-
-            <input type="file" className="TextField1" label="Upload Resume" />
+            {/* accept pdf only */}
+            <input type="file" onChange={handleImageAsFile} className="TextField1" label="Upload Resume" accept="imag/*,.doc, .docx,.pdf" required />
           </div>
 
           <div className="form-card">
@@ -429,7 +523,8 @@ export default function Careers() {
           </div>
 
           <Button variant="contained" className="Submit" type="submit">
-            Submit Form
+            {/* Submit Form */}
+            {submitting ? <CircularProgress size={20} color="inherit" /> : "Submit"}
           </Button>
         </div>
       </Box>
