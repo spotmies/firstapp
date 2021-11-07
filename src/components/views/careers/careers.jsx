@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../../../assets/css/careers.css";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -20,6 +20,44 @@ function valuetext(value) {
 }
 
 export default function Careers() {
+  const nameRef = useRef("");
+  const emailRef = useRef("");
+  const phoneRef = useRef("");
+  const cityRef = useRef("");
+  const commentRef = useRef("");
+  const rateOnTechnology = useRef("");
+  const appliedForRef = useRef("");
+  const rateOnJobRef = useRef("");
+  var languagesKnown = [];
+  var previousExperience = [];
+  // create arrow function to handle form submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(nameRef.current.value);
+    console.log(emailRef.current.value);
+    console.log(phoneRef.current.value);
+    console.log(cityRef.current.value);
+    console.log(commentRef.current.value);
+  };
+
+  const handleChange = (value, arrayName, state) => {
+    if (arrayName === "languagesKnown") {
+      if (state === "add") {
+        languagesKnown.push(value);
+      } else {
+        languagesKnown.splice(languagesKnown.indexOf(value), 1);
+      }
+    } else if (arrayName === "previousExperience") {
+      if (state === "add") {
+        previousExperience.push(value);
+      } else {
+        previousExperience.splice(previousExperience.indexOf(value), 1);
+      }
+    }
+    console.log(languagesKnown);
+    console.log(previousExperience);
+  };
+
   return (
     <div className="careers">
       <Box
@@ -29,6 +67,7 @@ export default function Careers() {
         // }}
         noValidate
         autoComplete="off"
+        onSubmit={handleSubmit}
       >
         <div className="careers-div">
           <img src={Banner} alt="banner" className="Banner" />
@@ -40,6 +79,7 @@ export default function Careers() {
               defaultValue="Hello World"
               variant="standard"
               className="TextField"
+              inputRef={nameRef}
             />{" "}
           </div>
 
@@ -48,6 +88,7 @@ export default function Careers() {
               required
               id="standard-required"
               label="Email"
+              inputRef={emailRef}
               defaultValue="Hello World"
               variant="standard"
               className="TextField"
@@ -59,6 +100,7 @@ export default function Careers() {
               required
               id="standard-required"
               label="City/District"
+              inputRef={cityRef}
               defaultValue="Hello World"
               variant="standard"
               className="TextField"
@@ -70,6 +112,7 @@ export default function Careers() {
               required
               id="standard-required"
               label="Contact Number"
+              inputRef={phoneRef}
               defaultValue="Hello World"
               variant="standard"
               className="TextField"
@@ -88,17 +131,50 @@ export default function Careers() {
             <h5 className="Labels">Languages Known?</h5>
             <FormGroup className="Checks TextField1">
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="html5"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "languagesKnown",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="HTML5"
                 className="slider"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="css3"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "languagesKnown",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="Css3"
                 className="slider"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="reactjs"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "languagesKnown",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="React.js"
                 className="slider"
               />
@@ -190,33 +266,99 @@ export default function Careers() {
             <h5 className="Labels">Previous Experience?</h5>
             <FormGroup className="Checks TextField1">
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="internship"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "previousExperience",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="Internship"
                 className="slider"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="job"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "previousExperience",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="Job"
                 className="slider"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="freelancer"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "previousExperience",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="Freelancer"
                 className="slider"
               />
 
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="learning"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "previousExperience",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="Learning"
                 className="slider"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="none"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "previousExperience",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="None of the above"
                 className="slider"
               />
               <FormControlLabel
-                control={<Checkbox />}
+                control={
+                  <Checkbox
+                    value="other"
+                    onChange={(e) => {
+                      handleChange(
+                        e.target.value,
+                        "previousExperience",
+                        e.target.checked ? "add" : "remove"
+                      );
+                    }}
+                  />
+                }
                 label="Others"
                 className="slider"
               />
@@ -253,13 +395,14 @@ export default function Careers() {
               required
               id="standard-required"
               label="Comments"
+              inputRef={commentRef}
               defaultValue="Hello World"
               variant="standard"
               className="TextField"
             />
           </div>
 
-          <Button variant="contained" className="Submit">
+          <Button variant="contained" className="Submit" type="submit">
             Submit Form
           </Button>
         </div>
