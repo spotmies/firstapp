@@ -4,6 +4,7 @@ import { apiPostPut } from "../../../api_services/api_calls/api_calls";
 import firebase from "../../../firebase";
 
 import "firebase/storage";
+import SuccessForm from "../careers/successForm";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
@@ -17,7 +18,7 @@ import FormLabel from "@mui/material/FormLabel";
 import InputLabel from "@mui/material/InputLabel";
 import NativeSelect from "@mui/material/NativeSelect";
 import Button from "@mui/material/Button";
-import Banner from "../../../images/35_writing.png";
+import Banner from "../../../images/careers-banner.jpg";
 import constants from "../../../helpers/constants";
 import { allowOnlyNumber } from "../../../helpers/regex/regex";
 import { CircularProgress } from "@mui/material";
@@ -44,6 +45,7 @@ export default function Careers() {
   const [previousExperience, setpreviousExperience] = useState([]);
   const [monthsOfExperience, setmonthsOfExperience] = useState("none");
   const [rateYourself, setrateYourself] = useState(1);
+  const [isCompleted, setisCompleted] = useState(false);
 
   const [applyingFor, setApplyingFor] = useState("");
   const [addMoreLang, setAddMoreLang] = useState(false);
@@ -91,7 +93,9 @@ export default function Careers() {
     let path = constants.api.NEW_INTERN_REGISTRATION;
     let result = await apiPostPut(body, path, "POST")
     console.log(result);
-    if (result != null) alert("Thank you for applying. We will get back to you soon.");
+    if (result != null){
+      setisCompleted(true);
+    } 
     setSubmitting(false);
 
   };
@@ -158,7 +162,11 @@ export default function Careers() {
   };
 
   return (
+    
     <div className="careers">
+      {
+        isCompleted ? <SuccessForm />
+      :
       <Box
         component="form"
         // sx={{
@@ -528,6 +536,7 @@ export default function Careers() {
           </Button>
         </div>
       </Box>
+}
     </div>
   );
 }

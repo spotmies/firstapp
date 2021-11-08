@@ -24,7 +24,7 @@ import {
 } from "react-icons/md";
 
 import { BiLogOutCircle } from "react-icons/bi";
-import { FaCarAlt } from "react-icons/fa";
+import { FaCarAlt, FaGraduationCap } from "react-icons/fa";
 // import { fa } from "react-icons/fa";
 import io from "socket.io-client";
 import constants from "../../../helpers/constants";
@@ -127,7 +127,7 @@ function Navibar(props) {
         localStorage.removeItem("userDetails");
         localStorage.removeItem("orders");
         history.push("/");
-        setTimeout(() => {}, 1000);
+        setTimeout(() => { }, 1000);
         window.location.reload();
       });
   }
@@ -156,6 +156,12 @@ function Navibar(props) {
                   className="nav-linkList"
                   style={{ color: "black", display: "inline-flex" }}
                 >
+                  <Link className="nav-links" to="/careers">
+                    <Nav className="chaticon" id="mybooks">
+                      <FaGraduationCap className="chaticon2" />
+                      <b>Careers</b>
+                    </Nav>
+                  </Link>
                   {isLogged ? (
                     <>
                       {/* <Link className="nav-links" to="/rentals">
@@ -164,12 +170,7 @@ function Navibar(props) {
                           <b>Rentals</b>
                         </Nav>
                       </Link> */}
-                      <Link className="nav-links" to="/careers">
-                        <Nav className="chaticon" id="mybooks">
-                          <FaCarAlt className="chaticon2" />
-                          <b>Careers</b>
-                        </Nav>
-                      </Link>
+
                       <Link className="nav-links" to="/mybookings">
                         <Nav
                           className="chaticon"
@@ -190,6 +191,8 @@ function Navibar(props) {
                       </Link>
                     </>
                   ) : null}
+
+
                   <Link className="nav-links" to="/contact">
                     <Nav className="chaticon" id="contact">
                       <MdEmail size="1.3rem" className="chaticon2" />
