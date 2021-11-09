@@ -257,9 +257,15 @@ export default function Careers() {
                 style={{
                   cursor: "pointer",
                   color: "grey",
+                  // position: "absolute",
                 }}
               >
-                <b>from vizag</b>
+                {/* Submit Form */}
+
+                <b className="local">
+                  From &nbsp;
+                  <u> vizag</u>
+                </b>
               </small>
             </div>
 
