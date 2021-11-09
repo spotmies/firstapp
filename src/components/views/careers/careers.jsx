@@ -94,7 +94,21 @@ export default function Careers() {
 
   const handleImageAsFile = (e) => {
     const image = e.target.files[0];
-    setImageAsFile(image);
+
+    if (image) {
+      const file = image;
+      var pattern = /.pdf/;
+
+      if (!file.type.match(pattern)) {
+        alert("Please upload PDF format only");
+        return;
+      } else {
+        console.log("working");
+        setImageAsFile(file);
+      }
+
+      // here you can do whatever you want with your image. Now you are sure that it is an image
+    }
   };
 
   const handleFireBaseUpload = (e) => {
@@ -107,6 +121,7 @@ export default function Careers() {
     // async magic goes here...
     if (imageAsFile === "") {
       console.error(`not an image, the image file is a ${typeof imageAsFile}`);
+      alert("Please upload your resume in PDF format");
       return;
     }
     setSubmitting(true);
@@ -201,6 +216,10 @@ export default function Careers() {
         >
           <div className="careers-div">
             <img src={Banner} alt="banner" className="Banner" />
+
+            <p className="career-heading">
+              Make your first step towards a better future with us.
+            </p>
             <div className="form-card">
               <TextField
                 required
@@ -558,7 +577,7 @@ export default function Careers() {
                 onChange={handleImageAsFile}
                 className="TextField1"
                 label="Upload Resume"
-                accept="imag/*,.doc, .docx,.pdf"
+                accept=".pdf"
                 required
               />
             </div>
@@ -566,10 +585,10 @@ export default function Careers() {
             <div className="form-card">
               <TextField
                 id="standard-required"
-                label="Comments"
+                label="Portfolio links"
                 inputRef={commentRef}
                 // defaultValue="Hello World"
-                placeholder="TELL US IF YOU WANT TO SAY SOMETHING"
+                placeholder="SHARE YOUR PORTFOLIO LINKS (ex: github,linkedIn etc..,)"
                 variant="standard"
                 className="TextField"
               />

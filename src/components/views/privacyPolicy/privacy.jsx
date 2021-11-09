@@ -359,7 +359,7 @@ function Privacy() {
           us:
         </p>
         <ul>
-          <li>By email: spotmies@gmail.com</li>
+          <li>By email: info@spotmies.com</li>
         </ul>
       </article>
     </div>

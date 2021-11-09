@@ -7,7 +7,11 @@ import { toast } from "react-toastify";
 import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
-import SmLogo from "../../../images/logo.svg";
+import Lottie from "lottie-web";
+import animationData from "../../../images/spotmies_logo.json";
+// import SmLogo from "../../../images/logo.svg";
+import SmLogo from "../../../images/spotmies_logo2.png";
+
 // import SmLogo from "../../../images/sm3dlogo.svg";
 
 import { connect } from "react-redux";
@@ -92,38 +96,36 @@ function Navibar(props) {
 
   const sendMessageThroghtSocket = () => {
     let queue = props.getMessageQueue;
-    if(!props.readyToSendMessage || queue.length<1){
-      console.log("already in progress >>>>>>>>>>>>>..")
-      return}
-    console.log("msg queue>>>>>>>>>>",queue)
-    props.readyToSend(false)
-    queue.forEach((element,key) => {
-     
-          socket.emit(
-      "sendNewMessageCallback",
-      element,
-      (response) => {
-        console.log(response,element.object);
-        if (response === "success") {
-          props.removeMessageFromQueue(element);
-          if(key==queue.length-1){
-            props.readyToSend(true)
+    if (!props.readyToSendMessage || queue.length < 1) {
+      console.log("already in progress >>>>>>>>>>>>>..");
+      return;
+    }
+    console.log("msg queue>>>>>>>>>>", queue);
+    props.readyToSend(false);
+    queue.forEach((element, key) => {
+      socket.emit(
+        "sendNewMessageCallback",
+        element,
+        (response) => {
+          console.log(response, element.object);
+          if (response === "success") {
+            props.removeMessageFromQueue(element);
+            if (key == queue.length - 1) {
+              props.readyToSend(true);
 
-            console.log("queue completed");
+              console.log("queue completed");
+            }
           }
-        }
-      } // ok
-    );
+        } // ok
+      );
     });
-  }
+  };
   useEffect(() => {
     sendMessageThroghtSocket();
-// let refreshIntervalId = setInterval(sendMessageThroghtSocket(), 3000);
-      
-//   if(props.getMessageQueue.length <1)clearInterval(refreshIntervalId);
-  
-  }, [props.getMessageQueue,props.sendRemaingMessages])
+    // let refreshIntervalId = setInterval(sendMessageThroghtSocket(), 3000);
 
+    //   if(props.getMessageQueue.length <1)clearInterval(refreshIntervalId);
+  }, [props.getMessageQueue, props.sendRemaingMessages]);
 
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
@@ -167,12 +169,12 @@ function Navibar(props) {
         localStorage.removeItem("userDetails");
         localStorage.removeItem("orders");
         history.push("/");
-        setTimeout(() => { }, 1000);
+        setTimeout(() => {}, 1000);
         window.location.reload();
       });
   }
 
-   return (
+  return (
     <div style={{ paddingBottom: "80px" }}>
       <header style={{ zIndex: "9999" }} className="navi-bar">
         <Container>
@@ -181,10 +183,20 @@ function Navibar(props) {
               value={{ size: "1.5em", className: "nav-icons" }}
             >
               <Link to="/">
-                <Navbar.Brand className="title">
+                {/* <Navbar.Brand className="title">
                   <img src={SmLogo} />
-                  <h2>SPOTMIES</h2>
-                </Navbar.Brand>
+                  <div>
+                    <h2 className="navbar-title">SPOTMIES</h2>
+                    <p>Experience the Excellence</p>
+                  </div>
+                </Navbar.Brand> */}
+                <div className="logo-banner">
+                  <img src={SmLogo} className="navbar-logo" />
+                  <div className="nav-tag-title">
+                    <h1 className="navbar-title">SPOTMIES</h1>
+                    <p className="tag-line">Experience the Excellence</p>
+                  </div>
+                </div>
               </Link>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse
@@ -231,7 +243,6 @@ function Navibar(props) {
                       </Link>
                     </>
                   ) : null}
-
 
                   <Link className="nav-links" to="/contact">
                     <Nav className="chaticon" id="contact">
@@ -347,9 +358,9 @@ const mapStateToProps = (state) => {
     isUserLogin: state.isUserLogin,
     loader: state.universalLoader,
     disableBottomBar: state.disableBottomBar,
-    getMessageQueue:state.sendMessageQueue,
-    readyToSendMessage:state.readyToSendMessage,
-    sendRemaingMessages:state.sendRemaingMessages
+    getMessageQueue: state.sendMessageQueue,
+    readyToSendMessage: state.readyToSendMessage,
+    sendRemaingMessages: state.sendRemaingMessages,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -375,12 +386,12 @@ const mapDispatchToProps = (dispatch) => {
     enableBottomBar: (data) => {
       dispatch({ type: "DISABLE_BOTTOM_BAR", value: !data });
     },
-    removeMessageFromQueue:(data) =>{
-      dispatch({type:"REMOVE_MESSAGE_FROM_QUEUE",value:data})
+    removeMessageFromQueue: (data) => {
+      dispatch({ type: "REMOVE_MESSAGE_FROM_QUEUE", value: data });
     },
-    readyToSend:(data) => {
-      dispatch({type:"READY_TO_SEND_MESSAGE",value:data})
-    }
+    readyToSend: (data) => {
+      dispatch({ type: "READY_TO_SEND_MESSAGE", value: data });
+    },
   };
 };
 

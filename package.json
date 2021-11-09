@@ -22,6 +22,7 @@
     "leaflet": "^1.7.1",
     "leaflet-control-geocoder": "^2.3.0",
     "leaflet-defaulticon-compatibility": "^0.1.1",
+    "lottie-web": "^5.8.1",
     "mic-recorder-to-mp3": "^2.2.2",
     "react": "^17.0.2",
     "react-animate-on-scroll": "^2.1.5",

@@ -4,13 +4,21 @@
   object-fit: cover;
   margin: 0 auto !important;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
 }
-
+.career-heading {
+  margin-top: 0 !important;
+  font-size: 30px;
+  font-weight: 600;
+  border-radius: 0 0 10px 10px !important;
+  color: rgba(63, 63, 63, 0.911);
+  background-color: rgb(243, 243, 243) !important;
+  padding: 10px;
+}
 .careers,
 .success-div {
   /* margin-top: 40px; */
-  padding-top: 40px;
+  padding-top: 20px;
   /* background: rgba(214, 214, 214, 0.966); */
   background: rgba(206, 219, 224, 0.966);
 }
@@ -84,10 +92,15 @@
 }
 
 @media screen and (max-width: 420px) {
+  .career-heading {
+    font-size: 22px;
+  }
   .careers-div {
     width: 95%;
   }
-
+  .careers {
+    padding-top: 15px;
+  }
   .Banner {
     height: 130px;
   }

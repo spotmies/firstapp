@@ -135,15 +135,16 @@ class SimpleMap extends Component {
           <h2>Our Phones are waiting for your call!</h2>
           <hr></hr>
           <h3>Email:</h3>
-          <p>spotmies@gmail.com</p>
+          <p>info@spotmies.com</p>
           <p>modernsilpi@gmail.com</p>
           <h3>Mobile no:</h3>
           <p>9502831877</p>
           <p>8019933883</p>
           <h3>Address:</h3>
           <p>
-            D.No: 58-38-10,<br></br> KRM Colony,<br></br> Visakhapatnam,
-            <br></br> Andhra Pradesh,<br></br> 530027.
+            D.No: 50-95-5/1,<br></br> A.P.S.E.B colony, saibaba temple road,
+            seethammadara<br></br> Visakhapatnam,
+            <br></br> Andhra Pradesh,<br></br> 530013.
           </p>
         </div>
         <hr></hr>
