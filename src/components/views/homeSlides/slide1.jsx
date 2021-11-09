@@ -22,6 +22,7 @@ import lock3 from "../../../images/lock3.png";
 import { feedBack1 } from "../../../mservices/contactUs";
 //import feedback form
 import FeedbackForm from "../../reusable/feedback_form";
+import redirectToAnotherPage from "../../../helpers/redirect";
 import { loadState } from "../../../helpers/localStorage";
 // gsap.registerPlugin(ScrollTrigger);
 // const lockdiv = document.querySelector("#LockDiv");
@@ -64,10 +65,6 @@ function Slide(props) {
     "We believe that you should have a choice to share your details with technicians." +
     "You can communicate with technician in our application itself without sharing contact details. ";
   // const [condiff, setCondiff] = useState(530);
-
-  const redirect = () => {
-    window.open("https://modernsilpi.com", "_blank");
-  };
 
   const closeModal = () => {
     setOpen(false);
@@ -289,7 +286,7 @@ function Slide(props) {
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
             Made with love by{" "}
             {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
-            <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
+            <a onClick={()=>{redirectToAnotherPage("modernsilpi.com")}} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
           </p>
@@ -495,7 +492,7 @@ function Slide(props) {
         >
           <p style={{ marginTop: "3px", marginBottom: "3px" }}>
             Made with Love by{" "}
-            <a onClick={redirect} target="blank" style={{ cursor: "pointer" }}>
+            <a onClick={()=>{redirectToAnotherPage("modernsilpi.com")}} target="blank" style={{ cursor: "pointer" }}>
               Modern Silpi
             </a>
           </p>

@@ -48,6 +48,7 @@ import {
   MdSend,
   MdSlowMotionVideo,
   MdStar,
+  MdMoreVert,
 } from "react-icons/md";
 import emptychatPic from "../../../images/emptychatPic.svg";
 
@@ -375,7 +376,7 @@ function Chat(props) {
     setlocalMedia(newPeople);
   };
   return (
-    <div className={classes.mainScreen}>
+    <div className={classes.mainScreen} id="complete-page">
       {deviceWidth > 700 ? (
         <Grid
           container
@@ -397,7 +398,7 @@ function Chat(props) {
               <div>
                 <ChatBanner orderDetails={orderDetails} prop={props} />
 
-                <div>
+                <div className="chat-main">
                   <ChatArea
                     chatListScrollControl={chatListScrollControl}
                     scrollhandle={scrollhandle}
@@ -547,10 +548,10 @@ const ChatBanner = React.memo(
               />
             </IconButton>
             <div className="appbar-title">
-              <h2>
+              <h2 className="personName">
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
-              <p style={{ marginTop: "-15px" }}>
+              <p className="businessName">
                 business name | 4.5
                 <MdStar color="gold" />
               </p>
@@ -568,7 +569,7 @@ const ChatBanner = React.memo(
                     aria-haspopup="true"
                     onClick={handleToggle}
                   >
-                    <MdMenu className="message-icons" />
+                    <MdMoreVert className="message-icons" />
                   </Button>
                   <Popper
                     open={open}
@@ -592,6 +593,7 @@ const ChatBanner = React.memo(
                             <MenuList
                               autoFocusItem={open}
                               id="menu-list-grow"
+                              className="menu-list"
                               onKeyDown={handleListKeyDown}
                             >
                               <MenuItem onClick={handleClose}>
@@ -660,7 +662,7 @@ const ListChatPersons = React.memo(
                 </Badge>
               </ListItemIcon>
 
-              <ListItemText>
+              <ListItemText className="listText">
                 {list.pDetails.name}
 
                 {(() => {
@@ -697,10 +699,24 @@ const ListChatPersons = React.memo(
                 })()}
               </ListItemText>
               <ListItemText align="right">
-                {gettbystamps(
-                  Number(JSON.parse(list.msgs[list.msgs.length - 1]).time),
-                  "time"
-                )}
+                <div>
+                  {gettbystamps(
+                    Number(JSON.parse(list.msgs[list.msgs.length - 1]).time),
+                    "time"
+                  )}
+                </div>
+                <Badge
+                  overlap="circular"
+                  badgeContent={
+                    <SmallAvatar
+                      className="smallAvatar"
+                      alt="Remy Sharp"
+                      src=""
+                    />
+                  }
+                >
+                  {/* <Avatar alt="Travis Howard" src={list.pDetails.partnerPic} /> */}
+                </Badge>
               </ListItemText>
             </ListItem>
           ))}

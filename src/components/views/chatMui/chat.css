@@ -100,6 +100,16 @@
   border: 1px solid rgb(255, 255, 255);
   border-radius: 20px;
 }
+
+.smallAvatar {
+  height: 25px !important;
+  width: 25px !important;
+  top: -10px !important;
+  left: -40px !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
+
 @media screen and (max-width: 700px) {
   .input-message {
     width: 60% !important;
@@ -130,12 +140,17 @@ input:focus {
 }
 .message-area {
   overflow-y: auto;
-  height: 65vh;
+  height: 52vh;
 }
 .last-msg-list {
   overflow: hidden;
+  /* width: 70%; */
   text-overflow: ellipsis;
   color: rgb(146, 146, 146);
+}
+
+.listText {
+  width: 50%;
 }
 /* .column1 {
   display: flex;
