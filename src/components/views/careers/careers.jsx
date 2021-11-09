@@ -182,6 +182,9 @@ export default function Careers() {
     console.log("form again");
     setsubmitAgain(true);
   };
+  const prefixField = () => {
+    cityRef.current.value = "vizag";
+  };
   return (
     <div className="careers">
       {isCompleted ? (
@@ -249,6 +252,15 @@ export default function Careers() {
                 variant="standard"
                 className="TextField"
               />{" "}
+              <small
+                onClick={prefixField}
+                style={{
+                  cursor: "pointer",
+                  color: "grey",
+                }}
+              >
+                <b>from vizag</b>
+              </small>
             </div>
 
             <div className="form-card">
