@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button, Form } from "semantic-ui-react";
-
+import { connect } from "react-redux";
 import Zoom from "react-reveal/Zoom";
 import Fade from "react-reveal/Fade";
 import "../../../assets/css/partner.css";
@@ -17,6 +17,7 @@ import { MdFeedback } from "react-icons/md";
 import ScrollAnimation from "react-animate-on-scroll";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import Select2 from "react-select";
+import { loadState } from "../../../helpers/localStorage";
 const options2 = [
   { label: "Ac/Refrigirator services", value: "ac repairs" },
   { label: "Pc/Laptop services", value: "pc/laptop" },
@@ -50,7 +51,7 @@ function useWindowSize() {
   return swidth;
 }
 
-function PartnerRegistration() {
+function PartnerRegistration(props) {
   const [pcate, spcate] = useState(null);
   const [pname, spname] = useState(null);
   const [pnum, spnum] = useState(null);
@@ -204,7 +205,13 @@ function PartnerRegistration() {
             </Zoom>
           </section>
         ))}
-        <div className="feedBack fbSlide">
+        <div
+          className={`${
+            props.userDetails.uId !== undefined
+              ? "feedBack fbSlide fab"
+              : "feedBack fbSlide sddsf"
+          }`}
+        >
           {chIcon === 0 ? (
             <Fade right>
               <h3
@@ -427,7 +434,13 @@ function PartnerRegistration() {
             )}
           </div>
         ))}
-        <div className="feedBack fbSlide">
+        <div
+          className={`${
+            props.userDetails.uId !== undefined
+              ? "feedBack fbSlide fab"
+              : "feedBack fbSlide sddsf"
+          }`}
+        >
           {chIcon === 0 ? (
             <Fade right>
               <h3
@@ -566,4 +579,14 @@ function PartnerRegistration() {
   }
 }
 
-export default PartnerRegistration;
+const mapStateToProps = (state) => {
+  return {
+    userDetails:
+      Object.keys(state.userDetails).length !== 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
+    orders: state.orders,
+  };
+};
+
+export default connect(mapStateToProps, null)(PartnerRegistration);

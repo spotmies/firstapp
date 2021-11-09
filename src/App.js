@@ -26,6 +26,9 @@ import Privacy from "./components/views/privacyPolicy/privacy";
 import Tab from "./components/views/chatMui/chat";
 import Careers from "./components/views/careers/careers";
 import SuccessForm from "./components/views/careers/successForm";
+import ChatResponseTab from "./components/views/chatMui/chat";
+import Leaflet from "./components/views/leaflet/leaflet";
+import ProfileWebMobileUi from "./components/views/profile_mobile/profile_mobile";
 
 const Routing = () => {
   return (
@@ -38,11 +41,11 @@ const Routing = () => {
           <Mybooks />
         </Route>
         <Route path="/newpost" component={newpost2} />
-        <Route path="/chat" component={Tab} />
+        <Route path="/chat" component={ChatResponseTab} />
+        <Route path="/response" component={ChatResponseTab} />
         <Route path="/chats-section" component={chatssection} />
         <Route path="/newChat" component={chatComponent} />
         <Route path="/signup" component={login} />
-        <Route path="/account" component={profile} />
         <Route path="/mybookings/id/edit" component={editpost2} />
         <Route path="/mybookings/id" component={postview} />
         <Route path="/contact" component={SimpleMap} />
@@ -53,6 +56,7 @@ const Routing = () => {
         <Route path="/tabs" component={Tab} />
         <Route path="/careers" component={Careers} />
         <Route path="/success-form" component={SuccessForm} />
+        <Route path="/account" component={ProfileWebMobileUi} />
       </Switch>
     </>
   );

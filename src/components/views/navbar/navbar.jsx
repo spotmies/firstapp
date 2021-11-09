@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { toast } from "react-toastify";
 import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
 import SmLogo from "../../../images/logo.svg";
+// import SmLogo from "../../../images/sm3dlogo.svg";
+
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
 import { loadState } from "../../../helpers/localStorage";
@@ -30,13 +33,16 @@ import io from "socket.io-client";
 import constants from "../../../helpers/constants";
 import { getResponses } from "../../controllers/responses/responses_controller";
 import { getConversasions } from "../../controllers/chat/chat_controller";
+import LabelBottomNavigation from "./bottom_navigation";
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
   const [isLogged, setisLogged] = useState(false);
 
   const history = useHistory();
-
+  useEffect(() => {
+    console.log("loader state", props.loader);
+  }, [props.loader]);
   const socket = io.connect(
     constants.constants.localBacked
       ? constants.localHostSocketUrl
@@ -59,6 +65,7 @@ function Navibar(props) {
         props.updateAllOrders(userOrders);
         props.updateAllChats(userChats);
         props.updateAllResponses(userResponses);
+        props.enableBottomBar(true);
       }
     });
   };
@@ -83,6 +90,41 @@ function Navibar(props) {
     hitAllApis();
   }, [constants.localHostSocketUrl, constants.socketUrl]);
 
+  const sendMessageThroghtSocket = () => {
+    let queue = props.getMessageQueue;
+    if(!props.readyToSendMessage || queue.length<1){
+      console.log("already in progress >>>>>>>>>>>>>..")
+      return}
+    console.log("msg queue>>>>>>>>>>",queue)
+    props.readyToSend(false)
+    queue.forEach((element,key) => {
+     
+          socket.emit(
+      "sendNewMessageCallback",
+      element,
+      (response) => {
+        console.log(response,element.object);
+        if (response === "success") {
+          props.removeMessageFromQueue(element);
+          if(key==queue.length-1){
+            props.readyToSend(true)
+
+            console.log("queue completed");
+          }
+        }
+      } // ok
+    );
+    });
+  }
+  useEffect(() => {
+    sendMessageThroghtSocket();
+// let refreshIntervalId = setInterval(sendMessageThroghtSocket(), 3000);
+      
+//   if(props.getMessageQueue.length <1)clearInterval(refreshIntervalId);
+  
+  }, [props.getMessageQueue,props.sendRemaingMessages])
+
+
   firebase.auth().onAuthStateChanged(async function (user) {
     if (user) {
       socket.emit(
@@ -96,12 +138,10 @@ function Navibar(props) {
       if (Object.keys(props.userDetails).length === 0) {
         let localUserDetails = loadState("userDetails");
         if (localUserDetails !== null) props.updateUser(localUserDetails);
-        else {
-          let newLoginResponse = await loginUser(
-            firebase.auth().currentUser.uid
-          );
-          if (newLoginResponse !== false) props.updateUser(newLoginResponse);
-        }
+
+        let newLoginResponse = await loginUser(firebase.auth().currentUser.uid);
+        if (newLoginResponse !== false) props.updateUser(newLoginResponse);
+
         let localOrders = loadState("orders");
         if (localOrders !== null) props.updateAllOrders(localOrders);
         else {
@@ -132,7 +172,7 @@ function Navibar(props) {
       });
   }
 
-  return (
+   return (
     <div style={{ paddingBottom: "80px" }}>
       <header style={{ zIndex: "9999" }} className="navi-bar">
         <Container>
@@ -305,6 +345,11 @@ const mapStateToProps = (state) => {
   return {
     userDetails: state.userDetails,
     isUserLogin: state.isUserLogin,
+    loader: state.universalLoader,
+    disableBottomBar: state.disableBottomBar,
+    getMessageQueue:state.sendMessageQueue,
+    readyToSendMessage:state.readyToSendMessage,
+    sendRemaingMessages:state.sendRemaingMessages
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -327,6 +372,15 @@ const mapDispatchToProps = (dispatch) => {
     updateAllOrders: (data) => {
       dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
     },
+    enableBottomBar: (data) => {
+      dispatch({ type: "DISABLE_BOTTOM_BAR", value: !data });
+    },
+    removeMessageFromQueue:(data) =>{
+      dispatch({type:"REMOVE_MESSAGE_FROM_QUEUE",value:data})
+    },
+    readyToSend:(data) => {
+      dispatch({type:"READY_TO_SEND_MESSAGE",value:data})
+    }
   };
 };
 

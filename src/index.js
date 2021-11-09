@@ -7,6 +7,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import {createStore} from 'redux';
 import {Provider} from 'react-redux'
 import rootReducer from "./reducers/rootReducer";
+import 'leaflet/dist/leaflet.css';
+
 const store = createStore(rootReducer);
 
 ReactDOM.render(

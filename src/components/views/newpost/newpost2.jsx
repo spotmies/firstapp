@@ -7,8 +7,6 @@ import Fab from "@material-ui/core/Fab";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Badge from "@material-ui/core/Badge";
-import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
@@ -79,6 +77,7 @@ import { onlyNumRegEx } from "../../../helpers/regex/regex";
 //image compressorjs
 import Compressor from "compressorjs";
 import { getFileType, validURL } from "../../../helpers/dateconv";
+import GetLocationDialog from "./get_user_location";
 
 const storage = firebase.storage();
 
@@ -93,6 +92,7 @@ class Postnew extends Component {
       uId: this.props.userDetails.uId ?? null,
       loaderData: "Please wait...",
       isNewForm: true,
+
       //edit form details
       editDateForm: {},
     };
@@ -119,6 +119,9 @@ class Postnew extends Component {
     if (this.props.editDate === "true") {
       // console.log("edit data coming >>>");
       this.getOrder();
+    } else {
+      let emptyObject = {};
+      this.props.editOrder(emptyObject);
     }
     // console.log(this.state);
     // console.log(this.props);
@@ -253,6 +256,7 @@ class Postform extends Component {
       addPosted: false,
       uId: this.props.uId ?? null,
       submitForm: false,
+      showLocationDialog: false,
 
       //edit form
       editFormFillFlag: false,
@@ -313,6 +317,7 @@ class Postform extends Component {
 
   handleSubmit = async () => {
     console.log("submitting form");
+
     this.state.image = [];
     const state = this.state;
     let reqObj = {
@@ -322,7 +327,8 @@ class Postform extends Component {
       money: state.money,
       schedule: new Date(state.schedule).valueOf(),
       job: this.props.job,
-      loc: [17.686815, 83.218483],
+      loc: [this.props.prop.reqGeocodes.lat, this.props.prop.reqGeocodes.lng],
+      address: JSON.stringify(this.props.prop.reqAddress),
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",
       ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
@@ -414,8 +420,9 @@ class Postform extends Component {
     }
   };
 
-  uploadImageToCloud = async (e) => {
-    e.preventDefault();
+  uploadImageToCloud = async () => {
+    // e.preventDefault();
+    console.log("media upload >>>");
     this.props.eventLoader(true, "Uploading Media...");
 
     for (let i = 0; i < this.state.image.length; i++) {
@@ -497,6 +504,9 @@ class Postform extends Component {
       image: this.state.image.concat([audioFile]),
     });
   };
+  locationModalState = (state) => {
+    this.setState({ showLocationDialog: state });
+  };
   render() {
     const { classes } = this.props.prop;
     return (
@@ -505,7 +515,10 @@ class Postform extends Component {
           className={classes.root}
           // noValidate
           autoComplete="off"
-          onSubmit={this.uploadImageToCloud}
+          onSubmit={(e) => {
+            e.preventDefault();
+            this.locationModalState(true);
+          }}
         >
           <TextField
             id="filled-basic"
@@ -636,6 +649,11 @@ class Postform extends Component {
             </Button>
           </Grid>
         </form>
+        <GetLocationDialog
+          openDialog={this.state.showLocationDialog}
+          close={this.locationModalState}
+          onComplete={this.uploadImageToCloud}
+        />
       </>
     );
   }
@@ -755,81 +773,6 @@ function SimpleDialog(props) {
     </Dialog>
   );
 }
-
-// class ListMediaFiles extends Component {
-//   shouldComponentUpdate(newProps) {
-//     if (this.props.mediaFiles === newProps.mediaFiles) {
-//       return false;
-//     } else {
-//       return true;
-//     }
-//   }
-
-//   render() {
-//     const { mediaFiles, deleteMedia, styles, typeOfMode } = this.props;
-//     return (
-//       <Grid container justify="flex-start">
-//         {mediaFiles.map((nap, key) => (
-//           <Badge color="white" badgeContent=" " variant="dot">
-//             {getFileType(nap) === "img" ? (
-//               <CardMedia
-//                 key={key}
-//                 className={styles.media}
-//                 component="img"
-//                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-//                 title={nap.name}
-//               />
-//             ) : getFileType(nap) === "video" ? (
-//               <video
-//                 width="230"
-//                 height="154"
-//                 controls
-//                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-//                 type="video/mp4"
-//               />
-//             ) : (
-//               <audio
-//                 src={typeOfMode === "offline" ? URL.createObjectURL(nap) : nap}
-//                 controls
-//               />
-//             )}
-
-//             <MdClear
-//               color="red"
-//               onClick={() => {
-//                 deleteMedia(key, typeOfMode);
-//               }}
-//             />
-//           </Badge>
-//         ))}
-//       </Grid>
-//     );
-//   }
-// }
-
-const mapStateToProps = (state) => {
-  return {
-    userDetails:
-      Object.keys(state.userDetails).length !== 0
-        ? state.userDetails
-        : loadState("userDetails") ?? [],
-    orders: state.orders,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addNewOrder: (data) => {
-      dispatch({ type: "ADD_NEW_ORDER", value: data });
-    },
-    updateAllOrders: (data) => {
-      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
-    },
-    updateOrder: (data) => {
-      dispatch({ type: "UPDATE_ORDER", value: data });
-    },
-  };
-};
-
 function MediaImport(props) {
   let [audioURL, isRecording, startRecording, stopRecording] = useRecorder();
   const [audioFile, setaudioFile] = useState("");
@@ -884,6 +827,35 @@ function MediaImport(props) {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userDetails:
+      Object.keys(state.userDetails).length !== 0
+        ? state.userDetails
+        : loadState("userDetails") ?? [],
+    orders: state.orders,
+    reqGeocodes: state.jobPostLocation,
+    reqAddress: state.currentMapAddress,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewOrder: (data) => {
+      dispatch({ type: "ADD_NEW_ORDER", value: data });
+    },
+    updateAllOrders: (data) => {
+      dispatch({ type: "UPDATE_ALL_ORDERS", value: data });
+    },
+    updateOrder: (data) => {
+      dispatch({ type: "UPDATE_ORDER", value: data });
+    },
+    editOrder: (data) => {
+      dispatch({ type: "EDIT_ORDER_DATA", value: data });
+    },
+  };
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

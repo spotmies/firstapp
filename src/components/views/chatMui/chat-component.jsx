@@ -56,6 +56,7 @@ import useRecorder from "../newpost/useRecorder";
 import { imageCompressor } from "../../../helpers/image_compressor";
 import ListMediaFiles from "../../reusable/list_media_files";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import ImageViewerDialog from "./image_viewer";
 
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
@@ -120,39 +121,10 @@ function Chat(props) {
 
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
-  const socket = io.connect(
-    constants.constants.localBacked
-      ? constants.localHostSocketUrl
-      : constants.socketUrl,
-    {
-      transports: ["websocket", "polling", "flashsocket"],
-    }
-  );
-  // useEffect(() => {
-  // console.log("list changed >>");
-  // let temo = listChats.sort(function (x, y) {
-  //   return x.lastModified - y.lastModified;
-  // });
-  // console.log(temo);
-  // }, [listChats]);
-  useEffect(() => {
-    // getUserConversasions();
-    setListChats(props.userChats);
-    return () => {};
-  }, [props.userChats]);
-  useEffect(() => {
-    console.log("use effect >>>");
 
-    socket.on("connect", (socket) => {
-      console.log("user connected chat >...");
-    });
-    socket.on("disconnect", () => {
-      console.log("user disconnected chat >>>");
-    });
-  }, [constants.localHostSocketUrl]);
 
   const chatBox = (msgId) => {
-    const found = listChats.find((element) => element.msgId === msgId);
+    const found = props.userChats.find((element) => element.msgId === msgId);
     let parsedMsgs = [];
     console.log(found);
     for (let i = 0; i < found.msgs.length; i++) {
@@ -175,25 +147,53 @@ function Chat(props) {
   };
   useEffect(() => {
     if (currentMsgId != null) chatBox(currentMsgId);
-  }, [listChats]);
+  }, [props.userChats]);
 
   //scroll to bottom useeffect below
   useEffect(() => {
     if (currentMsgId !== null) executeScroll();
     setstatusBarValue(0);
   }, [currentChat]);
-
+  useEffect(() => {
+    props.sendRemainingMessages();
+  }, [currentMsgId])
+  useEffect(() => {
+    
+    return () => {
+      props.sendRemainingMessages();
+    }
+  }, [])
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
-    console.log(msgId);
-    if (msgId != null) chatBox(msgId);
+    // console.log(msgId);
+    if (msgId != null) {
+      chatBox(msgId);
+      props.disableChatResponseTab(true);
+      props.disableBottomBar(true);
+      props.history.push(`/chat/${msgId}`);
+    } else {
+      props.disableChatResponseTab(false);
+      props.disableBottomBar(false);
+    }
   };
+  useEffect(() => {
+    props.history.listen((location) => {
+      let browserPath = location.pathname.split("/");
+      if (
+        browserPath[2] == "" ||
+        browserPath[2] == undefined ||
+        browserPath[2] == null
+      ) {
+        selectChat(null);
+      }
+    });
+  }, [props.history.location]);
+
   const sendMediaFile = (files) => {
     let tempFiles = files ?? uploadedFiles;
     for (let i = 0; i < tempFiles.length; i++) {
-      console.log("sending", i, "of", tempFiles.length);
       let msgObject = {
-        type: "text",
+        type: getFileType(tempFiles[i]),
         msg: tempFiles[i],
         sender: "user",
         time: new Date().valueOf(),
@@ -202,19 +202,12 @@ function Chat(props) {
         object: JSON.stringify(msgObject),
         target: targetObject,
       });
-      socket.emit(
-        "sendNewMessageCallback",
-        {
-          object: JSON.stringify(msgObject),
-          target: targetObject,
-        },
-        (response) => {
-          console.log("return resp ", response);
-          if (response === "success") {
-            setsendStatus("send");
-          }
-        } // ok
-      );
+      props.addMessageToQueue({
+        object: JSON.stringify(msgObject),
+        target: targetObject,
+      })
+      console.log(msgObject,"msg obje")
+
     }
   };
   const sendMessage = () => {
@@ -230,42 +223,23 @@ function Chat(props) {
     setsendStatus("sending");
     console.log("sending msg >>>>>>");
     let msgObject = {
-      type: "text",
+      type: getFileType(messageInput.current.value),
       msg: messageInput.current.value,
       sender: "user",
       time: new Date().valueOf(),
     };
 
-    // setCurrentChat((ele) => [...ele, msgObject]);
-    // socket.emit(
-    //   "sendNewMessage",
-    //   {
-    //     object: JSON.stringify(msgObject),
-    //     target: targetObject,
-    //   } // ok
-    // );
-    // messageInput.current.value = null;
 
-    //  this code is for send message with callback
-    //  setCurrentChat((ele) => [...ele, msgObject]);
     props.addNewMessage({
       object: JSON.stringify(msgObject),
       target: targetObject,
     });
-    socket.emit(
-      "sendNewMessageCallback",
-      {
-        object: JSON.stringify(msgObject),
-        target: targetObject,
-      },
-      (response) => {
-        console.log(response);
-        if (response === "success") {
-          setsendStatus("send");
-          messageInput.current.value = null;
-        }
-      } // ok
-    );
+    props.addMessageToQueue({
+      object: JSON.stringify(msgObject),
+      target: targetObject,
+    })
+    messageInput.current.value = null;
+ 
   };
 
   //enter click to send message
@@ -412,7 +386,7 @@ function Chat(props) {
         >
           <Grid item xs={3} className={classes.borderRight500}>
             <ListChatPersons
-              listChats={listChats}
+              listChats={props.userChats}
               currentMsgId={currentMsgId}
               selectChat={selectChat}
             />
@@ -422,7 +396,7 @@ function Chat(props) {
             {/* appbar */}
             {currentMsgId !== null ? (
               <div>
-                <ChatBanner orderDetails={orderDetails} />
+                <ChatBanner orderDetails={orderDetails} prop={props} />
 
                 <div className="chat-main">
                   <ChatArea
@@ -432,6 +406,7 @@ function Chat(props) {
                     scrollRef={scrollRef}
                     dateBetweenMessages={dateBetweenMessages}
                     sendStatus={sendStatus}
+                    orderDetails = {orderDetails}
                   />
                   <Statusbar
                     executeScroll={executeScroll}
@@ -470,7 +445,7 @@ function Chat(props) {
       ) : (
         <MobileChat
           //list chat props
-          listChats={listChats}
+          listChats={props.userChats}
           currentChat={currentChat}
           currentMsgId={currentMsgId}
           selectChat={selectChat}
@@ -500,6 +475,7 @@ function Chat(props) {
           addMore={getMediaFiles}
           // loader props
           loader={loader}
+          prop={props}
         />
       )}
     </div>
@@ -531,6 +507,7 @@ const ChatBanner = React.memo(
       }
     }
     const backToChatList = () => {
+      console.log(props);
       props.selectChat(null);
     };
     // return focus to the button when we transitioned from !open -> open
@@ -542,6 +519,12 @@ const ChatBanner = React.memo(
 
       prevOpen.current = open;
     }, [open]);
+    useEffect(() => {
+      return () => {
+        props.prop.disableChatResponseTab(false);
+        props.prop.disableBottomBar(false);
+      };
+    }, []);
     return (
       <div>
         <AppBar position="static" className="chat-appbar" elevation="0">
@@ -635,10 +618,11 @@ const ChatBanner = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    if (prevProps.orderDetails === nextProps.orderDetails) {
-      return true; // props are equal
+    if (prevProps.orderDetails.msgId !== nextProps.orderDetails.msgId) {
+      console.log("<<<<<<<<<<<<Refress chat banner>>>>>>>>>>>>>>>>>")
+      return false; // props are not  equal update 
     }
-    return false; // props are not equal -> update the component
+    return true;
   }
 );
 
@@ -844,94 +828,130 @@ const MessageTools = React.memo(
 
 const ChatArea = React.memo(
   (props) => {
+    const [viewerSrc, setviewerSrc] = useState("");
+    const [openViewer, setOpenViewer] = useState(false);
+    const imageViewerCallBack = (state) => {
+      setOpenViewer(state);
+    };
     console.log("reder chatArea>>>");
     return (
-      <div
-        className="message-area"
-        ref={props.chatListScrollControl}
-        onScroll={(e) => {
-          props.scrollhandle(e);
-        }}
-      >
-        {props.currentChat.map((chatBody, key, array) => (
-          <div className="list-message" key={key}>
-            {props.dateBetweenMessages(chatBody, array[key - 1]) ? (
-              <p className="cmpmsg">
-                {props.dateBetweenMessages(chatBody, array[key - 1])}
-              </p>
-            ) : null}
-            <div
-              className={
-                chatBody.sender === "user"
-                  ? "chat-message-send"
-                  : "chat-message-recieve"
-              }
-            >
-              {(() => {
-                switch (getFileType(chatBody.msg)) {
-                  case "text":
-                    return <p className="msg-content">{chatBody.msg}</p>;
-                  case "audio":
-                    return (
-                      <p className="msg-content">
-                        <audio
-                          src={chatBody.msg}
-                          controls
-                          className="Audio-msg"
-                          // style={{ width: "fit-content" }}
-                        />
-                      </p>
-                    );
-                  case "img":
-                    return (
-                      <p className="msg-content">
-                        <img className="msg-image" src={chatBody.msg} />
-                      </p>
-                    );
-                  case "video":
-                    return (
-                      <p className="msg-content">
-                        <video
-                          className="msg-image"
-                          controls
-                          src={chatBody.msg}
-                          type="video/mp4"
-                        />
-                      </p>
-                    );
-                  default:
-                    return null;
-                }
-              })()}
-
-              <p className="msg-time">
-                {gettbystamps(Number(chatBody.time), "time")}
-              </p>
-            </div>
-            <div>
-              {key === props.currentChat.length - 1 &&
-              chatBody.sender === "user" ? (
-                <span className="readStatus">
+      <div>
+        {!openViewer ? (
+          <div
+            className="message-area"
+            ref={props.chatListScrollControl}
+            onScroll={(e) => {
+              props.scrollhandle(e);
+            }}
+          >
+            {props.currentChat.map((chatBody, key, array) => (
+              <div className="list-message" key={key}>
+                {props.dateBetweenMessages(chatBody, array[key - 1]) ? (
+                  <p className="cmpmsg">
+                    {props.dateBetweenMessages(chatBody, array[key - 1])}
+                  </p>
+                ) : null}
+                <div
+                  className={
+                    chatBody.sender === "user"
+                      ? "chat-message-send"
+                      : "chat-message-recieve"
+                  }
+                >
                   {(() => {
-                    switch (props.sendStatus) {
-                      case "sending":
-                        return <MdAlarm className="sendingStatus" />;
-
-                      case "send":
-                        return <MdDone />;
-                      case "seen":
-                        return <MdDoneAll color="blue" />;
-
+                    switch (getFileType(chatBody.msg)) {
+                      case "text":
+                        return <p className="msg-content">{chatBody.msg}</p>;
+                      case "audio":
+                        return (
+                          <p className="msg-content">
+                            <audio
+                              src={chatBody.msg}
+                              controls
+                              className="Audio-msg"
+                              // style={{ width: "fit-content" }}
+                            />
+                          </p>
+                        );
+                      case "img":
+                        return (
+                          <p
+                            className="msg-content"
+                            onClick={() => {
+                              setviewerSrc(chatBody.msg);
+                              imageViewerCallBack(true);
+                            }}
+                          >
+                            <img className="msg-image" src={chatBody.msg} />
+                          </p>
+                        );
+                      case "video":
+                        return (
+                          <p className="msg-content">
+                            <video
+                              className="msg-image"
+                              controls
+                              src={chatBody.msg}
+                              type="video/mp4"
+                            />
+                          </p>
+                        );
                       default:
                         return null;
                     }
                   })()}
-                </span>
-              ) : null}
+
+                  <p className="msg-time">
+                    {gettbystamps(Number(chatBody.time), "time")}
+                  </p>
+                </div>
+                <div>
+                  {key === props.currentChat.length - 1 &&
+                  chatBody.sender === "user" ? (
+                    <span className="readStatus">
+                      {(() => {
+                        switch (props.orderDetails.uState) {
+                          case 0:
+                            return <MdAlarm className="sendingStatus" />;
+
+                          case 1:
+                            return <MdDone />;
+                          case 2:
+                            return <MdDoneAll color="blue" />;
+
+                          default:
+                            return null;
+                        }
+                      })()}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+            <div ref={props.scrollRef} />
+            {/* <ImageViewerDialog
+                 open={openViewer}
+                 imageViewerCallBack={imageViewerCallBack}
+                 src={viewerSrc}
+                 allSrc={props.currentChat}
+               /> */}
+          </div>
+        ) : (
+          <div className="img-viewer">
+            <div className="viewer-close">
+              <MdClose
+                size="2rem"
+                onClick={() => {
+                  setOpenViewer(false);
+                }}
+              />
+              {/* <Button>Close </Button> */}
+            </div>
+            <div className="viewer-content">
+              <img src={viewerSrc} alt="simething" className="view-image" />
             </div>
           </div>
-        ))}
-        <div ref={props.scrollRef} />
+        )}
       </div>
     );
   },
@@ -1005,6 +1025,7 @@ const MobileChat = React.memo(
               orderDetails={props.orderDetails}
               mobile={true}
               selectChat={props.selectChat}
+              prop={props.prop}
             />
             <ChatArea
               chatListScrollControl={props.chatListScrollControl}
@@ -1013,6 +1034,8 @@ const MobileChat = React.memo(
               scrollRef={props.scrollRef}
               dateBetweenMessages={props.dateBetweenMessages}
               sendStatus={props.sendStatus}
+                        orderDetails={props.orderDetails}
+
             />
             <Statusbar
               executeScroll={props.executeScroll}
@@ -1077,6 +1100,18 @@ const mapDispatchToProps = (dispatch) => {
     addNewMessage: (data) => {
       dispatch({ type: "ADD_NEW_MESSAGE", value: data });
     },
+    disableChatResponseTab: (data) => {
+      dispatch({ type: "DISABLE_CHAT_RESPONSE_TAB", value: data });
+    },
+    disableBottomBar: (data) => {
+      dispatch({ type: "DISABLE_BOTTOM_BAR", value: data });
+    },
+    addMessageToQueue: (data) =>{
+      dispatch({type:"ADD_MESSAGE_TO_QUEUE",value:data})
+    },
+    sendRemainingMessages: () => {
+      dispatch({type: "SEND_REMAINING_MESSAGES",value:"data"})
+    }
   };
 };
 

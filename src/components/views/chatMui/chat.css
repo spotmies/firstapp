@@ -202,6 +202,7 @@ input:focus {
   width: 200px;
   padding-bottom: 7px;
   border-radius: 10px;
+  cursor: pointer;
 }
 .media-card {
   height: 70px;
@@ -222,6 +223,20 @@ input:focus {
   -o-transition: background-image 0.7s;
   width: 566px;
   padding-top: 2px;
+}
+.img-viewer {
+  height: 60vh;
+  width: 100%;
+}
+.view-image {
+  width: 100%;
+  height: 60vh;
+}
+.viewer-close {
+  cursor: pointer;
+  margin-right: 0;
+  margin-left: auto;
+  width: fit-content;
 }
 
 @media screen and (max-width: 420px) {

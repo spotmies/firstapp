@@ -7,6 +7,17 @@ const initState = {
   userChats: [],
   isUserLogin: false,
   feedbackQuestion: [],
+  currentMapAddress: {},
+  jobPostLocation: { lat: 17.686815, lng: 83.218483 },
+  editOrderData: {},
+  universalLoader: false,
+  isupdateMapAddress: true,
+  disableChatResponseTab: false,
+  disableBottomBar: true,
+  bottomBarState: "",
+  sendMessageQueue:[],
+  readyToSendMessage:true,
+  sendRemaingMessages:true,
 };
 
 const rootReducer = (state = initState, action) => {
@@ -17,6 +28,36 @@ const rootReducer = (state = initState, action) => {
       return {
         ...state,
         userChats: action.value,
+      };
+    },
+    readReceipt : function(msgId,readState,messageQueue){
+      // console.log(action.value);
+      
+      let targetConversasion = state.userChats.find(
+        (element) => element.msgId === msgId
+      );
+      let tempAllChats = state.userChats.filter(
+        (elements) => elements.msgId !== msgId
+      );
+      if(state.sendMessageQueue.length<2)targetConversasion["uState"] = readState;
+      
+      // console.log(targetConversasion);
+      tempAllChats = [...tempAllChats, targetConversasion];
+      // tempAllChats = [].concat(tempAllChats).reverse();
+
+      tempAllChats.sort(function (x, y) {
+        return (
+          JSON.parse(y.msgs[y.msgs.length - 1]).time -
+          JSON.parse(x.msgs[x.msgs.length - 1]).time
+        );
+      });
+
+      return {
+        ...state,
+        userChats: tempAllChats,
+        sendMessageQueue: messageQueue ?? state.sendMessageQueue,
+        sendRemaingMessages: !state.sendRemaingMessages
+        
       };
     },
     addNewMessage: function () {
@@ -30,6 +71,9 @@ const rootReducer = (state = initState, action) => {
       );
 
       targetConversasion["msgs"].push(action.value.object);
+      console.log(targetConversasion.uState);
+      targetConversasion.uState = 0;
+      console.log(targetConversasion.uState);
       // console.log(targetConversasion);
       tempAllChats = [...tempAllChats, targetConversasion];
       // tempAllChats = [].concat(tempAllChats).reverse();
@@ -124,6 +168,73 @@ const rootReducer = (state = initState, action) => {
         ...state,
         feedbackQuestion: action.value,
       };
+    case "UPDATE_CURRENT_MAP_ADDRESS":
+      return {
+        ...state,
+        currentMapAddress: action.value,
+      };
+    case "IS_UPDATE_MAP_ADDRESS":
+      return {
+        ...state,
+        isupdateMapAddress: action.value,
+      };
+    case "UPDATE_JOB_POST_LOCATION":
+      return {
+        ...state,
+        jobPostLocation: action.value,
+      };
+    case "EDIT_ORDER_DATA":
+      return {
+        ...state,
+        editOrderData: action.value,
+      };
+    case "UPDATE_UNIVERSAL_LOADER":
+      return {
+        ...state,
+        universalLoader: action.value,
+      };
+    case "DISABLE_CHAT_RESPONSE_TAB":
+      return {
+        ...state,
+        disableChatResponseTab: action.value,
+      };
+    case "DISABLE_BOTTOM_BAR":
+      return {
+        ...state,
+        disableBottomBar: action.value,
+      };
+    case "UPDATE_BOTTOM_BAR_STATE":
+      return {
+        ...state,
+        bottomBarState: action.value,
+      };
+    case "ADD_MESSAGE_TO_QUEUE":
+      return {
+        ...state,
+        sendMessageQueue:[...state.sendMessageQueue,action.value]
+      }
+    case "REMOVE_MESSAGE_FROM_QUEUE":
+      let filtered = state.sendMessageQueue.filter(function(value){ 
+        return value != action.value;
+    }); 
+      return chatingRoot.readReceipt(action.value.target.msgId,1,filtered)
+    //   let filtered = state.sendMessageQueue.filter(function(value){ 
+    //     return value != action.value;
+    // }); 
+    //   return {
+    //     ...state,
+    //     sendMessageQueue:filtered
+    //   }
+    case "READY_TO_SEND_MESSAGE":
+      return{
+        ...state,
+        readyToSendMessage:action.value
+      }
+    case "SEND_REMAINING_MESSAGES":
+      return{
+        ...state,
+        sendRemaingMessages:!state.sendRemaingMessages
+      }
 
     default:
       return state;

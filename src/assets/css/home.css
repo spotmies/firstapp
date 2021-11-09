@@ -446,7 +446,7 @@
   height: fit-content;
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 500px) {
   #joinBtn div h1 {
     font-size: 34px;
   }
@@ -457,5 +457,8 @@
 
   .LockPsw {
     margin-bottom: 40px;
+  }
+  .fab {
+    bottom: 60px !important;
   }
 }
