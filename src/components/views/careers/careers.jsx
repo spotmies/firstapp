@@ -36,6 +36,7 @@ export default function Careers() {
   const commentRef = useRef("");
   const collegeRef = useRef("");
   const moreLangugaesRef = useRef("");
+  const checkBoxRef = useRef("");
   const [languagesKnown, setlanguagesKnown] = useState([]);
   const [previousExperience, setpreviousExperience] = useState([]);
   const [monthsOfExperience, setmonthsOfExperience] = useState("none");
@@ -47,22 +48,38 @@ export default function Careers() {
   const [addMoreLang, setAddMoreLang] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [imageAsFile, setImageAsFile] = useState("");
+  const listLanguages = ["Flutter", "React Js", "Node Js"];
+  const designingTools = [
+    "Photoshop",
+    "Illustrator",
+    "AfterEffects",
+    "Premier Pro",
+  ];
+  const softwaresTag = [
+    "Languages / Frameworks Known?",
+    "Design Softwares you Known?",
+  ];
+  const [softwareTagName, setSoftwareTagName] = useState(softwaresTag[0]);
+  const [targetLangs, setTargetLangs] = useState([]);
   // create arrow function to handle form submit
+
+  const applyFor = (job) => {
+    setlanguagesKnown([]);
+    setApplyingFor(job);
+    if (job === "Designing") {
+      setTargetLangs(designingTools);
+      setSoftwareTagName(softwaresTag[1]);
+    } else {
+      setTargetLangs(listLanguages);
+      setSoftwareTagName(softwaresTag[0]);
+    }
+  };
+
   const handleSubmit = async (resumeLinkk) => {
     console.log(languagesKnown);
     if (addMoreLang) {
       languagesKnown.push(moreLangugaesRef.current.value);
     }
-    console.log(nameRef.current.value);
-    console.log(emailRef.current.value);
-    console.log(phoneRef.current.value);
-    console.log(cityRef.current.value);
-    console.log(commentRef.current.value);
-    console.log(applyingFor);
-    console.log(languagesKnown);
-    console.log(previousExperience);
-    console.log(monthsOfExperience);
-    console.log(rateYourself);
     var body = {
       name: nameRef.current?.value,
       email: emailRef.current?.value,
@@ -82,6 +99,7 @@ export default function Careers() {
       rateYourselfOnTechnology: rateYourself,
     };
     console.log(body);
+    return;
     setSubmitting(true);
     let path = constants.api.NEW_INTERN_REGISTRATION;
     let result = await apiPostPut(body, path, "POST");
@@ -113,6 +131,9 @@ export default function Careers() {
 
   const handleFireBaseUpload = (e) => {
     e.preventDefault();
+    handleSubmit("fireBaseUrl");
+    return;
+
     if (applyingFor === "") {
       alert("Please select the position you are applying for");
       return;
@@ -264,7 +285,7 @@ export default function Careers() {
               <TextField
                 required
                 id="standard-required"
-                label="City/District"
+                label="Home city/district"
                 inputRef={cityRef}
                 // defaultValue="Hello World"
                 placeholder="ENTER YOUR CITY NAME"
@@ -320,7 +341,7 @@ export default function Careers() {
                 <NativeSelect
                   label="Applying for?"
                   onChange={(e) => {
-                    setApplyingFor(e.target.value);
+                    applyFor(e.target.value);
                   }}
                   // defaultValue="React Js"
                   inputProps={{
@@ -359,9 +380,29 @@ export default function Careers() {
             </div>
 
             <div className="Checks form-card">
-              <h5 className="Labels">Languages / Frameworks Known?</h5>
+              <h5 className="Labels">{softwareTagName}</h5>
               <FormGroup className="Checks TextField1">
-                <FormControlLabel
+                {targetLangs.map((item) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        inputRef={checkBoxRef}
+                        value={item}
+                        unselectable="on"
+                        onChange={(e) => {
+                          handleChange(
+                            e.target.value,
+                            "languagesKnown",
+                            e.target.checked ? "add" : "remove"
+                          );
+                        }}
+                      />
+                    }
+                    label={item}
+                    className="slider"
+                  />
+                ))}
+                {/* <FormControlLabel
                   control={
                     <Checkbox
                       value="reactJs"
@@ -408,7 +449,7 @@ export default function Careers() {
                   }
                   label="Node Js"
                   className="slider"
-                />
+                /> */}
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -434,24 +475,6 @@ export default function Careers() {
                 </div>
               ) : null}
             </div>
-
-            {/* <TextField
-            required
-            id="standard-required"
-            label="Rate youself, How good you are in react.js?"
-            defaultValue="Hello World"
-            variant="standard"
-            className="TextField"
-          /> */}
-
-            {/* <TextField
-            required
-            id="standard-required"
-            label="Months of experience in react.js"
-            defaultValue="Hello World"
-            variant="standard"
-            className="TextField"
-          /> */}
 
             <div className="Checks form-card">
               <h5 className="Labels">Previous Experience?</h5>
@@ -560,17 +583,10 @@ export default function Careers() {
               </FormControl>
             </div>
 
-            {/* <TextField
-            required
-            id="standard-required"
-            label="Previous experiences?"
-            defaultValue="Hello World"
-            variant="standard"
-            className="TextField"
-          /> */}
-
             <div className="Checks form-card">
-              <h5 className="Labels">Upload Resume</h5>
+              <h5 className="Labels">
+                Upload Resume <small>(*pdf format)</small>
+              </h5>
               {/* accept pdf only */}
               <input
                 type="file"
