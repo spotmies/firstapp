@@ -99,7 +99,6 @@ export default function Careers() {
       rateYourselfOnTechnology: rateYourself,
     };
     console.log(body);
-    return;
     setSubmitting(true);
     let path = constants.api.NEW_INTERN_REGISTRATION;
     let result = await apiPostPut(body, path, "POST");
@@ -131,9 +130,6 @@ export default function Careers() {
 
   const handleFireBaseUpload = (e) => {
     e.preventDefault();
-    handleSubmit("fireBaseUrl");
-    return;
-
     if (applyingFor === "") {
       alert("Please select the position you are applying for");
       return;
