@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
-import Lottie from "lottie-web";
 import animationData from "../../../images/spotmies_logo.json";
 // import SmLogo from "../../../images/logo.svg";
 import SmLogo from "../../../images/spotmies_logo2.png";
