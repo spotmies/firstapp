@@ -86,3 +86,4 @@ date picker
 steps for deploy in firebase
 npm run-script build
 firebase deploy
+read me updated
