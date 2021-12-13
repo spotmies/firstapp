@@ -3,8 +3,9 @@ import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Navibar from "./components/views/navbar/navbar";
 import Firstslide from "./components/views/homeSlides/slide1";
-import postview from "./components/views/viewpost/postview";
+// import postview from "./components/views/viewpost/postview";
 import Mybooks from "./components/views/mybookings/mybooks";
+import NewBook from "./components/views/viewpost/newBook";
 // import chat from "./components/views/chats/chat";
 // import chat from "./components/views/chats/responses"; //this is responses
 // import chat from "./components/views/newChat/chating"
@@ -39,6 +40,7 @@ const Routing = () => {
         <Route exact path="/firstapp" component={Firstslide} />
         <Route exact path="/mybookings">
           <Mybooks />
+          {/* <NewBook /> */}
         </Route>
         <Route path="/newpost" component={newpost2} />
         <Route path="/chat" component={ChatResponseTab} />
@@ -47,7 +49,7 @@ const Routing = () => {
         <Route path="/newChat" component={chatComponent} />
         <Route path="/signup" component={login} />
         <Route path="/mybookings/id/edit" component={editpost2} />
-        <Route path="/mybookings/id" component={postview} />
+        <Route path="/mybookings/id" component={NewBook} />
         <Route path="/contact" component={SimpleMap} />
         <Route path="/rentals" component={Rentals} />
         <Route path="/pdetails" component={pdetails} />

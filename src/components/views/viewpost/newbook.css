@@ -1,0 +1,18 @@
+.head-card {
+    box-shadow: 1px 1px 10px rgb(177, 177, 177);
+    height: 100px;
+    width: 100%;
+}
+
+.body-cards {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.left-card, .right-card {
+    box-shadow: 1px 1px 10px rgb(177, 177, 177);
+    height: 430px;
+    border-radius: 10px;
+    margin: 10px;
+    width: 500px;
+}
