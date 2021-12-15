@@ -46,4 +46,5 @@ module.exports = Object.freeze({
     ORDER_RESPONSES: "/response/responses",
     NEW_INTERN_REGISTRATION:"/career/intern/new-intern-registration"
   },
+  servicesList: "https://spotmiesserver.herokuapp.com/api/services/all-service-list"
 });

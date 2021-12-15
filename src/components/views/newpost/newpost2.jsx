@@ -10,6 +10,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
+// import DialogBox from "./dialogbox";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -23,6 +24,13 @@ import { toast } from "react-toastify";
 import FullScreenWidget from "../../reusable/helpers";
 import { BsHammer, BsHouseFill } from "react-icons/bs";
 import useRecorder from "./useRecorder";
+
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
 
 import "../rentals/rental.css";
 import ListMediaFiles from "../../reusable/list_media_files";
@@ -62,12 +70,6 @@ import { loadState } from "../../../helpers/localStorage";
 
 //for dialog
 import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
 import { constants } from "../../../helpers/constants";
 import { blue } from "@material-ui/core/colors";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
