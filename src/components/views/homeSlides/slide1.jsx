@@ -80,54 +80,54 @@ function Slide(props) {
       var diff = scrolltop2 - scrolltop;
 
       if (diff <= 520 && diff >= 500) {
-        swidths1 < 800 ? setCstext("C********* ") : setCstext("C********* ");
+        swidths1 < 800 ? setCstext("C******* ") : setCstext("C******* ");
         setlockst(0);
       } else if (diff <= 499 && diff >= 480) {
-        swidths1 < 800 ? setCstext("Co******** ") : setCstext("Co******** ");
+        swidths1 < 800 ? setCstext("Co****** ") : setCstext("Co****** ");
         setlockst(0);
       } else if (diff <= 479 && diff >= 460) {
-        setCstext("Com******* ********");
+        setCstext("Com***** ********");
         setlockst(0);
       } else if (diff <= 459 && diff >= 440) {
-        setCstext("Comp****** ********");
+        setCstext("Comp**** ********");
       } else if (diff <= 439 && diff >= 420) {
-        setCstext("Compl***** ********");
+        setCstext("Compl*** ********");
         setlockst(0);
       } else if (diff <= 419 && diff >= 400) {
-        setCstext("Comple**** ********");
+        setCstext("Comple** ********");
       } else if (diff <= 399 && diff >= 380) {
-        setCstext("Complet*** ********");
+        setCstext("Complet* ********");
         setlockst(0);
       } else if (diff <= 379 && diff >= 360) {
-        setCstext("Complete** ********");
+        setCstext("Complete ********");
         setlockst(0);
       } else if (diff <= 359 && diff >= 340) {
-        setCstext("Completel* ********");
+        setCstext("Complete ********");
         setlockst(0);
       } else if (diff <= 339 && diff >= 320) {
-        setCstext("Completely ********");
+        setCstext("Complete ********");
         setLock(lock2);
         setlockst(0);
       } else if (diff <= 339 && diff >= 320) {
-        setCstext("Completely ********");
+        setCstext("Complete ********");
       } else if (diff <= 319 && diff >= 300) {
-        setCstext("Completely S*******");
+        setCstext("Complete P*******");
       } else if (diff <= 299 && diff >= 280) {
-        setCstext("Completely Se******");
+        setCstext("Complete Pr******");
       } else if (diff <= 279 && diff >= 260) {
-        setCstext("Completely Sec*****");
+        setCstext("Complete Pri*****");
       } else if (diff <= 259 && diff >= 240) {
-        setCstext("Completely Secu****");
+        setCstext("Complete Priv****");
       } else if (diff <= 239 && diff >= 220) {
-        setCstext("Completely Secur***");
+        setCstext("Complete Priva***");
       } else if (diff <= 219 && diff >= 200) {
-        setCstext("Completely Secure**");
+        setCstext("Complete Privac**");
       } else if (diff <= 199 && diff >= 180) {
-        setCstext("Completely Secured*");
+        setCstext("Complete Privacy*");
         setLock(lock1);
         setlockst(1);
       } else if (diff <= 179 && diff >= 160) {
-        setCstext("Completely Secured!");
+        setCstext("Complete Privacy!");
         setlockst(1);
       }
       // if (diff <= condiff + 20 && diff >= condiff + 40) {
@@ -136,7 +136,7 @@ function Slide(props) {
       //   console.log(condiff, "condiff");
       // }
       if (scrolly - scrolltop === clientheight) {
-        setCstext("Completely Secured!");
+        setCstext("Complete Privacy!");
         setlockst(1);
       }
       // console.log(
