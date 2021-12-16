@@ -506,17 +506,3 @@ function Partdetail(props) {
     </div>
   );
 }
-const mapStateToProps = (state) => {
-  return {
-    userDetails: state.userDetails,
-    orders: state.orders.length > 0 ? state.orders : loadState("orders"),
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteOrder: (ordId) => {
-      dispatch({ type: "DELETE_ORDER", value: ordId });
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ViewPost);

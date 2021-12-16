@@ -20,7 +20,7 @@ class ServiceList {
       return;
     }
     console.log("getting users from db");
-    thsi.loading = true;
+    this.loading = true;
     const res = await apiGetMethod(constants.servicesList);
     this.loading = false;
     if (res.status === 200) {
@@ -30,6 +30,13 @@ class ServiceList {
       console.log("something went wrong", res.status);
     }
   };
+
+  convertor = (id) => {
+    const index = this.serviceList.findIndex(item => item.serviceId == id );
+    console.log("index:",index);
+    if(index < 0) return "the service is absent";
+    return this.serviceList[index].nameOfService;
+  }
 }
 
 export default ServiceList;
