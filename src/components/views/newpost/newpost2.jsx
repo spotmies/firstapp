@@ -82,7 +82,6 @@ import { getFileType, validURL } from "../../../helpers/dateconv";
 import GetLocationDialog from "./get_user_location";
 import { useStores } from "../../stateManagement/index";
 
-
 const storage = firebase.storage();
 
 class Postnew extends Component {
@@ -758,7 +757,7 @@ function SimpleDialog(props) {
       </DialogTitle>
       <div style={{ width: "580px" }}>
         <List>
-          {loadData.Services.map((data, key) => (
+          {/* {loadData.Services.map((data, key) => (
             <ListItem
               button
               onClick={() => handleListItemClick(key)}
@@ -768,6 +767,22 @@ function SimpleDialog(props) {
               <ListItemAvatar>
                 <Avatar className={classes.avatar}>
                   <GetCategoryIcons iconId={key} />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={data.nameOfService} />
+            </ListItem>
+          ))} */}
+
+          {loadData.Services.map((data) => (
+            <ListItem
+              button
+              // onClick={() => handleListItemClick(key)}
+              // key={key}
+              // selected={key === selectedValue}
+            >
+              <ListItemAvatar>
+                <Avatar className={classes.avatar}>
+                  <GetCategoryIcons />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={data.nameOfService} />

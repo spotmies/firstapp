@@ -40,6 +40,8 @@ function NewBook(props) {
   // const { postdata, posttime } = useTimes();
   const [postdata, setPostData] = useState({});
   const [loader, setLoader] = useState(true);
+  const [showTime, setShowTime] = useState(false);
+  const [showComplete, setShowComplete] = useState(true);
   const [loaderData, setloaderData] = useState("fetching your order ...");
   const eventLoader = (loaderState, data = false) => {
     setLoader(loaderState);
@@ -79,23 +81,40 @@ function NewBook(props) {
   return (
     <div>
       <div className="head-card">
-        <MdArrowBack className="head-icons1" />
+        <MdArrowBack
+          className="head-icons1"
+          onClick={() => {
+            history.go(-1);
+          }}
+          style = {{cursor:"pointer"}}
+        />
         <div className="head-details">
           <h2>{Services.convertor(postdata.job)}</h2>
           <p>Order-ID: {postdata.ordId}</p>
           <div>
-            <Button variant="outlined" className="head-cancel-btn">
+            <Button variant="outlined" className="head-cancel-btn" onClick={() => {Services.updateOrder(3, postdata.ordId)}}>
               <MdCancel className="button-icons" />
               &nbsp;&nbsp; Cancel
             </Button>
+            {/* {postdata.orderState} == 8 ? */}
             <Button
               className="head-buttons"
               variant="contained"
               color="primary"
-            >
+              onClick = {() => {Services.updateOrder(7, postdata.ordId)}}
+            > 
               <AiOutlineReload className="button-icons" />
               &nbsp;&nbsp;Re-Schedule
             </Button>
+              {/* <Button
+              className="head-buttons"
+              variant="contained"
+              color="primary"
+              onClick = {() => {setShowTime(true)}}
+            >
+              <AiOutlineReload className="button-icons" />
+              &nbsp;&nbsp;Re-Schedule
+            </Button> */}
           </div>
         </div>
         <div className="head-menu">
@@ -121,8 +140,10 @@ function NewBook(props) {
               <div>
                 <h4>Schedule</h4>
                 <p>
-                {gettbystamps(Number(postdata.schedule), "fulldate")},&nbsp;&nbsp;
-                {gettbystamps(Number(postdata.schedule), "time")}</p>
+                  {gettbystamps(Number(postdata.schedule), "fulldate")}
+                  ,&nbsp;&nbsp;
+                  {gettbystamps(Number(postdata.schedule), "time")}
+                </p>
               </div>
             </div>
             <div className="detail-div">
@@ -186,10 +207,11 @@ function NewBook(props) {
               <p>Feedback</p>
             </div>
           </div>
+          { showComplete ?
           <div className="conclusion">
             <p>Is this order completed?</p>
             <div>
-              <Button variant="outlined" className="head-cancel-btn">
+              <Button variant="outlined" className="head-cancel-btn" onClick={()=>{setShowComplete(false)}}>
                 <MdCancel className="button-icons" />
                 &nbsp;&nbsp; Not Yet
               </Button>
@@ -197,12 +219,14 @@ function NewBook(props) {
                 className="head-buttons"
                 variant="contained"
                 color="primary"
+                onClick={() => {Services.updateOrder(9, postdata.ordId)}}
               >
                 <MdCheckCircle className="button-icons" />
                 &nbsp;&nbsp;Completed
               </Button>
             </div>
           </div>
+          : null }
         </div>
       </div>
     </div>
