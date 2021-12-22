@@ -80,6 +80,8 @@ import { onlyNumRegEx } from "../../../helpers/regex/regex";
 import Compressor from "compressorjs";
 import { getFileType, validURL } from "../../../helpers/dateconv";
 import GetLocationDialog from "./get_user_location";
+import { useStores } from "../../stateManagement/index";
+
 
 const storage = firebase.storage();
 
@@ -99,6 +101,7 @@ class Postnew extends Component {
       editDateForm: {},
     };
   }
+
   getOrder = async () => {
     let ordId = window.location.pathname;
     ordId = ordId.replace("/mybookings/id/edit/", "");
@@ -741,7 +744,7 @@ function SimpleDialog(props) {
     if (selectedValue !== null) onClose(selectedValue);
   };
 
-  const loadData = constants.categories;
+  const { loadData } = useStores();
 
   return (
     <Dialog
@@ -755,7 +758,7 @@ function SimpleDialog(props) {
       </DialogTitle>
       <div style={{ width: "580px" }}>
         <List>
-          {loadData.map((data, key) => (
+          {loadData.Services.map((data, key) => (
             <ListItem
               button
               onClick={() => handleListItemClick(key)}
@@ -767,7 +770,7 @@ function SimpleDialog(props) {
                   <GetCategoryIcons iconId={key} />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={data} />
+              <ListItemText primary={data.nameOfService} />
             </ListItem>
           ))}
         </List>
