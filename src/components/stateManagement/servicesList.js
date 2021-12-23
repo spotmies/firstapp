@@ -23,9 +23,10 @@ class ServiceList {
     this.loading = true;
     const res = await apiGetMethod(constants.servicesList);
     this.loading = false;
-    if (res.status === 200) {
-      this.serviceList = res.body;
-      console.log(res.body);
+    if (res !== null) {
+      this.serviceList = res;
+      console.log(res);
+      console.log(this.serviceList)
     } else {
       console.log("something went wrong", res.status);
     }
@@ -52,6 +53,13 @@ class ServiceList {
     const index = this.serviceList.findIndex(item => item.serviceId == id );
     console.log("index:",index);
     if(index < 0) return "The service is absent";
+    return this.serviceList[index].nameOfService;
+  }
+
+  getServiceNameById = (id) => {
+    const index = this.serviceList.findIndex(item => item.serviceId == id);
+    console.log("index:", index);
+    if(index < 0) return "this service is unavailable";
     return this.serviceList[index].nameOfService;
   }
 }

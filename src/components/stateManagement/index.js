@@ -3,7 +3,7 @@ import ServiceList from "./servicesList";
 
 class RootStore {
     constructor() {
-        this.Services = new ServiceList(this);
+        this.services = new ServiceList(this);
     }
 }
 
