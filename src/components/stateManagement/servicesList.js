@@ -49,6 +49,24 @@ class ServiceList {
     console.log("Order Updated");
   }
 
+  updateSchedule = async (num, id) => {
+    if (this.loading) {
+      alert("Error, try again later..");
+      return;
+    }
+    console.log("getting users from db",num);
+    num = num.toString();
+    this.loading = true;
+    let body = {
+      schedule: num,
+    };
+    let path = `/order/orders/${id}`;
+    this.loading = true;
+    const resp = await apiPostPut(body, path, "PUT");
+    this.loading = false;
+    console.log("Schedule Updated");
+  }
+
   convertor = (id) => {
     const index = this.serviceList.findIndex(item => item.serviceId == id );
     console.log("index:",index);
