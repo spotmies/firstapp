@@ -203,11 +203,12 @@ function NewBook(props) {
               <div>
                 <h4>Location</h4>
                 <p>
-                  {/* {JSON.parse(postdata.address).featureName}, <br />
+                  {/* {JSON.parse(postdata.address).featureName} */}
+                  {/* , <br />
                   {JSON.parse(postdata.address).subLocality},
                   <br />
                   {JSON.parse(postdata.address).locality} - {postdata.address.postalCode} */}
-                  {/* {postdata.address.featureName}, <br /> */}
+                  {/* {postdata.address.featureName} <br /> */}
                 </p>
               </div>
             </div>

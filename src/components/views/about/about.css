@@ -1,0 +1,45 @@
+.desc {
+    padding: 50px;
+    display: inline-flex;
+    right: 30px;
+}
+
+.desc div {
+    width: 50%;
+}
+
+.desc img {
+    height: 300px;
+    width: 500px;
+    margin-left: 5px;
+}
+
+.text-desc {
+    width: 500px;
+    height: 250px;
+    background: rgba(99, 179, 214, 0.83);
+    top: 25px;
+    padding: 15px;
+    margin-left: 140px;
+    position: relative;
+}
+
+.sec2 {
+    width: 100%;
+    text-align: center;
+}
+
+.team-div {
+    display: inline-flex;
+    margin: 0 auto;
+}
+
+.team-div div {
+    margin: 10px;
+}
+
+.team-div div img {
+    height: 250px;
+    width: 300px;
+    border-radius: 20px;
+}

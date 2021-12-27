@@ -30,6 +30,8 @@ import SuccessForm from "./components/views/careers/successForm";
 import ChatResponseTab from "./components/views/chatMui/chat";
 import Leaflet from "./components/views/leaflet/leaflet";
 import ProfileWebMobileUi from "./components/views/profile_mobile/profile_mobile";
+import Home from "./components/views/homeSlides/home";
+import About from "./components/views/about/about";
 
 const Routing = () => {
   return (
@@ -37,6 +39,7 @@ const Routing = () => {
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={Firstslide} />
+        <Route exact path="/home" component={Home} />
         <Route exact path="/firstapp" component={Firstslide} />
         <Route exact path="/mybookings">
           <Mybooks />
@@ -59,6 +62,7 @@ const Routing = () => {
         <Route path="/careers" component={Careers} />
         <Route path="/success-form" component={SuccessForm} />
         <Route path="/account" component={ProfileWebMobileUi} />
+        <Route path="/about" component={About} />
       </Switch>
     </>
   );
