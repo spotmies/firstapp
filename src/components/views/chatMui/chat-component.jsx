@@ -398,51 +398,54 @@ function Chat(props) {
           <Grid item xs={9}>
             {/* appbar */}
             {currentMsgId !== null ? (
-              <div>
-                <ChatBanner
-                  orderDetails={orderDetails}
-                  view={viewProps}
-                  prop={props}
-                />
-
-                <div className="chat-main">
-                  <ChatArea
-                    chatListScrollControl={chatListScrollControl}
-                    scrollhandle={scrollhandle}
-                    currentChat={currentChat}
-                    scrollRef={scrollRef}
-                    viewed={viewCard}
-                    dateBetweenMessages={dateBetweenMessages}
-                    sendStatus={sendStatus}
+              <div style={{position:"relative"}}>
+                {viewCard ? <PartnerOverview className="overCard" viewed={viewProps} style={{position:"absolute"}} /> : 
+                <div>
+                  <ChatBanner
                     orderDetails={orderDetails}
+                    view={viewProps}
+                    prop={props}
                   />
-                  {/* {viewCard ? <PartnerOverview className="overCard" /> : null} */}
-                  <Statusbar
-                    executeScroll={executeScroll}
-                    status={statusBarValue}
-                  />
-                  <ListMediaFiles
-                    mediaFiles={localMedia}
-                    typeOfMode="offline"
-                    deleteMedia={deleteLocalMedia}
-                    addMore={getMediaFiles}
-                  />
-                  {loader ? (
-                    <div className="linear-progress">
-                      <LinearProgress />
-                    </div>
-                  ) : null}
-                </div>
 
-                <Divider />
-                <MessageTools
-                  onKeyDownHandler={onKeyDownHandler}
-                  messageInput={messageInput}
-                  sendMessage={sendMessage}
-                  uploadMediaToCloud={uploadMediaToCloud}
-                  clearMediaFiles={clearMediaFiles}
-                  getMediaFiles={getMediaFiles}
-                />
+                  <div className="chat-main">
+                    <ChatArea
+                      chatListScrollControl={chatListScrollControl}
+                      scrollhandle={scrollhandle}
+                      currentChat={currentChat}
+                      scrollRef={scrollRef}
+                      // viewed={viewCard}
+                      dateBetweenMessages={dateBetweenMessages}
+                      sendStatus={sendStatus}
+                      orderDetails={orderDetails}
+                    />
+
+                    <Statusbar
+                      executeScroll={executeScroll}
+                      status={statusBarValue}
+                    />
+                    <ListMediaFiles
+                      mediaFiles={localMedia}
+                      typeOfMode="offline"
+                      deleteMedia={deleteLocalMedia}
+                      addMore={getMediaFiles}
+                    />
+                    {loader ? (
+                      <div className="linear-progress">
+                        <LinearProgress />
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <Divider />
+                  <MessageTools
+                    onKeyDownHandler={onKeyDownHandler}
+                    messageInput={messageInput}
+                    sendMessage={sendMessage}
+                    uploadMediaToCloud={uploadMediaToCloud}
+                    clearMediaFiles={clearMediaFiles}
+                    getMediaFiles={getMediaFiles}
+                  />
+                </div>}
               </div>
             ) : (
               <div className="introChatContainer">
@@ -845,12 +848,12 @@ const ChatArea = React.memo(
     const [viewerSrc, setviewerSrc] = useState("");
     const [openViewer, setOpenViewer] = useState(false);
     // const [viewCard, setViewCard] = useState(false);
-  
+
     // const viewProps = (state) => {
     //   setViewCard(state);
     //   console.log("veiwcard called");
     // };
-  
+
     const imageViewerCallBack = (state) => {
       setOpenViewer(state);
     };
@@ -865,6 +868,7 @@ const ChatArea = React.memo(
               props.scrollhandle(e);
             }}
           >
+            {/* {props.viewed ? <PartnerOverview className="overCard" /> : null} */}
             {props.currentChat.map((chatBody, key, array) => (
               <div className="list-message" key={key}>
                 {props.dateBetweenMessages(chatBody, array[key - 1]) ? (
@@ -872,7 +876,7 @@ const ChatArea = React.memo(
                     {props.dateBetweenMessages(chatBody, array[key - 1])}
                   </p>
                 ) : null}
-                {props.viewed ? <PartnerOverview className="overCard" /> : null}
+
                 <div
                   className={
                     chatBody.sender === "user"
