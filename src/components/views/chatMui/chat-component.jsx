@@ -121,6 +121,7 @@ function Chat(props) {
   const [isFilesUploaded, setisFilesUploaded] = useState(false);
 
   const [viewCard, setViewCard] = useState(false);
+  const [partnerDet, setPartnerDet] = useState(null);
 
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
@@ -129,6 +130,11 @@ function Chat(props) {
     setViewCard(state);
     console.log("veiwcard called");
   };
+
+  const pDets = (state) => {
+    setPartnerDet(state);
+    console.log("partnerDetails sent on click");
+  }
 
   const chatBox = (msgId) => {
     const found = props.userChats.find((element) => element.msgId === msgId);
@@ -399,12 +405,14 @@ function Chat(props) {
             {/* appbar */}
             {currentMsgId !== null ? (
               <div style={{position:"relative"}}>
-                {viewCard ? <PartnerOverview className="overCard" viewed={viewProps} style={{position:"absolute"}} /> : 
+                {viewCard ? <PartnerOverview className="overCard" prop={props} viewed={viewProps} pDet={partnerDet} style={{position:"absolute"}} /> : 
                 <div>
                   <ChatBanner
                     orderDetails={orderDetails}
                     view={viewProps}
+                    pDet={pDets}
                     prop={props}
+                    onClick={partnerDet}
                   />
 
                   <div className="chat-main">
@@ -563,9 +571,10 @@ const ChatBanner = React.memo(
               className="appbar-title"
               onClick={() => {
                 props.view(true);
+                props.pDet(props.orderDetails?.pDetails);
               }}
             >
-              <h2 className="personName">
+              <h2 className="personName" >
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
               <p className="businessName">
