@@ -24,6 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 import partnerRegistration from "./components/views/homeSlides/partnerRegistration";
 import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
+// import PartnerPrivacy from "./components/views/privacyPolicy/partner-privacy";
 import Tab from "./components/views/chatMui/chat";
 import Careers from "./components/views/careers/careers";
 import SuccessForm from "./components/views/careers/successForm";
@@ -58,6 +59,7 @@ const Routing = () => {
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />
         <Route path="/privacy" component={Privacy} />
+        {/* <Route path="/partner-privacy" component={PartnerPrivacy} /> */}
         <Route path="/tabs" component={Tab} />
         <Route path="/careers" component={Careers} />
         <Route path="/success-form" component={SuccessForm} />
