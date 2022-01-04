@@ -75,8 +75,51 @@ function Navibar(props) {
       }
     });
   };
+
+  const checkUser = () => {
+    firebase.auth().onAuthStateChanged(async function (user) {
+      if (user) {
+        socket.emit(
+          "join-room",
+          firebase.auth().currentUser.uid,
+          function (confirmation) {
+            console.log(confirmation, "<<<< JOINED ON SOCKET ROOM >>>>");
+          }
+        );
+        console.log("<<<< JOINED ON SOCKET ROOM >>>>");
+
+        if (Object.keys(props.userDetails).length === 0) {
+          let localUserDetails = loadState("userDetails");
+          if (localUserDetails !== null) props.updateUser(localUserDetails);
+
+          let newLoginResponse = await loginUser(
+            firebase.auth().currentUser.uid
+          );
+          if (newLoginResponse !== false) props.updateUser(newLoginResponse);
+
+          let localOrders = loadState("orders");
+          if (localOrders !== null) props.updateAllOrders(localOrders);
+          else {
+            let apiOrders = await getUserOrders(
+              firebase.auth().currentUser.uid
+            );
+
+            props.updateAllOrders(apiOrders);
+          }
+        }
+
+        setName(props.userDetails.name);
+        setpic(props.userDetails.pic);
+        setisLogged(true);
+      } else {
+        setisLogged(false);
+      }
+    });
+  };
+
   useEffect(() => {
-    console.log("started ..");
+    console.log("STARTED .. >>>>>>>>");
+    checkUser();
 
     socket.on("connect", (socket) => {
       console.log("user connected ...");
@@ -95,7 +138,7 @@ function Navibar(props) {
     });
     hitAllApis();
     services.fetchServiceFromDb();
-  }, [constants.localHostSocketUrl, constants.socketUrl]);
+  }, [constants.socketUrl]);
 
   const sendMessageThroghtSocket = () => {
     let queue = props.getMessageQueue;
@@ -129,40 +172,6 @@ function Navibar(props) {
 
     //   if(props.getMessageQueue.length <1)clearInterval(refreshIntervalId);
   }, [props.getMessageQueue, props.sendRemaingMessages]);
-
-  firebase.auth().onAuthStateChanged(async function (user) {
-    if (user) {
-      socket.emit(
-        "join-room",
-        firebase.auth().currentUser.uid,
-        function (confirmation) {
-          console.log(confirmation, "join rome>>");
-        }
-      );
-
-      if (Object.keys(props.userDetails).length === 0) {
-        let localUserDetails = loadState("userDetails");
-        if (localUserDetails !== null) props.updateUser(localUserDetails);
-
-        let newLoginResponse = await loginUser(firebase.auth().currentUser.uid);
-        if (newLoginResponse !== false) props.updateUser(newLoginResponse);
-
-        let localOrders = loadState("orders");
-        if (localOrders !== null) props.updateAllOrders(localOrders);
-        else {
-          let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
-
-          props.updateAllOrders(apiOrders);
-        }
-      }
-
-      setName(props.userDetails.name);
-      setpic(props.userDetails.pic);
-      setisLogged(true);
-    } else {
-      setisLogged(false);
-    }
-  });
 
   async function userlogout() {
     await firebase
