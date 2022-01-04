@@ -2,8 +2,8 @@
   padding-bottom: 60px;
 }
 .profile-avatar {
-  width: 100px !important;
-  height: 100px !important;
+  width: 160px !important;
+  height: 160px !important;
   margin: 0 auto;
 }
 .profile-card {
@@ -18,12 +18,15 @@
 .info {
   padding-top: 5%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
-.line {
-  border-left: 2px solid #c5c5c5;
-  margin-top: 3px;
-  margin-bottom: 3px;
+.hline {
+  border-left: 2px solid #c5c5c5 !important;
+  margin-top: 3px!important;
+  margin-bottom: 3px!important;
+}
+.profile{
+  margin : 0 auto;
 }
 .settings {
   margin-top: 10px;
@@ -89,5 +92,10 @@ h3 {
   }
   .card-elements {
     width: 90% !important;
+  }
+  .profile-avatar {
+    width: 120px !important;
+    height: 120px !important;
+    margin: 0 auto;
   }
 }

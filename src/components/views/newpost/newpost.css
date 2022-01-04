@@ -79,6 +79,21 @@
 .cursor-pointer {
   cursor: pointer;
 }
+.categoryModal {
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  height: 85%;
+  margin-top: 70px !important;
+  overflow-y: auto;
+
+  /* background-color: blueviolet; */
+  /* max-width: fit-content; */
+}
+.categoryModalBody {
+  width: 500px;
+}
 
 @media screen and (max-width: 700px) {
   .main-content-map {
@@ -114,5 +129,8 @@
   }
   .list-search-locations {
     padding-top: 0 !important;
+  }
+  .categoryModalBody {
+    width: 100%;
   }
 }

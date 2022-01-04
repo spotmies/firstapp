@@ -79,17 +79,7 @@ body {
 
 /*newpost2 styling*/
 
-.categoryModal {
-  top: auto;
-  left: auto;
-  right: auto;
-  bottom: auto;
-  height: 500px;
-  margin-top: 70px !important;
-  overflow: auto;
-  /* background-color: blueviolet; */
-  /* max-width: fit-content; */
-}
+
 
 .categoryMheader {
   position: fixed !important;
