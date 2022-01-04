@@ -1,17 +1,27 @@
 import React from "react";
+import { useEffect } from "react";
 import hotgunta from "./hot.jpg";
 import sgirl from "./sgirl.jpg";
 import "./partner.css";
 import CircularProgress from '@mui/material/CircularProgress';
 import { connect } from "react-redux";
 import { useStores } from "../../stateManagement/index";
+import { useObserver } from "mobx-react";
 
 
 function PartnerOverview(props) {
-  const { services } = useStores();
+  const { services, reviews } = useStores();
+  console.log("partner id reviews", reviews.reviewList);
+
+  // useEffect((id) => {
+  //   return () => {
+  //     reviews.fetchReviews(id);
+  //       console.log("review function called to fetch");
+  //   }
+  // }, [])
 
   console.log("partner Details", props.pDet);
-  return (
+  return useObserver(() => (
     <div>
       <p onClick={() => {props.viewed(false)}}>X</p>
       <div className="main">
@@ -33,21 +43,26 @@ function PartnerOverview(props) {
             <h3>Reviews</h3>
           </div>
           <div>
-            <div className="jobCard">
-              <img src={sgirl} alt="" className="cardProfile" />
-              <div>
-                <div className="jobDiv">
-                  <h4>Plumber</h4>
-                  <p>600/-</p>
+            {
+              reviews.reviewList.map((review) => (
+                <div className="jobCard">
+                <img src={review.uDetails.pic} alt="" className="cardProfile" />
+                <div>
+                  <div className="jobDiv">
+                    <h4>{review.uDetails.name}</h4>
+                    <p>600/-</p>
+                  </div>
+                  <p>{review.description}</p>
                 </div>
-                <p>description from the reviewer</p>
               </div>
-            </div>
+              ))
+            }
+
           </div>
         </div>
       </div>
     </div>
-  );
+  ));
 }
 
 const mapStateToProps = (state) => {

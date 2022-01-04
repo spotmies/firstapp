@@ -58,6 +58,7 @@ import ListMediaFiles from "../../reusable/list_media_files";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import ImageViewerDialog from "./image_viewer";
 import PartnerOverview from "../partner/partnerOverview";
+import { useStores } from "../../stateManagement/index";
 
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
@@ -122,18 +123,24 @@ function Chat(props) {
 
   const [viewCard, setViewCard] = useState(false);
   const [partnerDet, setPartnerDet] = useState(null);
+  const [reviewList, setReviewList] = useState([]);
 
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
+
+  const { reviews } = useStores();
 
   const viewProps = (state) => {
     setViewCard(state);
     console.log("veiwcard called");
   };
 
-  const pDets = (state) => {
+  const pDets = async (state, id) => {
+    const reviewLists = await reviews.fetchReviews(id);
+
+    setReviewList(reviewLists)
     setPartnerDet(state);
-    console.log("partnerDetails sent on click");
+    console.log("partnerDetails sent on click", id, reviewLists);
   }
 
   const chatBox = (msgId) => {
@@ -405,7 +412,7 @@ function Chat(props) {
             {/* appbar */}
             {currentMsgId !== null ? (
               <div style={{position:"relative"}}>
-                {viewCard ? <PartnerOverview className="overCard" prop={props} viewed={viewProps} pDet={partnerDet} style={{position:"absolute"}} /> : 
+                {viewCard ? <PartnerOverview className="overCard" prop={props} viewed={viewProps} review={reviewList} pDet={partnerDet} style={{position:"absolute"}} /> : 
                 <div>
                   <ChatBanner
                     orderDetails={orderDetails}
@@ -571,7 +578,7 @@ const ChatBanner = React.memo(
               className="appbar-title"
               onClick={() => {
                 props.view(true);
-                props.pDet(props.orderDetails?.pDetails);
+                props.pDet(props.orderDetails?.pDetails, props.orderDetails?.pId);
               }}
             >
               <h2 className="personName" >

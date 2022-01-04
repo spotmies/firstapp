@@ -46,5 +46,6 @@ module.exports = Object.freeze({
     ORDER_RESPONSES: "/response/responses",
     NEW_INTERN_REGISTRATION:"/career/intern/new-intern-registration"
   },
-  servicesList: "/services/all-service-list"
+  servicesList: "/services/all-service-list",
+  reviews: "/partner-feedback/feedbacks/partner/"
 });
