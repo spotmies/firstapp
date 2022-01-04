@@ -187,11 +187,12 @@ const ProfileMobileUi = (props) => {
                   className="profile-avatar"
                   alt={user.name}
                   src={user.pic}
+                  
                 />
               </Badge>
               <div className="profile-name">
                 <h3>{user.name}</h3>
-                <p>{user.eMail != "" ? user.eMail : user.phNum}</p>
+                <p>{user.phNum}</p>
               </div>
             </div>
             <div className="info">
@@ -201,7 +202,7 @@ const ProfileMobileUi = (props) => {
                   <small>Total Savings</small>
                 </p>
               </div>
-              <div className="line"></div>
+              <div className="hline"></div>
               <div className="orders">
                 <h3>{props?.orders?.length ?? "0"}</h3>
                 <p>

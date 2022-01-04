@@ -181,6 +181,7 @@ function Navibar(props) {
   return (
     <div style={{ paddingBottom: "80px" }}>
       <header style={{ zIndex: "9999" }} className="navi-bar">
+      <div style={{ width: "100%" }}>
         <Container>
           <Navbar collapseOnSelect expand="lg" variant="light">
             <IconContext.Provider
@@ -352,6 +353,17 @@ function Navibar(props) {
             </IconContext.Provider>
           </Navbar>
         </Container>
+        {props.loader === true ? (
+            <div className="linear-progress">
+              <LinearProgress />
+            </div>
+          ) : null}
+        </div>
+        {!props.disableBottomBar ? (
+          <div className="bottom-navigation">
+            <LabelBottomNavigation history={history} />
+          </div>
+        ) : null}
       </header>
     </div>
   );
