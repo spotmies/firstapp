@@ -37,10 +37,13 @@ import constants from "../../../helpers/constants";
 import { getResponses } from "../../controllers/responses/responses_controller";
 import { getConversasions } from "../../controllers/chat/chat_controller";
 import LabelBottomNavigation from "./bottom_navigation";
+import { useStores } from "../../stateManagement/index";
+
 function Navibar(props) {
   const [name, setName] = useState("user name");
   const [pic, setpic] = useState(undefined);
   const [isLogged, setisLogged] = useState(false);
+  const {services} = useStores();
 
   const history = useHistory();
   useEffect(() => {
@@ -69,6 +72,7 @@ function Navibar(props) {
         props.updateAllChats(userChats);
         props.updateAllResponses(userResponses);
         props.enableBottomBar(true);
+        
       }
     });
   };
@@ -91,6 +95,7 @@ function Navibar(props) {
       console.log("user disconnected>>>");
     });
     hitAllApis();
+    services.fetchServiceFromDb();
   }, [constants.localHostSocketUrl, constants.socketUrl]);
 
   const sendMessageThroghtSocket = () => {

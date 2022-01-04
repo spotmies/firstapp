@@ -104,7 +104,7 @@ function Mybookings(props) {
         if (user) {
           console.log("fetching API");
           let orders = await getUserOrders(firebase.auth().currentUser.uid);
-          //    console.log(orders);
+          console.log("orders:", orders);
           setOrders(orders);
           props.updateAllOrders(orders);
           eventLoader(false);

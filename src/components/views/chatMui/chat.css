@@ -110,6 +110,12 @@
   bottom: 0 !important;
 }
 
+.overCard {
+  /* position: absolute !important; */
+  /* top: 500px; */
+  background: black;
+}
+
 @media screen and (max-width: 700px) {
   .input-message {
     width: 60% !important;

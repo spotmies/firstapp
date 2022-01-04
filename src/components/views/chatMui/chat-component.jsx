@@ -57,6 +57,8 @@ import { imageCompressor } from "../../../helpers/image_compressor";
 import ListMediaFiles from "../../reusable/list_media_files";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import ImageViewerDialog from "./image_viewer";
+import PartnerOverview from "../partner/partnerOverview";
+import { useStores } from "../../stateManagement/index";
 
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
@@ -119,9 +121,27 @@ function Chat(props) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isFilesUploaded, setisFilesUploaded] = useState(false);
 
+  const [viewCard, setViewCard] = useState(false);
+  const [partnerDet, setPartnerDet] = useState(null);
+  const [reviewList, setReviewList] = useState([]);
+
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
 
+  const { reviews } = useStores();
+
+  const viewProps = (state) => {
+    setViewCard(state);
+    console.log("veiwcard called");
+  };
+
+  const pDets = async (state, id) => {
+    const reviewLists = await reviews.fetchReviews(id);
+
+    setReviewList(reviewLists)
+    setPartnerDet(state);
+    console.log("partnerDetails sent on click", id, reviewLists);
+  }
 
   const chatBox = (msgId) => {
     const found = props.userChats.find((element) => element.msgId === msgId);
@@ -156,13 +176,12 @@ function Chat(props) {
   }, [currentChat]);
   useEffect(() => {
     props.sendRemainingMessages();
-  }, [currentMsgId])
+  }, [currentMsgId]);
   useEffect(() => {
-    
     return () => {
       props.sendRemainingMessages();
-    }
-  }, [])
+    };
+  }, []);
   const selectChat = (msgId) => {
     setCurrentMsgId(msgId);
     // console.log(msgId);
@@ -205,9 +224,8 @@ function Chat(props) {
       props.addMessageToQueue({
         object: JSON.stringify(msgObject),
         target: targetObject,
-      })
-      console.log(msgObject,"msg obje")
-
+      });
+      console.log(msgObject, "msg obje");
     }
   };
   const sendMessage = () => {
@@ -229,7 +247,6 @@ function Chat(props) {
       time: new Date().valueOf(),
     };
 
-
     props.addNewMessage({
       object: JSON.stringify(msgObject),
       target: targetObject,
@@ -237,9 +254,8 @@ function Chat(props) {
     props.addMessageToQueue({
       object: JSON.stringify(msgObject),
       target: targetObject,
-    })
+    });
     messageInput.current.value = null;
- 
   };
 
   //enter click to send message
@@ -395,45 +411,56 @@ function Chat(props) {
           <Grid item xs={9}>
             {/* appbar */}
             {currentMsgId !== null ? (
-              <div>
-                <ChatBanner orderDetails={orderDetails} prop={props} />
+              <div style={{position:"relative"}}>
+                {viewCard ? <PartnerOverview className="overCard" prop={props} viewed={viewProps} review={reviewList} pDet={partnerDet} style={{position:"absolute"}} /> : 
+                <div>
+                  <ChatBanner
+                    orderDetails={orderDetails}
+                    view={viewProps}
+                    pDet={pDets}
+                    prop={props}
+                    onClick={partnerDet}
+                  />
 
-                <div className="chat-main">
-                  <ChatArea
-                    chatListScrollControl={chatListScrollControl}
-                    scrollhandle={scrollhandle}
-                    currentChat={currentChat}
-                    scrollRef={scrollRef}
-                    dateBetweenMessages={dateBetweenMessages}
-                    sendStatus={sendStatus}
-                    orderDetails = {orderDetails}
-                  />
-                  <Statusbar
-                    executeScroll={executeScroll}
-                    status={statusBarValue}
-                  />
-                  <ListMediaFiles
-                    mediaFiles={localMedia}
-                    typeOfMode="offline"
-                    deleteMedia={deleteLocalMedia}
-                    addMore={getMediaFiles}
-                  />
-                  {loader ? (
-                    <div className="linear-progress">
-                      <LinearProgress />
-                    </div>
-                  ) : null}
-                </div>
+                  <div className="chat-main">
+                    <ChatArea
+                      chatListScrollControl={chatListScrollControl}
+                      scrollhandle={scrollhandle}
+                      currentChat={currentChat}
+                      scrollRef={scrollRef}
+                      // viewed={viewCard}
+                      dateBetweenMessages={dateBetweenMessages}
+                      sendStatus={sendStatus}
+                      orderDetails={orderDetails}
+                    />
 
-                <Divider />
-                <MessageTools
-                  onKeyDownHandler={onKeyDownHandler}
-                  messageInput={messageInput}
-                  sendMessage={sendMessage}
-                  uploadMediaToCloud={uploadMediaToCloud}
-                  clearMediaFiles={clearMediaFiles}
-                  getMediaFiles={getMediaFiles}
-                />
+                    <Statusbar
+                      executeScroll={executeScroll}
+                      status={statusBarValue}
+                    />
+                    <ListMediaFiles
+                      mediaFiles={localMedia}
+                      typeOfMode="offline"
+                      deleteMedia={deleteLocalMedia}
+                      addMore={getMediaFiles}
+                    />
+                    {loader ? (
+                      <div className="linear-progress">
+                        <LinearProgress />
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <Divider />
+                  <MessageTools
+                    onKeyDownHandler={onKeyDownHandler}
+                    messageInput={messageInput}
+                    sendMessage={sendMessage}
+                    uploadMediaToCloud={uploadMediaToCloud}
+                    clearMediaFiles={clearMediaFiles}
+                    getMediaFiles={getMediaFiles}
+                  />
+                </div>}
               </div>
             ) : (
               <div className="introChatContainer">
@@ -547,8 +574,14 @@ const ChatBanner = React.memo(
                 src={props.orderDetails?.pDetails?.partnerPic}
               />
             </IconButton>
-            <div className="appbar-title">
-              <h2 className="personName">
+            <div
+              className="appbar-title"
+              onClick={() => {
+                props.view(true);
+                props.pDet(props.orderDetails?.pDetails, props.orderDetails?.pId);
+              }}
+            >
+              <h2 className="personName" >
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
               <p className="businessName">
@@ -619,8 +652,8 @@ const ChatBanner = React.memo(
   },
   (prevProps, nextProps) => {
     if (prevProps.orderDetails.msgId !== nextProps.orderDetails.msgId) {
-      console.log("<<<<<<<<<<<<Refress chat banner>>>>>>>>>>>>>>>>>")
-      return false; // props are not  equal update 
+      console.log("<<<<<<<<<<<<Refress chat banner>>>>>>>>>>>>>>>>>");
+      return false; // props are not  equal update
     }
     return true;
   }
@@ -830,6 +863,13 @@ const ChatArea = React.memo(
   (props) => {
     const [viewerSrc, setviewerSrc] = useState("");
     const [openViewer, setOpenViewer] = useState(false);
+    // const [viewCard, setViewCard] = useState(false);
+
+    // const viewProps = (state) => {
+    //   setViewCard(state);
+    //   console.log("veiwcard called");
+    // };
+
     const imageViewerCallBack = (state) => {
       setOpenViewer(state);
     };
@@ -844,6 +884,7 @@ const ChatArea = React.memo(
               props.scrollhandle(e);
             }}
           >
+            {/* {props.viewed ? <PartnerOverview className="overCard" /> : null} */}
             {props.currentChat.map((chatBody, key, array) => (
               <div className="list-message" key={key}>
                 {props.dateBetweenMessages(chatBody, array[key - 1]) ? (
@@ -851,6 +892,7 @@ const ChatArea = React.memo(
                     {props.dateBetweenMessages(chatBody, array[key - 1])}
                   </p>
                 ) : null}
+
                 <div
                   className={
                     chatBody.sender === "user"
@@ -1034,8 +1076,7 @@ const MobileChat = React.memo(
               scrollRef={props.scrollRef}
               dateBetweenMessages={props.dateBetweenMessages}
               sendStatus={props.sendStatus}
-                        orderDetails={props.orderDetails}
-
+              orderDetails={props.orderDetails}
             />
             <Statusbar
               executeScroll={props.executeScroll}
@@ -1106,12 +1147,12 @@ const mapDispatchToProps = (dispatch) => {
     disableBottomBar: (data) => {
       dispatch({ type: "DISABLE_BOTTOM_BAR", value: data });
     },
-    addMessageToQueue: (data) =>{
-      dispatch({type:"ADD_MESSAGE_TO_QUEUE",value:data})
+    addMessageToQueue: (data) => {
+      dispatch({ type: "ADD_MESSAGE_TO_QUEUE", value: data });
     },
     sendRemainingMessages: () => {
-      dispatch({type: "SEND_REMAINING_MESSAGES",value:"data"})
-    }
+      dispatch({ type: "SEND_REMAINING_MESSAGES", value: "data" });
+    },
   };
 };
 

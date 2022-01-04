@@ -34,7 +34,7 @@ firebase.auth().onAuthStateChanged(function (user) {
   if (user) {
     console.log("user exists");
   } else {
-    console.log("user didn't exixst");
+    console.log("user didn't exist");
   }
 });
 

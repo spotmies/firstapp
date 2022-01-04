@@ -10,8 +10,15 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
+// import DialogBox from "./dialogbox";
+import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
+// import * as MaterialIcons from "react-icons/md";
+// import * as FontAwesome from "react-icons/fa";
+// import * as BootStrap from "react-icons/bs";
+// import * as BootIcon from "react-icons/bi";
+// import * as SimpleIcons from "react-icons/si";
 
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -23,6 +30,13 @@ import { toast } from "react-toastify";
 import FullScreenWidget from "../../reusable/helpers";
 import { BsHammer, BsHouseFill } from "react-icons/bs";
 import useRecorder from "./useRecorder";
+
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
 
 import "../rentals/rental.css";
 import ListMediaFiles from "../../reusable/list_media_files";
@@ -44,7 +58,10 @@ import {
   MdClear,
   MdClose,
   MdCheck,
+  MdAssessment,
+  MdOutlineFestival,
 } from "react-icons/md";
+import { SiSmartthings } from "react-icons/si";
 import { BiCodeBlock } from "react-icons/bi";
 import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
 import { BiCctv } from "react-icons/bi";
@@ -62,12 +79,6 @@ import { loadState } from "../../../helpers/localStorage";
 
 //for dialog
 import Avatar from "@material-ui/core/Avatar";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Dialog from "@material-ui/core/Dialog";
 import { constants } from "../../../helpers/constants";
 import { blue } from "@material-ui/core/colors";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
@@ -78,6 +89,7 @@ import { onlyNumRegEx } from "../../../helpers/regex/regex";
 import Compressor from "compressorjs";
 import { getFileType, validURL } from "../../../helpers/dateconv";
 import GetLocationDialog from "./get_user_location";
+import { useStores } from "../../stateManagement/index";
 
 const storage = firebase.storage();
 
@@ -97,6 +109,7 @@ class Postnew extends Component {
       editDateForm: {},
     };
   }
+
   getOrder = async () => {
     let ordId = window.location.pathname;
     ordId = ordId.replace("/mybookings/id/edit/", "");
@@ -180,6 +193,7 @@ class Postnew extends Component {
                 uId={this.state.uId}
                 prop={this.props}
                 editDate={this.state.editDateForm}
+
               />
             </CardContent>
           </Card>
@@ -257,7 +271,7 @@ class Postform extends Component {
       uId: this.props.uId ?? null,
       submitForm: false,
       showLocationDialog: false,
-
+      // services: useStores,
       //edit form
       editFormFillFlag: false,
       editDateForm: this.props.editDate,
@@ -509,6 +523,7 @@ class Postform extends Component {
   };
   render() {
     const { classes } = this.props.prop;
+    
     return (
       <>
         <form
@@ -637,16 +652,7 @@ class Postform extends Component {
               {!this.state.editFormFillFlag ? "Submit" : "Update"}
             </Button>
 
-            <Button
-              variant="contained"
-              // color="grey"
-              size="large"
-              className={classes.cateButton}
-              onClick={this.changeJob}
-              startIcon={<MdCheckCircle />}
-            >
-              {categoryAssign(this.props.job)}
-            </Button>
+          <ServiceButton onClick={this.changeJob} prop={this.props} />
           </Grid>
         </form>
         <GetLocationDialog
@@ -659,71 +665,140 @@ class Postform extends Component {
   }
 }
 
+function ServiceButton(props) {
+  const { services } = useStores();
+  return(
+    <Button
+    variant="contained"
+    // color="grey"
+    onClick={props.onClick}
+    size="large"
+    // className={classes.cateButton}
+    startIcon={<MdCheckCircle />}
+  >
+    {services.getServiceNameById(props.prop.job)}
+  </Button>
+  );
+ 
+}
+
 function GetCategoryIcons(props) {
-  var id = Number(props.iconId);
+  // const mdIcons = MaterialIcons["MdLaptopMac"];
+  // var bsIcons = BootStrap["BsFillArchiveFill"];
+  // var biIcons = BootIcon["BiAccessibility"];
+  // var siIcons = SimpleIcons["SiAbstract"];
+  // var faIcons = FontAwesome["FaAdn"];
+
+  // var type = props.iconId.substring(0, 2);
+
+  if (props.iconId == null || props.iconId == undefined) return <MdLaptopMac />;
+  var id = props.iconId.toString();
   return (
     <IconContext.Provider value={{ size: "1.5rem" }}>
-      <div>
+      {/* <div>
         {(() => {
           switch (id) {
-            case 0:
-              return <FaTools />;
-            case 1:
-              return <MdLaptopMac />;
-            case 2:
-              return <MdTv />;
-            case 3:
-              return <BiCodeBlock />;
-
-            case 4:
-              return <FaChalkboardTeacher />;
-
-            case 5:
-              return <MdFace />;
-
-            case 6:
-              return <MdMonochromePhotos />;
-
-            case 7:
-              return <MdDriveEta />;
-
-            case 8:
-              return <MdEventAvailable />;
-
-            case 9:
-              return <FaScrewdriver />;
-
-            case 10:
-              return <BsHammer />;
-
-            case 11:
-              return <MdBuild />;
-            case 12:
-              return <BsHouseFill />;
-
-            case 13:
-              return <DiPhotoshop />;
-
-            case 14:
-              return <BiCctv />;
-
-            case 15:
-              return <MdLocalDining />;
-            case 16:
+            case "pr":
+              return <MdLaptopMac />
               break;
-            case 17:
+          
+            default:
+              return <BsHammer />
               break;
-            case 18:
+          }
+        })}
+      </div>
+       */}
+      {/* <div>
+        {() => {
+          switch (type) {
+            case "Md":
+              return <>{React.createElement(mdIcons)}</>;
               break;
-            case 19:
+            case "Bi":
+              return <>{React.createElement(biIcons)}</>;
               break;
-            case 20:
+            case "Bs":
+              return <>{React.createElement(bsIcons)}</>;
+              break;
+            case "Fa":
+              return <>{React.createElement(faIcons)}</>;
+              break;
+            case "Si":
+              return <>{React.createElement(siIcons)}</>;
               break;
 
             default:
+              return <MdLaptopMac />;
               break;
           }
-        })()}
+        }}
+      </div> */}
+
+      
+
+      <div>
+        {(() => {
+          switch (id) {
+            case "tl":
+              return <FaTools />;
+            case "lp":
+              return <MdLaptopMac />;
+            case "tv":
+              return <MdTv />;
+            case "cd":
+              return <BiCodeBlock />;
+
+            case "tc":
+              return <FaChalkboardTeacher />;
+
+            case "fc":
+              return <MdFace />;
+
+            case "pic":
+              return <MdMonochromePhotos />;
+
+            case "dr":
+              return <MdDriveEta />;
+
+            case "evt":
+              return <MdEventAvailable />;
+
+            case "sd":
+              return <FaScrewdriver />;
+
+            case "hm":
+              return <BsHammer />;
+
+            case "bd":
+              return <MdBuild />;
+            case "hf":
+              return <BsHouseFill />;
+
+            case "pr":
+              return <DiPhotoshop />;
+
+            case "cc":
+              return <BiCctv />;
+
+            case "ld":
+              return <MdLocalDining />;
+            case "at":
+              return <SiSmartthings />
+              break;
+            case "mark":
+              return <mdIcons />
+              break;
+            case "hd":
+              return <MdOutlineFestival />
+              break;
+             
+
+            default:
+              return <MdLaptopMac />
+              break;
+          }
+        })}
       </div>
     </IconContext.Provider>
   );
@@ -739,7 +814,8 @@ function SimpleDialog(props) {
     if (selectedValue !== null) onClose(selectedValue);
   };
 
-  const loadData = constants.categories;
+  const { services } = useStores();
+  // const mdIcons = MaterialIcons["MdAccountBox"];
 
   return (
     <Dialog
@@ -749,23 +825,25 @@ function SimpleDialog(props) {
       onClose={handleClose}
     >
       <DialogTitle id="simple-dialog-title">
-        <u>Select Category here</u>
+        <u> Select Category here</u>
       </DialogTitle>
       <div style={{ width: "580px" }}>
         <List>
-          {loadData.map((data, key) => (
+
+          {services.serviceList.map((data, key) => (
             <ListItem
-              button
-              onClick={() => handleListItemClick(key)}
               key={key}
-              selected={key === selectedValue}
+              button
+              onClick={() => handleListItemClick(data.serviceId)}
+              // key={key}
+              selected={data.serviceId === selectedValue}
             >
               <ListItemAvatar>
                 <Avatar className={classes.avatar}>
-                  <GetCategoryIcons iconId={key} />
+                  <GetCategoryIcons iconId={data.userWebIcon} />
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={data} />
+              <ListItemText primary={data.nameOfService} />
             </ListItem>
           ))}
         </List>
