@@ -222,16 +222,18 @@ function GetLocationDialog(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
-          Disagree
+          Cancel
         </Button>
         <Button
           onClick={() => {
             props.onComplete();
+            handleClose();
           }}
           color="primary"
+          variant="contained"
           autoFocus
         >
-          Agree
+          Submit
         </Button>
       </DialogActions>
     </Dialog>
