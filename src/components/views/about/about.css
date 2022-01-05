@@ -32,6 +32,8 @@
 .team-div {
     display: inline-flex;
     margin: 0 auto;
+    width: 57%;
+    position: relative;
 }
 
 .team-div div {
@@ -39,7 +41,55 @@
 }
 
 .team-div div img {
-    height: 250px;
-    width: 300px;
-    border-radius: 20px;
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    left: 50px;
+    border-radius: 10px;
+    z-index: 1 !important;
+}
+
+.desig1 {
+   position: relative;
+   width: 200px;
+   height: 200px;
+   padding: 0;
+   /* z-index: 9 !important; */
+   /* height: fit-content; */
+}
+
+.desig {
+    position: absolute;
+    background: rgba(238, 237, 237, 0.877);
+    left: 50px;
+    border-radius: 0 0 10px 10px;
+    z-index: 9 !important;
+    bottom: 0;
+    text-align: left;
+    width: 200px;
+    top: 150px;
+    margin: 0 !important;
+}
+
+.desig p {
+    line-height: 6px;
+    margin: 10px 25px;
+}
+
+@media screen and (max-width:700px) {
+    .team-div {
+        display: block;
+    }
+
+    .desc {
+        display: block;
+    }
+
+    .desc img, .desc div, .text-desc, .team-div {
+        width: 100%;
+    }
+
+    .text-desc {
+        margin-left: 0;
+    }
 }

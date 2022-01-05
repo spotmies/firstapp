@@ -138,10 +138,10 @@ function Chat(props) {
   const pDets = async (state, id) => {
     const reviewLists = await reviews.fetchReviews(id);
 
-    setReviewList(reviewLists)
+    setReviewList(reviewLists);
     setPartnerDet(state);
     console.log("partnerDetails sent on click", id, reviewLists);
-  }
+  };
 
   const chatBox = (msgId) => {
     const found = props.userChats.find((element) => element.msgId === msgId);
@@ -393,6 +393,7 @@ function Chat(props) {
   };
   return (
     <div className={classes.mainScreen} id="complete-page">
+      <div className="chatSection">
       {deviceWidth > 700 ? (
         <Grid
           container
@@ -411,56 +412,66 @@ function Chat(props) {
           <Grid item xs={9}>
             {/* appbar */}
             {currentMsgId !== null ? (
-              <div style={{position:"relative"}}>
-                {viewCard ? <PartnerOverview className="overCard" prop={props} viewed={viewProps} review={reviewList} pDet={partnerDet} style={{position:"absolute"}} /> : 
-                <div>
-                  <ChatBanner
-                    orderDetails={orderDetails}
-                    view={viewProps}
-                    pDet={pDets}
+              <div style={{ position: "relative" }}>
+                {viewCard ? (
+                  <PartnerOverview
+                    className="overCard"
                     prop={props}
-                    onClick={partnerDet}
+                    viewed={viewProps}
+                    review={reviewList}
+                    pDet={partnerDet}
+                    style={{ position: "absolute" }}
                   />
-
-                  <div className="chat-main">
-                    <ChatArea
-                      chatListScrollControl={chatListScrollControl}
-                      scrollhandle={scrollhandle}
-                      currentChat={currentChat}
-                      scrollRef={scrollRef}
-                      // viewed={viewCard}
-                      dateBetweenMessages={dateBetweenMessages}
-                      sendStatus={sendStatus}
+                ) : (
+                  <div>
+                    <ChatBanner
                       orderDetails={orderDetails}
+                      view={viewProps}
+                      pDet={pDets}
+                      prop={props}
+                      onClick={partnerDet}
                     />
 
-                    <Statusbar
-                      executeScroll={executeScroll}
-                      status={statusBarValue}
+                    <div className="chat-main">
+                      <ChatArea
+                        chatListScrollControl={chatListScrollControl}
+                        scrollhandle={scrollhandle}
+                        currentChat={currentChat}
+                        scrollRef={scrollRef}
+                        // viewed={viewCard}
+                        dateBetweenMessages={dateBetweenMessages}
+                        sendStatus={sendStatus}
+                        orderDetails={orderDetails}
+                      />
+
+                      <Statusbar
+                        executeScroll={executeScroll}
+                        status={statusBarValue}
+                      />
+                      <ListMediaFiles
+                        mediaFiles={localMedia}
+                        typeOfMode="offline"
+                        deleteMedia={deleteLocalMedia}
+                        addMore={getMediaFiles}
+                      />
+                      {loader ? (
+                        <div className="linear-progress">
+                          <LinearProgress />
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <Divider />
+                    <MessageTools
+                      onKeyDownHandler={onKeyDownHandler}
+                      messageInput={messageInput}
+                      sendMessage={sendMessage}
+                      uploadMediaToCloud={uploadMediaToCloud}
+                      clearMediaFiles={clearMediaFiles}
+                      getMediaFiles={getMediaFiles}
                     />
-                    <ListMediaFiles
-                      mediaFiles={localMedia}
-                      typeOfMode="offline"
-                      deleteMedia={deleteLocalMedia}
-                      addMore={getMediaFiles}
-                    />
-                    {loader ? (
-                      <div className="linear-progress">
-                        <LinearProgress />
-                      </div>
-                    ) : null}
                   </div>
-
-                  <Divider />
-                  <MessageTools
-                    onKeyDownHandler={onKeyDownHandler}
-                    messageInput={messageInput}
-                    sendMessage={sendMessage}
-                    uploadMediaToCloud={uploadMediaToCloud}
-                    clearMediaFiles={clearMediaFiles}
-                    getMediaFiles={getMediaFiles}
-                  />
-                </div>}
+                )}
               </div>
             ) : (
               <div className="introChatContainer">
@@ -505,6 +516,7 @@ function Chat(props) {
           prop={props}
         />
       )}
+    </div>
     </div>
   );
 }
@@ -578,10 +590,13 @@ const ChatBanner = React.memo(
               className="appbar-title"
               onClick={() => {
                 props.view(true);
-                props.pDet(props.orderDetails?.pDetails, props.orderDetails?.pId);
+                props.pDet(
+                  props.orderDetails?.pDetails,
+                  props.orderDetails?.pId
+                );
               }}
             >
-              <h2 className="personName" >
+              <h2 className="personName">
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
               <p className="businessName">
@@ -903,7 +918,14 @@ const ChatArea = React.memo(
                   {(() => {
                     switch (getFileType(chatBody.msg)) {
                       case "text":
-                        return <p className="msg-content">{chatBody.msg}</p>;
+                        return (
+                          <p className="msg-content">
+                            {chatBody.msg}{" "}
+                            <p className="msg-time">
+                              {gettbystamps(Number(chatBody.time), "time")}
+                            </p>
+                          </p>
+                        );
                       case "audio":
                         return (
                           <p className="msg-content">
@@ -913,6 +935,9 @@ const ChatArea = React.memo(
                               className="Audio-msg"
                               // style={{ width: "fit-content" }}
                             />
+                            <p className="msg-time">
+                              {gettbystamps(Number(chatBody.time), "time")}
+                            </p>
                           </p>
                         );
                       case "img":
@@ -925,6 +950,9 @@ const ChatArea = React.memo(
                             }}
                           >
                             <img className="msg-image" src={chatBody.msg} />
+                            <p className="msg-time">
+                              {gettbystamps(Number(chatBody.time), "time")}
+                            </p>
                           </p>
                         );
                       case "video":
@@ -936,6 +964,9 @@ const ChatArea = React.memo(
                               src={chatBody.msg}
                               type="video/mp4"
                             />
+                            <p className="msg-time">
+                              {gettbystamps(Number(chatBody.time), "time")}
+                            </p>
                           </p>
                         );
                       default:
@@ -943,9 +974,9 @@ const ChatArea = React.memo(
                     }
                   })()}
 
-                  <p className="msg-time">
+                  {/* <p className="msg-time">
                     {gettbystamps(Number(chatBody.time), "time")}
-                  </p>
+                  </p> */}
                 </div>
                 <div>
                   {key === props.currentChat.length - 1 &&

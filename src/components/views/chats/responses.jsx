@@ -6,7 +6,8 @@ import "../../../post.css";
 import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import "../mybookings/my_book.css";
+// import "../mybookings/my_book.css";
+import "./response.css";
 
 import constants from "../../../helpers/constants";
 //import icons
@@ -122,28 +123,43 @@ function MyResponses(props) {
                   <CardContent>
                     <Grid container spacing={2}>
                       <Grid item className="mediaPic">
-                        <Badge
-                          overlap="circle"
-                          anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "right",
-                          }}
-                          badgeContent={
-                            <Avatar
-                              alt="Remy Sharp"
-                              src={cap.pDetails.partnerPic}
-                            />
-                          }
-                        >
-                          <CardMedia
+                        <div className="pic">
+                        <img src={cap.pDetails.partnerPic}  className="profile" />
+                          <CardActions>
+                            <Grid
+                              item
+                              xs={12}
+                              sm
+                              container
+                              justify="space-between"
+                              alignItems="center"
+                            >
+                              <Chip
+                                // icon={<MdWatchLater size="1rem" />}
+                                label="Accept"
+                                color="primary"
+                              />
+                              <Chip
+                                // icon={<MdWatchLater size="1rem" />}
+                                label="Decline"
+                                color="secondary"
+                                onClick={() => {
+                                  deleteResponse(cap.responseId);
+                                }}
+                              />
+                            </Grid>
+                          </CardActions>
+                        </div>
+                         
+                          {/* <CardMedia
                             className="post-img"
                             image={
                               cap.orderDetails.media[0] ??
                               "https://png.pngtree.com/element_pic/16/12/05/cf1b62b08a9b360b932cb93db844675a.jpg"
                             }
                             title="Paella dish"
-                          />
-                        </Badge>
+                          /> */}
+                        
                         {/* this div for mobile view only */}
                         <div className="problemTitle-Mobile">
                           <h3>{cap.orderDetails.problem}</h3>
@@ -169,12 +185,12 @@ function MyResponses(props) {
                                 justify="space-evenly"
                               >
                                 <p className="orderDetails">
-                                  <MdPayment />
+                                  {/* <MdPayment /> */}
                                   &nbsp;
                                   <b> Money : &#8377; {cap.money}</b>
                                 </p>
                                 <p className="orderDetails">
-                                  <MdNearMe />
+                                  {/* <MdNearMe /> */}
                                   &nbsp;
                                   <b>Distance from you : 5 km</b>
                                 </p>
@@ -191,7 +207,7 @@ function MyResponses(props) {
                                     display: "inline-flex",
                                   }}
                                 >
-                                  <MdEventAvailable />
+                                  {/* <MdEventAvailable /> */}
                                   &nbsp;
                                   <p className="orderDetails">
                                     <b>
@@ -210,7 +226,7 @@ function MyResponses(props) {
                                   </p>
                                 </span>
                                 <p className="orderDetails">
-                                  <MdExplore />
+                                  {/* <MdExplore /> */}
                                   &nbsp;
                                   <b>Location : vizag</b>
                                 </p>
@@ -221,30 +237,6 @@ function MyResponses(props) {
                       </Grid>
                     </Grid>
                   </CardContent>
-                  <CardActions>
-                    <Grid
-                      item
-                      xs={12}
-                      sm
-                      container
-                      justify="space-between"
-                      alignItems="center"
-                    >
-                      <Chip
-                        icon={<MdWatchLater size="1rem" />}
-                        label="Accept"
-                        color="primary"
-                      />
-                      <Chip
-                        icon={<MdWatchLater size="1rem" />}
-                        label="Decline"
-                        color="secondary"
-                        onClick={() => {
-                          deleteResponse(cap.responseId);
-                        }}
-                      />
-                    </Grid>
-                  </CardActions>
                 </Cardd>
               </div>
             ))}
