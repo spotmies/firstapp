@@ -121,8 +121,8 @@ function Mybookings(props) {
     tempOrders.forEach(async (order, key) => {
       if (order.addressLine == undefined) {
         let addressObject = await reverseGeocode({
-          lat: order.loc[0],
-          long: order.loc[1],
+          lat: order?.loc?.coordinates[0],
+          long: order?.loc?.coordinates[1],
         });
         tempOrders[key].addressLine = addressObject.display_name;
       }
@@ -424,7 +424,6 @@ function DotMenu({ cap, orderDelete, viewPost }) {
         id="long-menu"
         keepMounted
         anchorEl={anchorEl}
-        keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >

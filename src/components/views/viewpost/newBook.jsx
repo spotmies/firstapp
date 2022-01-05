@@ -17,7 +17,7 @@ import {
   BsImage,
 } from "react-icons/bs";
 
-import Button from "@mui/material/Button";
+import { Button } from "@material-ui/core";
 import { AiOutlineReload } from "react-icons/ai";
 import { useHistory } from "react-router-dom";
 import "../../../assets/css/postView.css";
@@ -49,6 +49,7 @@ function NewBook(props) {
   const [showComplete, setShowComplete] = useState(true);
   const [loaderData, setloaderData] = useState("fetching your order ...");
   const [schedule, setSchedule] = useState(new Date());
+  const [allOrder, setAllOrder] = useState([]);
 
   const eventLoader = (loaderState, data = false) => {
     setLoader(loaderState);
@@ -59,6 +60,7 @@ function NewBook(props) {
     let ordId = window.location.pathname;
     ordId = ordId.replace("/mybookings/id/", "");
     let orders = props.orders;
+    setAllOrder(orders);
     console.log("orders", orders);
     let order = orders.filter((item) => item.ordId == ordId);
     if (order.length > 0) setPostData(order[0]);
@@ -68,12 +70,12 @@ function NewBook(props) {
 
   useEffect(() => {
     getOrder();
-  }, []);
+  }, [allOrder != props.orders]);
 
-  const click = (prop) => {
-    // console.log("click", prop);
-    // history.push(`edit/${prop}`);
-  };
+  useEffect(() => {
+    setSchedule(new Date(postdata.schedule));
+  }, [postdata]);
+
   const delpost = async (ordId) => {
     eventLoader(true, "Deleting Order...");
     let response = await deleteOrderById(ordId);
@@ -88,7 +90,7 @@ function NewBook(props) {
   const updateSchedules = (date) => {
     setSchedule(date);
     console.log(date);
-  }
+  };
 
   return (
     <div>
@@ -122,8 +124,7 @@ function NewBook(props) {
                 if (postdata.orderState == 8) {
                   services.updateOrder(7, postdata.ordId);
                   setShowTime(true);
-                  
-                }  else return setShowTime(true);
+                } else return setShowTime(true);
               }}
             >
               <AiOutlineReload className="button-icons" />
@@ -149,9 +150,7 @@ function NewBook(props) {
                 value={schedule}
                 className="picker-card"
                 // value={new Date()}
-                onChange={
-                  updateSchedules
-                }
+                onChange={updateSchedules}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
@@ -160,7 +159,11 @@ function NewBook(props) {
             <p
               onClick={() => {
                 setShowTime(false);
-                services.updateSchedule(new Date(schedule).valueOf(), postdata.ordId);
+                services.updateSchedule(
+                  new Date(schedule).valueOf(),
+                  postdata.ordId,
+                  props.updateOrder
+                );
               }}
             >
               x
@@ -284,6 +287,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     deleteOrder: (ordId) => {
       dispatch({ type: "DELETE_ORDER", value: ordId });
+    },
+    updateOrder: (data) => {
+      dispatch({ type: "UPDATE_ORDER", value: data });
     },
   };
 };

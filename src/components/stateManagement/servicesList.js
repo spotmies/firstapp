@@ -49,7 +49,7 @@ class ServiceList {
     console.log("Order Updated");
   }
 
-  updateSchedule = async (num, id) => {
+  updateSchedule = async (num, id,orderUpdate) => {
     if (this.loading) {
       alert("Error, try again later..");
       return;
@@ -63,6 +63,11 @@ class ServiceList {
     let path = `/order/orders/${id}`;
     this.loading = true;
     const resp = await apiPostPut(body, path, "PUT");
+    console.log(resp)
+    if(resp != null){
+      alert("Schedule Updated");
+      orderUpdate(resp)
+    }
     this.loading = false;
     console.log("Schedule Updated");
   }
