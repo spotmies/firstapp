@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import GoogleMapReact from "google-map-react";
-import { apiPostPut } from "../../../mservices/contactUs";
+import { apiPostPut } from "../../../api_services/api_calls/api_calls";
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
 import { Form } from "react-bootstrap";
@@ -10,6 +10,7 @@ import { Button } from "semantic-ui-react";
 import LeafletMap from "../leaflet/leaflet";
 //feedback form
 import FeedbackForm from "../../reusable/feedback_form";
+import constants from "../../../helpers/constants";
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -20,10 +21,12 @@ class SimpleMap extends Component {
       details: {
         email: null,
         name: null,
-        phone: null,
-        sub: null,
-        message: null,
-        date: Math.round(+new Date() / 1000),
+        mobile: null,
+        subject: null,
+        body: null,
+        createdAt: new Date().valueOf(),
+        suggestionFor: "contactUs",
+        suggestionFrom: "userWeb",
       },
       open: false,
       sbtn: false,
@@ -72,12 +75,17 @@ class SimpleMap extends Component {
       sbtn: true,
     });
     e.preventDefault();
+
     let temp = {};
     temp["body"] = JSON.stringify(this.state.details);
-    let result = await apiPostPut(temp, "contactUs");
-    if (result.status === 200) {
+    let result = await apiPostPut(
+      this.state.details,
+      constants.api.new_suggestion,
+      "POST"
+    );
+    if (result != null) {
       this.clearfield();
-      toast.info("Thank you we will contact you soon...");
+      toast.success("Thank you we will contact you soon...");
     } else {
       toast.info("please try again");
       this.setState({
@@ -91,10 +99,12 @@ class SimpleMap extends Component {
     tempd = {
       email: "",
       name: "",
-      phone: "",
-      sub: "",
-      message: "",
-      date: new Date(),
+      mobile: "",
+      subject: "",
+      body: "",
+      createdAt: new Date().valueOf(),
+      suggestionFor: "contactUs",
+      suggestionFrom: "userWeb",
     };
     this.setState({
       details: tempd,
@@ -170,7 +180,7 @@ class SimpleMap extends Component {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="pallavi mella"
+                placeholder="Your name"
                 name="name"
                 value={det.name}
                 onChange={this.handlec}
@@ -181,10 +191,18 @@ class SimpleMap extends Component {
               <Form.Label>Mobile no:</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="9999999999"
-                name="phone"
-                value={det.phone}
-                onChange={this.handlec}
+                placeholder="9876543620"
+                name="mobile"
+                value={det.mobile}
+                onChange={(e) => {
+                  const re = /^[0-9\b]+$/;
+
+                  if (e.target.value === "" || re.test(e.target.value)) {
+                    return this.handlec(e);
+                  }
+                }}
+                // maxLength={10}
+                // minLength={10}
                 required
               />
             </Form.Group>
@@ -195,9 +213,10 @@ class SimpleMap extends Component {
                 as="textarea"
                 placeholder="ex:- want to approach spotmies"
                 rows={1}
-                name="sub"
-                value={det.sub}
+                name="subject"
+                value={det.subject}
                 onChange={this.handlec}
+                required
               />
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlTextarea1">
@@ -206,8 +225,8 @@ class SimpleMap extends Component {
                 as="textarea"
                 rows={3}
                 placeholder="put what you want to message"
-                name="message"
-                value={det.message}
+                name="body"
+                value={det.body}
                 onChange={this.handlec}
                 required
               />

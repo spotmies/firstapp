@@ -7,6 +7,7 @@ import {
 
 class ServiceList {
   serviceList = [];
+  mainServicesList = [];
   loading = false;
 
   constructor() {
@@ -24,6 +25,15 @@ class ServiceList {
     this.loading = false;
     if (res !== null) {
       this.serviceList = res;
+      this.mainServicesList = res.filter((item) => item.isMainService === true);
+      this.mainServicesList.forEach((item, key) => {
+        this.mainServicesList[key].label = item.nameOfService;
+      });
+      // this.mainServicesList = this.mainServicesList.sort();
+      this.mainServicesList.sort(function (a,b) {
+        return a.nameOfService.localeCompare(b.nameOfService);
+      })
+
       console.log(res);
       console.log(this.serviceList);
     } else {
@@ -82,7 +92,7 @@ class ServiceList {
     console.log("Schedule Updated");
   };
 
-  submitReview = async (rating, comment, orderData,updateOrder) => {
+  submitReview = async (rating, comment, orderData, updateOrder) => {
     console.log(rating, comment, orderData);
     let mappedRating = (rating * 20).toString();
     let body = {
@@ -105,8 +115,8 @@ class ServiceList {
       let body = {
         orderState: 10,
         ordId: orderData?.ordId,
-      }
-      updateOrder(body)
+      };
+      updateOrder(body);
       return alert("Review submitted");
     }
     return alert("Something went wrong");
