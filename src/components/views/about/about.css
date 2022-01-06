@@ -84,7 +84,8 @@
 
 .desig1:hover .Li-hover {
     display: block;
-    transition: background 2s ease-in-out;
+    transition: all 2s ease-in-out;
+    animation: fadeIn 1s;
 }
 
 .desig {
@@ -112,6 +113,26 @@
 
     .desc {
         display: block;
+    }
+
+    .desig1 {
+        left: 23%;
+        /* margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0; */
+    }
+
+    .desig {
+        left: 0;
+    }
+
+    .Li-hover {
+        left: 0;
+    }
+
+    .team-div div img {
+        left: 0;
     }
 
     .desc img, .desc div, .text-desc, .team-div {

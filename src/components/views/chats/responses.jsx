@@ -19,6 +19,8 @@ import {
   MdEventAvailable,
   MdExplore,
   MdMoreHoriz,
+  MdCheck,
+  MdClose,
   MdNearMe,
   MdPayment,
   MdWatchLater,
@@ -105,7 +107,7 @@ function MyResponses(props) {
             .reverse()
             .map((cap, key) => (
               <div className="cardDiv" key={cap._id} id={cap._id}>
-                <Cardd className="orderCard">
+                {/* <Cardd className="orderCard">
                   <CardHeader
                     className="cardHeader"
                     avatar={<BiTimeFive size="1.4rem" />}
@@ -118,13 +120,17 @@ function MyResponses(props) {
                       />
                     }
                     title={`${gettbystamps(Number(cap.join), "fulldate")} 
-                     ${gettbystamps(Number(cap.join), "time")}`}
+                    ${gettbystamps(Number(cap.join), "time")}`}
+                    //  title={cap.orderDetails.problem}
                   />
                   <CardContent>
                     <Grid container spacing={2}>
                       <Grid item className="mediaPic">
                         <div className="pic">
-                        <img src={cap.pDetails.partnerPic}  className="profile" />
+                          <img
+                            src={cap.pDetails.partnerPic}
+                            className="profile"
+                          />
                           <CardActions>
                             <Grid
                               item
@@ -150,8 +156,8 @@ function MyResponses(props) {
                             </Grid>
                           </CardActions>
                         </div>
-                         
-                          {/* <CardMedia
+
+                        {/* <CardMedia
                             className="post-img"
                             image={
                               cap.orderDetails.media[0] ??
@@ -159,10 +165,10 @@ function MyResponses(props) {
                             }
                             title="Paella dish"
                           /> */}
-                        
+
                         {/* this div for mobile view only */}
-                        <div className="problemTitle-Mobile">
-                          <h3>{cap.orderDetails.problem}</h3>
+                        {/* <div className="problemTitle-Mobile">
+                          <h3>{cap.pDetails.name}</h3>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm container>
@@ -173,7 +179,7 @@ function MyResponses(props) {
                           }}
                         >
                           <Grid item xs container direction="column">
-                            <Grid item xs>
+                            <Grid item xs className="orderMaingrid">
                               <h3 className="problemTitle">
                                 {cap.orderDetails.problem}
                               </h3>
@@ -182,53 +188,54 @@ function MyResponses(props) {
                                 md
                                 container
                                 direction="row"
-                                justify="space-evenly"
+                                // justify="space-evenly"
+                                className="orderGrid"
                               >
                                 <p className="orderDetails">
                                   {/* <MdPayment /> */}
-                                  &nbsp;
+                                  {/* &nbsp;
                                   <b> Money : &#8377; {cap.money}</b>
                                 </p>
-                                <p className="orderDetails">
-                                  {/* <MdNearMe /> */}
-                                  &nbsp;
-                                  <b>Distance from you : 5 km</b>
+                                <p className="orderDetails"> */} 
+                                  {/* <MdExplore /> */}
+                                  {/* &nbsp;
+                                  <b>Location : vizag</b>
                                 </p>
                               </Grid>
                               <Grid
                                 item
                                 md
                                 container
-                                direction="row"
-                                justify="space-evenly"
+                                direction="row" 
+                                // justify="space-evenly"
+                                className="orderGrid"
                               >
-                                <span
+                                {/* <span
                                   style={{
                                     display: "inline-flex",
                                   }}
-                                >
-                                  {/* <MdEventAvailable /> */}
-                                  &nbsp;
-                                  <p className="orderDetails">
-                                    <b>
-                                      {" "}
-                                      Schedule :{" "}
-                                      {gettbystamps(
-                                        Number(cap.schedule),
-                                        "fulldate"
-                                      )}{" "}
-                                      &nbsp;
-                                      {gettbystamps(
-                                        Number(cap.schedule),
-                                        "time"
-                                      )}
-                                    </b>
-                                  </p>
-                                </span>
-                                <p className="orderDetails">
-                                  {/* <MdExplore /> */}
-                                  &nbsp;
-                                  <b>Location : vizag</b>
+                                > */}
+                                {/* <MdEventAvailable /> */}
+                                {/* &nbsp; */}
+
+                                {/* <p className="orderDetails">
+                                  {/* <MdNearMe /> */}
+                                  {/* &nbsp;
+                                  <b>Distance: 5 km</b>
+                                </p> */}
+                                {/* </span> */}
+
+                                {/* <p className="orderDetails">
+                                  <b>
+                                    {" "}
+                                    Schedule :{" "}
+                                    {gettbystamps(
+                                      Number(cap.schedule),
+                                      "fulldate"
+                                    )}{" "}
+                                    &nbsp;
+                                    {gettbystamps(Number(cap.schedule), "time")}
+                                  </b>
                                 </p>
                               </Grid>
                             </Grid>
@@ -237,7 +244,69 @@ function MyResponses(props) {
                       </Grid>
                     </Grid>
                   </CardContent>
-                </Cardd>
+                </Cardd> */}  
+
+                <div className="responseCard">
+                  <div className="card-title">
+                    <p>
+                      <BiTimeFive size="1.4rem" style={{marginRight:"15px"}} />{" "}
+                      {`${gettbystamps(Number(cap.join), "fulldate")} 
+                    ${gettbystamps(Number(cap.join), "time")}`}
+                    </p>
+                    <h2>{cap.orderDetails.problem}</h2>
+                    <DotMenu
+                      className="dotMenu"
+                      cap={cap}
+                      key={key}
+                      viewPost={viewPost}
+                      deleteResp={deleteResponse}
+                    />
+                  </div>
+                  <div className="card-body">
+                    <div className="pic">
+                      <img
+                        src={cap.pDetails.partnerPic}
+                        alt="profile"
+                        className="profile"
+                      />
+                      <div className="btn-div">
+                        <p className="sub-btn"><MdCheck /></p>
+                        <p className="dec-btn"><MdClose /></p>
+                      </div>
+                    </div>
+                    <div className="rest-body">
+                      <h3>{cap.pDetails.name}</h3>
+                      <div className="p-div">
+                        <p>
+                          {" "}
+                          <b> Money: &#8377; {cap.money}</b>
+                        </p>
+                        <p>
+                          <b>Location: vizag</b>
+                        </p>
+                      </div>
+                      <div className="p-div">
+                        <p>
+                          {" "}
+                          <b>Distance: 5 km</b>
+                        </p>
+                        <p>
+                          {" "}
+                          <b>
+                            {" "}
+                            Schedule:{" "}
+                            {gettbystamps(
+                              Number(cap.schedule),
+                              "fulldate"
+                            )}{" "}
+                            &nbsp;
+                            {gettbystamps(Number(cap.schedule), "time")}
+                          </b>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
         </div>

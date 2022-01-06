@@ -3,9 +3,156 @@
     width: 70px;
     border-radius: 50%;
     margin-left: 40px;
+    border: 1px solid rgb(151, 151, 151);
 }
 
 .pic {
-    margin-left: 80px;
+    margin-left: 110px;
     margin-right: 0 !important;
+}
+
+.orderDetails {
+    width: 50%;
+}
+
+.orderGrid {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.orderMaingrid {
+    width: 80%;
+}
+
+.problemTitle {
+    margin-bottom: 15px;
+}
+
+/* manual */
+
+.responseCard {
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 15px;
+    box-shadow: 1px 1px 10px rgb(169, 169, 169);
+    margin-top: 20px;
+}
+
+.card-title {
+    margin: 0;
+    border-radius: 10px 10px 0 0;
+    background: rgb(226, 226, 226);
+    padding: 10px 10px 10px 10px;
+    width: 100%;
+    display: inline-flex;
+    position: relative;
+}
+
+.card-title p, .card-title h2 {
+    margin: 10px 4px 4px 4px;
+    text-align: center;
+    /* width: 50%; */
+}
+
+.card-title p {
+    width: 20%;
+    font-size: 12px;
+}
+
+.card-title h2 {
+    width: 67%;
+    margin: 0;
+}
+
+.dotMenu {
+    text-align: right; 
+    /* position: absolute !important;
+    left: 0 !important; */
+    margin-left: 10%;
+    width: 10%;
+}
+
+.card-body {
+    display: inline-flex;
+    padding: 20px;
+    height: fit-content;
+    margin: 0;
+    width: 100%;
+    border-radius: 0 0 10px 10px;
+}
+
+.pic div {
+    display: inline-flex;
+    width: 100%;
+}
+
+.p-div {
+    display: inline-flex;
+    width: 100%;
+}
+
+.p-div p {
+    width: 50%;
+    color: rgb(116, 116, 116);
+}
+
+.rest-body h3{
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.btn-div {
+    width: 70px;
+    /* margin: 0 auto; */
+    padding-top: 10px;
+}
+
+.sub-btn, .dec-btn {
+    /* padding: 4px; */
+    border-radius: 50%;
+    height: 30px;
+    padding-top: 5px;
+    text-align: center;
+    /* justify-items: center; */
+    width: 30px;
+    margin-left: 30px;
+    /* margin-top: 10px; */
+    color: white;
+}
+
+.sub-btn {
+    background: #3f51b5;
+}
+
+.dec-btn {
+    background: #f50057;
+
+}
+
+@media screen and (max-width:600px) {
+    .responseCard {
+        width: 95%;
+        margin: 10px auto;
+        box-shadow: 1px 1px 10px rgb(220, 220, 220);
+    }
+
+    .pic {
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    .card-body {
+        display: block;
+    }
+
+    .card-title h2 {
+        width: 85%;
+        padding-top: 20px;
+        font-size: 22px;
+    }
+
+    .p-div p{
+        text-align: center;
+    }
 }
