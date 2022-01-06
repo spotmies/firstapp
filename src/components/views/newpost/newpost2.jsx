@@ -14,11 +14,9 @@ import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
-// import * as MaterialIcons from "react-icons/md";
-// import * as FontAwesome from "react-icons/fa";
-// import * as BootStrap from "react-icons/bs";
-// import * as BootIcon from "react-icons/bi";
-// import * as SimpleIcons from "react-icons/si";
+import * as MaterialDesign from "react-icons/md"; // import * as FontAwesome from "react-icons/fa";
+import * as BootStrap from "react-icons/bs";
+import * as FontAwesome from "react-icons/fa";
 
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -28,7 +26,6 @@ import {
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { toast } from "react-toastify";
 import FullScreenWidget from "../../reusable/helpers";
-import { BsHammer, BsHouseFill } from "react-icons/bs";
 import useRecorder from "./useRecorder";
 
 import List from "@material-ui/core/List";
@@ -42,35 +39,19 @@ import "../rentals/rental.css";
 import ListMediaFiles from "../../reusable/list_media_files";
 import {
   MdLaptopMac,
-  MdTv,
-  MdDriveEta,
-  MdFace,
   MdCheckCircle,
-  MdEventAvailable,
-  MdBuild,
-  MdLocalDining,
-  MdMonochromePhotos,
   MdAccountBalanceWallet,
   MdDescription,
   MdCreate,
   MdMic,
   MdAddAPhoto,
-  MdClear,
   MdClose,
   MdCheck,
-  MdAssessment,
-  MdOutlineFestival,
 } from "react-icons/md";
-import { SiSmartthings } from "react-icons/si";
-import { BiCodeBlock } from "react-icons/bi";
-import { FaChalkboardTeacher, FaTools, FaScrewdriver } from "react-icons/fa";
-import { BiCctv } from "react-icons/bi";
-import { DiPhotoshop } from "react-icons/di";
 import firebase from "../../../firebase";
 import "firebase/storage";
 import "../../../post.css";
 import ComingSoon from "../../reusable/coming_soon_widget";
-import { categoryAssign } from "../../../helpers/categories";
 import {
   createNewServiceRequest,
   updateOrder,
@@ -79,7 +60,6 @@ import { loadState } from "../../../helpers/localStorage";
 
 //for dialog
 import Avatar from "@material-ui/core/Avatar";
-import { constants } from "../../../helpers/constants";
 import { blue } from "@material-ui/core/colors";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
 
@@ -193,7 +173,6 @@ class Postnew extends Component {
                 uId={this.state.uId}
                 prop={this.props}
                 editDate={this.state.editDateForm}
-
               />
             </CardContent>
           </Card>
@@ -341,7 +320,9 @@ class Postform extends Component {
       money: state.money,
       schedule: new Date(state.schedule).valueOf(),
       job: this.props.job,
-      loc: [this.props.prop.reqGeocodes.lat, this.props.prop.reqGeocodes.lng],
+      loc:{
+        coordinates: [this.props.prop.reqGeocodes.lat, this.props.prop.reqGeocodes.lng],
+      },
       address: JSON.stringify(this.props.prop.reqAddress),
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",
@@ -523,7 +504,7 @@ class Postform extends Component {
   };
   render() {
     const { classes } = this.props.prop;
-    
+
     return (
       <>
         <form
@@ -652,7 +633,7 @@ class Postform extends Component {
               {!this.state.editFormFillFlag ? "Submit" : "Update"}
             </Button>
 
-          <ServiceButton onClick={this.changeJob} prop={this.props} />
+            <ServiceButton onClick={this.changeJob} prop={this.props} />
           </Grid>
         </form>
         <GetLocationDialog
@@ -667,142 +648,52 @@ class Postform extends Component {
 
 function ServiceButton(props) {
   const { services } = useStores();
-  return(
-    <Button
-    variant="contained"
-    // color="grey"
-    onClick={props.onClick}
-    size="large"
-    // className={classes.cateButton}
-    startIcon={<MdCheckCircle />}
-  >
-    {services.getServiceNameById(props.prop.job)}
-  </Button>
-  );
- 
-}
-
-function GetCategoryIcons(props) {
-  // const mdIcons = MaterialIcons["MdLaptopMac"];
-  // var bsIcons = BootStrap["BsFillArchiveFill"];
-  // var biIcons = BootIcon["BiAccessibility"];
-  // var siIcons = SimpleIcons["SiAbstract"];
-  // var faIcons = FontAwesome["FaAdn"];
-
-  // var type = props.iconId.substring(0, 2);
-
-  if (props.iconId == null || props.iconId == undefined) return <MdLaptopMac />;
-  var id = props.iconId.toString();
   return (
-    <IconContext.Provider value={{ size: "1.5rem" }}>
-      {/* <div>
-        {(() => {
-          switch (id) {
-            case "pr":
-              return <MdLaptopMac />
-              break;
-          
-            default:
-              return <BsHammer />
-              break;
-          }
-        })}
-      </div>
-       */}
-      {/* <div>
-        {() => {
-          switch (type) {
-            case "Md":
-              return <>{React.createElement(mdIcons)}</>;
-              break;
-            case "Bi":
-              return <>{React.createElement(biIcons)}</>;
-              break;
-            case "Bs":
-              return <>{React.createElement(bsIcons)}</>;
-              break;
-            case "Fa":
-              return <>{React.createElement(faIcons)}</>;
-              break;
-            case "Si":
-              return <>{React.createElement(siIcons)}</>;
-              break;
-
-            default:
-              return <MdLaptopMac />;
-              break;
-          }
-        }}
-      </div> */}
-
-      
-
-      <div>
-        {(() => {
-          switch (id) {
-            case "tl":
-              return <FaTools />;
-            case "lp":
-              return <MdLaptopMac />;
-            case "tv":
-              return <MdTv />;
-            case "cd":
-              return <BiCodeBlock />;
-
-            case "tc":
-              return <FaChalkboardTeacher />;
-
-            case "fc":
-              return <MdFace />;
-
-            case "pic":
-              return <MdMonochromePhotos />;
-
-            case "dr":
-              return <MdDriveEta />;
-
-            case "evt":
-              return <MdEventAvailable />;
-
-            case "sd":
-              return <FaScrewdriver />;
-
-            case "hm":
-              return <BsHammer />;
-
-            case "bd":
-              return <MdBuild />;
-            case "hf":
-              return <BsHouseFill />;
-
-            case "pr":
-              return <DiPhotoshop />;
-
-            case "cc":
-              return <BiCctv />;
-
-            case "ld":
-              return <MdLocalDining />;
-            case "at":
-              return <SiSmartthings />
-              break;
-            case "mark":
-              return <mdIcons />
-              break;
-            case "hd":
-              return <MdOutlineFestival />
-              break;
-             
-
-            default:
-              return <MdLaptopMac />
-              break;
-          }
-        })}
-      </div>
-    </IconContext.Provider>
+    <Button
+      variant="contained"
+      // color="grey"
+      onClick={props.onClick}
+      size="large"
+      // className={classes.cateButton}
+      startIcon={<MdCheckCircle />}
+    >
+      {services.getServiceNameById(props.prop.job)}
+    </Button>
   );
 }
+
+const GetCategoryIcons = (props) => {
+  const mdIcon = MaterialDesign[props.iconId];
+  const bsIcon = BootStrap[props.iconId];
+  const fontAwesome = FontAwesome[props.iconId];
+
+  if (props.iconId == null || props.iconId == undefined || props.iconId == "") return <MdLaptopMac />;
+
+  switch (props.iconId.substring(0, 2)) {
+    case "Md":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(mdIcon)}
+        </IconContext.Provider>
+      );
+    case "Bs":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(bsIcon)}
+        </IconContext.Provider>
+      );
+
+    case "Fa":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(fontAwesome)}
+        </IconContext.Provider>
+      );
+
+    default:
+      return <MdLaptopMac />;
+  }
+};
 
 function SimpleDialog(props) {
   const classes = props.prop;
@@ -827,9 +718,9 @@ function SimpleDialog(props) {
       <DialogTitle id="simple-dialog-title">
         <u> Select Category here</u>
       </DialogTitle>
-      <div style={{ width: "580px" }}>
+      <div className="categoryModalBody">
+  
         <List>
-
           {services.serviceList.map((data, key) => (
             <ListItem
               key={key}

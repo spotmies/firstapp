@@ -15,9 +15,9 @@ const initState = {
   disableChatResponseTab: false,
   disableBottomBar: true,
   bottomBarState: "",
-  sendMessageQueue:[],
-  readyToSendMessage:true,
-  sendRemaingMessages:true,
+  sendMessageQueue: [],
+  readyToSendMessage: true,
+  sendRemaingMessages: true,
 };
 
 const rootReducer = (state = initState, action) => {
@@ -30,17 +30,18 @@ const rootReducer = (state = initState, action) => {
         userChats: action.value,
       };
     },
-    readReceipt : function(msgId,readState,messageQueue){
+    readReceipt: function (msgId, readState, messageQueue) {
       // console.log(action.value);
-      
+
       let targetConversasion = state.userChats.find(
         (element) => element.msgId === msgId
       );
       let tempAllChats = state.userChats.filter(
         (elements) => elements.msgId !== msgId
       );
-      if(state.sendMessageQueue.length<2)targetConversasion["uState"] = readState;
-      
+      if (state.sendMessageQueue.length < 2)
+        targetConversasion["uState"] = readState;
+
       // console.log(targetConversasion);
       tempAllChats = [...tempAllChats, targetConversasion];
       // tempAllChats = [].concat(tempAllChats).reverse();
@@ -56,8 +57,7 @@ const rootReducer = (state = initState, action) => {
         ...state,
         userChats: tempAllChats,
         sendMessageQueue: messageQueue ?? state.sendMessageQueue,
-        sendRemaingMessages: !state.sendRemaingMessages
-        
+        sendRemaingMessages: !state.sendRemaingMessages,
       };
     },
     addNewMessage: function () {
@@ -142,13 +142,30 @@ const rootReducer = (state = initState, action) => {
         ...state,
         orders: newOrders,
       };
+    // case "UPDATE_ORDER_STATE":
+    //   let tempOrders = state.orders;
+    //   let oindex = tempOrders.findIndex(
+    //     (order) => order.ordId == action.value.ordId
+    //   );
+    //   tempOrders[oindex].orderState = action.value.orderState;
+    //   saveState("orders", tempOrders);
+    //   return {
+    //     ...state,
+    //     orders: tempOrders,
+    //   };
     case "UPDATE_ORDER":
       const index = state.orders.findIndex(
         (order) => order.ordId === action.value.ordId
       ); //finding index of the item
-      console.log(index);
+      if (index < 0) return;
       const newArray = [...state.orders]; //making a new array
-      newArray[index] = action.value; //changing value in the new array
+      console.log(newArray[index]);
+      const mergedOrder = {
+        ...newArray[index],
+        ...action.value,
+      };
+      console.log(mergedOrder);
+      newArray[index] = mergedOrder; //changing value in the new array
       saveState("orders", newArray);
       return {
         ...state, //copying the orignal state
@@ -211,30 +228,30 @@ const rootReducer = (state = initState, action) => {
     case "ADD_MESSAGE_TO_QUEUE":
       return {
         ...state,
-        sendMessageQueue:[...state.sendMessageQueue,action.value]
-      }
+        sendMessageQueue: [...state.sendMessageQueue, action.value],
+      };
     case "REMOVE_MESSAGE_FROM_QUEUE":
-      let filtered = state.sendMessageQueue.filter(function(value){ 
+      let filtered = state.sendMessageQueue.filter(function (value) {
         return value != action.value;
-    }); 
-      return chatingRoot.readReceipt(action.value.target.msgId,1,filtered)
-    //   let filtered = state.sendMessageQueue.filter(function(value){ 
+      });
+      return chatingRoot.readReceipt(action.value.target.msgId, 1, filtered);
+    //   let filtered = state.sendMessageQueue.filter(function(value){
     //     return value != action.value;
-    // }); 
+    // });
     //   return {
     //     ...state,
     //     sendMessageQueue:filtered
     //   }
     case "READY_TO_SEND_MESSAGE":
-      return{
+      return {
         ...state,
-        readyToSendMessage:action.value
-      }
+        readyToSendMessage: action.value,
+      };
     case "SEND_REMAINING_MESSAGES":
-      return{
+      return {
         ...state,
-        sendRemaingMessages:!state.sendRemaingMessages
-      }
+        sendRemaingMessages: !state.sendRemaingMessages,
+      };
 
     default:
       return state;

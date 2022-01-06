@@ -12,12 +12,15 @@ import { FaGooglePlay } from "react-icons/fa";
 
 import { toast } from "react-toastify";
 import textpart from "../../../helpers/partnerText";
-import { apiPostPut } from "../../../mservices/contactUs";
+// import { apiPostPut } from "../../../mservices/contactUs";
 import { MdFeedback } from "react-icons/md";
 import ScrollAnimation from "react-animate-on-scroll";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import Select2 from "react-select";
+import { useStores } from "../../stateManagement/index";
 import { loadState } from "../../../helpers/localStorage";
+import { apiPostPut } from "../../../api_services/api_calls/api_calls";
+import constants from "../../../helpers/constants";
 const options2 = [
   { label: "Ac/Refrigirator services", value: "ac repairs" },
   { label: "Pc/Laptop services", value: "pc/laptop" },
@@ -57,6 +60,7 @@ function PartnerRegistration(props) {
   const [pnum, spnum] = useState(null);
   const [sbtn, setsbtn] = useState(false);
   const lockText = useRef(null);
+  const { services } = useStores();
 
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
@@ -93,12 +97,22 @@ function PartnerRegistration(props) {
   };
 
   const formsubmit = async () => {
-    let details = null;
+    // let details = null;
     if (pnum.length === 10 && pcate !== null) {
       setsbtn(true);
-      let pcatee = pcate.value;
-      details = { pname, pnum, pcatee, date: new Date().valueOf() };
-      await partprereg(details);
+      let pcatee = pcate.serviceId;
+      // details = { pname, pnum, pcatee, date: new Date().valueOf() };
+      let body = {
+        subject: "Partner Request",
+        suggestionFor: "partnerRegistration",
+        name: pname,
+        mobile: pnum,
+        suggestionFrom: "userWeb",
+        others: pcatee,
+        createdAt: new Date().valueOf(),
+      };
+      console.log(body);
+      await partprereg(body);
     } else {
       if (pnum.length < 10) toast.warning("enter valid number");
       else if (pcate === null) toast.warning("please select your profession");
@@ -114,14 +128,12 @@ function PartnerRegistration(props) {
     // document.getElementById("pcate").value = null;
   };
   async function partprereg(details) {
-    //console.log(details);
-    //   toast.success("Thank you we will contact you soon")
-    let temp = {};
-    temp["body"] = JSON.stringify(details);
-    console.log(temp);
-    let result = await apiPostPut(temp, "partnerRegistration");
-    console.log("117", result);
-    if (result.status === 200) {
+    const result = await apiPostPut(
+      details,
+      constants.api.new_suggestion,
+      "POST"
+    );
+    if (result != null) {
       clearfield();
       toast.info("Thank you we will contact you soon...");
     } else {
@@ -262,7 +274,7 @@ function PartnerRegistration(props) {
                 placeholder="Select your Profession"
                 value={pcate}
                 onChange={handleChange2}
-                options={options2}
+                options={services.mainServicesList}
               />
             </Form.Field>
             <Form.Field>
@@ -493,13 +505,13 @@ function PartnerRegistration(props) {
             /> */}
             <Form.Field>
               <label>
-                <b>Select your Profession</b>
+                <b>Select your Profession here</b>
               </label>
               <Select2
                 placeholder="Select your Profession"
                 value={pcate}
                 onChange={handleChange2}
-                options={options2}
+                options={services.mainServicesList}
               />
             </Form.Field>
             <Form.Field>

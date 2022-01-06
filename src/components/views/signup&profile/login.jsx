@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 import "./login.css";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
@@ -9,11 +9,12 @@ import { loginUser, newUser } from "../../controllers/login/login_controller";
 import { connect } from "react-redux";
 import { saveState } from "../../../helpers/localStorage";
 import { constants } from "../../../helpers/constants";
+import { useStores } from "../../stateManagement/index";
 var loginDetails;
 class Login extends Component {
   constructor(props) {
     super(props);
-
+    // this.commonStore = useStores(this);
     this.state = {
       getOtpButton: true,
       submitButton: true,
@@ -25,10 +26,13 @@ class Login extends Component {
       otpSection: false,
       registrationSection: false,
       userName: null,
+
       allowedNumber: [
         8341980196, 8309708021, 8019933883, 7095695690, 9502831877, 7993613685,
         8330933883, 7075229282, 8919387141,
       ],
+      userDetails: {},
+      userRegistered: false,
     };
     this.genotp = this.genotp.bind(this);
   }
@@ -154,7 +158,13 @@ class Login extends Component {
       this.props.updateUser(response);
       saveState("userDetails", response);
       toast.success("Registration Completed");
-      this.props.history.go(-1);
+      this.setState({
+        userDetails: response,
+        userRegistered: true,
+      });
+      setTimeout(() => {
+        this.props.history.go(-1);
+      }, 1000);
     } else {
       toast.info("something went wrong");
     }
@@ -228,6 +238,9 @@ class Login extends Component {
                 >
                   Submit
                 </Button>
+                {this.state.userRegistered ? (
+                  <LoginUser userDetails={this.state.userDetails} />
+                ) : null}
               </>
             ) : null}
           </Form>
@@ -251,3 +264,16 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+function LoginUser(props) {
+  const { commonStore } = useStores();
+  useEffect(() => {
+    commonStore.setUserDetails(props.userDetails);
+    commonStore.setUserLogin(true);
+  }, []);
+  return (
+    <div>
+      <h1>login successfully</h1>
+    </div>
+  );
+}
