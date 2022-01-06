@@ -6,7 +6,8 @@ import "../../../post.css";
 import { gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import "../mybookings/my_book.css";
+// import "../mybookings/my_book.css";
+import "./response.css";
 
 import constants from "../../../helpers/constants";
 //import icons
@@ -18,6 +19,8 @@ import {
   MdEventAvailable,
   MdExplore,
   MdMoreHoriz,
+  MdCheck,
+  MdClose,
   MdNearMe,
   MdPayment,
   MdWatchLater,
@@ -104,7 +107,7 @@ function MyResponses(props) {
             .reverse()
             .map((cap, key) => (
               <div className="cardDiv" key={cap._id} id={cap._id}>
-                <Cardd className="orderCard">
+                {/* <Cardd className="orderCard">
                   <CardHeader
                     className="cardHeader"
                     avatar={<BiTimeFive size="1.4rem" />}
@@ -117,36 +120,55 @@ function MyResponses(props) {
                       />
                     }
                     title={`${gettbystamps(Number(cap.join), "fulldate")} 
-                     ${gettbystamps(Number(cap.join), "time")}`}
+                    ${gettbystamps(Number(cap.join), "time")}`}
+                    //  title={cap.orderDetails.problem}
                   />
                   <CardContent>
                     <Grid container spacing={2}>
                       <Grid item className="mediaPic">
-                        <Badge
-                          overlap="circle"
-                          anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "right",
-                          }}
-                          badgeContent={
-                            <Avatar
-                              alt="Remy Sharp"
-                              src={cap.pDetails.partnerPic}
-                            />
-                          }
-                        >
-                          <CardMedia
+                        <div className="pic">
+                          <img
+                            src={cap.pDetails.partnerPic}
+                            className="profile"
+                          />
+                          <CardActions>
+                            <Grid
+                              item
+                              xs={12}
+                              sm
+                              container
+                              justify="space-between"
+                              alignItems="center"
+                            >
+                              <Chip
+                                // icon={<MdWatchLater size="1rem" />}
+                                label="Accept"
+                                color="primary"
+                              />
+                              <Chip
+                                // icon={<MdWatchLater size="1rem" />}
+                                label="Decline"
+                                color="secondary"
+                                onClick={() => {
+                                  deleteResponse(cap.responseId);
+                                }}
+                              />
+                            </Grid>
+                          </CardActions>
+                        </div>
+
+                        {/* <CardMedia
                             className="post-img"
                             image={
                               cap.orderDetails.media[0] ??
                               "https://png.pngtree.com/element_pic/16/12/05/cf1b62b08a9b360b932cb93db844675a.jpg"
                             }
                             title="Paella dish"
-                          />
-                        </Badge>
+                          /> */}
+
                         {/* this div for mobile view only */}
-                        <div className="problemTitle-Mobile">
-                          <h3>{cap.orderDetails.problem}</h3>
+                        {/* <div className="problemTitle-Mobile">
+                          <h3>{cap.pDetails.name}</h3>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm container>
@@ -157,7 +179,7 @@ function MyResponses(props) {
                           }}
                         >
                           <Grid item xs container direction="column">
-                            <Grid item xs>
+                            <Grid item xs className="orderMaingrid">
                               <h3 className="problemTitle">
                                 {cap.orderDetails.problem}
                               </h3>
@@ -166,53 +188,54 @@ function MyResponses(props) {
                                 md
                                 container
                                 direction="row"
-                                justify="space-evenly"
+                                // justify="space-evenly"
+                                className="orderGrid"
                               >
                                 <p className="orderDetails">
-                                  <MdPayment />
-                                  &nbsp;
+                                  {/* <MdPayment /> */}
+                                  {/* &nbsp;
                                   <b> Money : &#8377; {cap.money}</b>
                                 </p>
-                                <p className="orderDetails">
-                                  <MdNearMe />
-                                  &nbsp;
-                                  <b>Distance from you : 5 km</b>
+                                <p className="orderDetails"> */} 
+                                  {/* <MdExplore /> */}
+                                  {/* &nbsp;
+                                  <b>Location : vizag</b>
                                 </p>
                               </Grid>
                               <Grid
                                 item
                                 md
                                 container
-                                direction="row"
-                                justify="space-evenly"
+                                direction="row" 
+                                // justify="space-evenly"
+                                className="orderGrid"
                               >
-                                <span
+                                {/* <span
                                   style={{
                                     display: "inline-flex",
                                   }}
-                                >
-                                  <MdEventAvailable />
-                                  &nbsp;
-                                  <p className="orderDetails">
-                                    <b>
-                                      {" "}
-                                      Schedule :{" "}
-                                      {gettbystamps(
-                                        Number(cap.schedule),
-                                        "fulldate"
-                                      )}{" "}
-                                      &nbsp;
-                                      {gettbystamps(
-                                        Number(cap.schedule),
-                                        "time"
-                                      )}
-                                    </b>
-                                  </p>
-                                </span>
-                                <p className="orderDetails">
-                                  <MdExplore />
-                                  &nbsp;
-                                  <b>Location : vizag</b>
+                                > */}
+                                {/* <MdEventAvailable /> */}
+                                {/* &nbsp; */}
+
+                                {/* <p className="orderDetails">
+                                  {/* <MdNearMe /> */}
+                                  {/* &nbsp;
+                                  <b>Distance: 5 km</b>
+                                </p> */}
+                                {/* </span> */}
+
+                                {/* <p className="orderDetails">
+                                  <b>
+                                    {" "}
+                                    Schedule :{" "}
+                                    {gettbystamps(
+                                      Number(cap.schedule),
+                                      "fulldate"
+                                    )}{" "}
+                                    &nbsp;
+                                    {gettbystamps(Number(cap.schedule), "time")}
+                                  </b>
                                 </p>
                               </Grid>
                             </Grid>
@@ -221,31 +244,69 @@ function MyResponses(props) {
                       </Grid>
                     </Grid>
                   </CardContent>
-                  <CardActions>
-                    <Grid
-                      item
-                      xs={12}
-                      sm
-                      container
-                      justify="space-between"
-                      alignItems="center"
-                    >
-                      <Chip
-                        icon={<MdWatchLater size="1rem" />}
-                        label="Accept"
-                        color="primary"
+                </Cardd> */}  
+
+                <div className="responseCard">
+                  <div className="card-title">
+                    <p>
+                      <BiTimeFive size="1.4rem" style={{marginRight:"15px"}} />{" "}
+                      {`${gettbystamps(Number(cap.join), "fulldate")} 
+                    ${gettbystamps(Number(cap.join), "time")}`}
+                    </p>
+                    <h2>{cap.orderDetails.problem}</h2>
+                    <DotMenu
+                      className="dotMenu"
+                      cap={cap}
+                      key={key}
+                      viewPost={viewPost}
+                      deleteResp={deleteResponse}
+                    />
+                  </div>
+                  <div className="card-body">
+                    <div className="pic">
+                      <img
+                        src={cap.pDetails.partnerPic}
+                        alt="profile"
+                        className="profile"
                       />
-                      <Chip
-                        icon={<MdWatchLater size="1rem" />}
-                        label="Decline"
-                        color="secondary"
-                        onClick={() => {
-                          deleteResponse(cap.responseId);
-                        }}
-                      />
-                    </Grid>
-                  </CardActions>
-                </Cardd>
+                      <div className="btn-div">
+                        <p className="sub-btn"><MdCheck /></p>
+                        <p className="dec-btn"><MdClose /></p>
+                      </div>
+                    </div>
+                    <div className="rest-body">
+                      <h3>{cap.pDetails.name}</h3>
+                      <div className="p-div">
+                        <p>
+                          {" "}
+                          <b> Money: &#8377; {cap.money}</b>
+                        </p>
+                        <p>
+                          <b>Location: vizag</b>
+                        </p>
+                      </div>
+                      <div className="p-div">
+                        <p>
+                          {" "}
+                          <b>Distance: 5 km</b>
+                        </p>
+                        <p>
+                          {" "}
+                          <b>
+                            {" "}
+                            Schedule:{" "}
+                            {gettbystamps(
+                              Number(cap.schedule),
+                              "fulldate"
+                            )}{" "}
+                            &nbsp;
+                            {gettbystamps(Number(cap.schedule), "time")}
+                          </b>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
         </div>
