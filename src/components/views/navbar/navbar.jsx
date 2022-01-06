@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
@@ -7,11 +7,8 @@ import { toast } from "react-toastify";
 import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
-import animationData from "../../../images/spotmies_logo.json";
-// import SmLogo from "../../../images/logo.svg";
+import { Observer } from "mobx-react";
 import SmLogo from "../../../images/spotmies_logo2.png";
-
-// import SmLogo from "../../../images/sm3dlogo.svg";
 
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
@@ -30,7 +27,7 @@ import {
 } from "react-icons/md";
 
 import { BiLogOutCircle } from "react-icons/bi";
-import { FaCarAlt, FaGraduationCap } from "react-icons/fa";
+import { FaGraduationCap } from "react-icons/fa";
 // import { fa } from "react-icons/fa";
 import io from "socket.io-client";
 import constants from "../../../helpers/constants";
@@ -40,10 +37,7 @@ import LabelBottomNavigation from "./bottom_navigation";
 import { useStores } from "../../stateManagement/index";
 
 function Navibar(props) {
-  const [name, setName] = useState("user name");
-  const [pic, setpic] = useState(undefined);
-  const [isLogged, setisLogged] = useState(false);
-  const { services } = useStores();
+  const { services, commonStore } = useStores();
 
   const history = useHistory();
   useEffect(() => {
@@ -63,6 +57,18 @@ function Navibar(props) {
       if (user) {
         console.log("hitting all apis");
         let userId = firebase.auth().currentUser.uid;
+        console.log("getting user details");
+        var newLoginResponse = await loginUser(userId);
+        console.log("login response", newLoginResponse);
+        if (!newLoginResponse) {
+          // userlogout();
+          return;
+        }
+
+        commonStore.setUserDetails(newLoginResponse);
+        commonStore.setUserLogin(true);
+        props.updateUser(newLoginResponse);
+
         let userResponses = await getResponses(userId);
         console.log(userResponses);
         let userChats = await getConversasions(userId);
@@ -79,45 +85,35 @@ function Navibar(props) {
   const checkUser = () => {
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
+        console.log("USER_EXISTS");
         socket.emit(
           "join-room",
           firebase.auth().currentUser.uid,
           function (confirmation) {
-            console.log(confirmation, "<<<< JOINED ON SOCKET ROOM >>>>");
+            console.log(confirmation);
+            console.log("<<<< JOINED ON SOCKET ROOM >>>>");
           }
         );
-        console.log("<<<< JOINED ON SOCKET ROOM >>>>");
-
-        if (Object.keys(props.userDetails).length === 0) {
-          let localUserDetails = loadState("userDetails");
-          if (localUserDetails !== null) props.updateUser(localUserDetails);
-
-          let newLoginResponse = await loginUser(
-            firebase.auth().currentUser.uid
-          );
-          if (newLoginResponse !== false) props.updateUser(newLoginResponse);
-
-          let localOrders = loadState("orders");
-          if (localOrders !== null) props.updateAllOrders(localOrders);
-          else {
-            let apiOrders = await getUserOrders(
-              firebase.auth().currentUser.uid
-            );
-
-            props.updateAllOrders(apiOrders);
-          }
+        const localUserDetails = loadState("userDetails");
+        if (localUserDetails !== null) {
+          props.updateUser(localUserDetails);
+          commonStore.setUserDetails(localUserDetails);
+          commonStore.setUserLogin(true);
         }
+        let localOrders = loadState("orders");
+        if (localOrders !== null) props.updateAllOrders(localOrders);
+        else {
+          let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
 
-        setName(props.userDetails.name);
-        setpic(props.userDetails.pic);
-        setisLogged(true);
+          props.updateAllOrders(apiOrders);
+        }
       } else {
-        setisLogged(false);
+        commonStore.setUserLogin(false);
       }
     });
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     console.log("STARTED .. >>>>>>>>");
     checkUser();
 
@@ -181,199 +177,186 @@ function Navibar(props) {
         localStorage.removeItem("userDetails");
         localStorage.removeItem("orders");
         history.push("/");
+        commonStore.setUserLogin(false);
         setTimeout(() => {}, 1000);
         window.location.reload();
       });
   }
 
   return (
-    <div style={{ paddingBottom: "80px" }}>
-      <header style={{ zIndex: "9999" }} className="navi-bar">
-        <div style={{ width: "100%" }}>
-          <Container>
-            <Navbar collapseOnSelect expand="lg" variant="light">
-              <IconContext.Provider
-                value={{ size: "1.5em", className: "nav-icons" }}
-              >
-                <Link to="/">
-                  {/* <Navbar.Brand className="title">
-                  <img src={SmLogo} />
-                  <div>
-                    <h2 className="navbar-title">SPOTMIES</h2>
-                    <p>Experience the Excellence</p>
-                  </div>
-                </Navbar.Brand> */}
-                  <div className="logo-banner">
-                    <img src={SmLogo} className="navbar-logo" />
-                    <div className="nav-tag-title">
-                      <h1 className="navbar-title">SPOTMIES</h1>
-                      <p className="tag-line">Experience the Excellence</p>
-                    </div>
-                  </div>
-                </Link>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse
-                  id="responsive-navbar-nav"
-                  className="justify-content-end"
-                >
-                  <Nav className="mr-auto"></Nav>
-                  <Nav
-                    className="nav-linkList"
-                    style={{ color: "black", display: "inline-flex" }}
+    <Observer>
+      {() => (
+        <div style={{ paddingBottom: "80px" }}>
+          <header style={{ zIndex: "9999" }} className="navi-bar">
+            <div style={{ width: "100%" }}>
+              <Container>
+                <Navbar collapseOnSelect expand="lg" variant="light">
+                  <IconContext.Provider
+                    value={{ size: "1.5em", className: "nav-icons" }}
                   >
-                    <Link className="nav-links" to="/careers">
-                      <Nav className="chaticon" id="mybooks">
-                        <FaGraduationCap className="chaticon2" />
-                        <b>Careers</b>
-                      </Nav>
+                    <Link to="/">
+                      <div className="logo-banner">
+                        <img src={SmLogo} className="navbar-logo" />
+                        <div className="nav-tag-title">
+                          <h1 className="navbar-title">SPOTMIES</h1>
+                          <p className="tag-line">Experience the Excellence</p>
+                        </div>
+                      </div>
                     </Link>
-                    {isLogged ? (
-                      <>
-                        {/* <Link className="nav-links" to="/rentals">
-                        <Nav className="chaticon" id="mybooks">
-                          <FaCarAlt className="chaticon2" />
-                          <b>Rentals</b>
-                        </Nav>
-                      </Link> */}
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse
+                      id="responsive-navbar-nav"
+                      className="justify-content-end"
+                    >
+                      <Nav className="mr-auto"></Nav>
+                      <Nav
+                        className="nav-linkList"
+                        style={{ color: "black", display: "inline-flex" }}
+                      >
+                        <Link className="nav-links" to="/careers">
+                          <Nav className="chaticon" id="mybooks">
+                            <FaGraduationCap className="chaticon2" />
+                            <b>Careers</b>
+                          </Nav>
+                        </Link>
+                        {commonStore.isUserLogin ? (
+                          <>
+                            <Link className="nav-links" to="/mybookings">
+                              <Nav className="chaticon" id="mybooks">
+                                <MdWork className="chaticon2" />
+                                <b>My Bookings</b>
+                              </Nav>
+                            </Link>
+                            <Link className="nav-links" to="/chat">
+                              <Nav className="chaticon" id="mychats">
+                                <MdChatBubble className="chaticon2" />
+                                <b>Chat</b>
+                              </Nav>
+                            </Link>
+                          </>
+                        ) : null}
 
-                        <Link className="nav-links" to="/mybookings">
-                          <Nav
-                            className="chaticon"
-                            id="mybooks"
+                        <Link className="nav-links" to="/contact">
+                          <Nav className="chaticon" id="contact">
+                            <MdEmail size="1.3rem" className="chaticon2" />
+                            <b>Contact</b>
+                          </Nav>
+                        </Link>
+                        {commonStore.isUserLogin ? (
+                          <div
+                            className="nav-links"
                             style={{
-                              display: name === "undefined" ? "none" : "block",
+                              display: "inline-flex",
+                              color: "black",
+                              marginRight: "0",
                             }}
                           >
-                            <MdWork className="chaticon2" />
-                            <b>My Bookings</b>
+                            <span>
+                              {validURL(commonStore.userDetails.pic) ? (
+                                <img
+                                  alt="noting"
+                                  src={commonStore.userDetails.pic}
+                                  className="userdp"
+                                  style={{
+                                    height: "20px",
+                                    width: "20px",
+                                    borderRadius: "1rem",
+                                    marginTop: "10px",
+                                    marginLeft: "6px",
+                                  }}
+                                />
+                              ) : (
+                                <MdAccountCircle
+                                  style={{ marginTop: "10px" }}
+                                />
+                              )}
+                            </span>
+                            <NavDropdown
+                              title={commonStore.userDetails.name}
+                              style={{ marginTop: "3px" }}
+                              variant="dark"
+                              id="collapsible-nav-dropdown"
+                              className="userhere"
+                              active
+                            >
+                              <Link to="/account">
+                                <NavDropdown.Item href="#action/3">
+                                  <MdAccountCircle color="gray" size="1.5em" />
+                                  <b> Account</b>{" "}
+                                </NavDropdown.Item>
+                              </Link>
+                              <Link to="/mybookings">
+                                <NavDropdown.Item href="#action/3.1">
+                                  <MdWork color="gray" size="1.5em" />
+                                  <b> My Bookings</b>
+                                </NavDropdown.Item>
+                              </Link>
+                              <Link to="/chat">
+                                <NavDropdown.Item href="#action/3.2">
+                                  <MdChatBubble color="gray" size="1.5em" />
+                                  <b> Chats</b>
+                                </NavDropdown.Item>
+                              </Link>
+                              <Link to="/account">
+                                <NavDropdown.Item href="#action/3.3">
+                                  <MdSettings color="gray" size="1.5em" />
+                                  <b> Settings</b>
+                                </NavDropdown.Item>
+                              </Link>
+                              <Link to="/newpost">
+                                <NavDropdown.Item href="#action/3.4">
+                                  <MdAddCircle color="gray" size="1.5em" />
+                                  <b> Get Service</b>
+                                </NavDropdown.Item>
+                              </Link>
+
+                              <NavDropdown.Divider />
+                              <NavDropdown.Item onClick={userlogout}>
+                                <BiLogOutCircle
+                                  className="chaticon2"
+                                  color="gray"
+                                  size="1.3em"
+                                />{" "}
+                                Logout
+                              </NavDropdown.Item>
+                            </NavDropdown>
+                          </div>
+                        ) : null}
+                        {commonStore.isUserLogin === false ? (
+                          <Link className="nav-links" to="/signup">
+                            <Nav className="chaticon" id="signup">
+                              <MdAccountCircle className="chaticon2" />
+                              <b> Signup/Login</b>
+                            </Nav>
+                          </Link>
+                        ) : null}
+                        <Link className="nav-links" to="/newpost">
+                          {" "}
+                          <Nav className="chaticon">
+                            <MdAddCircle size="1.4rem" className="chaticon2" />
+                            <b>Get Service</b>
                           </Nav>
                         </Link>
-                        <Link className="nav-links" to="/chat">
-                          <Nav className="chaticon" id="mychats">
-                            <MdChatBubble className="chaticon2" />
-                            <b>Chat</b>
-                          </Nav>
-                        </Link>
-                      </>
-                    ) : null}
-
-                    <Link className="nav-links" to="/contact">
-                      <Nav className="chaticon" id="contact">
-                        <MdEmail size="1.3rem" className="chaticon2" />
-                        <b>Contact</b>
                       </Nav>
-                    </Link>
-                    {isLogged ? (
-                      <div
-                        className="nav-links"
-                        style={{
-                          display: "inline-flex",
-                          color: "black",
-                          marginRight: "0",
-                        }}
-                      >
-                        <span>
-                          {validURL(pic) ? (
-                            <img
-                              alt="noting"
-                              src={pic}
-                              className="userdp"
-                              style={{
-                                height: "20px",
-                                width: "20px",
-                                borderRadius: "1rem",
-                                marginTop: "10px",
-                                marginLeft: "6px",
-                              }}
-                            />
-                          ) : (
-                            <MdAccountCircle style={{ marginTop: "10px" }} />
-                          )}
-                        </span>
-                        <NavDropdown
-                          title={name}
-                          style={{ marginTop: "3px" }}
-                          variant="dark"
-                          id="collapsible-nav-dropdown"
-                          className="userhere"
-                          active
-                        >
-                          <Link to="/account">
-                            <NavDropdown.Item href="#action/3">
-                              <MdAccountCircle color="gray" size="1.5em" />
-                              <b> Account</b>{" "}
-                            </NavDropdown.Item>
-                          </Link>
-                          <Link to="/mybookings">
-                            <NavDropdown.Item href="#action/3.1">
-                              <MdWork color="gray" size="1.5em" />
-                              <b> My Bookings</b>
-                            </NavDropdown.Item>
-                          </Link>
-                          <Link to="/chat">
-                            <NavDropdown.Item href="#action/3.2">
-                              <MdChatBubble color="gray" size="1.5em" />
-                              <b> Chats</b>
-                            </NavDropdown.Item>
-                          </Link>
-                          <Link to="/account">
-                            <NavDropdown.Item href="#action/3.3">
-                              <MdSettings color="gray" size="1.5em" />
-                              <b> Settings</b>
-                            </NavDropdown.Item>
-                          </Link>
-                          <Link to="/newpost">
-                            <NavDropdown.Item href="#action/3.4">
-                              <MdAddCircle color="gray" size="1.5em" />
-                              <b> Get Service</b>
-                            </NavDropdown.Item>
-                          </Link>
-
-                          <NavDropdown.Divider />
-                          <NavDropdown.Item onClick={userlogout}>
-                            <BiLogOutCircle
-                              className="chaticon2"
-                              color="gray"
-                              size="1.3em"
-                            />{" "}
-                            Logout
-                          </NavDropdown.Item>
-                        </NavDropdown>
-                      </div>
-                    ) : null}
-                    {isLogged === false ? (
-                      <Link className="nav-links" to="/signup">
-                        <Nav className="chaticon" id="signup">
-                          <MdAccountCircle className="chaticon2" />
-                          <b> Signup/Login</b>
-                        </Nav>
-                      </Link>
-                    ) : null}
-                    <Link className="nav-links" to="/newpost">
-                      {" "}
-                      <Nav className="chaticon">
-                        <MdAddCircle size="1.4rem" className="chaticon2" />
-                        <b>Get Service</b>
-                      </Nav>
-                    </Link>
-                  </Nav>
-                </Navbar.Collapse>
-              </IconContext.Provider>
-            </Navbar>
-          </Container>
-          {props.loader === true ? (
-            <div className="linear-progress">
-              <LinearProgress />
+                    </Navbar.Collapse>
+                  </IconContext.Provider>
+                </Navbar>
+              </Container>
+              {props.loader === true ? (
+                <div className="linear-progress">
+                  <LinearProgress />
+                </div>
+              ) : null}
             </div>
-          ) : null}
+            {!props.disableBottomBar ? (
+              <div className="bottom-navigation">
+                <LabelBottomNavigation history={history} />
+              </div>
+            ) : null}
+          </header>
         </div>
-        {!props.disableBottomBar ? (
-          <div className="bottom-navigation">
-            <LabelBottomNavigation history={history} />
-          </div>
-        ) : null}
-      </header>
-    </div>
+      )}
+    </Observer>
   );
 }
 const mapStateToProps = (state) => {

@@ -5,11 +5,18 @@ import {
 } from "../../../api_services/api_calls/api_calls";
 
 export async function loginUser(uId) {
-  let obj = {
+  console.log("loginUser");
+  const obj = {
     lastLogin: new Date().valueOf(),
+    uId: uId.toString(),
+    isActive: "true",
   };
-  let path = constants.api.USER_DETAILS + `/${uId}`;
-  let response = await apiPostPut(obj, path, "PUT");
+  const resp = await apiPostPut(obj, constants.api.userLogin, "POST");
+  console.log("response userdetails", resp);
+  if (resp == null) return false;
+  const path = constants.api.USER_DETAILS + `/${uId}`;
+  const response = await apiGetMethod(path);
+  console.log("response userdetails", response);
   if (response === null) return false;
   return response;
 }
