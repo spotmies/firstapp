@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import GoogleMapReact from "google-map-react";
 import { apiPostPut } from "../../../api_services/api_calls/api_calls";
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
 import { Form } from "react-bootstrap";
 import { Button } from "semantic-ui-react";
-import LeafletMap from "../leaflet/leaflet";
 //feedback form
 import FeedbackForm from "../../reusable/feedback_form";
 import constants from "../../../helpers/constants";
+import ShowMap from "../leaflet/showMap";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class SimpleMap extends Component {
   constructor(props) {
@@ -31,6 +28,10 @@ class SimpleMap extends Component {
       open: false,
       sbtn: false,
       wWidth: window.innerWidth,
+      companyPostion: {
+        lat: 17.744231,
+        lng: 83.312809,
+      },
     };
     this.handlec = this.handlec.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -50,13 +51,6 @@ class SimpleMap extends Component {
     window.addEventListener("resize", this.handleResize);
   }
 
-  static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33,
-    },
-    zoom: 11,
-  };
 
   handlec(e) {
     let nameId = e.target.name;
@@ -126,15 +120,8 @@ class SimpleMap extends Component {
           marginTop: "50px",
         }}
       >
-        {/* <GoogleMapReact
-          // bootstrapURLKeys={{ key: "AIzaSyDUAqHmXwTZU1caOWJ-LC-dBl3R7uzOkPo" }}
-          bootstrapURLKeys={{ key: "AIzaSyAJuo4r4xk6TkcDOCMk16G_AIIBBbOPV88" }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
-        >
-          <AnyReactComponent lat={17.686815} lng={83.218483} text="SPOTMIES" />
-        </GoogleMapReact> */}
-        <LeafletMap latitude={17.745273} logitude={83.249968} />
+
+        <ShowMap position={this.state.companyPostion} mapHeight={50}/>
         <div
           style={{
             marginTop: "30px",
@@ -146,10 +133,10 @@ class SimpleMap extends Component {
           <hr></hr>
           <h3>Email:</h3>
           <p>info@spotmies.com</p>
-          <p>modernsilpi@gmail.com</p>
+          <p>spotmies@gmail.com</p>
           <h3>Mobile no:</h3>
-          <p>9502831877</p>
           <p>8019933883</p>
+          <p>9502831877</p>
           <h3>Address:</h3>
           <p>
             D.No: 50-95-5/1,<br></br> A.P.S.E.B colony, saibaba temple road,
