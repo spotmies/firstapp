@@ -281,7 +281,7 @@ class Profile extends Component {
                       required
                       defaultValue={this.state.profile.name}
                       ref={this.state.nameController}
-                      required
+                    
                     />
                   </InputGroup>
                 </Form.Group>

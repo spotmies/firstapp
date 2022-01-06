@@ -7,11 +7,8 @@ import { toast } from "react-toastify";
 import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
-import animationData from "../../../images/spotmies_logo.json";
-// import SmLogo from "../../../images/logo.svg";
+import { useObserver } from "mobx-react";
 import SmLogo from "../../../images/spotmies_logo2.png";
-
-// import SmLogo from "../../../images/sm3dlogo.svg";
 
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
@@ -40,10 +37,7 @@ import LabelBottomNavigation from "./bottom_navigation";
 import { useStores } from "../../stateManagement/index";
 
 function Navibar(props) {
-  const [name, setName] = useState("user name");
-  const [pic, setpic] = useState(undefined);
-  const [isLogged, setisLogged] = useState(false);
-  const { services } = useStores();
+  const { services, commonStore } = useStores();
 
   const history = useHistory();
   useEffect(() => {
@@ -63,6 +57,18 @@ function Navibar(props) {
       if (user) {
         console.log("hitting all apis");
         let userId = firebase.auth().currentUser.uid;
+        console.log("getting user details");
+        var newLoginResponse = await loginUser(userId);
+        console.log("login response", newLoginResponse);
+        if (!newLoginResponse) {
+          // userlogout();
+          return;
+        }
+
+        commonStore.setUserDetails(newLoginResponse);
+        commonStore.setUserLogin(true);
+        props.updateUser(newLoginResponse);
+
         let userResponses = await getResponses(userId);
         console.log(userResponses);
         let userChats = await getConversasions(userId);
@@ -79,45 +85,35 @@ function Navibar(props) {
   const checkUser = () => {
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
+        console.log("USER_EXISTS");
         socket.emit(
           "join-room",
           firebase.auth().currentUser.uid,
           function (confirmation) {
-            console.log(confirmation, "<<<< JOINED ON SOCKET ROOM >>>>");
+            console.log(confirmation);
+            console.log("<<<< JOINED ON SOCKET ROOM >>>>");
           }
         );
-        console.log("<<<< JOINED ON SOCKET ROOM >>>>");
-
-        if (Object.keys(props.userDetails).length === 0) {
-          let localUserDetails = loadState("userDetails");
-          if (localUserDetails !== null) props.updateUser(localUserDetails);
-
-          let newLoginResponse = await loginUser(
-            firebase.auth().currentUser.uid
-          );
-          if (newLoginResponse !== false) props.updateUser(newLoginResponse);
-
-          let localOrders = loadState("orders");
-          if (localOrders !== null) props.updateAllOrders(localOrders);
-          else {
-            let apiOrders = await getUserOrders(
-              firebase.auth().currentUser.uid
-            );
-
-            props.updateAllOrders(apiOrders);
-          }
+        const localUserDetails = loadState("userDetails");
+        if (localUserDetails !== null) {
+          props.updateUser(localUserDetails);
+          commonStore.setUserDetails(localUserDetails);
+          commonStore.setUserLogin(true);
         }
+        let localOrders = loadState("orders");
+        if (localOrders !== null) props.updateAllOrders(localOrders);
+        else {
+          let apiOrders = await getUserOrders(firebase.auth().currentUser.uid);
 
-        setName(props.userDetails.name);
-        setpic(props.userDetails.pic);
-        setisLogged(true);
+          props.updateAllOrders(apiOrders);
+        }
       } else {
-        setisLogged(false);
+        commonStore.setUserLogin(false);
       }
     });
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     console.log("STARTED .. >>>>>>>>");
     checkUser();
 
@@ -181,12 +177,13 @@ function Navibar(props) {
         localStorage.removeItem("userDetails");
         localStorage.removeItem("orders");
         history.push("/");
+        commonStore.setUserLogin(false);
         setTimeout(() => {}, 1000);
         window.location.reload();
       });
   }
 
-  return (
+  return useObserver(() => (
     <div style={{ paddingBottom: "80px" }}>
       <header style={{ zIndex: "9999" }} className="navi-bar">
         <div style={{ width: "100%" }}>
@@ -196,13 +193,6 @@ function Navibar(props) {
                 value={{ size: "1.5em", className: "nav-icons" }}
               >
                 <Link to="/">
-                  {/* <Navbar.Brand className="title">
-                  <img src={SmLogo} />
-                  <div>
-                    <h2 className="navbar-title">SPOTMIES</h2>
-                    <p>Experience the Excellence</p>
-                  </div>
-                </Navbar.Brand> */}
                   <div className="logo-banner">
                     <img src={SmLogo} className="navbar-logo" />
                     <div className="nav-tag-title">
@@ -227,23 +217,10 @@ function Navibar(props) {
                         <b>Careers</b>
                       </Nav>
                     </Link>
-                    {isLogged ? (
+                    {commonStore.isUserLogin ? (
                       <>
-                        {/* <Link className="nav-links" to="/rentals">
-                        <Nav className="chaticon" id="mybooks">
-                          <FaCarAlt className="chaticon2" />
-                          <b>Rentals</b>
-                        </Nav>
-                      </Link> */}
-
                         <Link className="nav-links" to="/mybookings">
-                          <Nav
-                            className="chaticon"
-                            id="mybooks"
-                            style={{
-                              display: name === "undefined" ? "none" : "block",
-                            }}
-                          >
+                          <Nav className="chaticon" id="mybooks">
                             <MdWork className="chaticon2" />
                             <b>My Bookings</b>
                           </Nav>
@@ -263,7 +240,7 @@ function Navibar(props) {
                         <b>Contact</b>
                       </Nav>
                     </Link>
-                    {isLogged ? (
+                    {commonStore.isUserLogin ? (
                       <div
                         className="nav-links"
                         style={{
@@ -273,10 +250,10 @@ function Navibar(props) {
                         }}
                       >
                         <span>
-                          {validURL(pic) ? (
+                          {validURL(commonStore.userDetails.pic) ? (
                             <img
                               alt="noting"
-                              src={pic}
+                              src={commonStore.userDetails.pic}
                               className="userdp"
                               style={{
                                 height: "20px",
@@ -291,7 +268,7 @@ function Navibar(props) {
                           )}
                         </span>
                         <NavDropdown
-                          title={name}
+                          title={commonStore.userDetails.name}
                           style={{ marginTop: "3px" }}
                           variant="dark"
                           id="collapsible-nav-dropdown"
@@ -341,7 +318,7 @@ function Navibar(props) {
                         </NavDropdown>
                       </div>
                     ) : null}
-                    {isLogged === false ? (
+                    {commonStore.isUserLogin === false ? (
                       <Link className="nav-links" to="/signup">
                         <Nav className="chaticon" id="signup">
                           <MdAccountCircle className="chaticon2" />
@@ -374,7 +351,7 @@ function Navibar(props) {
         ) : null}
       </header>
     </div>
-  );
+  ));
 }
 const mapStateToProps = (state) => {
   return {
