@@ -49,6 +49,30 @@
     z-index: 1 !important;
 }
 
+.Li-hover {
+    display: none;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    left: 50px;
+    margin: 0 !important;
+    border-radius: 10px;
+    z-index: 99 !important;
+    text-align: center;
+    padding: 0 auto;
+    background: rgba(238, 238, 238, 0.678);
+    transition: all 2s ease-in-out;
+    cursor: pointer;
+}
+
+.li-icon {
+    margin-top: 70px;
+    color: rgb(4, 77, 173);
+    height: 50px;
+    width: 50px;
+
+}
+
 .desig1 {
    position: relative;
    width: 200px;
@@ -56,6 +80,11 @@
    padding: 0;
    /* z-index: 9 !important; */
    /* height: fit-content; */
+}
+
+.desig1:hover .Li-hover {
+    display: block;
+    transition: background 2s ease-in-out;
 }
 
 .desig {
