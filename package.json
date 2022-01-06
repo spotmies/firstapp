@@ -19,7 +19,6 @@
     "date-fns": "^2.22.1",
     "firebase": "^8.2.6",
     "firebase-tools": "^9.22.0",
-    "google-map-react": "^2.1.9",
     "leaflet": "^1.7.1",
     "leaflet-control-geocoder": "^2.3.0",
     "leaflet-defaulticon-compatibility": "^0.1.1",

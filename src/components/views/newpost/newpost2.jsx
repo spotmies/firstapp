@@ -320,7 +320,9 @@ class Postform extends Component {
       money: state.money,
       schedule: new Date(state.schedule).valueOf(),
       job: this.props.job,
-      loc: [this.props.prop.reqGeocodes.lat, this.props.prop.reqGeocodes.lng],
+      loc:{
+        coordinates: [this.props.prop.reqGeocodes.lat, this.props.prop.reqGeocodes.lng],
+      },
       address: JSON.stringify(this.props.prop.reqAddress),
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",

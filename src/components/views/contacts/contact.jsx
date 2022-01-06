@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-import GoogleMapReact from "google-map-react";
-import { apiPostPut } from "../../../mservices/contactUs";
+import { apiPostPut } from "../../../api_services/api_calls/api_calls";
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
 import { Form } from "react-bootstrap";
 import { Button } from "semantic-ui-react";
-import LeafletMap from "../leaflet/leaflet";
 //feedback form
 import FeedbackForm from "../../reusable/feedback_form";
+import constants from "../../../helpers/constants";
+import ShowMap from "../leaflet/showMap";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class SimpleMap extends Component {
   constructor(props) {
@@ -20,14 +18,20 @@ class SimpleMap extends Component {
       details: {
         email: null,
         name: null,
-        phone: null,
-        sub: null,
-        message: null,
-        date: Math.round(+new Date() / 1000),
+        mobile: null,
+        subject: null,
+        body: null,
+        createdAt: new Date().valueOf(),
+        suggestionFor: "contactUs",
+        suggestionFrom: "userWeb",
       },
       open: false,
       sbtn: false,
       wWidth: window.innerWidth,
+      companyPostion: {
+        lat: 17.744231,
+        lng: 83.312809,
+      },
     };
     this.handlec = this.handlec.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -47,13 +51,6 @@ class SimpleMap extends Component {
     window.addEventListener("resize", this.handleResize);
   }
 
-  static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33,
-    },
-    zoom: 11,
-  };
 
   handlec(e) {
     let nameId = e.target.name;
@@ -72,12 +69,17 @@ class SimpleMap extends Component {
       sbtn: true,
     });
     e.preventDefault();
+
     let temp = {};
     temp["body"] = JSON.stringify(this.state.details);
-    let result = await apiPostPut(temp, "contactUs");
-    if (result.status === 200) {
+    let result = await apiPostPut(
+      this.state.details,
+      constants.api.new_suggestion,
+      "POST"
+    );
+    if (result != null) {
       this.clearfield();
-      toast.info("Thank you we will contact you soon...");
+      toast.success("Thank you we will contact you soon...");
     } else {
       toast.info("please try again");
       this.setState({
@@ -91,10 +93,12 @@ class SimpleMap extends Component {
     tempd = {
       email: "",
       name: "",
-      phone: "",
-      sub: "",
-      message: "",
-      date: new Date(),
+      mobile: "",
+      subject: "",
+      body: "",
+      createdAt: new Date().valueOf(),
+      suggestionFor: "contactUs",
+      suggestionFrom: "userWeb",
     };
     this.setState({
       details: tempd,
@@ -116,15 +120,8 @@ class SimpleMap extends Component {
           marginTop: "50px",
         }}
       >
-        {/* <GoogleMapReact
-          // bootstrapURLKeys={{ key: "AIzaSyDUAqHmXwTZU1caOWJ-LC-dBl3R7uzOkPo" }}
-          bootstrapURLKeys={{ key: "AIzaSyAJuo4r4xk6TkcDOCMk16G_AIIBBbOPV88" }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
-        >
-          <AnyReactComponent lat={17.686815} lng={83.218483} text="SPOTMIES" />
-        </GoogleMapReact> */}
-        <LeafletMap latitude={17.745273} logitude={83.249968} />
+
+        <ShowMap position={this.state.companyPostion} mapHeight={50}/>
         <div
           style={{
             marginTop: "30px",
@@ -136,10 +133,10 @@ class SimpleMap extends Component {
           <hr></hr>
           <h3>Email:</h3>
           <p>info@spotmies.com</p>
-          <p>modernsilpi@gmail.com</p>
+          <p>spotmies@gmail.com</p>
           <h3>Mobile no:</h3>
-          <p>9502831877</p>
           <p>8019933883</p>
+          <p>9502831877</p>
           <h3>Address:</h3>
           <p>
             D.No: 50-95-5/1,<br></br> A.P.S.E.B colony, saibaba temple road,
@@ -170,7 +167,7 @@ class SimpleMap extends Component {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="pallavi mella"
+                placeholder="Your name"
                 name="name"
                 value={det.name}
                 onChange={this.handlec}
@@ -181,10 +178,18 @@ class SimpleMap extends Component {
               <Form.Label>Mobile no:</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="9999999999"
-                name="phone"
-                value={det.phone}
-                onChange={this.handlec}
+                placeholder="9876543620"
+                name="mobile"
+                value={det.mobile}
+                onChange={(e) => {
+                  const re = /^[0-9\b]+$/;
+
+                  if (e.target.value === "" || re.test(e.target.value)) {
+                    return this.handlec(e);
+                  }
+                }}
+                // maxLength={10}
+                // minLength={10}
                 required
               />
             </Form.Group>
@@ -195,9 +200,10 @@ class SimpleMap extends Component {
                 as="textarea"
                 placeholder="ex:- want to approach spotmies"
                 rows={1}
-                name="sub"
-                value={det.sub}
+                name="subject"
+                value={det.subject}
                 onChange={this.handlec}
+                required
               />
             </Form.Group>
             <Form.Group controlId="exampleForm.ControlTextarea1">
@@ -206,8 +212,8 @@ class SimpleMap extends Component {
                 as="textarea"
                 rows={3}
                 placeholder="put what you want to message"
-                name="message"
-                value={det.message}
+                name="body"
+                value={det.body}
                 onChange={this.handlec}
                 required
               />
