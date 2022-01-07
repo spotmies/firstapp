@@ -124,7 +124,7 @@ function Mybookings(props) {
           lat: order?.loc?.coordinates[0],
           long: order?.loc?.coordinates[1],
         });
-        tempOrders[key].addressLine = addressObject.display_name;
+        tempOrders[key].addressLine = addressObject?.display_name;
       }
       if (key == tempOrders.length - 1) {
         //   console.log("setting..");
