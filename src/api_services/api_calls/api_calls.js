@@ -44,7 +44,7 @@ export async function apiDelMethod(path) {
   );
   console.log(response);
   //   return response;
-  if (response.status === 204) {
+  if (response.status === 204 || response.status === 200) {
     return true;
   } else return false;
 }
@@ -55,7 +55,7 @@ export async function apiPostPut(body, path, method) {
       ? constants.localHostUrl
       : constants.baseUrl) + path;
   const response = await fetch(uri, await addHeader(body, method));
-  if(response.status === 204)return true;
+  if (response.status === 204) return true;
   if (response.status === 200) {
     const data = await response.json();
     return data;
