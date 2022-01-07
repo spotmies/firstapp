@@ -28,7 +28,8 @@
 
 .date-picker {
   width: 100%;
-  padding: 15px 0 15px 40%;
+  /* padding: 15px 0 15px 40%; */
+  justify-content: center;
   display: inline-flex;
 }
 
@@ -36,10 +37,47 @@
   width: 300px !important;
 }
 
-.head-cancel-btn {
-  background: rgb(255, 255, 255) !important;
-  border: 1px solid rgb(130, 130, 130) !important;
-  color: rgb(150, 150, 150) !important;
+.head-cancel-btn, .head-buttons {
+  display: inline-flex;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(130, 130, 130);
+  border-radius: 10px;
+  cursor: pointer;
+  color: rgb(150, 150, 150);
+  /* width: auto !important; */
+  height: 40px;
+  padding: 10px;
+}
+
+.head-buttons {
+  background: rgb(21, 88, 232);
+  color: white;
+  /* width: 600px !important; */
+}
+
+.head-buttons:hover {
+  background: rgba(40, 100, 230, 0.925);
+  transition: all 0.5s ease-in-out;
+  animation: ease-in-out 0.5s;
+}
+
+.btn-div {
+  display: inline-flex;
+  width: 100% !important;
+}
+
+.ok-btn, .close-btn {
+  background: #03ac13;
+  border-radius: 5px;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
+  /* padding-top: 5px; */
+}
+
+.close-btn {
+  background: #de1738;
 }
 
 .service-btn {
@@ -50,10 +88,12 @@
   margin: 27px 0 0 100px !important;
 }
 
-/* .buttons-icons {
-    font-weight: 700 !important;
-    font-size: 40px !important;
-} */
+.button-icons {
+    /* font-weight: 700 !important;
+    font-size: 40px !important; */
+    margin-top: 3px;
+    margin-right: 3px;
+}
 
 /* .head-icons1 {
 } */
@@ -202,4 +242,45 @@
   background: grey !important;
   bottom: 35px;
   margin-left: 11px;
+}
+
+
+@media screen and (max-width:700px) {
+  .body-cards {
+    display: block;
+  }
+
+  .head-details h2 {
+    font-size: 20px;
+  }
+
+  .left-card, .right-card {
+    width: 95%;
+  }
+
+  .right-card {
+    margin-bottom: 200px;
+  }
+
+  .head-details {
+    padding-left: 10px;
+  }
+
+  .head-icons1 {
+    margin-left: 0;
+  }
+
+  .head-icons {
+    margin-left: 10px;
+  }
+
+  .btn-div {
+    display: inline-flex;
+    width: 100%;
+  }
+ 
+  .date-picker {
+    padding-left: 10px;
+    justify-content: center;
+  }
 }

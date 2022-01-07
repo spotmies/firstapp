@@ -9,6 +9,8 @@ import {
   MdSchedule,
   MdLocationOn,
   MdCheckCircle,
+  MdCheck,
+  MdClose,
   MdOutlineDescription,
   MdStarRate,
 } from "react-icons/md";
@@ -110,7 +112,7 @@ function NewBook(props) {
     console.log(date);
   };
   const reviewSubmit = (rating, comment) => {
-    services.submitReview(rating, comment, postdata,props.updateOrder);
+    services.submitReview(rating, comment, postdata, props.updateOrder);
   };
 
   const serviceStatus = (status) => {
@@ -246,21 +248,21 @@ function NewBook(props) {
           {postdata.orderState != 3 &&
           postdata.orderState != 9 &&
           postdata.orderState != 10 ? (
-            <div>
-              <Button
-                variant="outlined"
+            <div className="btn-div">
+              <p
+                // variant="outlined"
                 className="head-cancel-btn"
                 onClick={() => {
                   services.updateOrder(3, postdata.ordId, props.updateOrder);
                 }}
               >
                 <MdCancel className="button-icons" />
-                &nbsp;&nbsp; Cancel
-              </Button>
-              <Button
+                 Cancel
+              </p>
+              <p
                 className="head-buttons"
-                variant="contained"
-                color="primary"
+                // variant="contained"
+                // color="primary"
                 onClick={() => {
                   if (postdata.orderState == 8) {
                     //  services.updateOrder(7, postdata.ordId,props.updateOrder);
@@ -269,8 +271,8 @@ function NewBook(props) {
                 }}
               >
                 <AiOutlineReload className="button-icons" />
-                &nbsp;&nbsp;Re-Schedule
-              </Button>
+                Re-Schedule
+              </p>
             </div>
           ) : null}
         </div>
@@ -298,18 +300,29 @@ function NewBook(props) {
                 }}
               />
             </MuiPickersUtilsProvider>
-            <p
-              onClick={() => {
-                setShowTime(false);
-                services.updateSchedule(
-                  new Date(schedule).valueOf(),
-                  postdata.ordId,
-                  props.updateOrder
-                );
-              }}
-            >
-              x
-            </p>
+            <div style={{paddingTop:"10px"}}> 
+              <p
+                className="ok-btn"
+                onClick={() => {
+                  setShowTime(false);
+                  services.updateSchedule(
+                    new Date(schedule).valueOf(),
+                    postdata.ordId,
+                    props.updateOrder
+                  );
+                }}
+              >
+                <MdCheck />
+              </p>
+              <p
+                className="close-btn"
+                onClick={() => {
+                  setShowTime(false);
+                }}
+              >
+                <MdClose />
+              </p>
+            </div>
           </div>
         ) : null}
       </div>
