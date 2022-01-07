@@ -48,6 +48,7 @@ module.exports = Object.freeze({
     new_partner_feedback: "/partner-feedback/new-feedback",
     new_suggestion: "/suggestion/new-suggestion",
     userLogin: "/user/login", 
+    feedback_questions: "/suggestion/feedback-question/feedback-questions/",
   },
   servicesList: "/services/all-service-list",
   reviews: "/partner-feedback/feedbacks/partner/",

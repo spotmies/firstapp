@@ -133,6 +133,7 @@ function Navibar(props) {
       console.log("user disconnected>>>");
     });
     hitAllApis();
+    commonStore.getFeedbackQuestionFromDB();
     services.fetchServiceFromDb();
   }, [constants.socketUrl]);
 

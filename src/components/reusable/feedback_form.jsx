@@ -1,107 +1,91 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import React, { useCallback } from "react";
 import "../../assets/css/home.css";
-import { apiPostPut, apiGetMethod } from "../../mservices/contactUs";
 
 import { Modal, Form, Button, Header, TextArea } from "semantic-ui-react";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
-
+import { useStores } from "../stateManagement/index";
 //icons
-import {
-  MdHelp,
-  MdKeyboardArrowLeft,
-  MdSentimentSatisfied,
-  MdThumbDown,
-  MdThumbUp,
-} from "react-icons/md";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 import { loadState } from "../../helpers/localStorage";
+import { apiPostPut } from "../../api_services/api_calls/api_calls";
+import constants from "../../helpers/constants";
 
 function FeedbackForm(props) {
+  const { commonStore } = useStores();
   const [open, setOpen] = useState(false);
   const [count, setcount] = useState(0);
-  const [que, setque] = useState([]);
   const [sbtn, setsbtn] = useState(false);
-  const [fQuestions, setfQuestions] = useState([]);
+  const [answers, setanswers] = useState([]);
+  let feedbackBody = useRef();
 
   useEffect(async () => {
-    if (fQuestions.length < 1) {
-      if (props.feedBackQuestions.length < 1) {
-        console.log("feedback questions from api");
-        let res = await apiGetMethod("/feed", "/feedBack");
-        console.log(res);
-        setfQuestions(res.questions);
-        props.updateFeedBackQuestions(res.questions);
-      } else {
-        console.log("load question from local");
-        setfQuestions(props.feedBackQuestions);
-      }
-    }
-
+    console.log(
+      "feedback questions",
+      commonStore.feedbackQuestions?.questions?.length
+    );
     setOpen(props.open);
     setcount(0);
-    setque([]);
   }, [props.open]);
 
   useEffect(() => {
     if (count === 10) {
       setTimeout(() => {
         onClose();
-      }, 1000);
+        setcount(0);
+      }, 2000);
     }
   }, [count]);
 
   const onClose = useCallback(() => {
-    console.log(fQuestions);
     props.close();
   });
 
   const nextQue = (ans, index) => {
     setcount(index + 1);
-    let tempque = que;
-    tempque[index] = ans;
-    setque(tempque);
+    let temp = answers;
+    temp[index] = ans;
+    setanswers(temp);
+    console.log(answers);
   };
 
   const prevQue = () => {
     if (count !== 0) setcount(count - 1);
   };
 
-  const textArea = (e, index) => {
-    // console.log(e);
-    let ans = e.target.value;
-    let tempque = que;
-    tempque[index] = ans;
-    setque(tempque);
-  };
-
   const formSubmit = async () => {
-    setsbtn(true);
-    console.log(que);
-    var obj = {
-      q0: que[0] ?? "",
-      q1: que[1] ?? "",
-      q2: que[2] ?? "",
-      q3: que[3] ?? "",
-      q4: que[4] ?? "",
-      submitedAt: new Date().valueOf(),
+    console.log(feedbackBody);
+    console.log(feedbackBody?.current?.ref?.current?.value);
+    let body = {
+      suggestionFor: "feedback",
+      subject: "feedback",
+      suggestionFrom: "userWeb",
+      feedbackQuestionsId: commonStore.feedbackQuestions?._id,
+      isFeedbackQuestionsAttempted: true,
+      body: feedbackBody?.current?.ref?.current?.value,
+      attemptedQuestions: [],
+      answers: [],
     };
-    console.log(obj);
-    console.log(JSON.stringify(obj));
-    let strobj = {};
-    strobj["body"] = JSON.stringify(obj);
-    let result = await apiPostPut(strobj, "feedBack");
-    if (result.status === 200) {
+    answers.forEach((ans, index) => {
+      body["attemptedQuestions"].push(index);
+      body["answers"].push(ans);
+    });
+    console.log(body);
+    setsbtn(true);
+
+    let result = await apiPostPut(body, constants.api.new_suggestion, "POST");
+    if (result != null) {
       setsbtn(false);
       localStorage.setItem("isFeedBackGiven", true);
       toast.info("Thanks For Your Feedback");
       setcount(10);
+      setanswers([]);
     } else {
       setsbtn(false);
 
       localStorage.setItem("isFeedBackGiven", false);
       toast.error("Something went wrong please try again");
-      // onClose();
     }
   };
 
@@ -112,7 +96,6 @@ function FeedbackForm(props) {
       onOpen={() => setOpen(true)}
       open={open}
       size="tiny"
-      // trigger={<Button>Show Modal</Button>}
     >
       <Modal.Header>Feedback Here</Modal.Header>
       <Modal.Content className="modalContent">
@@ -125,9 +108,55 @@ function FeedbackForm(props) {
           <p className="modalBack"></p>
         )}
         <Modal.Description>
+          {count === 10 ? (
+            <div>
+              <Header>Thanks For Your Feedback</Header>
+            </div>
+          ) : null}
+          {commonStore.feedbackQuestions?.questions?.map((que, index) => {
+            return (
+              <>
+                {que.isActive ? (
+                  <div
+                    className="modalDiv"
+                    style={{ display: count == index ? "block" : "none" }}
+                    key={index}
+                  >
+                    <Header>{que.question}</Header>
+
+                    <div className="feedBbtn2">
+                      {que.options.map((option, key) => (
+                        <Button
+                          basic
+                          color={answers[index] === key ? "blue" : "grey"}
+                          key={key}
+                          onClick={() => {
+                            nextQue(key, index);
+                          }}
+                        >
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                    {que.questionType == "text_area" ? (
+                      <div>
+                        <Form>
+                          <TextArea
+                            ref={feedbackBody}
+                            placeholder="Tell us more"
+                          />
+                        </Form>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : null}
+              </>
+            );
+          })}
+        </Modal.Description>
+        {/* <Modal.Description>
           {count === 0 ? (
             <div className="modalDiv">
-              {/* <Header>Do You Understand What Does This Website Means</Header> */}
               <Header>{fQuestions[0]}</Header>
 
               <div className="feedBbtn2">
@@ -166,7 +195,6 @@ function FeedbackForm(props) {
 
           {count === 1 ? (
             <div className="modalDiv">
-              {/* <Header>How much often Do you think you will use this app?</Header> */}
               <Header>{fQuestions[1]}</Header>
 
               <div>
@@ -215,7 +243,6 @@ function FeedbackForm(props) {
 
           {count === 2 ? (
             <div className="modalDiv">
-              {/* <Header>Did you face any issue while browsing this site?</Header> */}
               <Header>{fQuestions[2]}</Header>
 
               <div>
@@ -248,22 +275,13 @@ function FeedbackForm(props) {
                 >
                   <MdSentimentSatisfied /> Sometimes
                 </Button>
-                {/* <Button
-                  basic
-                  color={que[2] === "i don't know" ? "blue" : "grey"}
-                  onClick={() => {
-                    nextQue("i don't know", 2);
-                  }}
-                >
-                  <MdHelp /> I Don't Know
-                </Button> */}
+             
               </div>
             </div>
           ) : null}
 
           {count === 3 ? (
             <div className="modalDiv">
-              {/* <Header>Expecting any other service from us? (If yes, please mention it in message below).</Header> */}
               <Header>{fQuestions[3]}</Header>
 
               <div>
@@ -292,10 +310,7 @@ function FeedbackForm(props) {
 
           {count === 4 ? (
             <div className="modalDiv">
-              {/* <Header>
-                If you want to tell us something please let us know here. We love to
-                improve our Service.
-              </Header> */}
+      
               <Header>{fQuestions[4]}</Header>
 
               <div>
@@ -312,12 +327,8 @@ function FeedbackForm(props) {
             </div>
           ) : null}
 
-          {count === 10 ? (
-            <div>
-              <Header>Thanks For Your Feedback</Header>
-            </div>
-          ) : null}
-        </Modal.Description>
+         
+        </Modal.Description> */}
       </Modal.Content>
       <Modal.Actions className="modalAction">
         <Button color="black" onClick={onClose}>
