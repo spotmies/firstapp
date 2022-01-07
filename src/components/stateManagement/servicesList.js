@@ -28,11 +28,13 @@ class ServiceList {
       this.mainServicesList = res.filter((item) => item.isMainService === true);
       this.mainServicesList.forEach((item, key) => {
         this.mainServicesList[key].label = item.nameOfService;
+        this.mainServicesList[key].value = item.serviceId;
       });
-      // this.mainServicesList = this.mainServicesList.sort();
-      this.mainServicesList.sort(function (a,b) {
+      this.mainServicesList.push({ label: "Other", serviceId: 100,nameOfService:"z",value:100 });
+     
+      this.mainServicesList.sort(function (a, b) {
         return a.nameOfService.localeCompare(b.nameOfService);
-      })
+      });
 
       console.log(res);
       console.log(this.serviceList);

@@ -21,24 +21,6 @@ import { useStores } from "../../stateManagement/index";
 import { loadState } from "../../../helpers/localStorage";
 import { apiPostPut } from "../../../api_services/api_calls/api_calls";
 import constants from "../../../helpers/constants";
-const options2 = [
-  { label: "Ac/Refrigirator services", value: "ac repairs" },
-  { label: "Pc/Laptop services", value: "pc/laptop" },
-  { label: "Tv repairs", value: "tv" },
-  { label: "Electrician", value: "electrician" },
-  { label: "Interior design", value: "interior" },
-  { label: "Design", value: "design" },
-  { label: "Development", value: "development" },
-  { label: "Events", value: "events" },
-  { label: "Beauty", value: "beauty" },
-  { label: "Tutor", value: "tutor" },
-  { label: "Photography", value: "photography" },
-  { label: "Driver", value: "driver" },
-  { label: "Carpenter", value: "carpenter" },
-  { label: "Plumber", value: "plumber" },
-  { label: "CC tv installation", value: "cc tv installation" },
-  { label: "Catering", value: "catering" },
-];
 
 function useWindowSize() {
   const [swidth, setSWidth] = useState([window.innerHeight, window.innerWidth]);
@@ -56,10 +38,12 @@ function useWindowSize() {
 
 function PartnerRegistration(props) {
   const [pcate, spcate] = useState(null);
-  const [pname, spname] = useState(null);
-  const [pnum, spnum] = useState(null);
   const [sbtn, setsbtn] = useState(false);
+  const name = useRef(null);
+  const mobile = useRef(null);
   const lockText = useRef(null);
+  const otherProfession = useRef(null);
+  const [showOtherProfession, setShowOtherProfession] = useState(false);
   const { services } = useStores();
 
   const redirect = () => {
@@ -69,39 +53,33 @@ function PartnerRegistration(props) {
   const handleChange2 = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
     spcate(selectedOption);
+    if (selectedOption.serviceId == 100) {
+      setShowOtherProfession(true);
+    }
+    else {
+      setShowOtherProfession(false);
+    }
   };
 
   const handleChange = (e) => {
     const re = /^[0-9\b]+$/;
-    //console.log("change")
-    const name =
-      e.target.name === undefined ? e.target.parentElement.id : e.target.name;
-    const value = e.target.value;
-
-    switch (name) {
-      case "pname":
-        spname(value);
-        break;
-      case "pnum":
-        if (e.target.value === "" || re.test(e.target.value)) {
-          spnum(value);
-        }
-        break;
-
-      default:
-        //console.log("pcate",e.target.innerText)
-        spcate(e.target.innerText);
-        console.log(e.target.innerText);
-        break;
+    if (e.target.value === "" || re.test(e.target.value)) {
+      
+    } else {
+     e.target.value = e.target.value.slice(0, -1);
     }
+
   };
 
   const formsubmit = async () => {
-    // let details = null;
+    console.log(otherProfession);
+    let pnum = mobile.current.value;
+    let pname = name.current.value;
     if (pnum.length === 10 && pcate !== null) {
       setsbtn(true);
-      let pcatee = pcate.serviceId;
-      // details = { pname, pnum, pcatee, date: new Date().valueOf() };
+      let pcatee = showOtherProfession
+        ? otherProfession?.current?.value
+        : pcate.serviceId;
       let body = {
         subject: "Partner Request",
         suggestionFor: "partnerRegistration",
@@ -120,8 +98,8 @@ function PartnerRegistration(props) {
   };
   const clearfield = () => {
     spcate(null);
-    spnum(null);
-    spname(null);
+    // mobile.current.value = "",
+    // name.current.value = "",
     setsbtn(false);
     document.getElementById("pname").value = "";
     document.getElementById("pnum").value = "";
@@ -259,7 +237,7 @@ function PartnerRegistration(props) {
           <h2 style={{ fontSize: "34px" }}>Let us know you are Interested.</h2>
           <Form
             style={{
-              height: "300px",
+             paddingBottom: "20px",
               width: "80%",
               margin: "0 auto",
               textAlign: "left",
@@ -275,16 +253,28 @@ function PartnerRegistration(props) {
                 value={pcate}
                 onChange={handleChange2}
                 options={services.mainServicesList}
+                style ={{zIndex: "1"}}
               />
             </Form.Field>
+            {showOtherProfession ? (
+              <Form.Field>
+                <label>Enter Your profession</label>
+                <input
+                  placeholder="Profession name"             
+                  ref={otherProfession}
+                  maxLength="40"
+                  required
+                />
+              </Form.Field>
+            ) : null}
             <Form.Field>
               <label>First Name</label>
               <input
                 placeholder="First Name"
                 id="pname"
                 name="pname"
-                value={pname}
-                onChange={handleChange}
+                ref={name}
+                
                 maxLength="25"
                 required
               />
@@ -292,7 +282,7 @@ function PartnerRegistration(props) {
             <Form.Field>
               <label>Mobile Number</label>
               <input
-                value={pnum}
+               ref={mobile}
                 onClick={handleChange}
                 name="pnum"
                 id="pnum"
@@ -487,25 +477,16 @@ function PartnerRegistration(props) {
           <h2 style={{ fontSize: "54px" }}>Let us know you are Interested.</h2>
           <Form
             style={{
-              height: "300px",
+              paddingBottom: "20px",
               width: "40%",
               margin: "0 auto",
               textAlign: "left",
             }}
             onSubmit={formsubmit}
           >
-            {/* <Form.Select
-              name="pcate"
-              label="Select Your profession"
-              id="pcate"
-              onClick={handleChange}
-              options={options}
-              placeholder="Type of profession"
-              required
-            /> */}
             <Form.Field>
               <label>
-                <b>Select your Profession here</b>
+                <b>Select your Profession</b>
               </label>
               <Select2
                 placeholder="Select your Profession"
@@ -514,14 +495,28 @@ function PartnerRegistration(props) {
                 options={services.mainServicesList}
               />
             </Form.Field>
+            {showOtherProfession ? (
+              <Form.Field>
+                <label>Enter Your profession</label>
+                <input
+                  placeholder="Profession name"
+                  id="pname"
+                  name="pname"
+               
+                  ref={otherProfession}
+                  maxLength="40"
+                  required
+                />
+              </Form.Field>
+            ) : null}
             <Form.Field>
               <label>First Name</label>
               <input
                 placeholder="First Name"
                 id="pname"
                 name="pname"
-                value={pname}
-                onChange={handleChange}
+               ref={name}
+               
                 maxLength="25"
                 required
               />
@@ -529,11 +524,11 @@ function PartnerRegistration(props) {
             <Form.Field>
               <label>Mobile Number</label>
               <input
-                value={pnum}
-                onClick={handleChange}
+               ref={mobile}
+               
                 name="pnum"
                 id="pnum"
-                onChange={handleChange}
+           onChange={handleChange}
                 placeholder="Mobile Numer"
                 maxLength="10"
                 required
