@@ -63,7 +63,7 @@
 
 .btn-div {
   display: inline-flex;
-  width: 100% !important;
+  width: 25% !important;
 }
 
 .ok-btn, .close-btn {
@@ -234,9 +234,9 @@
   background: rgb(4, 63, 224);
 }
 
-.status-line {
+/* .status-line {
     height: 40px !important;
-}
+} */
 
 .status-line1 {
   background: grey !important;
@@ -276,7 +276,7 @@
 
   .btn-div {
     display: inline-flex;
-    width: 100%;
+    width: 100% !important;
   }
  
   .date-picker {
