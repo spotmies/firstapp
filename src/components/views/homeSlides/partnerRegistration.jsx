@@ -44,7 +44,7 @@ function PartnerRegistration(props) {
   const lockText = useRef(null);
   const otherProfession = useRef(null);
   const [showOtherProfession, setShowOtherProfession] = useState(false);
-  const { services } = useStores();
+  const { services, commonStore } = useStores();
 
   const redirect = () => {
     // window.location.href = 'https://modernsilpi.com';
@@ -55,8 +55,7 @@ function PartnerRegistration(props) {
     spcate(selectedOption);
     if (selectedOption.serviceId == 100) {
       setShowOtherProfession(true);
-    }
-    else {
+    } else {
       setShowOtherProfession(false);
     }
   };
@@ -64,11 +63,9 @@ function PartnerRegistration(props) {
   const handleChange = (e) => {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
-      
     } else {
-     e.target.value = e.target.value.slice(0, -1);
+      e.target.value = e.target.value.slice(0, -1);
     }
-
   };
 
   const formsubmit = async () => {
@@ -131,6 +128,7 @@ function PartnerRegistration(props) {
   const executeScroll = () =>
     ref1.current.scrollIntoView({ behavior: "smooth" });
   useEffect(() => {
+    commonStore.setCurrentConstants("others");
     window.onscroll = (e) => {
       let scrolly = e.target.scrollingElement.scrollHeight;
       let scrolltop = e.target.scrollingElement.scrollTop;
@@ -234,10 +232,10 @@ function PartnerRegistration(props) {
         <FeedbackForm open={open} close={closeModal} />
 
         <div style={{ textAlign: "center", width: "100%" }} ref={ref1}>
-          <h2 style={{ fontSize: "34px" }}>Let us know you are Interested.</h2>
+          <h2 style={{ fontSize: "34px" }}>{commonStore.getText("partner_reg_heading")}</h2>
           <Form
             style={{
-             paddingBottom: "20px",
+              paddingBottom: "20px",
               width: "80%",
               margin: "0 auto",
               textAlign: "left",
@@ -253,14 +251,14 @@ function PartnerRegistration(props) {
                 value={pcate}
                 onChange={handleChange2}
                 options={services.mainServicesList}
-                style ={{zIndex: "1"}}
+                style={{ zIndex: "1" }}
               />
             </Form.Field>
             {showOtherProfession ? (
               <Form.Field>
                 <label>Enter Your profession</label>
                 <input
-                  placeholder="Profession name"             
+                  placeholder="Profession name"
                   ref={otherProfession}
                   maxLength="40"
                   required
@@ -274,7 +272,6 @@ function PartnerRegistration(props) {
                 id="pname"
                 name="pname"
                 ref={name}
-                
                 maxLength="25"
                 required
               />
@@ -282,7 +279,7 @@ function PartnerRegistration(props) {
             <Form.Field>
               <label>Mobile Number</label>
               <input
-               ref={mobile}
+                ref={mobile}
                 onClick={handleChange}
                 name="pnum"
                 id="pnum"
@@ -474,7 +471,7 @@ function PartnerRegistration(props) {
         </div>
         <FeedbackForm open={open} close={closeModal} />
         <div style={{ textAlign: "center" }} ref={ref1}>
-          <h2 style={{ fontSize: "54px" }}>Let us know you are Interested.</h2>
+          <h2 style={{ fontSize: "54px" }}>{commonStore.getText("partner_reg_heading")}</h2>
           <Form
             style={{
               paddingBottom: "20px",
@@ -502,7 +499,6 @@ function PartnerRegistration(props) {
                   placeholder="Profession name"
                   id="pname"
                   name="pname"
-               
                   ref={otherProfession}
                   maxLength="40"
                   required
@@ -515,8 +511,7 @@ function PartnerRegistration(props) {
                 placeholder="First Name"
                 id="pname"
                 name="pname"
-               ref={name}
-               
+                ref={name}
                 maxLength="25"
                 required
               />
@@ -524,11 +519,10 @@ function PartnerRegistration(props) {
             <Form.Field>
               <label>Mobile Number</label>
               <input
-               ref={mobile}
-               
+                ref={mobile}
                 name="pnum"
                 id="pnum"
-           onChange={handleChange}
+                onChange={handleChange}
                 placeholder="Mobile Numer"
                 maxLength="10"
                 required

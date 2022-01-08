@@ -112,8 +112,12 @@ function Navibar(props) {
       }
     });
   };
-
+  useEffect(() => {
+    console.log("setting current locations>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    commonStore.setCurrentConstantsLocation(window.location.pathname);
+  }, [window.location.pathname]);
   useEffect(async () => {
+    commonStore.getCloudConstantsFromDB();
     console.log("STARTED .. >>>>>>>>");
     checkUser();
 

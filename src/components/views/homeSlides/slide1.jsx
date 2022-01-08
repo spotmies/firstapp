@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 import { Button } from "semantic-ui-react";
 import React, { useState, useEffect, useRef } from "react";
+import { Observer } from "mobx-react";
 import { connect } from "react-redux";
+import { useStores } from "../../stateManagement";
 //toast
 import { toast } from "react-toastify";
 import { MdFeedback } from "react-icons/md";
@@ -19,11 +21,11 @@ import "../../../helpers/txtRotate";
 import lock1 from "../../../images/lock1.png";
 import lock2 from "../../../images/lock2.png";
 import lock3 from "../../../images/lock3.png";
-import { feedBack1 } from "../../../mservices/contactUs";
 //import feedback form
 import FeedbackForm from "../../reusable/feedback_form";
 import redirectToAnotherPage from "../../../helpers/redirect";
 import { loadState } from "../../../helpers/localStorage";
+import { CircularProgress } from "@material-ui/core";
 // gsap.registerPlugin(ScrollTrigger);
 // const lockdiv = document.querySelector("#LockDiv");
 // init(lockdiv, {
@@ -53,6 +55,7 @@ function useWindowSize1() {
 }
 
 function Slide(props) {
+  const { commonStore } = useStores();
   const lockText = useRef(null);
   const [open, setOpen] = useState(false);
   const [sheight1, swidths1] = useWindowSize1();
@@ -71,6 +74,7 @@ function Slide(props) {
   };
 
   useEffect(() => {
+    commonStore.setCurrentConstants("home");
     window.onscroll = (e) => {
       var scrolly = e.target.scrollingElement.scrollHeight;
       var scrolltop = e.target.scrollingElement.scrollTop;
@@ -149,321 +153,348 @@ function Slide(props) {
       // );
     };
   }, []);
-
+  if (!commonStore.showUi) {
+    return (
+      <>
+        <CircularProgress />
+      </>
+    );
+  }
   if (swidths1 < 800) {
     return (
-      <div className="slide1">
-        {userText.map((message, key) => (
-          <section className="home-section" id={key}>
-            <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
-              <div
-                className={
-                  (key === 1) | (key === 2) | (key === 3)
-                    ? "resize"
-                    : "home-photos"
-                }
-              >
-                <img src={message.img} />
-              </div>
-            </ScrollAnimation>
-            <Zoom>
-              <div className="home-textBox">
-                <ScrollAnimation
-                  animateIn="headeranimate-in"
-                  animateOut="headeranimate-out"
-                >
-                  <h1 className={key === 1 ? "headTop" : null}>
-                    {message.heading}
-                  </h1>
+      <Observer>
+        {() => (
+          <div className="slide1">
+            {userText.map((message, key) => (
+              <section className="home-section" id={key}>
+                <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
+                  <div
+                    className={
+                      (key === 1) | (key === 2) | (key === 3)
+                        ? "resize"
+                        : "home-photos"
+                    }
+                  >
+                    <img src={message.img} />
+                  </div>
                 </ScrollAnimation>
-                <ScrollAnimation
-                  animateOut="fade-out-section"
-                  animateIn="fade-in-section"
-                >
-                  <p>
-                    {" "}
-                    {/* <ReactReadMoreReadLess
+                <Zoom>
+                  <div className="home-textBox">
+                    <ScrollAnimation
+                      animateIn="headeranimate-in"
+                      animateOut="headeranimate-out"
+                    >
+                      <h1 className={key === 1 ? "headTop" : null}>
+                        {message.heading}
+                      </h1>
+                    </ScrollAnimation>
+                    <ScrollAnimation
+                      animateOut="fade-out-section"
+                      animateIn="fade-in-section"
+                    >
+                      <p>
+                        {" "}
+                        {/* <ReactReadMoreReadLess
                       charLimit={100}
                       readMoreText={"Read more ▼"}
                       readLessText={"Read less ▲"}
                       readMoreClassName="read-more-less--more"
                       readLessClassName="read-more-less--less"
                     > */}
-                    {message.content}
-                    {/* </ReactReadMoreReadLess> */}
-                  </p>
-                </ScrollAnimation>
-              </div>
-            </Zoom>
-          </section>
-        ))}
-        <div
-          className={`${
-            props.userDetails.uId !== undefined
-              ? "feedBack fbSlide fab"
-              : "feedBack fbSlide"
-          }`}
-          onClick={() => setOpen(true)}
-        >
-          {lockst === 1 ? (
-            <Fade right>
-              <h3 className="fbh3">Feedback</h3>
-            </Fade>
-          ) : null}
-          <span className="iconSpan">
-            {" "}
-            <MdFeedback className="feedBackIcon" />
-          </span>
-        </div>
-        <FeedbackForm open={open} close={closeModal} />
+                        {message.content}
+                        {/* </ReactReadMoreReadLess> */}
+                      </p>
+                    </ScrollAnimation>
+                  </div>
+                </Zoom>
+              </section>
+            ))}
+            <div
+              className={`${
+                props.userDetails.uId !== undefined
+                  ? "feedBack fbSlide fab"
+                  : "feedBack fbSlide"
+              }`}
+              onClick={() => setOpen(true)}
+            >
+              {lockst === 1 ? (
+                <Fade right>
+                  <h3 className="fbh3">Feedback</h3>
+                </Fade>
+              ) : null}
+              <span className="iconSpan">
+                {" "}
+                <MdFeedback className="feedBackIcon" />
+              </span>
+            </div>
+            <FeedbackForm open={open} close={closeModal} />
 
-        <section className="LockPsw" ref={lockText}>
-          <Fade top>
-            <div id="LockDiv">
-              {/* <img src={lock} alt="lock" /> */}
-              {lockst === 0 ? (
-                <BsFillUnlockFill size="4rem" />
-              ) : (
-                <BsFillLockFill size="4rem" />
-              )}
-              <h2>{cstext}</h2>
-              <p className="sec-text">
-                {/* <ReactReadMoreReadLess
+            <section className="LockPsw" ref={lockText}>
+              <Fade top>
+                <div id="LockDiv">
+                  {/* <img src={lock} alt="lock" /> */}
+                  {lockst === 0 ? (
+                    <BsFillUnlockFill size="4rem" />
+                  ) : (
+                    <BsFillLockFill size="4rem" />
+                  )}
+                  <h2>{cstext}</h2>
+                  <p className="sec-text">
+                    {/* <ReactReadMoreReadLess
                   charLimit={78}
                   readMoreText={"Read more ▼"}
                   readLessText={"Read less ▲"}
                   readMoreClassName="read-more-less--more"
                   readLessClassName="read-more-less--less"
                 > */}
-                {securityText}
-                {/* </ReactReadMoreReadLess> */}
+                    {securityText}
+                    {/* </ReactReadMoreReadLess> */}
+                  </p>
+                </div>
+              </Fade>
+            </section>
+
+            <section className="home-textBox" id="joinBtn">
+              <Fade top>
+                <div>
+                  <Link to="/partnerRegistration">
+                    <h1>{commonStore.getText("wanna_register_as_partner")}</h1>
+                  </Link>
+                  <br></br>
+                  <Link to="/partnerRegistration">
+                    <Button primary>
+                      {commonStore.getText("partner_registration_button")}
+                    </Button>
+                  </Link>
+                </div>
+              </Fade>
+            </section>
+
+            <div
+              style={{
+                background: "white",
+                width: "100%",
+                textAlign: "center",
+                padding: "20px auto",
+                height: "70px",
+                fontSize: "32px",
+              }}
+            >
+              <FaGooglePlay
+                style={{ marginTop: "20px" }}
+                onClick={() => {
+                  toast.info("App Launching Soon");
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                background: "black",
+                width: "100%",
+                textAlign: "center",
+                color: "white",
+                letterSpacing: "2px",
+              }}
+            >
+              <p style={{ marginTop: "3px", marginBottom: "3px" }}>
+                Made with love by{" "}
+                {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
+                <a
+                  onClick={() => {
+                    redirectToAnotherPage("modernsilpi.com");
+                  }}
+                  target="blank"
+                  style={{ cursor: "pointer" }}
+                >
+                  Modern Silpi
+                </a>
               </p>
             </div>
-          </Fade>
-        </section>
-
-        <section className="home-textBox" id="joinBtn">
-          <Fade top>
-            <div>
-              <Link to="/partnerRegistration">
-                <h1>Wanna Register As Service Provider / Technician ?</h1>
-              </Link>
-              <br></br>
-              <Link to="/partnerRegistration">
-                <Button primary>Join here</Button>
-              </Link>
-            </div>
-          </Fade>
-        </section>
-
-        <div
-          style={{
-            background: "white",
-            width: "100%",
-            textAlign: "center",
-            padding: "20px auto",
-            height: "70px",
-            fontSize: "32px",
-          }}
-        >
-          <FaGooglePlay
-            style={{ marginTop: "20px" }}
-            onClick={() => {
-              toast.info("App Launching Soon");
-            }}
-          />
-        </div>
-
-        <div
-          style={{
-            background: "black",
-            width: "100%",
-            textAlign: "center",
-            color: "white",
-            letterSpacing: "2px",
-          }}
-        >
-          <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with love by{" "}
-            {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
-            <a onClick={()=>{redirectToAnotherPage("modernsilpi.com")}} target="blank" style={{ cursor: "pointer" }}>
-              Modern Silpi
-            </a>
-          </p>
-        </div>
-      </div>
+          </div>
+        )}
+      </Observer>
     );
 
     // return <div className="slide1">
   } else {
     return (
-      <div className="slide1" ref={scrollref}>
-        {userText.map((message, index) => (
-          <div id={index}>
-            {index % 2 === 0 ? (
-              <section className="home-section">
-                <ScrollAnimation animateIn="img-in" animateOut="img-out">
-                  <div
-                    className={
-                      (index === 1) | (index === 2) | (index === 3)
-                        ? "resize"
-                        : "home-photos"
-                    }
-                  >
-                    <Fade left>
-                      <img src={message.img} />
-                    </Fade>
-                  </div>
-                </ScrollAnimation>
-                <Zoom>
-                  <div className="home-textBox">
-                    <ScrollAnimation
-                      animateOut="headeranimate-out"
-                      animateIn="headeranimate-in"
-                    >
-                      <h1>{message.heading}</h1>
-                    </ScrollAnimation>
-                    <ScrollAnimation
-                      animateIn="fade-in-section"
-                      animateOut="fade-out-section"
-                    >
-                      <p>
-                        {/* <ReactReadMoreReadLess
+      <Observer>
+        {() => (
+          <>
+            <div className="slide1" ref={scrollref}>
+              {userText.map((message, index) => (
+                <div id={index}>
+                  {index % 2 === 0 ? (
+                    <section className="home-section">
+                      <ScrollAnimation animateIn="img-in" animateOut="img-out">
+                        <div
+                          className={
+                            (index === 1) | (index === 2) | (index === 3)
+                              ? "resize"
+                              : "home-photos"
+                          }
+                        >
+                          <Fade left>
+                            <img src={message.img} />
+                          </Fade>
+                        </div>
+                      </ScrollAnimation>
+                      <Zoom>
+                        <div className="home-textBox">
+                          <ScrollAnimation
+                            animateOut="headeranimate-out"
+                            animateIn="headeranimate-in"
+                          >
+                            <h1>{message.heading}</h1>
+                          </ScrollAnimation>
+                          <ScrollAnimation
+                            animateIn="fade-in-section"
+                            animateOut="fade-out-section"
+                          >
+                            <p>
+                              {/* <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
                           readLessText={""}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         > */}
-                        {message.content}
-                        {/* </ReactReadMoreReadLess> */}
-                      </p>
-                    </ScrollAnimation>
-                  </div>
-                </Zoom>
-              </section>
-            ) : (
-              <section className="home-section">
-                <Zoom>
-                  <div className="home-textBox">
-                    <ScrollAnimation
-                      animateOut="headeranimate-out"
-                      animateIn="headeranimate-in"
-                    >
-                      <h1>{message.heading}</h1>
-                    </ScrollAnimation>
-                    <ScrollAnimation
-                      animateIn="fade-in-section"
-                      animateOut="fade-out-section"
-                    >
-                      <p>
-                        {/* <ReactReadMoreReadLess
+                              {message.content}
+                              {/* </ReactReadMoreReadLess> */}
+                            </p>
+                          </ScrollAnimation>
+                        </div>
+                      </Zoom>
+                    </section>
+                  ) : (
+                    <section className="home-section">
+                      <Zoom>
+                        <div className="home-textBox">
+                          <ScrollAnimation
+                            animateOut="headeranimate-out"
+                            animateIn="headeranimate-in"
+                          >
+                            <h1>{message.heading}</h1>
+                          </ScrollAnimation>
+                          <ScrollAnimation
+                            animateIn="fade-in-section"
+                            animateOut="fade-out-section"
+                          >
+                            <p>
+                              {/* <ReactReadMoreReadLess
                           charLimit={100}
                           readMoreText={"Read more ▼"}
                           readLessText={""}
                           readMoreClassName="read-more-less--more"
                           readLessClassName="read-more-less--less"
                         > */}
-                        {message.content}
-                        {/* </ReactReadMoreReadLess> */}
-                      </p>
-                    </ScrollAnimation>
-                  </div>
-                </Zoom>
+                              {message.content}
+                              {/* </ReactReadMoreReadLess> */}
+                            </p>
+                          </ScrollAnimation>
+                        </div>
+                      </Zoom>
 
-                <ScrollAnimation animateIn="img-in" animateOut="img-out">
-                  <div
-                    className={
-                      (index === 1) | (index === 2) | (index === 3)
-                        ? "resize"
-                        : "home-photos"
-                    }
-                  >
-                    <Fade right>
-                      {" "}
-                      <img src={message.img} />{" "}
-                    </Fade>
-                  </div>
-                </ScrollAnimation>
-              </section>
-            )}
-          </div>
-        ))}
-        <div className="feedBack fbSlide" onClick={() => setOpen(true)}>
-          {lockst === 1 ? (
-            <Fade right>
-              <h3 className="fbh3">Feedback</h3>
-            </Fade>
-          ) : null}
+                      <ScrollAnimation animateIn="img-in" animateOut="img-out">
+                        <div
+                          className={
+                            (index === 1) | (index === 2) | (index === 3)
+                              ? "resize"
+                              : "home-photos"
+                          }
+                        >
+                          <Fade right>
+                            {" "}
+                            <img src={message.img} />{" "}
+                          </Fade>
+                        </div>
+                      </ScrollAnimation>
+                    </section>
+                  )}
+                </div>
+              ))}
+              <div className="feedBack fbSlide" onClick={() => setOpen(true)}>
+                {lockst === 1 ? (
+                  <Fade right>
+                    <h3 className="fbh3">Feedback</h3>
+                  </Fade>
+                ) : null}
 
-          <span className="iconSpan">
-            <MdFeedback className="feedBackIcon" />
-          </span>
-        </div>
-        <FeedbackForm open={open} close={closeModal} />
+                <span className="iconSpan">
+                  <MdFeedback className="feedBackIcon" />
+                </span>
+              </div>
+              <FeedbackForm open={open} close={closeModal} />
 
-        <section className="LockPsw" ref={lockText}>
-          <Fade top>
-            <div id="LockDiv">
-              {/* <img src={lock} alt="lock" /> */}
-              {lockst === 0 ? (
-                <BsFillUnlockFill size="4rem" />
-              ) : (
-                <BsFillLockFill size="4rem" />
-              )}
+              <section className="LockPsw" ref={lockText}>
+                <Fade top>
+                  <div id="LockDiv">
+                    {/* <img src={lock} alt="lock" /> */}
+                    {lockst === 0 ? (
+                      <BsFillUnlockFill size="4rem" />
+                    ) : (
+                      <BsFillLockFill size="4rem" />
+                    )}
 
-              <h2 id="pswReveal" ref={scrollref}>
-                {cstext}
-              </h2>
-              <p className="sec-text">
-                {/* <ReactReadMoreReadLess
+                    <h2 id="pswReveal" ref={scrollref}>
+                      {cstext}
+                    </h2>
+                    <p className="sec-text">
+                      {/* <ReactReadMoreReadLess
                   charLimit={79}
                   readMoreText={"Read more ▼"}
                   readLessText={"Read less ▲"}
                   readMoreClassName="read-more-less--more"
                   readLessClassName="read-more-less--less"
                 > */}
-                {securityText}
-                {/* </ReactReadMoreReadLess> */}
-              </p>
-              {/* <p className="sec-text">{securityText}</p> */}
-            </div>
-          </Fade>
-        </section>
+                      {securityText}
+                      {/* </ReactReadMoreReadLess> */}
+                    </p>
+                    {/* <p className="sec-text">{securityText}</p> */}
+                  </div>
+                </Fade>
+              </section>
 
-        <section className="home-textBox home-textBox1" id="joinBtn">
-          <Fade top>
-            <div>
-              <Link to="/partnerRegistration">
-                <h1>Wanna Register As Service Provider / Technician ?</h1>
-              </Link>
-              <br></br>
-              <Link to="/partnerRegistration">
-                <Button primary>Join here</Button>
-              </Link>
-            </div>
-          </Fade>
-        </section>
+              <section className="home-textBox home-textBox1" id="joinBtn">
+                <Fade top>
+                  <div>
+                    <Link to="/partnerRegistration">
+                      {/* <h1>Wanna Register As Service Provider / Technician ?</h1> */}
+                      <h1>
+                        {commonStore.getText("wanna_register_as_partner")}
+                      </h1>
+                    </Link>
+                    <br></br>
+                    <Link to="/partnerRegistration">
+                      {/* <Button primary>Join here</Button> */}
+                      <Button primary>
+                        {commonStore.getText("partner_registration_button")}
+                      </Button>
+                    </Link>
+                  </div>
+                </Fade>
+              </section>
 
-        <div
-          style={{
-            background: "white",
-            width: "100%",
-            textAlign: "center",
-            padding: "20px auto",
-            height: "70px",
-            fontSize: "32px",
-          }}
-        >
-          <FaGooglePlay
-            style={{ marginTop: "20px" }}
-            onClick={() => {
-              toast.info("App Launching Soon");
-            }}
-          />
-        </div>
+              <div
+                style={{
+                  background: "white",
+                  width: "100%",
+                  textAlign: "center",
+                  padding: "20px auto",
+                  height: "70px",
+                  fontSize: "32px",
+                }}
+              >
+                <FaGooglePlay
+                  style={{ marginTop: "20px" }}
+                  onClick={() => {
+                    toast.info("App Launching Soon");
+                  }}
+                />
+              </div>
 
-        {/* <div
+              {/* <div
           style={{
             background: "white",
             width: "100%",
@@ -480,24 +511,33 @@ function Slide(props) {
           </p>
         </div> */}
 
-        <div
-          style={{
-            background: "black",
-            width: "100%",
-            textAlign: "center",
-            color: "white",
-            letterSpacing: "2px",
-            margin: 0,
-          }}
-        >
-          <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-            Made with Love by{" "}
-            <a onClick={()=>{redirectToAnotherPage("modernsilpi.com")}} target="blank" style={{ cursor: "pointer" }}>
-              Modern Silpi
-            </a>
-          </p>
-        </div>
-      </div>
+              <div
+                style={{
+                  background: "black",
+                  width: "100%",
+                  textAlign: "center",
+                  color: "white",
+                  letterSpacing: "2px",
+                  margin: 0,
+                }}
+              >
+                <p style={{ marginTop: "3px", marginBottom: "3px" }}>
+                  Made with Love by{" "}
+                  <a
+                    onClick={() => {
+                      redirectToAnotherPage("modernsilpi.com");
+                    }}
+                    target="blank"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Modern Silpi
+                  </a>
+                </p>
+              </div>
+            </div>
+          </>
+        )}
+      </Observer>
     );
   }
 }

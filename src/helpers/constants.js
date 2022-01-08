@@ -47,9 +47,14 @@ module.exports = Object.freeze({
     NEW_INTERN_REGISTRATION: "/career/intern/new-intern-registration",
     new_partner_feedback: "/partner-feedback/new-feedback",
     new_suggestion: "/suggestion/new-suggestion",
-    userLogin: "/user/login", 
+    userLogin: "/user/login",
     feedback_questions: "/suggestion/feedback-question/feedback-questions/",
+    cloud_constants: "/constant/doc-id/user_web",
   },
   servicesList: "/services/all-service-list",
   reviews: "/partner-feedback/feedbacks/partner/",
+  routeConstants: {
+    home: "home",
+    partnerRegistration: "others",
+  },
 });

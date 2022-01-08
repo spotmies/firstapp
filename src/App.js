@@ -29,7 +29,6 @@ import Tab from "./components/views/chatMui/chat";
 import Careers from "./components/views/careers/careers";
 import SuccessForm from "./components/views/careers/successForm";
 import ChatResponseTab from "./components/views/chatMui/chat";
-import Leaflet from "./components/views/leaflet/leaflet";
 import ProfileWebMobileUi from "./components/views/profile_mobile/profile_mobile";
 import Home from "./components/views/homeSlides/home";
 import About from "./components/views/about/about";
