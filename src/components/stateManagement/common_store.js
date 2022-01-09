@@ -19,19 +19,27 @@ class CommonStore {
     this.userDetails = value ?? {};
   };
 
-  getFeedbackQuestionFromDB = async () => {
-    const response = await apiGetMethod(
-      constants.api.feedback_questions + "61d830c239e162b750e2414e"
-    );
+  getFeedbackQuestionFromDB = async ({
+    id = "61d830c239e162b750e2414e",
+  } = {}) => {
+    const response = await apiGetMethod(constants.api.feedback_questions + id);
     if (response != null) {
       this.feedbackQuestions = response;
     }
   };
-
+  getLabelByKeyWithScreen(key, screen) {
+    const currentConstants = this.cloudConstants[screen];
+    const index = currentConstants.findIndex((item) => item.objId == key);
+    if (index < 0) return "index";
+    return currentConstants[index]["label"] ?? "";
+  }
   getCloudConstantsFromDB = async () => {
     const response = await apiGetMethod(constants.api.cloud_constants);
     if (response != null) {
       this.cloudConstants = response;
+      this.getFeedbackQuestionFromDB({
+        id: this.getLabelByKeyWithScreen("feedback_question_id", "utilities"),
+      });
       console.log("clound constants imported >>>>>>>>>>>>>>.");
       this.setCurrentConstantsLocation(window.location.pathname);
       this.showUi = true;
