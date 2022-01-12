@@ -153,165 +153,169 @@ function Slide(props) {
       // );
     };
   }, []);
-  if (!commonStore.showUi) {
-    return (
-      <>
-        <CircularProgress />
-      </>
-    );
-  }
+
   if (swidths1 < 800) {
     return (
       <Observer>
         {() => (
-          <div className="slide1">
-            {userText.map((message, key) => (
-              <section className="home-section" id={key}>
-                <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
-                  <div
-                    className={
-                      (key === 1) | (key === 2) | (key === 3)
-                        ? "resize"
-                        : "home-photos"
-                    }
-                  >
-                    <img src={message.img} />
-                  </div>
-                </ScrollAnimation>
-                <Zoom>
-                  <div className="home-textBox">
-                    <ScrollAnimation
-                      animateIn="headeranimate-in"
-                      animateOut="headeranimate-out"
+          <>
+            {() => {
+              if (!commonStore.showUi) {
+                return <CircularProgress />;
+              }
+            }}
+
+            <div className="slide1">
+              {userText.map((message, key) => (
+                <section className="home-section" id={key}>
+                  <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
+                    <div
+                      className={
+                        (key === 1) | (key === 2) | (key === 3)
+                          ? "resize"
+                          : "home-photos"
+                      }
                     >
-                      <h1 className={key === 1 ? "headTop" : null}>
-                        {message.heading}
-                      </h1>
-                    </ScrollAnimation>
-                    <ScrollAnimation
-                      animateOut="fade-out-section"
-                      animateIn="fade-in-section"
-                    >
-                      <p>
-                        {" "}
-                        {/* <ReactReadMoreReadLess
+                      <img src={message.img} />
+                    </div>
+                  </ScrollAnimation>
+                  <Zoom>
+                    <div className="home-textBox">
+                      <ScrollAnimation
+                        animateIn="headeranimate-in"
+                        animateOut="headeranimate-out"
+                      >
+                        <h1 className={key === 1 ? "headTop" : null}>
+                          {message.heading}
+                        </h1>
+                      </ScrollAnimation>
+                      <ScrollAnimation
+                        animateOut="fade-out-section"
+                        animateIn="fade-in-section"
+                      >
+                        <p>
+                          {" "}
+                          {/* <ReactReadMoreReadLess
                       charLimit={100}
                       readMoreText={"Read more ▼"}
                       readLessText={"Read less ▲"}
                       readMoreClassName="read-more-less--more"
                       readLessClassName="read-more-less--less"
                     > */}
-                        {message.content}
-                        {/* </ReactReadMoreReadLess> */}
-                      </p>
-                    </ScrollAnimation>
-                  </div>
-                </Zoom>
-              </section>
-            ))}
-            <div
-              className={`${
-                props.userDetails.uId !== undefined
-                  ? "feedBack fbSlide fab"
-                  : "feedBack fbSlide"
-              }`}
-              onClick={() => setOpen(true)}
-            >
-              {lockst === 1 ? (
-                <Fade right>
-                  <h3 className="fbh3">Feedback</h3>
-                </Fade>
-              ) : null}
-              <span className="iconSpan">
-                {" "}
-                <MdFeedback className="feedBackIcon" />
-              </span>
-            </div>
-            <FeedbackForm open={open} close={closeModal} />
+                          {message.content}
+                          {/* </ReactReadMoreReadLess> */}
+                        </p>
+                      </ScrollAnimation>
+                    </div>
+                  </Zoom>
+                </section>
+              ))}
+              <div
+                className={`${
+                  props.userDetails.uId !== undefined
+                    ? "feedBack fbSlide fab"
+                    : "feedBack fbSlide"
+                }`}
+                onClick={() => setOpen(true)}
+              >
+                {lockst === 1 ? (
+                  <Fade right>
+                    <h3 className="fbh3">Feedback</h3>
+                  </Fade>
+                ) : null}
+                <span className="iconSpan">
+                  {" "}
+                  <MdFeedback className="feedBackIcon" />
+                </span>
+              </div>
+              <FeedbackForm open={open} close={closeModal} />
 
-            <section className="LockPsw" ref={lockText}>
-              <Fade top>
-                <div id="LockDiv">
-                  {/* <img src={lock} alt="lock" /> */}
-                  {lockst === 0 ? (
-                    <BsFillUnlockFill size="4rem" />
-                  ) : (
-                    <BsFillLockFill size="4rem" />
-                  )}
-                  <h2>{cstext}</h2>
-                  <p className="sec-text">
-                    {/* <ReactReadMoreReadLess
+              <section className="LockPsw" ref={lockText}>
+                <Fade top>
+                  <div id="LockDiv">
+                    {/* <img src={lock} alt="lock" /> */}
+                    {lockst === 0 ? (
+                      <BsFillUnlockFill size="4rem" />
+                    ) : (
+                      <BsFillLockFill size="4rem" />
+                    )}
+                    <h2>{cstext}</h2>
+                    <p className="sec-text">
+                      {/* <ReactReadMoreReadLess
                   charLimit={78}
                   readMoreText={"Read more ▼"}
                   readLessText={"Read less ▲"}
                   readMoreClassName="read-more-less--more"
                   readLessClassName="read-more-less--less"
                 > */}
-                    {securityText}
-                    {/* </ReactReadMoreReadLess> */}
-                  </p>
-                </div>
-              </Fade>
-            </section>
+                      {securityText}
+                      {/* </ReactReadMoreReadLess> */}
+                    </p>
+                  </div>
+                </Fade>
+              </section>
 
-            <section className="home-textBox" id="joinBtn">
-              <Fade top>
-                <div>
-                  <Link to="/partnerRegistration">
-                    <h1>{commonStore.getText("wanna_register_as_partner")}</h1>
-                  </Link>
-                  <br></br>
-                  <Link to="/partnerRegistration">
-                    <Button primary>
-                      {commonStore.getText("partner_registration_button")}
-                    </Button>
-                  </Link>
-                </div>
-              </Fade>
-            </section>
+              <section className="home-textBox" id="joinBtn">
+                <Fade top>
+                  <div>
+                    <Link to="/partnerRegistration">
+                      <h1>
+                        {commonStore.getText("wanna_register_as_partner")}
+                      </h1>
+                    </Link>
+                    <br></br>
+                    <Link to="/partnerRegistration">
+                      <Button primary>
+                        {commonStore.getText("partner_registration_button")}
+                      </Button>
+                    </Link>
+                  </div>
+                </Fade>
+              </section>
 
-            <div
-              style={{
-                background: "white",
-                width: "100%",
-                textAlign: "center",
-                padding: "20px auto",
-                height: "70px",
-                fontSize: "32px",
-              }}
-            >
-              <FaGooglePlay
-                style={{ marginTop: "20px" }}
-                onClick={() => {
-                  toast.info("App Launching Soon");
+              <div
+                style={{
+                  background: "white",
+                  width: "100%",
+                  textAlign: "center",
+                  padding: "20px auto",
+                  height: "70px",
+                  fontSize: "32px",
                 }}
-              />
-            </div>
-
-            <div
-              style={{
-                background: "black",
-                width: "100%",
-                textAlign: "center",
-                color: "white",
-                letterSpacing: "2px",
-              }}
-            >
-              <p style={{ marginTop: "3px", marginBottom: "3px" }}>
-                Made with love by{" "}
-                {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
-                <a
+              >
+                <FaGooglePlay
+                  style={{ marginTop: "20px" }}
                   onClick={() => {
-                    redirectToAnotherPage("modernsilpi.com");
+                    toast.info("App Launching Soon");
                   }}
-                  target="blank"
-                  style={{ cursor: "pointer" }}
-                >
-                  Modern Silpi
-                </a>
-              </p>
+                />
+              </div>
+
+              <div
+                style={{
+                  background: "black",
+                  width: "100%",
+                  textAlign: "center",
+                  color: "white",
+                  letterSpacing: "2px",
+                }}
+              >
+                <p style={{ marginTop: "3px", marginBottom: "3px" }}>
+                  Made with love by{" "}
+                  {/* <span style={{ color: "red" }}>&#x2764;</span> by{" "} */}
+                  <a
+                    onClick={() => {
+                      redirectToAnotherPage("modernsilpi.com");
+                    }}
+                    target="blank"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Modern Silpi
+                  </a>
+                </p>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </Observer>
     );
@@ -322,6 +326,11 @@ function Slide(props) {
       <Observer>
         {() => (
           <>
+            {() => {
+              if (!commonStore.showUi) {
+                return <CircularProgress />;
+              }
+            }}
             <div className="slide1" ref={scrollref}>
               {userText.map((message, index) => (
                 <div id={index}>

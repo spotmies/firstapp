@@ -32,6 +32,7 @@ import ChatResponseTab from "./components/views/chatMui/chat";
 import ProfileWebMobileUi from "./components/views/profile_mobile/profile_mobile";
 import Home from "./components/views/homeSlides/home";
 import About from "./components/views/about/about";
+import NewHome from "./components/views/home/how_it_works/how_it_works";
 
 const Routing = () => {
   return (
@@ -64,6 +65,7 @@ const Routing = () => {
         <Route path="/success-form" component={SuccessForm} />
         <Route path="/account" component={ProfileWebMobileUi} />
         <Route path="/about" component={About} />
+        <Route path="/newhome" component={NewHome} />
       </Switch>
     </>
   );
