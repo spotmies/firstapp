@@ -2,12 +2,15 @@
     height: 70px;
     width: 70px;
     border-radius: 50%;
-    margin-left: 40px;
+    /* margin-left: 100px; */
+    /* justify-content: center; */
     border: 1px solid rgb(151, 151, 151);
 }
 
 .pic {
-    margin-left: 110px;
+    justify-content: center;
+    text-align: center;
+    width: 30%;
     margin-right: 0 !important;
 }
 
@@ -103,21 +106,20 @@
 }
 
 .btn-div {
-    width: 70px;
-    /* margin: 0 auto; */
+    width: 60%;
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
     padding-top: 10px;
+    justify-content: space-evenly;
 }
 
 .sub-btn, .dec-btn {
-    /* padding: 4px; */
     border-radius: 50%;
     height: 30px;
     padding-top: 5px;
     text-align: center;
-    /* justify-items: center; */
     width: 30px;
-    margin-left: 30px;
-    /* margin-top: 10px; */
     color: white;
 }
 
@@ -138,8 +140,7 @@
     }
 
     .pic {
-        width: fit-content;
-        margin: 0 auto;
+        width: 100%;
     }
 
     .card-body {
