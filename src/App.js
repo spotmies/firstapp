@@ -33,6 +33,7 @@ import Leaflet from "./components/views/leaflet/leaflet";
 import ProfileWebMobileUi from "./components/views/profile_mobile/profile_mobile";
 import Home from "./components/views/homeSlides/home";
 import About from "./components/views/about/about";
+import LandingUser from "./components/views/homeSlides/newLandingUser";
 
 const Routing = () => {
   return (
@@ -46,6 +47,7 @@ const Routing = () => {
           <Mybooks />
           {/* <NewBook /> */}
         </Route>
+        <Route path="/landing-user" component={LandingUser} />
         <Route path="/newpost" component={newpost2} />
         <Route path="/chat" component={ChatResponseTab} />
         <Route path="/response" component={ChatResponseTab} />

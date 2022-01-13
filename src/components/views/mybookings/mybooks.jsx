@@ -234,6 +234,7 @@ function Mybookings(props) {
                               md
                               container
                               direction="row"
+                              className="text-grid"
                               justify="space-between"
                             >
                               <p className="orderDetails">
@@ -250,6 +251,7 @@ function Mybookings(props) {
                             <Grid
                               item
                               md
+                              className="text-grid"
                               container
                               direction="row"
                               justify="space-between"
