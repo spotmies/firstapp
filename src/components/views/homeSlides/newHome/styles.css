@@ -107,3 +107,59 @@
     width: 200px;
     height: 250px;
 }
+
+/*          */
+/*  Secure */
+/*        */
+
+.secure-section {
+    width: 100%;
+    padding: 30px;
+    background: rgb(255, 231, 228);
+    display: inline-flex;
+}
+
+.chick-img {
+    height: 350px;
+    width: 300px;
+}
+
+.secure-pic {
+    width: 35%;
+    padding-left: 100px;
+}
+
+.secure-body-div {
+    width: 50%;
+    padding-left: 80px;
+}
+
+.secure-body-div h2 {
+    font-size: 46px;
+}
+
+.secure-desc {
+    margin: 10px 0 20px 0;
+    padding: 5px;
+    border-left: 1px solid rgb(72, 72, 72);
+}
+
+.secure-card-holder {
+    display: inline-flex;
+}
+
+.secure-card {
+    width: 250px;
+    padding: 8px 0 8px 0;
+}
+
+.secure-card h3 {
+    margin: 3px 0 10px 0;
+}
+
+.secure-card-img {
+    height: 60px;
+    width: 80px;
+    border-radius: 10px;
+    margin: 5px 0 10px 0;
+}
