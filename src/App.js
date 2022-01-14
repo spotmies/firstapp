@@ -29,10 +29,10 @@ import Tab from "./components/views/chatMui/chat";
 import Careers from "./components/views/careers/careers";
 import SuccessForm from "./components/views/careers/successForm";
 import ChatResponseTab from "./components/views/chatMui/chat";
-import Leaflet from "./components/views/leaflet/leaflet";
 import ProfileWebMobileUi from "./components/views/profile_mobile/profile_mobile";
 import Home from "./components/views/homeSlides/home";
 import About from "./components/views/about/about";
+import NewHome from "./components/views/home/how_it_works/how_it_works";
 import LandingUser from "./components/views/homeSlides/newLandingUser";
 
 const Routing = () => {
@@ -67,6 +67,7 @@ const Routing = () => {
         <Route path="/success-form" component={SuccessForm} />
         <Route path="/account" component={ProfileWebMobileUi} />
         <Route path="/about" component={About} />
+        <Route path="/newhome" component={NewHome} />
       </Switch>
     </>
   );
