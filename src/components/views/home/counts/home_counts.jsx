@@ -12,19 +12,19 @@ export default function HomeCounts() {
       icon: AiOutlineFileDone,
       count: "500",
       title: "Orders every day",
-      color: "rgb(48, 149, 189)",
+      color: "#008fdb",
     },
     {
       icon: AiOutlineUsergroupAdd,
       count: "70",
       title: "Active Users",
-      color: "rgb(48, 149, 189)",
+      color: "#008fdb",
     },
     {
       icon: AiOutlineShop,
       count: "50",
       title: "Working Partners",
-      color: "rgb(48, 149, 189)",
+      color: "#008fdb",
     },
   ];
 

@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap");
 :root {
-  --primary-color: #007af3;
+  --primary-color: #008fdb;
+  --secondary-color: white;
   --text-description: #5c5c5c;
   --shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  --background-color: rgba(245, 245, 245, 0.952);
 }
 body {
   font-family: "Poppins", sans-serif;
@@ -16,6 +18,11 @@ body {
 }
 .shead {
   margin-top: 1em;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1em;
+}
+.shead2 {
   font-size: 18px;
   font-weight: 600;
   line-height: 1em;
@@ -35,6 +42,19 @@ body {
 .head {
   font-size: 40px;
   font-weight: 900;
+  line-height: 1em;
+}
+.image {
+  max-width: 500px;
+  max-height: 500px;
+}
+.grid-container-2 {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.grid-container-1 {
+  display: grid;
+  grid-template-columns: auto;
 }
 .childrens {
   justify-content: space-evenly;
@@ -66,12 +86,29 @@ body {
 .spacer {
   margin-top: 5em;
 }
+.horizontal-spacer {
+  margin-right: 16px;
+}
+
+.background-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--background-color);
+  text-align: center;
+  display: table;
+  .icon {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
+
 .circle {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   background-color: rgb(255, 255, 255);
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+  // box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 
   text-align: center;
   display: table;
@@ -111,7 +148,8 @@ body {
       padding: 12px;
       border-radius: 50%;
       background-color: rgb(255, 255, 255);
-      box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+      margin: 10px;
+      // box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     }
     .number-count {
       font-size: 30px;
@@ -188,6 +226,11 @@ body {
       color: rgb(95, 95, 95);
     }
   }
+  .image-url {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 10px;
+  }
 
   .playstore {
     // on hover for playstore
@@ -196,12 +239,14 @@ body {
     display: flex;
     align-items: center;
     color: rgb(53, 53, 53);
-    border: 1px solid #858585;
-    border-radius: 15px;
-    padding: 12px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 14px;
     width: fit-content;
-    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
-      rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    &:hover {
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
 
     cursor: pointer;
     p {
@@ -219,7 +264,7 @@ body {
   border-radius: 15px;
   padding: 20px;
   &:hover {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     cursor: pointer;
   }
   // box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
@@ -243,6 +288,45 @@ body {
   .read-more {
     margin-top: 20px;
   }
+}
+
+.small-card {
+  min-width: 250px;
+  max-width: 360px;
+  width: fit-content;
+  background-color: white;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 10px 10px 10px 0px;
+  &:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  // box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+
+  display: inline-flex;
+  align-items: center;
+}
+
+.mid-card {
+  width: fit-content;
+  max-width: 500px;
+  padding: 15px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  background-color: var(--background-color);
+  &:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  display: inline-flex;
+  align-items: center;
+}
+
+.background-container {
+  padding: 20px;
+  border-radius: 15px;
+  background-color: var(--secondary-color);
 }
 
 @media screen and (max-width: 820px) {
@@ -313,14 +397,19 @@ body {
     align-items: center;
     .image {
       align-self: flex-start;
+      width: 100%;
     }
+
     .content {
       text-align: left;
       width: 100%;
       .head {
         margin-bottom: 15px;
-        line-height: 35px;
+        line-height: 45px;
       }
     }
+  }
+  .grid-container-2 {
+    grid-template-columns: auto;
   }
 }
