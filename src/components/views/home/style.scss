@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;800&display=swap");
 :root {
   --primary-color: #008fdb;
   --secondary-color: white;
@@ -64,6 +64,7 @@ body {
 .child1,
 .child2,
 .child3 {
+  margin: 0 auto;
   display: block;
   width: 220px;
   .content {
@@ -341,6 +342,7 @@ body {
     margin-bottom: 2em;
     width: 80%;
     color: rgb(48, 149, 189);
+    // margin: 0 auto;
   }
 
   .home-count-parent {

@@ -1,0 +1,127 @@
+:root {
+  --footer-color: #1f3d4d;
+  --footer-text-color1: white;
+  --footer-text-color2: #c5c5c5;
+}
+// p {
+//   color: var(--footer-text-color1);
+// }
+.footer1-section {
+  height: 200px;
+  background-color: var(--footer-color);
+}
+.footer1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
+}
+.footer-head {
+  color: white;
+  font-size: 30px;
+  margin: 0;
+  font-weight: bold;
+}
+.join-button {
+  background-color: white !important;
+  color: white;
+}
+
+.footer2-section {
+  background-color: var(--footer-color);
+}
+
+.footer2 {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-bottom: 40px;
+  p {
+    color: white;
+  }
+  .footer-shead {
+    color: white;
+    font-size: 20px;
+  }
+  .footer-desc {
+    color: var(--footer-text-color2);
+    font-size: 12px;
+    &:hover {
+      cursor: pointer;
+      color: white;
+    }
+  }
+  .social-media {
+    width: fit-content;
+    padding-top: 10px;
+    // padding: 10px;
+    // margin: 10px;
+    // background-color: yellow;
+  }
+  .sm-icon {
+    color: rgb(233, 233, 233);
+    font-size: 24px;
+    margin-right: 10px;
+    &:hover {
+      //   font-size: 24px;
+      cursor: pointer;
+    }
+  }
+  .fb {
+    &:hover {
+      color: #3b5998;
+    }
+  }
+  .whatsapp {
+    &:hover {
+      color: #25d366;
+    }
+  }
+  .instagram {
+    &:hover {
+      color: #e1306c;
+    }
+  }
+  .linkedin {
+    &:hover {
+      color: #0077b5;
+    }
+  }
+  .twitter {
+    &:hover {
+      color: #1da1f2;
+    }
+  }
+  .youtube {
+    &:hover {
+      color: #ff0000;
+    }
+  }
+}
+@media screen and (max-width: 820px) {
+  .footer1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 80%;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .footer2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 90%;
+  }
+  .footer-child {
+    margin-top: 20px;
+  }
+}

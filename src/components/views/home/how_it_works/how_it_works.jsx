@@ -12,6 +12,7 @@ import {
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
 import Benefits3 from "../counts/Benefits3";
+import FooterBar from "../footer_bar/footer_bar";
 function Home() {
   const data = [
     {
@@ -62,7 +63,7 @@ function Home() {
         <div className="childrens">
           {data.map((item, key) => {
             return (
-              <div key={key}>
+              <div key={key} className="center">
                 {children(item.icon, item.color, item.title, item.desc, false)}
               </div>
             );
@@ -76,7 +77,7 @@ function Home() {
         <div className="childrens">
           {data.map((item, key) => {
             return (
-              <div key={key}>
+              <div key={key} className="center">
                 {children(item.icon, item.color, item.title, item.desc, true)}
               </div>
             );
@@ -101,6 +102,7 @@ function Home() {
       <div className="spacer" />
       <HomeCounts />
       <div className="spacer" />
+      <FooterBar />
     </div>
   );
 }
