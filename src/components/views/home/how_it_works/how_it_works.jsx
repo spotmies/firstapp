@@ -13,6 +13,7 @@ import {
 } from "react-icons/ai";
 import Benefits3 from "../counts/Benefits3";
 import FooterBar from "../footer_bar/footer_bar";
+import Benefits4 from "../counts/benefits4";
 function Home() {
   const data = [
     {
@@ -94,6 +95,8 @@ function Home() {
 
       <div className="spacer" />
       <Benefits2 />
+      <div className="spacer" />
+      <Benefits4 />
       <div className="spacer" />
       <DownloadMobileApp />
       <div className="spacer" />

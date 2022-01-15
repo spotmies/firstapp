@@ -56,6 +56,39 @@ body {
   display: grid;
   grid-template-columns: auto;
 }
+.icon-wrapper {
+  padding: 15px 10px 15px 10px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: var(--shadow);
+  color: var(--primary-color);
+}
+.read-more {
+  color: var(--primary-color);
+  &:hover {
+    cursor: pointer;
+  }
+}
+.verticle-line {
+  width: 2px;
+  height: 180px;
+  background-color: rgb(228, 228, 228);
+  box-shadow: var(--shadow);
+
+  margin: 0 auto;
+}
+.horizontal-line {
+  width: 70%;
+  height: 2px;
+  background-color: rgb(228, 228, 228);
+  box-shadow: var(--shadow);
+  margin: 0 auto;
+}
+.benefit4-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .childrens {
   justify-content: space-evenly;
   width: 100%;
@@ -288,6 +321,9 @@ body {
   }
   .read-more {
     margin-top: 20px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -328,6 +364,19 @@ body {
   padding: 20px;
   border-radius: 15px;
   background-color: var(--secondary-color);
+}
+
+// Benefit 4 styles
+.benefits4-parent {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .benefit4-card {
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 
 @media screen and (max-width: 820px) {
@@ -413,5 +462,24 @@ body {
   }
   .grid-container-2 {
     grid-template-columns: auto;
+  }
+  .benefit4 {
+    .benefits4-parent {
+      width: 90%;
+      margin: 0 auto !important;
+      display: flex;
+      flex-direction: column;
+      .benefit4-card {
+        width: 90%;
+        margin: 0 auto;
+        // margin-bottom: 35px;
+      }
+      .verticle-line {
+        display: none;
+      }
+    }
+    .horizontal-line {
+      display: none;
+    }
   }
 }
