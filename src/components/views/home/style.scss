@@ -44,6 +44,16 @@ body {
   font-weight: 900;
   line-height: 1em;
 }
+.head-center {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1em;
+  text-align: center;
+}
+.center-div {
+  width: fit-content;
+  margin: 0 auto;
+}
 .image {
   max-width: 500px;
   max-height: 500px;
@@ -62,6 +72,18 @@ body {
   background-color: white;
   box-shadow: var(--shadow);
   color: var(--primary-color);
+}
+.circle-icon-wrapper {
+  padding: 24px 15px 24px 15px;
+  border-radius: 50%;
+  background-color: white;
+  // color: var(--primary-color);
+}
+.benefit5-card {
+  margin-top: 30px;
+  .shead {
+    margin-top: 25px;
+  }
 }
 .read-more {
   color: var(--primary-color);
@@ -119,6 +141,9 @@ body {
 }
 .spacer {
   margin-top: 5em;
+}
+.spacer-span {
+  height: 10px;
 }
 .horizontal-spacer {
   margin-right: 16px;
@@ -379,6 +404,40 @@ body {
   }
 }
 
+// showcard styles
+.show-card {
+  width: 70%;
+  min-height: 220px;
+  height: fit-content;
+  margin: 0 auto;
+  background: linear-gradient(60deg, #008fdb, #2cbad3);
+  border-radius: 15px;
+  .small-card {
+    margin-top: 30px;
+  }
+
+  .show-card-content {
+    width: 80%;
+    margin: 0 auto;
+    .head-center {
+      margin-bottom: 5px;
+      color: var(--background-color);
+    }
+    .description {
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 14px;
+      padding-top: 10px;
+      color: var(--background-color);
+    }
+  }
+  .head-center {
+    padding-top: 40px;
+    font-weight: 550;
+  }
+}
+
 @media screen and (max-width: 820px) {
   .childrens {
     flex-direction: column;
@@ -462,6 +521,7 @@ body {
   }
   .grid-container-2 {
     grid-template-columns: auto;
+    padding-bottom: 30px;
   }
   .benefit4 {
     .benefits4-parent {
@@ -480,6 +540,15 @@ body {
     }
     .horizontal-line {
       display: none;
+    }
+  }
+  .show-card {
+    width: 90%;
+    .show-card-content {
+      width: 95%;
+    }
+    .head-center {
+      padding-top: 15px;
     }
   }
 }

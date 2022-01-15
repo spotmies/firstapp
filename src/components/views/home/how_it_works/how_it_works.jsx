@@ -14,6 +14,8 @@ import {
 import Benefits3 from "../counts/Benefits3";
 import FooterBar from "../footer_bar/footer_bar";
 import Benefits4 from "../counts/benefits4";
+import Benefits5 from "../counts/benefits5";
+import ShowCard from "../counts/show_card";
 function Home() {
   const data = [
     {
@@ -96,14 +98,20 @@ function Home() {
       <div className="spacer" />
       <Benefits2 />
       <div className="spacer" />
+      <Benefits5 />
+      <div className="spacer" />
       <Benefits4 />
       <div className="spacer" />
+
       <DownloadMobileApp />
       <div className="spacer" />
       <Whyspotmies />
 
       <div className="spacer" />
       <HomeCounts />
+      <div className="spacer" />
+      <ShowCard />
+
       <div className="spacer" />
       <FooterBar />
     </div>
