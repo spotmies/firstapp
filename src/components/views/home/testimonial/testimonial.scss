@@ -1,0 +1,49 @@
+.testmonial-card-parent {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 70%;
+  padding-top: 20px;
+}
+
+.testimonial-card {
+  width: 300px;
+  min-height: 250px;
+  border-radius: 20px;
+  background-color: #fff;
+  padding: 15px;
+  .testimonial-contact {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    .testimonial-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+    }
+    .testimonial-social-icon {
+      margin-top: 5px;
+    }
+    .testimonial-name-designation {
+      height: 50px;
+      padding-left: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      p {
+        margin: 0;
+      }
+      .testimonial-name {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .testimonial-designation {
+        font-size: 11px;
+        font-weight: 300;
+      }
+    }
+  }
+}

@@ -14,6 +14,7 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { MdArrowRight } from "react-icons/md";
+import { Link } from "react-router-dom";
 import "./footer_bar.scss";
 
 export default function FooterBar() {
@@ -79,6 +80,30 @@ export default function FooterBar() {
               <FaYoutube className="sm-icon youtube" />
             </div>
           </div>
+        </div>
+      </div>
+      <div className="footer3-section">
+        <div className="horizontal-line" />
+        <div className="footer3">
+          <span className="rights-reserved">
+            <Link>
+              {" "}
+              <p className="footer-shead">
+                © 2021-2022 Spotmies&nbsp;|&nbsp;All rights reserved&nbsp;|
+              </p>
+            </Link>
+            <Link>
+              <p> &nbsp;Privacy Policy&nbsp;</p>
+            </Link>
+            <Link>
+              {" "}
+              <p>|&nbsp;Terms & Conditions</p>
+            </Link>
+          </span>
+          <span className="made-in-india">
+            <p>Made in</p>
+            <p className="india-emoji">&nbsp;🇮🇳</p>
+          </span>
         </div>
       </div>
     </div>

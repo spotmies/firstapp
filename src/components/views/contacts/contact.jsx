@@ -10,7 +10,6 @@ import FeedbackForm from "../../reusable/feedback_form";
 import constants from "../../../helpers/constants";
 import ShowMap from "../leaflet/showMap";
 
-
 class SimpleMap extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +49,6 @@ class SimpleMap extends Component {
   componentWillUnmount() {
     window.addEventListener("resize", this.handleResize);
   }
-
 
   handlec(e) {
     let nameId = e.target.name;
@@ -120,8 +118,7 @@ class SimpleMap extends Component {
           marginTop: "50px",
         }}
       >
-
-        <ShowMap position={this.state.companyPostion} mapHeight={50}/>
+        <ShowMap position={this.state.companyPostion} mapHeight={50} />
         <div
           style={{
             marginTop: "30px",
@@ -136,7 +133,7 @@ class SimpleMap extends Component {
           <p>spotmies@gmail.com</p>
           <h3>Mobile no:</h3>
           <p>8019933883</p>
-          <p>9502831877</p>
+          <p>8341980196</p>
           <h3>Address:</h3>
           <p>
             D.No: 50-95-5/1,<br></br> A.P.S.E.B colony, saibaba temple road,

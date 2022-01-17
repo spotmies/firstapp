@@ -16,6 +16,7 @@ import FooterBar from "../footer_bar/footer_bar";
 import Benefits4 from "../counts/benefits4";
 import Benefits5 from "../counts/benefits5";
 import ShowCard from "../counts/show_card";
+import Testimonial from "../testimonial/testimonial";
 function Home() {
   const data = [
     {
@@ -108,6 +109,10 @@ function Home() {
       <Whyspotmies />
 
       <div className="spacer" />
+
+      <Testimonial />
+      <div className="spacer" />
+
       <HomeCounts />
       <div className="spacer" />
       <ShowCard />

@@ -33,6 +33,38 @@
 .footer2-section {
   background-color: var(--footer-color);
 }
+.footer3 {
+  width: 80%;
+  padding: 10px 0 10px 0;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  p {
+    color: var(--footer-text-color2);
+  }
+  .made-in-india {
+    width: fit-content;
+    display: inline-flex;
+    .india-emoji {
+      font-size: 28px;
+      margin-top: -8px;
+    }
+  }
+  .rights-reserved {
+    display: inline-flex;
+    max-width: 60%;
+  }
+}
+.footer3-section {
+  height: fit-content;
+  background-color: var(--footer-color);
+  .horizontal-line {
+    width: 80%;
+    background-color: rgb(177, 177, 177);
+    height: 0.6px;
+  }
+}
 
 .footer2 {
   width: 90%;
@@ -123,5 +155,19 @@
   }
   .footer-child {
     margin-top: 20px;
+  }
+  .footer3-section {
+    width: 100%;
+    .footer3 {
+      width: 100%;
+      padding-right: 10px;
+      padding-left: 10px;
+      .rights-reserved {
+        display: block;
+      }
+    }
+    .horizontal-line {
+      width: 100%;
+    }
   }
 }

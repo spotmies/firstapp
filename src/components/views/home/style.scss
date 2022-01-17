@@ -16,11 +16,28 @@ body {
   font-weight: normal;
   color: var(--text-description);
 }
+.icon-linkedin {
+  color: #0e76a8;
+}
+.icon-color-primary {
+  color: var(--primary-color);
+}
+.testimonial-card {
+  &:hover {
+    box-shadow: var(--shadow);
+    border: 1px solid var(--primary-color);
+    cursor: pointer;
+  }
+  box-shadow: var(--shadow);
+}
 .shead {
   margin-top: 1em;
   font-size: 18px;
   font-weight: 500;
   line-height: 1em;
+}
+.flex {
+  display: inline-flex;
 }
 .shead2 {
   font-size: 18px;
