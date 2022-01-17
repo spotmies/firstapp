@@ -15,7 +15,7 @@ export default function Testimonial() {
     },
     {
       quote:
-        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.",
+        "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
       name: "Mahesh babu",
       designation: "CEO, AMB films",
       socialMedia: "https://www.linkedin.com/in/john-doe-1b9b7b1a/",
@@ -41,8 +41,10 @@ export default function Testimonial() {
   }) => {
     return (
       <div className="testimonial-card">
-        <FaQuoteLeft className="icon-color-primary" />
-        <p>{quote}</p>
+        <div>
+          <FaQuoteLeft className="icon-color-primary" />
+          <p>{quote}</p>
+        </div>
         <div className="testimonial-contact">
           <span className="flex">
             <img className="testimonial-img" src={photo} alt="" />
@@ -77,6 +79,9 @@ export default function Testimonial() {
             );
           })}
         </div>
+        {/* <div className="testimonial-dots-parent">
+          <div className="testimonial-dots" />
+        </div> */}
       </div>
     </div>
   );

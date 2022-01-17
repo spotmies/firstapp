@@ -22,14 +22,7 @@ body {
 .icon-color-primary {
   color: var(--primary-color);
 }
-.testimonial-card {
-  &:hover {
-    box-shadow: var(--shadow);
-    border: 1px solid var(--primary-color);
-    cursor: pointer;
-  }
-  box-shadow: var(--shadow);
-}
+
 .shead {
   margin-top: 1em;
   font-size: 18px;
