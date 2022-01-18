@@ -13,7 +13,7 @@ import {
   FaWhatsapp,
   FaYoutube,
 } from "react-icons/fa";
-import { MdArrowRight } from "react-icons/md";
+import { redirectToPartnerApp } from "../../../../helpers/redirect";
 import { Link } from "react-router-dom";
 import "./footer_bar.scss";
 
@@ -36,32 +36,52 @@ export default function FooterBar() {
         <div className="footer2">
           <div className="footer-child">
             <p className="footer-shead">Company</p>
-            <p className="footer-desc">Contact us</p>
-            <p className="footer-desc">About us</p>
-            <p className="footer-desc">Blos us</p>
-            <p className="footer-desc"> Info company</p>
+
+            <p className="footer-desc">
+              <Link to="/contact">Contact us </Link>
+            </p>
+
+            <p className="footer-desc">
+              {" "}
+              <Link to="/about">About us</Link>
+            </p>
+
+            <p className="footer-desc">
+              {" "}
+              <Link to="/careers">Career </Link>
+            </p>
           </div>
           <div className="footer-child">
             <p className="footer-shead">Resources</p>
-            <p className="footer-desc">Contact us</p>
-            <p className="footer-desc">About us</p>
-            <p className="footer-desc">Blos us</p>
-            <p className="footer-desc"> Info company</p>
+            <p className="footer-desc">Terms</p>{" "}
+            <p className="footer-desc">
+              <Link to="/privacy">Privacy </Link>
+            </p>
+            <p className="footer-desc">FAQ'S</p>
+            {/* <p className="footer-desc"> Info company</p> */}
           </div>
           <div className="footer-child">
+            <p className="footer-shead">Important links</p>
+            <p className="footer-desc">
+              {" "}
+              <Link to="/partnerRegistration">Join as Service partner </Link>
+            </p>
+            <p className="footer-desc">Download Spotmies App</p>
+            <p className="footer-desc" onClick={redirectToPartnerApp}>
+              Download Spotmies Partner App
+            </p>{" "}
+            {/* <p className="footer-desc">
+              {" "}
+              <Link to="/signup">Login / Signup </Link>
+            </p> */}
+          </div>
+          {/* <div className="footer-child">
             <p className="footer-shead">Policy</p>
             <p className="footer-desc">Contact us</p>
             <p className="footer-desc">About us</p>
             <p className="footer-desc">Blos us</p>
             <p className="footer-desc"> Info company</p>
-          </div>
-          <div className="footer-child">
-            <p className="footer-shead">Policy</p>
-            <p className="footer-desc">Contact us</p>
-            <p className="footer-desc">About us</p>
-            <p className="footer-desc">Blos us</p>
-            <p className="footer-desc"> Info company</p>
-          </div>
+          </div> */}
           <div className="footer-child">
             <p className="footer-shead">More</p>
             <p className="footer-desc">

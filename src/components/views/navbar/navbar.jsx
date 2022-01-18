@@ -217,12 +217,12 @@ function Navibar(props) {
                         className="nav-linkList"
                         style={{ color: "black", display: "inline-flex" }}
                       >
-                        <Link className="nav-links" to="/careers">
+                        {/* <Link className="nav-links" to="/careers">
                           <Nav className="chaticon" id="mybooks">
                             <FaGraduationCap className="chaticon2" />
                             <b>Careers</b>
                           </Nav>
-                        </Link>
+                        </Link> */}
                         {commonStore.isUserLogin ? (
                           <>
                             <Link className="nav-links" to="/mybookings">
@@ -240,12 +240,12 @@ function Navibar(props) {
                           </>
                         ) : null}
 
-                        <Link className="nav-links" to="/contact">
+                        {/* <Link className="nav-links" to="/contact">
                           <Nav className="chaticon" id="contact">
                             <MdEmail size="1.3rem" className="chaticon2" />
                             <b>Contact</b>
                           </Nav>
-                        </Link>
+                        </Link> */}
                         {commonStore.isUserLogin ? (
                           <div
                             className="nav-links"

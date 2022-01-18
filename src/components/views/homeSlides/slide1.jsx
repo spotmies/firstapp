@@ -23,7 +23,7 @@ import lock2 from "../../../images/lock2.png";
 import lock3 from "../../../images/lock3.png";
 //import feedback form
 import FeedbackForm from "../../reusable/feedback_form";
-import redirectToAnotherPage from "../../../helpers/redirect";
+import { redirectToAnotherPage } from "../../../helpers/redirect";
 import { loadState } from "../../../helpers/localStorage";
 import { CircularProgress } from "@material-ui/core";
 // gsap.registerPlugin(ScrollTrigger);

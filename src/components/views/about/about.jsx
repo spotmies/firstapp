@@ -8,6 +8,7 @@ import gunta5 from "./gunta5.jpg";
 import gunta6 from "./gunta6.jpg";
 import "./about.css";
 import { BsLinkedin } from "react-icons/bs";
+import FooterBar from "../home/footer_bar/footer_bar";
 
 function About() {
   return (
@@ -32,31 +33,31 @@ function About() {
           <div className="desig1">
             <img src={gunta1} alt="name" />
             <div className="desig">
-            <p>Name</p>
-            <p>Designation</p>
+              <p>Name</p>
+              <p>Designation</p>
             </div>
             <div className="Li-hover">
-            <BsLinkedin className="li-icon" />
+              <BsLinkedin className="li-icon" />
             </div>
           </div>
           <div className="desig1">
             <img src={gunta2} alt="name" />
             <div className="desig">
-            <p>Name</p>
-            <p>Designation</p>
+              <p>Name</p>
+              <p>Designation</p>
             </div>
             <div className="Li-hover">
-            <BsLinkedin className="li-icon" />
+              <BsLinkedin className="li-icon" />
             </div>
           </div>
           <div className="desig1">
             <img src={gunta3} alt="name" />
             <div className="desig">
-            <p>Name</p>
-            <p>Designation</p>
+              <p>Name</p>
+              <p>Designation</p>
             </div>
             <div className="Li-hover">
-            <BsLinkedin className="li-icon" />
+              <BsLinkedin className="li-icon" />
             </div>
           </div>
         </div>
@@ -64,37 +65,38 @@ function About() {
           <div className="desig1">
             <img src={gunta4} alt="name" />
             <div className="desig">
-            <p>Name</p>
-            <p>Designation</p>
+              <p>Name</p>
+              <p>Designation</p>
             </div>
             <div className="Li-hover">
-            <BsLinkedin className="li-icon" />
+              <BsLinkedin className="li-icon" />
             </div>
           </div>
           <div className="desig1">
             <img src={gunta5} alt="name" />
             <div className="desig">
-            <p>Name</p>
-            <p>Designation</p>
+              <p>Name</p>
+              <p>Designation</p>
             </div>
             <div className="Li-hover">
-            <BsLinkedin className="li-icon" />
+              <BsLinkedin className="li-icon" />
             </div>
           </div>
           <div className="desig1">
             <img src={gunta6} alt="name" />
             <div className="desig">
-            <p>Name</p>
-            <p>Designation</p>
+              <p>Name</p>
+              <p>Designation</p>
             </div>
             <div className="Li-hover">
-            <BsLinkedin className="li-icon" />
-            </div>            
+              <BsLinkedin className="li-icon" />
+            </div>
           </div>
         </div>
       </section>
 
       <section></section>
+      <FooterBar />
     </div>
   );
 }

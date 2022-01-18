@@ -22,6 +22,7 @@ import Banner from "../../../images/careers-banner.jpg";
 import constants from "../../../helpers/constants";
 import { allowOnlyNumber } from "../../../helpers/regex/regex";
 import { CircularProgress } from "@mui/material";
+import FooterBar from "../home/footer_bar/footer_bar";
 
 function valuetext(value) {
   return `${value}°C`;
@@ -617,6 +618,7 @@ export default function Careers() {
           </div>
         </Box>
       )}
+      <FooterBar />
     </div>
   );
 }

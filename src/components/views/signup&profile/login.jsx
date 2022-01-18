@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { saveState } from "../../../helpers/localStorage";
 import { constants } from "../../../helpers/constants";
 import { useStores } from "../../stateManagement/index";
+import FooterBar from "../home/footer_bar/footer_bar";
 var loginDetails;
 class Login extends Component {
   constructor(props) {
@@ -246,6 +247,7 @@ class Login extends Component {
           </Form>
         </div>
         {/* <ReduxPersistent /> */}
+        <FooterBar />
       </div>
     );
   }
