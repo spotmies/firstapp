@@ -1,6 +1,8 @@
 .loginForm {
   width: 400px;
   margin: 0 auto;
+  /* view height for loginform height */
+  height: 90vh;
 }
 @media screen and (max-width: 420px) {
   .loginForm {
