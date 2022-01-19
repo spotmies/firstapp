@@ -2,146 +2,150 @@
   background: linear-gradient(210deg, #e8f4ff, #5ea9f3, #77a0d1, #5cc8e3);
   padding-top: 40px;
 }
-
+p {
+  font-weight: 500 !important;
+}
 .setLoc {
-    display: inline-flex;
-    width: 100%;
-    margin-bottom: 20px;
+  display: inline-flex;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .locPic {
-    text-align: center;
+  text-align: center;
 }
 
-.setLoc div{
-    width: 50% !important;
-    /* text-align: center; */
+.setLoc div {
+  width: 50% !important;
+  /* text-align: center; */
 }
 
 .loc-div {
-    padding: 80px 50px 30px 150px;
+  padding: 80px 50px 30px 150px;
 }
 
 .form {
-    width: 500px !important;
+  width: 500px !important;
 }
 
 .loc-h2 {
-    font-size: 32px;
-    text-align: left;
-    font-weight: 1200;
+  font-size: 32px;
+  text-align: left;
+  font-weight: 1200;
 }
 
 .loc-div p {
-    text-align: left;
-    color: rgb(67, 67, 67);
-    width: 200px;
-    line-height: 13px;
-    font-weight: 700;
+  text-align: left;
+  color: rgb(67, 67, 67);
+  width: 200px;
+  line-height: 13px;
+  font-weight: 700;
 }
 
 .setLoc img {
-    height: 350px;
-    width: 400px;
+  height: 350px;
+  width: 400px;
 }
 
-.sec2, .step-sec {
-    text-align: center;
-    justify-items: center;
-    padding: 20px auto;
-    width: 100%;
-    margin: 20px;
+.sec2,
+.step-sec {
+  text-align: center;
+  justify-items: center;
+  padding: 20px auto;
+  width: 100%;
+  margin: 20px;
 }
 
 .locCard {
-    display: inline-flex;
-    margin: 0 auto;
+  display: inline-flex;
+  margin: 0 auto;
 }
 
-
 .locCard div {
-    width: 200px;
-    height: 200px;
-    border-radius: 10px;
-    margin: 10px;
-    background: white;
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  margin: 10px;
+  background: white;
 }
 
 .step-div {
-    display: inline-flex;
-    margin: 0 auto;
+  display: inline-flex;
+  margin: 0 auto;
 }
 
 .step-card {
-    background: white;
-    height: 250px;
-    width: 350px;
-    padding: 20px 10px;
-    text-align: left !important;
-    margin: 10px;
-    border-radius: 10px;
-    display: inline-flex;
+  background: white;
+  height: 250px;
+  width: 350px;
+  padding: 20px 10px;
+  text-align: left !important;
+  margin: 10px;
+  border-radius: 10px;
+  display: inline-flex;
 }
 
 .step-card div {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .step-card h2 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .step-div img {
-    height: 200px;
-    width: 180px;
+  height: 200px;
+  width: 180px;
 }
 
 .foot {
-    height: 80px;
-    text-align: center;
-    background: white;
-    padding: 15px;
+  height: 80px;
+  text-align: center;
+  background: white;
+  padding: 15px;
 }
 
-.foot p{
-    margin-bottom: 15px;
+.foot p {
+  margin-bottom: 15px;
 }
 
 .psIcon {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
 }
 
-@media screen and (max-width:700px) {
-    .setLoc, .locCard, .step-div {
-        display: block;
-        /* width: 100%; */
-    }
-    
-    .setLoc div {
-        width: 100%;
-    }
+@media screen and (max-width: 700px) {
+  .setLoc,
+  .locCard,
+  .step-div {
+    display: block;
+    /* width: 100%; */
+  }
 
-    .locCard div {
-        margin: 10px auto;
-    }
+  .setLoc div {
+    width: 100%;
+  }
 
-    .setLoc img {
-        width: 320px;
-        margin: 0 auto;
-    }
+  .locCard div {
+    margin: 10px auto;
+  }
 
-    .step-card {
-        margin-right: 0;
-    }
+  .setLoc img {
+    width: 320px;
+    margin: 0 auto;
+  }
 
-    .sec2, .step-sec {
-        margin: 20px 0;
-    }
+  .step-card {
+    margin-right: 0;
+  }
 
-    .MainDiv {
-        width: 100%;
-        position: absolute;
-    }
+  .sec2,
+  .step-sec {
+    margin: 20px 0;
+  }
 
+  .MainDiv {
+    width: 100%;
+    position: absolute;
+  }
 }
