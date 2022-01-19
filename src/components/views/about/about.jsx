@@ -6,15 +6,70 @@ import gunta3 from "./gunta3.jpg";
 import gunta4 from "./gunta4.jpg";
 import gunta5 from "./gunta5.jpg";
 import gunta6 from "./gunta6.jpg";
-import "./about.css";
+import "./about.scss";
 import { BsLinkedin } from "react-icons/bs";
 import FooterBar from "../home/footer_bar/footer_bar";
 
 function About() {
   return (
     <div>
+      <div className="about-container">
+        <p className="about-head">
+          ABOUT &nbsp;<b>SPOTMIES</b>
+        </p>
+        <p className="about-desc">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
+          optio, incidunt et nam provident exercitationem quo dolor error
+          facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum, dicta
+          laborum! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Aperiam optio, incidunt et nam provident exercitationem quo dolor
+          error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum,
+          dicta laborum!Lorem ipsum dolor sit amet, consectetur adipisicing
+          elit. Aperiam optio, incidunt et nam provident exercitationem quo
+          dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
+          Eum, dicta laborum.
+        </p>
+      </div>
+      {/* 
+      <div className="about-container">
+        <p className="about-head">Vision</p>
+        <p className="about-desc">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
+          optio, incidunt et nam provident exercitationem quo dolor error
+          facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum, dicta
+          laborum! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Aperiam optio, incidunt et nam provident exercitationem quo dolor
+          error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum,
+          dicta laborum!Lorem ipsum dolor sit amet, consectetur adipisicing
+          elit. Aperiam optio, incidunt et nam provident exercitationem quo
+          dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
+          Eum, dicta laborum!Lorem ipsum dolor sit amet, consectetur adipisicing
+          elit. Aperiam optio, incidunt et nam provident exercitationem quo
+          dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
+          Eum, dicta laborum!
+        </p>
+      </div>
+
+      <div className="about-container">
+        <p className="about-head">Mission</p>
+        <p className="about-desc">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
+          optio, incidunt et nam provident exercitationem quo dolor error
+          facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum, dicta
+          laborum! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Aperiam optio, incidunt et nam provident exercitationem quo dolor
+          error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum,
+          dicta laborum!Lorem ipsum dolor sit amet, consectetur adipisicing
+          elit. Aperiam optio, incidunt et nam provident exercitationem quo
+          dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
+          Eum, dicta laborum!Lorem ipsum dolor sit amet, consectetur adipisicing
+          elit. Aperiam optio, incidunt et nam provident exercitationem quo
+          dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
+          Eum, dicta laborum!
+        </p>
+      </div> */}
       <section className="desc">
-        <div>
+        <div className="transperent-card">
           <p className="text-desc">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
             optio, incidunt et nam provident exercitationem quo dolor error
