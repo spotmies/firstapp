@@ -14,6 +14,7 @@ import signup from "./components/views/signup&profile/signup";
 import login from "./components/views/signup&profile/login";
 import profile from "./components/views/signup&profile/profile";
 import SimpleMap from "./components/views/contacts/contact";
+import NewContact from "./components/views/contacts/newContact";
 import chatssection from "./components/views/chats/chats-section";
 import Rentals from "./components/views/rentals/bikerental";
 import pdetails from "./components/views/partnerDetails/pdetails";
@@ -57,6 +58,7 @@ const Routing = () => {
         <Route path="/mybookings/id/edit" component={editpost2} />
         <Route path="/mybookings/id" component={NewBook} />
         <Route path="/contact" component={SimpleMap} />
+        <Route path="/new-contact" component={NewContact} />
         <Route path="/rentals" component={Rentals} />
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />
