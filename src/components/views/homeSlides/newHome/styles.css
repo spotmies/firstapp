@@ -218,13 +218,15 @@
     }
 
     .secure-pic {
-        width: 100%;
+        width: fit-content;
+        margin: 0 auto;
         padding-left: 0;
     }
 
     .secure-body-div {
         width: 100%;
         padding-left: 0;
+        text-align: center;
     }
 
     .secure-body-div h2 {
@@ -234,9 +236,10 @@
     .secure-card-holder {
         display: block;
     }
-
-    .chick-img {
+    
+    .secure-card {
         margin: 0 auto;
     }
+
 
 }
