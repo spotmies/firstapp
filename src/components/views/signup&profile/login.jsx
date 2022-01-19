@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from "react";
 import { Button, Checkbox, Form } from "semantic-ui-react";
-import "./login.css";
+import "./login.scss";
 import { onlyNumRegEx } from "../../../helpers/regex/regex";
 import FullScreenWidget from "../../reusable/helpers";
 import firebase from "../../../firebase";
@@ -11,6 +11,9 @@ import { saveState } from "../../../helpers/localStorage";
 import { constants } from "../../../helpers/constants";
 import { useStores } from "../../stateManagement/index";
 import FooterBar from "../home/footer_bar/footer_bar";
+import { MdOutlineShield } from "react-icons/md";
+import { BsFillKeyFill, BsFillShieldLockFill } from "react-icons/bs";
+import { AiOutlineUser } from "react-icons/ai";
 var loginDetails;
 class Login extends Component {
   constructor(props) {
@@ -185,66 +188,81 @@ class Login extends Component {
           show={state.loader}
           data="Please Wait..."
         />
-        <div className="loginForm" style={{ paddingTop: "60px" }}>
-          <Form>
-            <Form.Field>
-              <label>Mobile Number</label>
-              <input
-                placeholder="Enter Phone number hrer"
-                ref={state.numberController}
-                maxLength="10"
-                name="phone"
-                onChange={this.handleChange}
-              />
-            </Form.Field>
-            <Button onClick={this.genotp} disabled={this.state.getOtpButton}>
-              Get OTP
-            </Button>
-            <div id="recaptcha-container" style={{ marginTop: "10px" }}></div>
+        <div className="loginForm">
+          <div className="login-card">
+            <div className="login-heading-div">
+              <div className="login-logo">
+                <AiOutlineUser size="5rem" />
+              </div>
+              <h2>USER LOGIN</h2>
+              <div className="spacer" />
+            </div>
+            <Form>
+              <Form.Field>
+                <label>Mobile Number</label>
+                <input
+                  placeholder="Enter Phone number To Login"
+                  ref={state.numberController}
+                  maxLength="10"
+                  name="phone"
+                  onChange={this.handleChange}
+                />
+              </Form.Field>
+              <Button
+                onClick={this.genotp}
+                disabled={this.state.getOtpButton}
+                className="login-button"
+              >
+                Get OTP
+              </Button>
+              <div className="spacer-span" />
+              <div className="spacer-span" />
+              <div id="recaptcha-container" style={{ marginTop: "10px" }}></div>
 
-            <Form.Field id="otpSection" style={{ display: "none" }}>
-              <label>Enter OTP</label>
-              <input
-                placeholder="Enter OTP here"
-                ref={state.otpController}
-                maxLength="6"
-                name="otp"
-                onChange={this.handleChange}
-              />
-            </Form.Field>
+              <Form.Field id="otpSection" style={{ display: "none" }}>
+                <label>Enter OTP</label>
+                <input
+                  placeholder="Enter OTP here"
+                  ref={state.otpController}
+                  maxLength="6"
+                  name="otp"
+                  onChange={this.handleChange}
+                />
+              </Form.Field>
 
-            {state.registrationSection ? (
-              <>
-                <Form.Field>
-                  <label>Enter Name</label>
-                  <input
-                    placeholder="your Name"
-                    ref={state.nameController}
-                    required
-                  />
-                </Form.Field>
-                <Form.Field>
-                  <Checkbox
-                    label="I agree to the Terms and Conditions"
-                    ref={state.checkController}
-                    required
-                    onClick={this.onCheck}
-                  />
-                </Form.Field>
+              {state.registrationSection ? (
+                <>
+                  <Form.Field>
+                    <label>Enter Name</label>
+                    <input
+                      placeholder="your Name"
+                      ref={state.nameController}
+                      required
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <Checkbox
+                      label="I agree to the Terms and Conditions"
+                      ref={state.checkController}
+                      required
+                      onClick={this.onCheck}
+                    />
+                  </Form.Field>
 
-                <Button
-                  type="submit"
-                  disabled={this.state.submitButton}
-                  onClick={this.registerUser}
-                >
-                  Submit
-                </Button>
-                {this.state.userRegistered ? (
-                  <LoginUser userDetails={this.state.userDetails} />
-                ) : null}
-              </>
-            ) : null}
-          </Form>
+                  <Button
+                    type="submit"
+                    disabled={this.state.submitButton}
+                    onClick={this.registerUser}
+                  >
+                    Submit
+                  </Button>
+                  {this.state.userRegistered ? (
+                    <LoginUser userDetails={this.state.userDetails} />
+                  ) : null}
+                </>
+              ) : null}
+            </Form>
+          </div>
         </div>
         {/* <ReduxPersistent /> */}
         <FooterBar />

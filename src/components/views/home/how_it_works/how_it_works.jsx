@@ -17,6 +17,7 @@ import Benefits4 from "../counts/benefits4";
 import Benefits5 from "../counts/benefits5";
 import ShowCard from "../counts/show_card";
 import Testimonial from "../testimonial/testimonial";
+import NewsLetter from "../counts/subscribe_newsletter";
 function Home() {
   const data = [
     {
@@ -117,6 +118,8 @@ function Home() {
       <div className="spacer" />
       <ShowCard />
 
+      <div className="spacer" />
+      <NewsLetter />
       <div className="spacer" />
       <FooterBar />
     </div>
