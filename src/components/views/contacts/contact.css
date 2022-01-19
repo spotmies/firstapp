@@ -1,0 +1,94 @@
+.contact-main {
+  /* height: 100vh; */
+  width: 100%;
+  position: relative;
+  display: inline-flex;
+  /* margin:0 auto !important; */
+
+  margin-top: -100px;
+  z-index: 999 !important;
+}
+
+.maps {
+    margin-top: 100px !important;
+    position: absolute;
+    height: 400px !important;
+    width: 100% !important;
+    z-index: 9 !important;
+}
+
+.contactAddress {
+    margin-top: 50px;
+    width: 30%;
+    position: absolute;
+    left: 20%;
+    border: none;
+    border-radius: 0;
+    z-index: 99 !important;
+    /* left: 50%;
+    right: 50%; */
+    box-shadow: 1px 1px 40px rgb(255, 219, 219);
+    color: rgb(221, 221, 221);
+    background: rgba(255, 72, 72, 0.938) !important;
+}
+
+.addr-div, .addr-div1 {
+    display: inline-flex;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.addr-div1 {
+    margin-bottom: 30px;
+}
+
+.addr-div div p, .addr-div1 p {
+    line-height: 7px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.addr-div1 p {
+    line-height: 15px;
+}
+
+.addr-icon {
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+.form-div {
+    width: 60%;
+    background: white;
+    position: relative;
+    left: 30%;
+    box-shadow: 1px 1px 40px rgb(194, 194, 194);
+    align-items: right;
+}
+
+.form-h2 {
+    color: rgb(75, 75, 75);
+}
+
+.form-control {
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 12px;
+    color: rgb(104, 104, 104);
+    background: rgb(237, 237, 237);
+    border: none;
+}
+
+.contactForm {
+    width: 60%;
+    box-shadow: none;
+    border: none;
+    float: right;
+    /* background: white; */
+}
+
+.contact-btn {
+    background: rgba(255, 72, 72, 0.938) !important;
+    color: white !important;
+    border-radius: 20px !important;
+}
