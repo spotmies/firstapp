@@ -7,8 +7,66 @@
   --background-color: rgba(245, 245, 245, 0.952);
 }
 body {
-  font-family: "Poppins", sans-serif;
+  // font-family: "Roboto", sans-serif;
+  font-family: "Gilroy Regular";
   background-color: rgba(245, 245, 245, 0.952);
+}
+
+.home-page-head {
+  font-family: "Gilroy Bold";
+}
+// .home-page {
+//   background: linear-gradient(60deg, #f0f0f0, #dddddd);
+// }
+.home-slide1 {
+  width: 90%;
+  margin: 0 auto;
+  height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+}
+.home-slide3 {
+  height: calc(100vh - 60px);
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+}
+.home-slide4 {
+  width: 90%;
+  height: 50vh;
+  margin: 0 auto;
+}
+.slide-1 {
+  height: fit-content;
+  .head {
+    font-weight: 600 !important;
+    font-size: 64px !important;
+  }
+  .description {
+    font-size: 16px;
+    width: 75%;
+  }
+  .get-started-btn {
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    width: fit-content;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    // transition: all 0.3s ease-in-out;
+
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    &:hover {
+      background-color: var(--primary-color);
+      color: var(--secondary-color);
+      border: none;
+      // padding: 9px 19px;
+    }
+  }
 }
 .description {
   margin-top: -5px;
@@ -53,6 +111,7 @@ body {
   font-size: 40px;
   font-weight: 900;
   line-height: 1em;
+  margin-bottom: 5px;
 }
 .head-center {
   font-size: 40px;
@@ -284,7 +343,7 @@ body {
 // download app component styles
 
 .main-content {
-  padding-top: 100px; //this should be comment
+  // padding-top: 100px; //this should be comment
   display: flex;
   justify-content: space-between;
   width: 80%;
