@@ -4,11 +4,23 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: "Gilroy Light";
+  src: local("Gilroy"), url(./fonts/Gilroy-Light.woff) format("woff");
+}
+@font-face {
+  font-family: "Gilroy Regular";
+  src: local("Gilroy"), url(./fonts/Gilroy-Regular.woff) format("woff");
+}
+@font-face {
+  font-family: "Gilroy Bold";
+  src: local("Gilroy"), url(./fonts/Gilroy-Bold.woff) format("woff");
 }
 
 html {
