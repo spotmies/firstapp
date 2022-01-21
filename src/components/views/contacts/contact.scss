@@ -7,7 +7,12 @@
 
   margin-top: -100px;
   z-index: 999 !important;
+  font-family: "Gilroy Regular" !important;
+  h2, p ,.form-control, .contact-btn{
+    font-family: "Gilroy Regular" !important;
+  } 
 }
+
 
 .maps {
     margin-top: 100px !important;
@@ -21,15 +26,24 @@
     margin-top: 50px;
     width: 30%;
     position: absolute;
-    left: 20%;
+    left: 15%;
     border: none;
     border-radius: 0;
     z-index: 99 !important;
     /* left: 50%;
     right: 50%; */
-    box-shadow: 1px 1px 40px rgb(255, 219, 219);
-    color: rgb(221, 221, 221);
-    background: rgba(255, 72, 72, 0.938) !important;
+    box-shadow: 1px 1px 40px rgb(229, 240, 255);
+    color: rgb(255, 255, 255) !important;
+    // background: rgb(35 126 191) !important;
+    background-color: #237EBF ;
+    p{
+        font-weight: 600 !important;
+        font-size: 13px !important;
+    }
+}
+
+.leaflet-control {
+    display: none !important;
 }
 
 .addr-div, .addr-div1 {
@@ -61,7 +75,7 @@
     width: 60%;
     background: white;
     position: relative;
-    left: 30%;
+    left: 25%;
     box-shadow: 1px 1px 40px rgb(194, 194, 194);
     align-items: right;
 }
@@ -77,6 +91,7 @@
     color: rgb(104, 104, 104);
     background: rgb(237, 237, 237);
     border: none;
+ 
 }
 
 .contactForm {
@@ -88,7 +103,36 @@
 }
 
 .contact-btn {
-    background: rgba(255, 72, 72, 0.938) !important;
+    // background: rgb(35 126 191) !important;
+    background-color: #237EBF !important;
     color: white !important;
     border-radius: 20px !important;
+}
+
+@media screen and (max-width:600px) {
+    .contact-main {
+        display: block;
+    }
+
+    .contactAddress {
+        width: 80%;
+        left: 0%;
+        position: relative;
+    }
+
+    .contactForm {
+        margin-bottom: 0px !important;
+    }
+
+    .form-div {
+        width: 80%;
+        height: fit-content;
+        left: 10%;
+        box-shadow: 1px 1px 30px rgb(221, 220, 220);
+    }
+
+    .contactForm {
+        float: none;
+        width: 90%;
+    }
 }

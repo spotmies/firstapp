@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import { apiPostPut } from "../../../api_services/api_calls/api_calls";
 import { toast } from "react-toastify";
 import {
   MdFeedback,
   MdOutlineEmail,
+  MdOutlineNearMe,
   MdOutlinePhoneAndroid,
 } from "react-icons/md";
 import { BiBuildings } from "react-icons/bi";
@@ -14,7 +15,9 @@ import { Button } from "semantic-ui-react";
 import FeedbackForm from "../../reusable/feedback_form";
 import constants from "../../../helpers/constants";
 import ShowMap from "../leaflet/showMap";
-import "./contact.css";
+import "./contact.scss";
+import FooterBar from "../home/footer_bar/footer_bar";
+import { AiOutlineMail, AiOutlineMobile } from "react-icons/ai";
 
 class NewContact extends Component {
   constructor(props) {
@@ -119,17 +122,17 @@ class NewContact extends Component {
         <ShowMap position={this.state.companyPostion} className="maps" />
         <div className="contact-main">
           <div className="contactAddress">
-            <h2>Our Phones are waiting for your call!</h2>
+            <h2>You Can Reach Us Through</h2>
             <hr></hr>
             <div className="addr-div">
-              <MdOutlineEmail className="addr-icon" />
+              <AiOutlineMail className="addr-icon" />
               <div>
                 <p>info@spotmies.com</p>
                 <p>spotmies@gmail.com</p>
               </div>
             </div>
             <div className="addr-div">
-              <MdOutlinePhoneAndroid className="addr-icon" />
+              <AiOutlineMobile className="addr-icon" />
               <div>
                 <p>8019933883</p>
                 <p>9502831877</p>
@@ -137,10 +140,10 @@ class NewContact extends Component {
             </div>
 
             <div className="addr-div1">
-              <BiBuildings className="addr-icon" />
+              <MdOutlineNearMe className="addr-icon" />
               <p>
-                D.No: 50-95-5/1,<br></br> A.P.S.E.B colony, saibaba temple road,
-                seethammadara<br></br> Visakhapatnam,
+                D.No: 50-95-5/1,<br></br> A.P.S.E.B colony, Saibaba temple road,
+                Seethammadara<br></br> Visakhapatnam,
                 <br></br> Andhra Pradesh,<br></br> 530013.
               </p>
             </div>
@@ -148,12 +151,12 @@ class NewContact extends Component {
 
           <div style={{ paddingBottom: "5px" }} className="form-div">
             <Form className="contactForm" onSubmit={this.submitForm}>
-              <h2 className="form-h2">Wanna say something?</h2>
+              <h2 className="form-h2">Wanna Say Something?</h2>
               <Form.Group controlId="exampleForm.ControlInput1">
                 {/* <Form.Label>Email address</Form.Label> */}
                 <Form.Control
                   type="email"
-                  placeholder="name@example.com"
+                  placeholder="Email"
                   value={det.email}
                   className="form-control"
                   name="email"
@@ -165,7 +168,7 @@ class NewContact extends Component {
                 {/* <Form.Label>Name</Form.Label> */}
                 <Form.Control
                   type="text"
-                  placeholder="Your name"
+                  placeholder="Name"
                   className="form-control"
                   name="name"
                   value={det.name}
@@ -177,7 +180,7 @@ class NewContact extends Component {
                 {/* <Form.Label>Mobile no:</Form.Label> */}
                 <Form.Control
                   type="number"
-                  placeholder="9876543620"
+                  placeholder="Mobile No"
                   className="form-control"
                   name="mobile"
                   value={det.mobile}
@@ -198,7 +201,7 @@ class NewContact extends Component {
                 {/* <Form.Label>Subject</Form.Label> */}
                 <Form.Control
                   as="textarea"
-                  placeholder="ex:- want to approach spotmies"
+                  placeholder="Subject"
                   className="form-control"
                   rows={1}
                   name="subject"
@@ -212,7 +215,7 @@ class NewContact extends Component {
                 <Form.Control
                   as="textarea"
                   rows={3}
-                  placeholder="put what you want to message"
+                  placeholder="Your message"
                   className="form-control"
                   name="body"
                   value={det.body}
@@ -240,6 +243,8 @@ class NewContact extends Component {
           </div>
           <FeedbackForm open={this.state.open} close={this.closeModal} />
         </div>
+        <div className="spacer"></div>
+        <FooterBar />
       </div>
     );
   }

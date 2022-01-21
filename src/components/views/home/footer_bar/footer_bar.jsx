@@ -34,6 +34,7 @@ export default function FooterBar() {
       </div>
       <div className="footer2-section">
         <div className="footer2">
+          <div className="footer2-section1">
           <div className="footer-child">
             <p className="footer-shead">Company</p>
 
@@ -60,21 +61,34 @@ export default function FooterBar() {
             <p className="footer-desc">FAQ'S</p>
             {/* <p className="footer-desc"> Info company</p> */}
           </div>
-          <div className="footer-child">
+          </div>
+          <div className="footer2-section2">
+          <div className="footer-child footer-child-web">
+          
             <p className="footer-shead">Important links</p>
             <p className="footer-desc">
-              {" "}
+             
               <Link to="/partnerRegistration">Join as Service partner </Link>
             </p>
             <p className="footer-desc">Download Spotmies App</p>
             <p className="footer-desc" onClick={redirectToPartnerApp}>
               Download Spotmies Partner App
-            </p>{" "}
-            {/* <p className="footer-desc">
-              {" "}
-              <Link to="/signup">Login / Signup </Link>
-            </p> */}
+            </p>
+        
           </div>
+          <div className="footer-child-mobile">
+          
+          <p className="footer-shead">Links</p>
+          <p className="footer-desc">
+           
+            <Link to="/partnerRegistration">Join Now</Link>
+          </p>
+          <p className="footer-desc">Spotmies App</p>
+          <p className="footer-desc" onClick={redirectToPartnerApp}>
+            Partner App
+          </p>
+      
+        </div>
           {/* <div className="footer-child">
             <p className="footer-shead">Policy</p>
             <p className="footer-desc">Contact us</p>
@@ -101,6 +115,15 @@ export default function FooterBar() {
             </div>
           </div>
         </div>
+        </div>
+        <div className="social-media-mobile">
+              <FaFacebook className="sm-icon fb" />
+              <FaInstagram className="sm-icon instagram" />
+              <FaWhatsapp className="sm-icon whatsapp" />
+              <FaLinkedin className="sm-icon linkedin" />
+              <FaTwitter className="sm-icon twitter" />
+              <FaYoutube className="sm-icon youtube" />
+            </div>
       </div>
       <div className="footer3-section">
         <div className="horizontal-line" />
