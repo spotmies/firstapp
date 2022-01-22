@@ -12,7 +12,7 @@ import FooterBar from "../home/footer_bar/footer_bar";
 
 function About() {
   return (
-    <div>
+    <div className="about-page">
       <div className="about-container">
         <p className="about-head">
           ABOUT &nbsp;<b>SPOTMIES</b>

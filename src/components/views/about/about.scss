@@ -5,7 +5,9 @@
   --shadow: 0px 0px 10px rgba(105, 105, 105, 0.1);
   --background-color: rgba(245, 245, 245, 0.952);
 }
-
+.about-page{
+  font-family: "Gilroy Regular";
+}
 .desc {
   padding: 50px;
 
@@ -139,11 +141,12 @@
     font-size: 40px;
     font-weight: 600 !important;
     color: #4a4a4a;
-    font-family: "Lato";
+    font-family: "Gilroy Bold";
   }
   .about-desc {
     font-size: 18px;
     color: #565656;
+
   }
 }
 @media screen and (max-width: 700px) {
