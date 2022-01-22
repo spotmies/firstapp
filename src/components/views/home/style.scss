@@ -4,9 +4,11 @@
   --secondary-color: white;
   --text-description: #5c5c5c;
   --shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  --shadow_for_white: 0px 0px 10px rgba(87, 87, 87, 0.671);
   --background-color: rgba(245, 245, 245, 0.952);
   --lite-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
   --head-color: #2f2e41;
+  --primary-color2: #1576bb;
 }
 body {
   // font-family: "Roboto", sans-serif;
@@ -67,7 +69,7 @@ body {
   padding-top: 50px;
   padding-bottom: 50px;
   margin: 0 auto;
-  background-color: var(--secondary-color);
+  background-color: var(--background-color);
 }
 .home-slide6 {
   background-color: var(--secondary-color);
@@ -244,6 +246,18 @@ body {
   flex-direction: row;
   justify-content: center;
 }
+.background-container {
+  padding: 20px;
+  border-radius: 15px;
+  background-color: var(--primary-color);
+  // box-shadow: var(--shadow_for_white);
+  &:hover {
+    box-shadow: var(--shadow);
+    border: 1px solid var(--primary-color);
+    cursor: pointer;
+    padding: 19px;
+  }
+}
 .childrens {
   justify-content: space-evenly;
   width: 100%;
@@ -256,21 +270,28 @@ body {
 .child3 {
   margin: 0 auto;
   display: block;
-  width: 220px;
+  width: 300px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  color: var(--secondary-color);
   .content {
     display: block;
     text-align: left;
     .shead {
       margin-top: 1em;
-      font-size: 18px;
-      font-weight: 500;
+      font-size: 22px;
+      font-weight: 600;
       line-height: 1em;
+      font-family: "Gilroy Bold";
     }
     .description {
       margin-top: -5px;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: normal;
-      color: var(--text-description);
+      color: var(--secondary-color);
+      text-align: justify;
     }
   }
 }
@@ -285,8 +306,8 @@ body {
 }
 
 .background-circle {
-  width: 60px;
-  height: 60px;
+  width: 85px;
+  height: 85px;
   border-radius: 50%;
   background-color: var(--secondary-color);
   text-align: center;
@@ -360,6 +381,7 @@ body {
   justify-content: space-evenly;
   margin-top: 4em;
 }
+
 .benefits {
   .benefit-card-parent {
     display: flex;
@@ -373,7 +395,7 @@ body {
   .benefit-card {
     width: fit-content;
     max-width: 360px;
-    background-color: var(--background-color);
+    background-color: var(--secondary-color);
     border-radius: 10px;
     padding: 20px;
     &:hover {
@@ -527,12 +549,6 @@ body {
   }
   display: inline-flex;
   align-items: center;
-}
-
-.background-container {
-  padding: 20px;
-  border-radius: 15px;
-  background-color: var(--background-color);
 }
 
 // Benefit 4 styles

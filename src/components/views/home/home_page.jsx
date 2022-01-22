@@ -10,36 +10,31 @@ import HowItWorks from "./counts/how_it_works";
 import Slide2 from "./slide2/slide2";
 import { useEffect } from "react";
 
-
 export default function Homepage() {
+  //   const section1Ref = useRef(null);
 
-//   const section1Ref = useRef(null);
-  
-// useEffect(() => {
-// window.onscroll = function() {
-//   console.log(window.pageYOffset, section1Ref.current.offsetTop, section1Ref.current.offsetHeight, window.innerHeight, window.pageYOffset + window.innerHeight);
-//   if (window.pageYOffset > section1Ref.current.offsetTop) {
-//     section1Ref.current.classList.add("sticky");
-//   } else {
-//     section1Ref.current.classList.remove("sticky");
-//   }
+  // useEffect(() => {
+  // window.onscroll = function() {
+  //   console.log(window.pageYOffset, section1Ref.current.offsetTop, section1Ref.current.offsetHeight, window.innerHeight, window.pageYOffset + window.innerHeight);
+  //   if (window.pageYOffset > section1Ref.current.offsetTop) {
+  //     section1Ref.current.classList.add("sticky");
+  //   } else {
+  //     section1Ref.current.classList.remove("sticky");
+  //   }
 
-
-// }}, []);
-
+  // }}, []);
 
   // const scrollUp =()=>{
 
   // }
 
-
   return (
-    <div className="home-page headerrr" >
+    <div className="home-page headerrr">
       {/* <ReactScrollWheelHandler
   upHandler={(e) => scrollUp()}
   downHandler={(e) => console.log("scroll down")}
 > */}
-      <div className="home-slide1" >
+      <div className="home-slide1">
         <Slide1 />
       </div>
       <div className="home-slide2">
@@ -48,15 +43,13 @@ export default function Homepage() {
       <div className="home-slide3" id="toBeScrolledTo">
         <Benefits2 />
       </div>
-      <div className="home-slide6 center-divy view-hight"> 
+      <div className="home-slide6 center-divy view-hight">
         <Slide2 />
       </div>
-      {/* <div className="home-slide4">
+      <div className="home-slide4">
         <Benefits />
-      </div> */}
-      <div className="home-slide5">
-
       </div>
+      <div className="home-slide5"></div>
       <div className="home-footer">
         <FooterBar />
       </div>
