@@ -11,22 +11,22 @@ export default function Benefits2() {
   let data = [
     {
       icon: AiOutlineDashboard,
-      title: "Daily work progress",
+      title: "Describe your Need",
       color: "#008fdb",
     },
     {
       icon: AiOutlineNotification,
-      title: "Daily notifications",
+      title: "Schedule",
       color: "#008fdb",
     },
     {
       icon: AiOutlineCreditCard,
-      title: "Pay on delivery",
+      title: "Connect with partner",
       color: "#008fdb",
     },
     {
       icon: AiOutlineYoutube,
-      title: "Learn skills",
+      title: "Get service Done",
       color: "#008fdb",
     },
   ];
@@ -52,10 +52,11 @@ export default function Benefits2() {
             <img src={workImage} alt="downloadApp" className="image-url" />
           </div>
           <div className="content">
-            <p className="head">Best online course therepy consultantion</p>
+            <p className="head home-page-head">Easy to Convey</p>
             <p className="description">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text.
+              It's easy to convey your need to us through our platform. We
+              provide you with a platform where you can easily find the best
+              service partner for your need.
             </p>
             <div className="grid-container-2">
               {data.map((item, index) => {

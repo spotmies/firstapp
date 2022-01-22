@@ -58,8 +58,8 @@ const Routing = () => {
         <Route path="/signup" component={login} />
         <Route path="/mybookings/id/edit" component={editpost2} />
         <Route path="/mybookings/id" component={NewBook} />
-        <Route path="/contact" component={SimpleMap} />
-        <Route path="/new-contact" component={NewContact} />
+        {/* <Route path="/contact" component={SimpleMap} /> */}
+        <Route path="/contact" component={NewContact} />
         <Route path="/rentals" component={Rentals} />
         <Route path="/pdetails" component={pdetails} />
         <Route path="/partnerRegistration" component={partnerRegistration} />

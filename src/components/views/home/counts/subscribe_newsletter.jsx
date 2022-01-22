@@ -1,5 +1,15 @@
 import React from "react";
-import { AiOutlineUserAdd, AiOutlineYoutube } from "react-icons/ai";
+import {
+  AiOutlineUserAdd,
+  AiOutlineYoutube,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@mui/material/InputAdornment";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import FormControl from "@mui/material/FormControl";
+import InputBase from "@mui/material/InputBase";
+import FormHelperText from "@mui/material/FormHelperText";
 
 export default function NewsLetter() {
   return (
@@ -12,8 +22,20 @@ export default function NewsLetter() {
           </p>
 
           <div className="center-div">
-            <div>
-              <input type="text" placeholder="Enter your email" />
+            <div className="input-div">
+              <FormControl className="form-control">
+                <InputBase
+                  // id="outlined-adornment-password"
+                  type="text"
+                  placeholder="Enter your email"
+                  className="newsletter-input"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <AiOutlineArrowRight className="input-icon" />
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </div>
             {/* <div className="small-card">
               <AiOutlineUserAdd

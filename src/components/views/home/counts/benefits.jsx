@@ -47,7 +47,7 @@ export default function Benefits() {
   return (
     <div className="center">
       <div className="benefits">
-        <p className="head center-text">Benefits</p>
+        {/* <p className="head center-text">Benefits</p> */}
 
         <div className="benefit-card-parent">
           {data.map((item, index) => {
