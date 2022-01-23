@@ -1,0 +1,113 @@
+:root {
+  --primary-color: #008fdb;
+  --secondary-color: white;
+  --text-description: #5c5c5c;
+  --shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  --shadow_for_white: 0px 0px 10px rgba(87, 87, 87, 0.671);
+  --background-color: rgba(245, 245, 245, 0.952);
+  --lite-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
+  --head-color: #2f2e41;
+  --primary-color2: #1576bb;
+}
+
+.service-list {
+  width: 100%;
+  height: fit-content;
+}
+
+.service-list {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.section-1 {
+  width: 40%;
+  .shead {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: "Gilroy Bold";
+  }
+  .description {
+    //   width: 40%;
+    font-size: 14px;
+    line-height: 1.8em;
+  }
+}
+.section-2 {
+  max-width: 60%;
+  .service-card-parent {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    grid-column-gap: 40px;
+    grid-row-gap: 40px;
+    .service-card {
+      min-height: 200px;
+      //   min-width: 160px;
+      width: 160px;
+      //   width: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 10px;
+      padding: 20px;
+
+      &:hover {
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        // border: 1px solid var(--primary-color);
+      }
+      .icon-wrapperr {
+        height: 70px;
+        width: 70px;
+        // margin-left: 15px;
+        border-radius: 50%;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(255, 255, 255);
+      }
+      .content {
+        margin-left: 5px;
+      }
+      .chead {
+        font-size: 16px;
+        font-family: "Gilroy Bold";
+
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+.dot-parent {
+  width: fit-content;
+  display: flex;
+  height: fit-content;
+  justify-self: center;
+  align-self: center;
+  margin-right: 40px;
+  flex-direction: row;
+  //   justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: white;
+  border: 1px solid rgb(201, 201, 201);
+  .dot-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgb(201, 201, 201);
+    margin-left: 5px;
+    margin-right: 5px;
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(17, 17, 17);
+    }
+  }
+}
