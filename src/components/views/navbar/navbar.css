@@ -38,7 +38,13 @@
   padding-top: 10px;
   color: rgb(105, 105, 105);
   /* color: white; */
-  box-shadow: 1px 1px 5px rgb(197, 197, 197);
+}
+.navi-bar-shadow {
+  box-shadow: 0 4px 20px 0 hsl(0deg 0% 60% / 20%);
+}
+
+.nav-container {
+  width: 85% !important;
 }
 
 /* .scrolled {

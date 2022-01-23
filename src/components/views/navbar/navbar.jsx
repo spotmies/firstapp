@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
@@ -38,6 +38,7 @@ import { useStores } from "../../stateManagement/index";
 
 function Navibar(props) {
   const { services, commonStore } = useStores();
+  const [shadow, setShadow] = useState(false);
 
   const history = useHistory();
   useEffect(() => {
@@ -167,6 +168,7 @@ function Navibar(props) {
     });
   };
   useEffect(() => {
+    console.log("sending message through socket");
     sendMessageThroghtSocket();
     // let refreshIntervalId = setInterval(sendMessageThroghtSocket(), 3000);
 
@@ -187,13 +189,26 @@ function Navibar(props) {
       });
   }
 
+  useEffect(() => {
+    window.onscroll = function () {
+      if (window.scrollY > 20 && !shadow) {
+        setShadow(true);
+      } else {
+        setShadow(false);
+      }
+    };
+  }, []);
+
   return (
     <Observer>
       {() => (
         <div style={{ paddingBottom: "80px" }}>
-          <header style={{ zIndex: "9999" }} className="navi-bar">
+          <header
+            style={{ zIndex: "9999" }}
+            className={shadow ? "navi-bar navi-bar-shadow" : "navi-bar"}
+          >
             <div style={{ width: "100%" }}>
-              <Container>
+              <Container className="nav-container">
                 <Navbar collapseOnSelect expand="lg" variant="light">
                   <IconContext.Provider
                     value={{ size: "1.5em", className: "nav-icons" }}
