@@ -23,7 +23,7 @@ import {
   MdChatBubble,
   MdWork,
   MdAddCircle,
-  MdEmail,
+  MdStore,
 } from "react-icons/md";
 
 import { BiLogOutCircle } from "react-icons/bi";
@@ -327,18 +327,31 @@ function Navibar(props) {
                           </div>
                         ) : null}
                         {commonStore.isUserLogin === false ? (
-                          <Link className="nav-links" to="/signup">
-                            <Nav className="chaticon" id="signup">
-                              <MdAccountCircle className="chaticon2" />
-                              <b> Signup/Login</b>
-                            </Nav>
-                          </Link>
+                          <>
+                            <Link className="nav-links" to="/signup">
+                              <Nav className="chaticon" id="signup">
+                                <MdStore />
+                                <p>
+                                  <b>&nbsp;Join as Service Partner</b>
+                                </p>
+                              </Nav>
+                            </Link>
+                            <Link className="nav-links" to="/signup">
+                              <Nav className="chaticon" id="signup">
+                                <MdAccountCircle />
+                                <p>
+                                  <b>&nbsp;Signup/Login</b>
+                                </p>
+                              </Nav>
+                            </Link>
+                          </>
                         ) : null}
                         <Link className="nav-links" to="/newpost">
-                          {" "}
                           <Nav className="chaticon">
                             <MdAddCircle size="1.4rem" className="chaticon2" />
-                            <b>Get Service</b>
+                            <p>
+                              <b>Get Service</b>
+                            </p>
                           </Nav>
                         </Link>
                       </Nav>

@@ -13,7 +13,7 @@ export default function HowItWorks() {
     },
     {
       icon: AiOutlineUsergroupAdd,
-      title: "Connect to nearest partner",
+      title: "Connect to nearest service partner",
       color: "#008fdb",
       desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
     },
