@@ -48,11 +48,14 @@ export default function Benefits2() {
     <div className="center">
       <div className="benefits2">
         <div className="main-content">
-          <div className="image">
+          <div className="image easy-image">
             <img src={workImage} alt="downloadApp" className="image-url" />
           </div>
           <div className="content">
             <p className="head home-page-head">Easy to Convey</p>
+            <div className="image mImage">
+            <img src={workImage} alt="downloadApp" className="image-url" />
+          </div>
             <p className="description">
               It's easy to convey your need to us through our platform. We
               provide you with a platform where you can easily find the best

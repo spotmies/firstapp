@@ -86,12 +86,19 @@ body {
     width: 70% !important;
   }
 }
+
+.mImage {
+  display: none;
+}
 .slide-1 {
   height: fit-content;
   background-image: url(../../../assets/svgs/speechtotext.svg);
   background-repeat: no-repeat;
   background-position: 80% 50%;
   background-size: 600px;
+  .slide1Img {
+    display: none;
+  }
   .head {
     font-weight: 600 !important;
     font-size: 64px !important;
@@ -133,6 +140,9 @@ body {
   background-size: 600px;
   // height: calc(100vh - 60px);
   background-color: var(--secondary-color);
+  .slide2-image {
+    display: none;
+  }
   .content {
     width: 60% !important;
   }
@@ -757,4 +767,99 @@ body {
 }
 .input-div {
   width: 300px !important;
+}
+
+@media screen and (max-width:600px) {
+  .view-hight {
+    height: fit-content !important;
+  }
+
+  .slide-1 {
+    background-image: none;
+    background-size: none;
+    .slide1Img {
+      display: block;
+      width: 100%;
+      height: 300px;
+    }
+    
+    .main-content {
+      padding: 10px;
+    }
+    .head{
+      margin-top: 0px;
+      width: 100%;
+      text-align: center;
+      font-size: 52px !important;
+    }
+    .description {
+      width: 100% !important;
+      font-size: 20px !important;
+      text-align: justify;
+    }
+  }
+  
+  .how-it-works {
+    height: fit-content !important;
+    width: 100%;
+    .parent {
+      flex-direction: column;
+    }
+  }
+
+  .home-slide1, .home-slide2, .home-slide3 {
+    height: fit-content !important;
+    display: block !important;
+  }
+
+  .main-content {
+    padding: 10px !important;
+  }
+
+  .mImage {
+    display: block;
+  }
+
+  .easy-image {
+    display: none !important;
+  }
+
+
+  .description {
+    width: 100% !important;
+    font-size: 20px !important;
+    text-align: justify;
+  }
+
+  .head{
+    text-align: center;
+  }
+
+  .slide-2 {
+    background-image: none !important;
+    .slide2-image{
+      display: block;
+      width: 100%;
+      height: 300px;
+    }
+    .content {
+      width: 100% !important;
+    }
+  }
+
+  .shead {
+    line-height: 4px !important;
+    // text-align: justify;
+  }
+
+  .benefits {
+    .benefit-card-parent {
+      flex-direction: column;
+    }
+    .benefit-card {
+      width: 80% !important;
+      max-width: 80% !important;
+    }
+  }
+
 }
