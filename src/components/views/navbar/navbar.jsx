@@ -191,7 +191,7 @@ function Navibar(props) {
 
   useEffect(() => {
     window.onscroll = function () {
-      if (window.scrollY > 20 && !shadow) {
+      if (window.scrollY > 90 && !shadow) {
         setShadow(true);
       } else {
         setShadow(false);
@@ -343,7 +343,7 @@ function Navibar(props) {
                         ) : null}
                         {commonStore.isUserLogin === false ? (
                           <>
-                            <Link className="nav-links" to="/signup">
+                            <Link className="nav-links" to="/service-partner">
                               <Nav className="chaticon" id="signup">
                                 <MdStore />
                                 <p>

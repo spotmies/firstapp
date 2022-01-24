@@ -1,0 +1,31 @@
+:root {
+  --primary-color: #008fdb;
+  --secondary-color: white;
+  --text-description: #5c5c5c;
+  --shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  --shadow_for_white: 0px 0px 10px rgba(87, 87, 87, 0.671);
+  --background-color: rgba(245, 245, 245, 0.952);
+  --lite-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
+  --head-color: #2f2e41;
+  --primary-color2: #1576bb;
+}
+.partner-slide-2 {
+  background-color: var(--background-color);
+}
+.partner-slide-4 {
+  background-color: var(--background-color);
+}
+.slide-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  div {
+    margin-right: 10px;
+  }
+}
+
+.partner-reg-form {
+  margin-top: 20px;
+  width: 55%;
+}

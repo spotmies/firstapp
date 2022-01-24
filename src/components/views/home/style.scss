@@ -48,6 +48,15 @@ body {
 .view-hight {
   height: calc(100vh - 60px);
 }
+
+.page-slide {
+  width: 100%;
+  margin: 0 auto;
+  height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+}
+
 .home-slide2 {
   width: 100%;
   margin: 0 auto;
@@ -94,7 +103,7 @@ body {
   .get-started-btn {
     box-shadow: var(--shadow);
     margin-top: 20px;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px 20px;
     width: fit-content;
     font-size: 16px;
@@ -102,7 +111,7 @@ body {
     cursor: pointer;
     // transition: all 0.3s ease-in-out;
 
-    background-color: var(--background-color);
+    background-color: var(--secondary-color);
     color: var(--primary-color);
     border: 1px solid var(--primary-color);
     &:hover {
@@ -111,6 +120,10 @@ body {
       border: none;
       // padding: 9px 19px;
     }
+  }
+  .get-started-btn-fill {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
   }
 }
 .slide-2 {
@@ -468,8 +481,11 @@ body {
     border-radius: 12px;
     padding: 14px;
     width: fit-content;
+    box-shadow: var(--shadow);
     &:hover {
       box-shadow: var(--shadow);
+      border: 1px solid rgb(53, 53, 53);
+      padding: 13px;
       cursor: pointer;
     }
 

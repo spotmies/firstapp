@@ -50,6 +50,7 @@ function PartnerRegistration(props) {
     // window.location.href = 'https://modernsilpi.com';
     window.open("https://modernsilpi.com", "_blank");
   };
+
   const handleChange2 = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
     spcate(selectedOption);
@@ -232,7 +233,9 @@ function PartnerRegistration(props) {
         <FeedbackForm open={open} close={closeModal} />
 
         <div style={{ textAlign: "center", width: "100%" }} ref={ref1}>
-          <h2 style={{ fontSize: "34px" }}>{commonStore.getText("partner_reg_heading")}</h2>
+          <h2 style={{ fontSize: "34px" }}>
+            {commonStore.getText("partner_reg_heading")}
+          </h2>
           <Form
             style={{
               paddingBottom: "20px",
@@ -471,7 +474,9 @@ function PartnerRegistration(props) {
         </div>
         <FeedbackForm open={open} close={closeModal} />
         <div style={{ textAlign: "center" }} ref={ref1}>
-          <h2 style={{ fontSize: "54px" }}>{commonStore.getText("partner_reg_heading")}</h2>
+          <h2 style={{ fontSize: "54px" }}>
+            {commonStore.getText("partner_reg_heading")}
+          </h2>
           <Form
             style={{
               paddingBottom: "20px",
@@ -591,3 +596,152 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, null)(PartnerRegistration);
+
+function PartnerRegistrationForm(params) {
+  const ref1 = useRef(null);
+  const [pcate, spcate] = useState(null);
+  const [sbtn, setsbtn] = useState(false);
+  const name = useRef(null);
+  const mobile = useRef(null);
+  const otherProfession = useRef(null);
+  const [showOtherProfession, setShowOtherProfession] = useState(false);
+  const { services, commonStore } = useStores();
+
+  const handleChange2 = (selectedOption) => {
+    console.log(`Option selected:`, selectedOption);
+    spcate(selectedOption);
+    if (selectedOption.serviceId == 100) {
+      setShowOtherProfession(true);
+    } else {
+      setShowOtherProfession(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const re = /^[0-9\b]+$/;
+    if (e.target.value === "" || re.test(e.target.value)) {
+    } else {
+      e.target.value = e.target.value.slice(0, -1);
+    }
+  };
+
+  const formsubmit = async () => {
+    console.log(otherProfession);
+    let pnum = mobile.current.value;
+    let pname = name.current.value;
+    if (pnum.length === 10 && pcate !== null) {
+      setsbtn(true);
+      let pcatee = showOtherProfession
+        ? otherProfession?.current?.value
+        : pcate.serviceId;
+      let body = {
+        subject: "Partner Request",
+        suggestionFor: "partnerRegistration",
+        name: pname,
+        mobile: pnum,
+        suggestionFrom: "userWeb",
+        others: pcatee,
+        createdAt: new Date().valueOf(),
+      };
+      console.log(body);
+      await partprereg(body);
+    } else {
+      if (pnum.length < 10) toast.warning("enter valid number");
+      else if (pcate === null) toast.warning("please select your profession");
+    }
+  };
+  const clearfield = () => {
+    spcate(null);
+
+    setsbtn(false);
+    document.getElementById("pname").value = "";
+    document.getElementById("pnum").value = "";
+  };
+  async function partprereg(details) {
+    const result = await apiPostPut(
+      details,
+      constants.api.new_suggestion,
+      "POST"
+    );
+    if (result != null) {
+      clearfield();
+      toast.info("Thank you we will contact you soon...");
+    } else {
+      toast.info("please try again");
+      setsbtn(false);
+    }
+  }
+  return (
+    <div style={{ textAlign: "center", width: "100%" }} ref={ref1}>
+      <h2 style={{ fontSize: "34px" }}>
+        {commonStore.getText("partner_reg_heading")}
+      </h2>
+      <Form
+        style={{
+          paddingBottom: "20px",
+          width: "80%",
+          margin: "0 auto",
+          textAlign: "left",
+        }}
+        onSubmit={formsubmit}
+      >
+        <Form.Field>
+          <label>
+            <b>Select your Profession</b>
+          </label>
+          <Select2
+            placeholder="Select your Profession"
+            value={pcate}
+            onChange={handleChange2}
+            options={services.mainServicesList}
+            style={{ zIndex: "1" }}
+          />
+        </Form.Field>
+        {showOtherProfession ? (
+          <Form.Field>
+            <label>Enter Your profession</label>
+            <input
+              placeholder="Profession name"
+              ref={otherProfession}
+              maxLength="40"
+              required
+            />
+          </Form.Field>
+        ) : null}
+        <Form.Field>
+          <label>First Name</label>
+          <input
+            placeholder="First Name"
+            id="pname"
+            name="pname"
+            ref={name}
+            maxLength="25"
+            required
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Mobile Number</label>
+          <input
+            ref={mobile}
+            onClick={handleChange}
+            name="pnum"
+            id="pnum"
+            onChange={handleChange}
+            placeholder="Mobile Numer"
+            maxLength="10"
+            required
+          />
+        </Form.Field>
+        {sbtn === false ? (
+          <Button primary type="submit">
+            Submit
+          </Button>
+        ) : (
+          <Button loading primary>
+            Submit
+          </Button>
+        )}
+      </Form>
+    </div>
+  );
+}
