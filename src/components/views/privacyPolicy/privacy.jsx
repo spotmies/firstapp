@@ -150,6 +150,8 @@ function Privacy() {
           </p>
           <ul>
             <li>Information regarding your location</li>
+            <li>Required Microphone for audio calling and voice recording</li>
+            <li>Required Data storage access</li>
             <li>
               Pictures and other information from your Device's camera and photo
               library
