@@ -111,3 +111,36 @@
     }
   }
 }
+
+
+@media screen and (max-width:600px) {
+  .service-list {
+    width: 100%;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+
+  .section-1 {
+    width: 100%;
+
+    .head{
+      padding: 20px;
+    }
+    .description {
+      padding: 30px;
+      font-size: 20px !important;
+      line-height: normal;
+      text-align: justify;
+    }
+  }
+
+  .section-2 {
+    max-width: 100%;
+    .service-card-parent{
+    grid-template-columns: auto auto !important;
+    .service-card {
+      padding: 0;
+    }
+  }
+}
+}

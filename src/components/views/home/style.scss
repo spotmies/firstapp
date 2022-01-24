@@ -826,6 +826,24 @@ body {
       width: 100%;
       height: 300px;
     }
+    .content {
+      width: 100% !important;
+    }
+  }
+
+  .shead {
+    line-height: 4px !important;
+    // text-align: justify;
+  }
+
+  .benefits {
+    .benefit-card-parent {
+      flex-direction: column;
+    }
+    .benefit-card {
+      width: 80% !important;
+      max-width: 80% !important;
+    }
   }
 
 }
