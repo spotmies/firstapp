@@ -1,6 +1,6 @@
 import React from "react";
 import workImage from "../../../../assets/svgs/speechtotext.svg";
-
+import slide1Img from "../../../../assets/svgs/speechtotext.svg";
 export default function Slide1() {
   return (
     <div className="center">
@@ -9,6 +9,7 @@ export default function Slide1() {
           <div className="content">
             <p className="head home-page-head">Life Should Be Easy.</p>
             <div className="spacer-span" />
+            <img src={slide1Img} className="slide1Img" />
             <div className="spacer-span" />
             <p className="description">
               Lorem Ipsum is simply dummy text of the printing and typesetting

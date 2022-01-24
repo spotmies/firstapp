@@ -45,10 +45,10 @@ export default function Homepage() {
       <div className="home-slide3" id="toBeScrolledTo">
         <Benefits2 />
       </div>
-      <div className="home-slide6 center-divy view-hight">
+     <div className="home-slide6 center-divy view-hight">
         <Slide2 />
       </div>
-
+{/* 
       <div className="home-slide5 view-hight center-divy">
         <ServicesList />
       </div>
@@ -62,7 +62,7 @@ export default function Homepage() {
       </div>
       <div className="home-footer">
         <FooterBar />
-      </div>
+      </div> */}
       {/* </ReactScrollWheelHandler> */}
     </div>
   );

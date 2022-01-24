@@ -1,5 +1,6 @@
 import React from "react";
 import workImage from "../../../../assets/svgs/speechtotext.svg";
+import Slide2Image from '../../../../assets/svgs/speechtotext.svg';
 
 export default function Slide2() {
   return (
@@ -9,6 +10,7 @@ export default function Slide2() {
           <div className="content">
             <p className="head home-page-head">Get quality professional service</p>
             <div className="spacer-span" />
+            <img src={Slide2Image} className="slide2-image" alt="" />
             <div className="spacer-span" />
             <p className="description">
               Lorem Ipsum is simply dummy text of the printing and typesetting
