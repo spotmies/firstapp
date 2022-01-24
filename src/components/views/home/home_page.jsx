@@ -9,6 +9,8 @@ import Benefits from "./counts/benefits";
 import HowItWorks from "./counts/how_it_works";
 import Slide2 from "./slide2/slide2";
 import { useEffect } from "react";
+import ServicesList from "./services_list/services_list";
+import ShowCard from "./counts/show_card";
 
 export default function Homepage() {
   //   const section1Ref = useRef(null);
@@ -46,10 +48,18 @@ export default function Homepage() {
       <div className="home-slide6 center-divy view-hight">
         <Slide2 />
       </div>
+
+      <div className="home-slide5 view-hight center-divy">
+        <ServicesList />
+      </div>
       <div className="home-slide4">
         <Benefits />
       </div>
-      <div className="home-slide5"></div>
+      <div className="home-slide7">
+        <div className="spacer" />
+        <ShowCard />
+        <div className="spacer" />
+      </div>
       <div className="home-footer">
         <FooterBar />
       </div>
