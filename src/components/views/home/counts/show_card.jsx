@@ -6,7 +6,9 @@ export default function ShowCard() {
     <div className="center">
       <div className="show-card">
         <div className="show-card-content">
-          <p className="head-center">Get started with Spotmies Today</p>
+          <p className="head-center head home-page-head">
+            Get started with Spotmies Today
+          </p>
           <p className="description">
             Turn your idea into incredebil business with 30 days trial period.
           </p>
