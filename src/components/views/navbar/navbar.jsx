@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NavDropdown, Navbar, Nav, Container } from "react-bootstrap";
@@ -39,6 +39,7 @@ import { useStores } from "../../stateManagement/index";
 function Navibar(props) {
   const { services, commonStore } = useStores();
   const [shadow, setShadow] = useState(false);
+  const onWheelDiv = useRef(null);
 
   const history = useHistory();
   useEffect(() => {
@@ -190,8 +191,8 @@ function Navibar(props) {
   }
 
   useEffect(() => {
-    window.onscroll = function () {
-      if (window.scrollY > 20 && !shadow) {
+    window.onscroll = () => {
+      if (window.scrollY > 90 && !shadow) {
         setShadow(true);
       } else {
         setShadow(false);
@@ -202,190 +203,205 @@ function Navibar(props) {
   return (
     <Observer>
       {() => (
-        <div style={{ paddingBottom: "80px" }}>
-          <header
-            style={{ zIndex: "9999" }}
-            className={shadow ? "navi-bar navi-bar-shadow" : "navi-bar"}
-          >
-            <div style={{ width: "100%" }}>
-              <Container className="nav-container">
-                <Navbar collapseOnSelect expand="lg" variant="light">
-                  <IconContext.Provider
-                    value={{ size: "1.5em", className: "nav-icons" }}
-                  >
-                    <Link to="/">
-                      <div className="logo-banner">
-                        <img src={SmLogo} className="navbar-logo" />
-                        <div className="nav-tag-title">
-                          <h1 className="navbar-title">SPOTMIES</h1>
-                          <p className="tag-line">Experience the Excellence</p>
-                        </div>
-                      </div>
-                    </Link>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse
-                      id="responsive-navbar-nav"
-                      className="justify-content-end"
-                    >
-                      <Nav className="mr-auto"></Nav>
-                      <Nav
-                        className="nav-linkList"
-                        style={{ color: "black", display: "inline-flex" }}
+        <div ref={onWheelDiv}>
+          {commonStore.showNavBar ? (
+            <div style={{ paddingBottom: "80px" }}>
+              <header
+                style={{ zIndex: "9999" }}
+                className={shadow ? "navi-bar navi-bar-shadow" : "navi-bar"}
+              >
+                <div style={{ width: "100%" }}>
+                  <Container className="nav-container">
+                    <Navbar collapseOnSelect expand="lg" variant="light">
+                      <IconContext.Provider
+                        value={{ size: "1.5em", className: "nav-icons" }}
                       >
-                        {/* <Link className="nav-links" to="/careers">
+                        <Link to="/">
+                          <div className="logo-banner">
+                            <img src={SmLogo} className="navbar-logo" />
+                            <div className="nav-tag-title">
+                              <h1 className="navbar-title">SPOTMIES</h1>
+                              <p className="tag-line">
+                                Experience the Excellence
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                        <Navbar.Collapse
+                          id="responsive-navbar-nav"
+                          className="justify-content-end"
+                        >
+                          <Nav className="mr-auto"></Nav>
+                          <Nav
+                            className="nav-linkList"
+                            style={{ color: "black", display: "inline-flex" }}
+                          >
+                            {/* <Link className="nav-links" to="/careers">
                           <Nav className="chaticon" id="mybooks">
                             <FaGraduationCap className="chaticon2" />
                             <b>Careers</b>
                           </Nav>
                         </Link> */}
-                        {commonStore.isUserLogin ? (
-                          <>
-                            <Link className="nav-links" to="/mybookings">
-                              <Nav className="chaticon" id="mybooks">
-                                <MdWork className="chaticon2" />
-                                <b>My Bookings</b>
-                              </Nav>
-                            </Link>
-                            <Link className="nav-links" to="/chat">
-                              <Nav className="chaticon" id="mychats">
-                                <MdChatBubble className="chaticon2" />
-                                <b>Chat</b>
-                              </Nav>
-                            </Link>
-                          </>
-                        ) : null}
+                            {commonStore.isUserLogin ? (
+                              <>
+                                <Link className="nav-links" to="/mybookings">
+                                  <Nav className="chaticon" id="mybooks">
+                                    <MdWork className="chaticon2" />
+                                    <b>My Bookings</b>
+                                  </Nav>
+                                </Link>
+                                <Link className="nav-links" to="/chat">
+                                  <Nav className="chaticon" id="mychats">
+                                    <MdChatBubble className="chaticon2" />
+                                    <b>Chat</b>
+                                  </Nav>
+                                </Link>
+                              </>
+                            ) : null}
 
-                        {/* <Link className="nav-links" to="/contact">
+                            {/* <Link className="nav-links" to="/contact">
                           <Nav className="chaticon" id="contact">
                             <MdEmail size="1.3rem" className="chaticon2" />
                             <b>Contact</b>
                           </Nav>
                         </Link> */}
-                        {commonStore.isUserLogin ? (
-                          <div
-                            className="nav-links"
-                            style={{
-                              display: "inline-flex",
-                              color: "black",
-                              marginRight: "0",
-                            }}
-                          >
-                            <span>
-                              {validURL(commonStore.userDetails.pic) ? (
-                                <img
-                                  alt="noting"
-                                  src={commonStore.userDetails.pic}
-                                  className="userdp"
-                                  style={{
-                                    height: "20px",
-                                    width: "20px",
-                                    borderRadius: "1rem",
-                                    marginTop: "10px",
-                                    marginLeft: "6px",
-                                  }}
-                                />
-                              ) : (
-                                <MdAccountCircle
-                                  style={{ marginTop: "10px" }}
-                                />
-                              )}
-                            </span>
-                            <NavDropdown
-                              title={commonStore.userDetails.name}
-                              style={{ marginTop: "3px" }}
-                              variant="dark"
-                              id="collapsible-nav-dropdown"
-                              className="userhere"
-                              active
-                            >
-                              <Link to="/account">
-                                <NavDropdown.Item href="#action/3">
-                                  <MdAccountCircle color="gray" size="1.5em" />
-                                  <b> Account</b>{" "}
-                                </NavDropdown.Item>
-                              </Link>
-                              <Link to="/mybookings">
-                                <NavDropdown.Item href="#action/3.1">
-                                  <MdWork color="gray" size="1.5em" />
-                                  <b> My Bookings</b>
-                                </NavDropdown.Item>
-                              </Link>
-                              <Link to="/chat">
-                                <NavDropdown.Item href="#action/3.2">
-                                  <MdChatBubble color="gray" size="1.5em" />
-                                  <b> Chats</b>
-                                </NavDropdown.Item>
-                              </Link>
-                              <Link to="/account">
-                                <NavDropdown.Item href="#action/3.3">
-                                  <MdSettings color="gray" size="1.5em" />
-                                  <b> Settings</b>
-                                </NavDropdown.Item>
-                              </Link>
-                              <Link to="/newpost">
-                                <NavDropdown.Item href="#action/3.4">
-                                  <MdAddCircle color="gray" size="1.5em" />
-                                  <b> Get Service</b>
-                                </NavDropdown.Item>
-                              </Link>
+                            {commonStore.isUserLogin ? (
+                              <div
+                                className="nav-links"
+                                style={{
+                                  display: "inline-flex",
+                                  color: "black",
+                                  marginRight: "0",
+                                }}
+                              >
+                                <span>
+                                  {validURL(commonStore.userDetails.pic) ? (
+                                    <img
+                                      alt="noting"
+                                      src={commonStore.userDetails.pic}
+                                      className="userdp"
+                                      style={{
+                                        height: "20px",
+                                        width: "20px",
+                                        borderRadius: "1rem",
+                                        marginTop: "10px",
+                                        marginLeft: "6px",
+                                      }}
+                                    />
+                                  ) : (
+                                    <MdAccountCircle
+                                      style={{ marginTop: "10px" }}
+                                    />
+                                  )}
+                                </span>
+                                <NavDropdown
+                                  title={commonStore.userDetails.name}
+                                  style={{ marginTop: "3px" }}
+                                  variant="dark"
+                                  id="collapsible-nav-dropdown"
+                                  className="userhere"
+                                  active
+                                >
+                                  <Link to="/account">
+                                    <NavDropdown.Item href="#action/3">
+                                      <MdAccountCircle
+                                        color="gray"
+                                        size="1.5em"
+                                      />
+                                      <b> Account</b>{" "}
+                                    </NavDropdown.Item>
+                                  </Link>
+                                  <Link to="/mybookings">
+                                    <NavDropdown.Item href="#action/3.1">
+                                      <MdWork color="gray" size="1.5em" />
+                                      <b> My Bookings</b>
+                                    </NavDropdown.Item>
+                                  </Link>
+                                  <Link to="/chat">
+                                    <NavDropdown.Item href="#action/3.2">
+                                      <MdChatBubble color="gray" size="1.5em" />
+                                      <b> Chats</b>
+                                    </NavDropdown.Item>
+                                  </Link>
+                                  <Link to="/account">
+                                    <NavDropdown.Item href="#action/3.3">
+                                      <MdSettings color="gray" size="1.5em" />
+                                      <b> Settings</b>
+                                    </NavDropdown.Item>
+                                  </Link>
+                                  <Link to="/newpost">
+                                    <NavDropdown.Item href="#action/3.4">
+                                      <MdAddCircle color="gray" size="1.5em" />
+                                      <b> Get Service</b>
+                                    </NavDropdown.Item>
+                                  </Link>
 
-                              <NavDropdown.Divider />
-                              <NavDropdown.Item onClick={userlogout}>
-                                <BiLogOutCircle
+                                  <NavDropdown.Divider />
+                                  <NavDropdown.Item onClick={userlogout}>
+                                    <BiLogOutCircle
+                                      className="chaticon2"
+                                      color="gray"
+                                      size="1.3em"
+                                    />{" "}
+                                    Logout
+                                  </NavDropdown.Item>
+                                </NavDropdown>
+                              </div>
+                            ) : null}
+                            {commonStore.isUserLogin === false ? (
+                              <>
+                                <Link
+                                  className="nav-links"
+                                  to="/service-partner"
+                                >
+                                  <Nav className="chaticon" id="signup">
+                                    <MdStore />
+                                    <p>
+                                      <b>&nbsp;Join as Service Partner</b>
+                                    </p>
+                                  </Nav>
+                                </Link>
+                                <Link className="nav-links" to="/signup">
+                                  <Nav className="chaticon" id="signup">
+                                    <MdAccountCircle />
+                                    <p>
+                                      <b>&nbsp;Signup/Login</b>
+                                    </p>
+                                  </Nav>
+                                </Link>
+                              </>
+                            ) : null}
+                            <Link className="nav-links" to="/newpost">
+                              <Nav className="chaticon">
+                                <MdAddCircle
+                                  size="1.4rem"
                                   className="chaticon2"
-                                  color="gray"
-                                  size="1.3em"
-                                />{" "}
-                                Logout
-                              </NavDropdown.Item>
-                            </NavDropdown>
-                          </div>
-                        ) : null}
-                        {commonStore.isUserLogin === false ? (
-                          <>
-                            <Link className="nav-links" to="/signup">
-                              <Nav className="chaticon" id="signup">
-                                <MdStore />
+                                />
                                 <p>
-                                  <b>&nbsp;Join as Service Partner</b>
+                                  <b>Get Service</b>
                                 </p>
                               </Nav>
                             </Link>
-                            <Link className="nav-links" to="/signup">
-                              <Nav className="chaticon" id="signup">
-                                <MdAccountCircle />
-                                <p>
-                                  <b>&nbsp;Signup/Login</b>
-                                </p>
-                              </Nav>
-                            </Link>
-                          </>
-                        ) : null}
-                        <Link className="nav-links" to="/newpost">
-                          <Nav className="chaticon">
-                            <MdAddCircle size="1.4rem" className="chaticon2" />
-                            <p>
-                              <b>Get Service</b>
-                            </p>
                           </Nav>
-                        </Link>
-                      </Nav>
-                    </Navbar.Collapse>
-                  </IconContext.Provider>
-                </Navbar>
-              </Container>
-              {props.loader === true ? (
-                <div className="linear-progress">
-                  <LinearProgress />
+                        </Navbar.Collapse>
+                      </IconContext.Provider>
+                    </Navbar>
+                  </Container>
+                  {props.loader === true ? (
+                    <div className="linear-progress">
+                      <LinearProgress />
+                    </div>
+                  ) : null}
                 </div>
-              ) : null}
+                {!props.disableBottomBar ? (
+                  <div className="bottom-navigation">
+                    <LabelBottomNavigation history={history} />
+                  </div>
+                ) : null}
+              </header>
             </div>
-            {!props.disableBottomBar ? (
-              <div className="bottom-navigation">
-                <LabelBottomNavigation history={history} />
-              </div>
-            ) : null}
-          </header>
+          ) : null}
         </div>
       )}
     </Observer>

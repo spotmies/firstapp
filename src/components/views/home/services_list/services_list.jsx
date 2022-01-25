@@ -1,40 +1,54 @@
 import React from "react";
 import { useState } from "react";
-import { AiOutlineAreaChart } from "react-icons/ai";
+import {
+  AiOutlineAreaChart,
+  AiOutlineHome,
+  AiOutlineLaptop,
+  AiOutlineVideoCamera,
+} from "react-icons/ai";
+import { BiCake, BiCctv, BiVideoRecording } from "react-icons/bi";
+import {
+  MdOutlineChair,
+  MdOutlineDesignServices,
+  MdOutlineFestival,
+} from "react-icons/md";
+import { BsFileCode } from "react-icons/bs";
+import { GiDesk, GiDoorHandle } from "react-icons/gi";
+import { IoRocketOutline } from "react-icons/io5";
 import "./styles.scss";
 
 export default function ServicesList() {
   const data1 = [
     {
-      icon: AiOutlineAreaChart,
+      icon: AiOutlineHome,
       title: "Interior Design",
       color: "#80c6ff",
       iconColor: "#0890ff",
       desc: "100+ services",
     },
     {
-      icon: AiOutlineAreaChart,
+      icon: MdOutlineFestival,
       title: "Event Management",
       color: "#ffe369",
       iconColor: "#e3b900",
       desc: "100+ services",
     },
     {
-      icon: AiOutlineAreaChart,
+      icon: GiDesk,
       title: "Home Decors",
       color: "#80c6ff",
       iconColor: "#0890ff",
       desc: "100+ services",
     },
     {
-      icon: AiOutlineAreaChart,
+      icon: MdOutlineDesignServices,
       title: "Designing",
       color: "#ffe369",
       iconColor: "#e3b900",
       desc: "100+ services",
     },
     {
-      icon: AiOutlineAreaChart,
+      icon: BiVideoRecording,
       title: "Photo & Video Grapher",
       color: "#80c6ff",
       iconColor: "#0890ff",
@@ -50,14 +64,14 @@ export default function ServicesList() {
   ];
   const data2 = [
     {
-      icon: AiOutlineAreaChart,
+      icon: BsFileCode,
       title: "Application Development",
       color: "#ffe369",
       iconColor: "#e3b900",
       desc: "100+ services",
     },
     {
-      icon: AiOutlineAreaChart,
+      icon: GiDoorHandle,
       title: "Automation services",
       color: "#80c6ff",
       iconColor: "#0890ff",
@@ -65,21 +79,21 @@ export default function ServicesList() {
     },
 
     {
-      icon: AiOutlineAreaChart,
+      icon: AiOutlineLaptop,
       title: "Pc/Laptop Services",
       color: "#80c6ff",
       iconColor: "#0890ff",
       desc: "100+ services",
     },
     {
-      icon: AiOutlineAreaChart,
+      icon: BiCctv,
       title: "CCTV Services",
       color: "#ffe369",
       iconColor: "#e3b900",
       desc: "100+ services",
     },
     {
-      icon: AiOutlineAreaChart,
+      icon: IoRocketOutline,
       title: "Digital Marketing",
       color: "#ffe369",
       iconColor: "#e3b900",

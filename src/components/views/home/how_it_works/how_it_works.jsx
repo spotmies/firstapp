@@ -105,7 +105,7 @@ function Home() {
       <Benefits4 />
       <div className="spacer" />
 
-      <DownloadMobileApp />
+      {/* <DownloadMobileApp /> */}
       <div className="spacer" />
       <Whyspotmies />
 

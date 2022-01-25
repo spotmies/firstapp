@@ -36,6 +36,7 @@ import About from "./components/views/about/about";
 import NewHome from "./components/views/home/how_it_works/how_it_works";
 import LandingUser from "./components/views/homeSlides/newLandingUser";
 import Homepage from "./components/views/home/home_page";
+import PartnerPage from "./components/views/home/partner_page";
 
 const Routing = () => {
   return (
@@ -72,6 +73,7 @@ const Routing = () => {
         <Route path="/about" component={About} />
         <Route path="/newhome" component={NewHome} />
         <Route path="/home-page" component={Homepage} />
+        <Route path="/service-partner" component={PartnerPage} />
       </Switch>
     </>
   );

@@ -82,8 +82,13 @@ packages need to uninstall
 browser image compressor
 date picker
 
-
 steps for deploy in firebase
 npm run-script build
 firebase deploy
 read me updated
+
+task to do before deploy
+1.service list should be 2 slide
+2.remove hover for service list
+
+login comming soon message

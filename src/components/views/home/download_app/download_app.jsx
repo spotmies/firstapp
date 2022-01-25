@@ -1,7 +1,8 @@
 import React from "react";
-import downloadApp from "../../../../assets/images/downloadApp.png";
+import downloadApp from "../../../../assets/images/partnerAppUi.png";
 import { FaGooglePlay } from "react-icons/fa";
-export default function DownloadMobileApp() {
+export default function DownloadMobileApp(props) {
+  const data = props.data;
   return (
     <>
       <div className="main-content">
@@ -9,15 +10,8 @@ export default function DownloadMobileApp() {
           <img src={downloadApp} alt="downloadApp" />
         </div>
         <div className="content">
-          <p className="head">Download the app</p>
-          <p className="description">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomised words which don't look even slightly
-            believable
-          </p>
+          <p className="head home-page-head">{data.title}</p>
+          <p className="description">{data.description}</p>
           <div className="playstore">
             <FaGooglePlay size="2rem" />
             <p> Play Store</p>
