@@ -8,9 +8,17 @@ class CommonStore {
   cloudConstants = {};
   currentConstants = [];
   showUi = false;
+  showNavBar = true;
+  navBarShadow = false;
   constructor() {
     makeAutoObservable(this);
   }
+  setNavBar = (value) => {
+    this.showNavBar = value ?? true;
+  };
+  setShadow = (value) => {
+    this.navBarShadow = value ?? false;
+  };
 
   setUserLogin = (value) => {
     this.isUserLogin = value ?? true;

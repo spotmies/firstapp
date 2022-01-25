@@ -11,8 +11,9 @@ import Slide2 from "./slide2/slide2";
 import { useEffect } from "react";
 import ServicesList from "./services_list/services_list";
 import ShowCard from "./counts/show_card";
-
+import { useStores } from "../../stateManagement";
 export default function Homepage() {
+  const { commonStore } = useStores();
   //   const section1Ref = useRef(null);
 
   // useEffect(() => {
@@ -32,53 +33,57 @@ export default function Homepage() {
 
   return (
     <div className="home-page headerrr">
-      {/* <ReactScrollWheelHandler
-  upHandler={(e) => scrollUp()}
-  downHandler={(e) => console.log("scroll down")}
-> */}
-      <div className="home-slide1">
-        <Slide1 />
-      </div>
-      <div className="spacer-mobile" />
-      <div className="home-slide2">
-        <HowItWorks />
-      </div>
-      <div className="spacer-mobile" />
-      <div className="home-slide3 center-divy">
-        <Benefits2 />
-      </div>
+      <ReactScrollWheelHandler
+        upHandler={(e) => {
+          commonStore.setNavBar(true);
+        }}
+        downHandler={(e) => {
+          commonStore.setNavBar(false);
+        }}
+      >
+        <div className="home-slide1">
+          <Slide1 />
+        </div>
+        <div className="spacer-mobile" />
+        <div className="home-slide2">
+          <HowItWorks />
+        </div>
+        <div className="spacer-mobile" />
+        <div className="home-slide3 center-divy">
+          <Benefits2 />
+        </div>
 
-      <div className="spacer-mobile" />
+        <div className="spacer-mobile" />
 
-      <div className="home-slide6 center-divy view-hight">
-        <Slide2 />
-      </div>
+        <div className="home-slide6 center-divy view-hight">
+          <Slide2 />
+        </div>
 
-      <div className="spacer-mobile" />
+        <div className="spacer-mobile" />
 
-      <div className="home-slide5 view-hight center-divy">
-        <ServicesList />
-      </div>
-      <div className="spacer-mobile" />
+        <div className="home-slide5 view-hight center-divy">
+          <ServicesList />
+        </div>
+        <div className="spacer-mobile" />
 
-      <div className="home-slide4">
-        <Benefits />
-      </div>
+        <div className="home-slide4">
+          <Benefits />
+        </div>
 
-      <div className="spacer-mobile" />
+        <div className="spacer-mobile" />
 
-      <div className="home-slide7">
-        <div className="spacer" />
-        <ShowCard />
-        <div className="spacer" />
-      </div>
+        <div className="home-slide7">
+          <div className="spacer" />
+          <ShowCard />
+          <div className="spacer" />
+        </div>
 
-      <div className="spacer-mobile" />
+        <div className="spacer-mobile" />
 
-      <div className="home-footer">
-        <FooterBar />
-      </div>
-      {/* </ReactScrollWheelHandler> */}
+        <div className="home-footer">
+          <FooterBar />
+        </div>
+      </ReactScrollWheelHandler>
     </div>
   );
 }

@@ -39,7 +39,6 @@ import { useStores } from "../../stateManagement/index";
 function Navibar(props) {
   const { services, commonStore } = useStores();
   const [shadow, setShadow] = useState(false);
-  const [showNavBar, setShowNavBar] = useState(true);
   const onWheelDiv = useRef(null);
 
   const history = useHistory();
@@ -192,16 +191,7 @@ function Navibar(props) {
   }
 
   useEffect(() => {
-    // window.onwheel = (event) => {
-    //   if (event.deltaY > 10) {
-    //     console.log("scrolling down", showNavBar, event.deltaY);
-    //     setShowNavBar(false);
-    //   } else if (event.deltaY < -10) {
-    //     console.log("scrolling up", showNavBar, event.deltaY);
-    //     setShowNavBar(true);
-    //   }
-    // };
-    window.onscroll = function () {
+    window.onscroll = () => {
       if (window.scrollY > 90 && !shadow) {
         setShadow(true);
       } else {
@@ -214,7 +204,7 @@ function Navibar(props) {
     <Observer>
       {() => (
         <div ref={onWheelDiv}>
-          {showNavBar ? (
+          {commonStore.showNavBar ? (
             <div style={{ paddingBottom: "80px" }}>
               <header
                 style={{ zIndex: "9999" }}
