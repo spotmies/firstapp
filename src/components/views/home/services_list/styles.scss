@@ -112,23 +112,30 @@
   }
 }
 
-
-@media screen and (max-width:600px) {
+@media screen and (max-width: 600px) {
   .service-list {
     width: 100%;
     flex-direction: column;
     margin-top: 20px;
   }
+  .head {
+    line-height: 35px !important;
+    font-size: 5vh !important;
+  }
+  .description {
+    font-size: 2vh !important;
+    text-align: justify;
+  }
 
   .section-1 {
     width: 100%;
 
-    .head{
-      padding: 20px;
-    }
+    // .head {
+    //   padding: 20px;
+    // }
     .description {
       padding: 30px;
-      font-size: 20px !important;
+      // font-size: 20px !important;
       line-height: normal;
       text-align: justify;
     }
@@ -136,11 +143,19 @@
 
   .section-2 {
     max-width: 100%;
-    .service-card-parent{
-    grid-template-columns: auto auto !important;
-    .service-card {
-      padding: 0;
+    .service-card-parent {
+      margin-left: 10px;
+      grid-template-columns: auto auto !important;
+      grid-column-gap: 5px !important;
+      grid-row-gap: 20px !important;
+      .service-card {
+        min-height: 150px !important;
+        width: 150px !important;
+        padding: 0;
+      }
+      .dot-parent {
+        margin-right: 90px !important;
+      }
     }
   }
-}
 }

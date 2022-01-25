@@ -39,27 +39,42 @@ export default function Homepage() {
       <div className="home-slide1">
         <Slide1 />
       </div>
+      <div className="spacer-mobile" />
       <div className="home-slide2">
         <HowItWorks />
       </div>
-      <div className="home-slide3" id="toBeScrolledTo">
+      <div className="spacer-mobile" />
+      <div className="home-slide3 center-divy">
         <Benefits2 />
       </div>
-     <div className="home-slide6 center-divy view-hight">
+
+      <div className="spacer-mobile" />
+
+      <div className="home-slide6 center-divy view-hight">
         <Slide2 />
       </div>
- 
+
+      <div className="spacer-mobile" />
+
       <div className="home-slide5 view-hight center-divy">
         <ServicesList />
       </div>
+      <div className="spacer-mobile" />
+
       <div className="home-slide4">
         <Benefits />
       </div>
-     <div className="home-slide7">
+
+      <div className="spacer-mobile" />
+
+      <div className="home-slide7">
         <div className="spacer" />
         <ShowCard />
         <div className="spacer" />
       </div>
+
+      <div className="spacer-mobile" />
+
       <div className="home-footer">
         <FooterBar />
       </div>
