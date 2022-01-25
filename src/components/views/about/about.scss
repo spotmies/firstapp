@@ -20,6 +20,10 @@
   width: 50%;
 }
 
+.desc-img-m {
+  display: none;
+}
+
 .desc img {
   height: 300px;
   width: 500px;
@@ -186,6 +190,18 @@
   .text-desc,
   .team-div {
     width: 100%;
+  }
+
+  .desc-img-m{
+    display: block;
+  }
+
+  .img-web {
+    display: none;
+  }
+
+  .about-desc {
+    text-align: justify;
   }
 
   .text-desc {
