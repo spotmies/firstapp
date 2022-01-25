@@ -1,29 +1,8 @@
 import React from "react";
 import "../style.scss";
-import { AiOutlineMobile, AiOutlineUsergroupAdd } from "react-icons/ai";
 
-import { FiCheckCircle } from "react-icons/fi";
-export default function HowItWorks() {
-  const data = [
-    {
-      icon: AiOutlineMobile,
-      title: "Request a Service",
-      color: "#008fdb",
-      desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
-    },
-    {
-      icon: AiOutlineUsergroupAdd,
-      title: "Connect to nearest service partner",
-      color: "#008fdb",
-      desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
-    },
-    {
-      icon: FiCheckCircle,
-      title: "Get service done",
-      color: "#008fdb",
-      desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
-    },
-  ];
+export default function HowItWorks(props) {
+  const data = props.data;
 
   const children = (icon, color, title, desc, isBackground) => {
     return (

@@ -1,5 +1,5 @@
 import React from "react";
-import downloadApp from "../../../../assets/images/downloadApp.png";
+import downloadApp from "../../../../assets/images/partnerAppUi.png";
 import { FaGooglePlay } from "react-icons/fa";
 export default function DownloadMobileApp(props) {
   const data = props.data;

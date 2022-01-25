@@ -1,35 +1,9 @@
 import React from "react";
-import {
-  AiOutlineCreditCard,
-  AiOutlineDashboard,
-  AiOutlineNotification,
-  AiOutlineYoutube,
-} from "react-icons/ai";
+
 import workImage from "../../../../assets/svgs/work_progress.svg";
 
-export default function Benefits2() {
-  let data = [
-    {
-      icon: AiOutlineDashboard,
-      title: "Describe your Need",
-      color: "#008fdb",
-    },
-    {
-      icon: AiOutlineNotification,
-      title: "Schedule",
-      color: "#008fdb",
-    },
-    {
-      icon: AiOutlineCreditCard,
-      title: "Connect with partner",
-      color: "#008fdb",
-    },
-    {
-      icon: AiOutlineYoutube,
-      title: "Get service Done",
-      color: "#008fdb",
-    },
-  ];
+export default function Benefits2(props) {
+  const data = props.data;
 
   const card = (icon, color, title) => {
     return (
@@ -52,14 +26,14 @@ export default function Benefits2() {
             <img src={workImage} alt="downloadApp" className="image-url" />
           </div>
           <div className="content">
-            <p className="head home-page-head">Easy to Convey</p>
+            <p className="head home-page-head">Easy To Get Service Online</p>
             <div className="image mImage">
-            <img src={workImage} alt="downloadApp" className="image-url" />
-          </div>
+              <img src={workImage} alt="downloadApp" className="image-url" />
+            </div>
             <p className="description">
               It's easy to convey your need to us through our platform. We
               provide you with a platform where you can easily find the best
-              service partner for your need.
+              service partner for your service.
             </p>
             <div className="grid-container-2">
               {data.map((item, index) => {

@@ -1,33 +1,7 @@
 import React from "react";
-import {
-  MdAdminPanelSettings,
-  MdChatBubbleOutline,
-  MdOutlinePrivacyTip,
-} from "react-icons/md";
-export default function Benefits() {
-  const data = [
-    {
-      icon: MdAdminPanelSettings,
-      color: "rgb(0 203 119)",
-      bg: "rgb(125 239 192)",
-      title: "Secure transaction",
-      description: "Cash on service",
-    },
-    {
-      icon: MdChatBubbleOutline,
-      color: "#0890ff",
-      bg: "#80c6ff",
-      title: "Easy Communication",
-      description: "In App chating, internet calling",
-    },
-    {
-      icon: MdOutlinePrivacyTip,
-      color: "#e3b900",
-      bg: "#ffe369",
-      title: "Better privacy",
-      description: "Choice to share your contact details",
-    },
-  ];
+
+export default function Benefits(props) {
+  const data = props.data;
   const benefitCard = (icon, color, bg, shead, desc) => {
     return (
       <div className="benefit-card">
@@ -47,8 +21,6 @@ export default function Benefits() {
   return (
     <div className="center">
       <div className="benefits">
-        {/* <p className="head center-text">Benefits</p> */}
-
         <div className="benefit-card-parent">
           {data.map((item, index) => {
             return (

@@ -1,32 +1,17 @@
 import React from "react";
-import workImage from "../../../../assets/svgs/speechtotext.svg";
-import Slide2Image from '../../../../assets/svgs/speechtotext.svg';
 
-export default function Slide2() {
+export default function Slide2(props) {
   return (
     <div className="center">
       <div className="benefits2 slide-1 slide-2">
         <div className="main-content">
           <div className="content">
-            <p className="head home-page-head">Get quality professional service</p>
+            <p className="head home-page-head">{props.data.title}</p>
             <div className="spacer-span" />
-            <img src={Slide2Image} className="slide2-image" alt="" />
+            <img src={props.data.image} className="slide2-image" alt="" />
             <div className="spacer-span" />
-            <p className="description">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text.
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text.
-            </p>
-            {/* <div className="get-started-btn">
-              <span>
-                <p>Get started</p>
-              </span>
-            </div> */}
+            <p className="description">{props.data.description}</p>
           </div>
-          {/* <div className="image">
-            <img src={workImage} alt="downloadApp" className="image-url" />
-          </div> */}
         </div>
       </div>
     </div>
