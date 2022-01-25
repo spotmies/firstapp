@@ -80,6 +80,9 @@ body {
   margin: 0 auto;
   background-color: var(--background-color);
 }
+.home-slide5 {
+  background-color: var(--background-color);
+}
 .home-slide6 {
   background-color: var(--secondary-color);
   .description {
@@ -596,7 +599,7 @@ body {
   min-height: 220px;
   height: fit-content;
   margin: 0 auto;
-  background: linear-gradient(45deg, #008fdb, #2cbad3);
+  background: linear-gradient(30deg, #008fdb, #03aca3);
   border-radius: 15px;
   .small-card {
     margin-top: 30px;
@@ -785,6 +788,12 @@ body {
 /* -------------------------------------------------------------------------- */
 
 @media screen and (max-width: 600px) {
+  .page-slide {
+    height: 100vh !important;
+  }
+  .shead {
+    font-size: 2.2vh !important;
+  }
   .spacer-mobile {
     display: block !important;
     height: 20px;
@@ -797,9 +806,9 @@ body {
     font-size: 2vh !important;
     text-align: justify;
   }
-  .view-hight {
-    height: fit-content !important;
-  }
+  // .view-hight {
+  //   height: fit-content !important;
+  // }
 
   .slide-1 {
     background-image: none;
@@ -838,11 +847,11 @@ body {
   .home-slide2 {
     height: fit-content !important;
   }
-  .home-slide1,
-  .home-slide3,
-  .home-slide6 {
-    height: calc(100vh - 74px) !important;
-  }
+  // .home-slide1,
+  // .home-slide3,
+  // .home-slide6 {
+  //   height: calc(100vh - 74px) !important;
+  // }
 
   .home-slide3 {
     .small-card {
@@ -899,12 +908,36 @@ body {
     }
   }
   .show-card {
+    padding-bottom: 8px !important;
     .head-center {
       font-size: 3.5vh !important;
-      letter-spacing: 1.3px !important;
+      letter-spacing: 1px !important;
     }
     .description {
-      font-size: 1.7vh !important;
+      font-size: 1.5vh !important;
+    }
+    .small-card {
+      min-width: fit-content !important;
+      max-width: none !important;
+      width: fit-content !important;
+      height: fit-content !important;
+      padding: 10px !important;
+
+      .shead2 {
+        font-size: 2vh !important;
+      }
+      .show-card-icon {
+        height: 3vh !important;
+        width: 3vh !important;
+      }
+    }
+  }
+  .child1,
+  .child2,
+  .child3 {
+    .shead {
+      font-size: 2.7vh !important;
+      letter-spacing: 1.2px !important;
     }
   }
 }

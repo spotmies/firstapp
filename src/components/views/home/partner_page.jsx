@@ -68,6 +68,11 @@ export default function PartnerPage() {
       color: "#008fdb",
     },
   ];
+  const benefits2Content = {
+    title: "Easy To Get Service Online",
+    description:
+      "It's easy to convey your need to us through our platform. We provide you with a platform where you can easily find the best service partner for your service.",
+  };
   return (
     <div className="partner-page">
       <div className="partner-slide-1 page-slide">
@@ -83,7 +88,7 @@ export default function PartnerPage() {
         <Benefits3 />
       </div>
       <div className="partner-slide-5 page-slide">
-        <Benefits2 data={benefit2Data} />
+        <Benefits2 data={benefit2Data} content={benefits2Content} />
       </div>
       <div className="partner-slide-6 page-slide">
         <DownloadMobileApp data={downloadAppData} />

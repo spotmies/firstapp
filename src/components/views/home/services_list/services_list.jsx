@@ -12,6 +12,7 @@ import {
   MdOutlineDesignServices,
   MdOutlineFestival,
 } from "react-icons/md";
+import { RiKeynoteLine } from "react-icons/ri";
 import { BsFileCode } from "react-icons/bs";
 import { GiDesk, GiDoorHandle } from "react-icons/gi";
 import { IoRocketOutline } from "react-icons/io5";
@@ -34,7 +35,7 @@ export default function ServicesList() {
       desc: "100+ services",
     },
     {
-      icon: GiDesk,
+      icon: RiKeynoteLine,
       title: "Home Decors",
       color: "#80c6ff",
       iconColor: "#0890ff",

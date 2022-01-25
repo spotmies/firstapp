@@ -12,7 +12,7 @@ export default function Slide1(props) {
             <img src={data.image} className="slide1Img" />
             <div className="spacer-span" />
             <p className="description">{data.description}</p>
-            <div className="get-started-btn">
+            <div className="get-started-btn" onClick={props.onClick}>
               <span>
                 <p>Get started</p>
               </span>

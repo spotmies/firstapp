@@ -222,8 +222,9 @@
   .made-in-india {
     width: fit-content;
     display: inline-flex;
+    font-weight: bold !important;
     .india-emoji {
-      font-size: 22px !important;
+      font-size: 20px !important;
       margin-top: -4px !important;
     }
   }

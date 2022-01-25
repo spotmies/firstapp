@@ -144,14 +144,20 @@
   .section-2 {
     max-width: 100%;
     .service-card-parent {
-      margin-left: 10px;
+      padding: 0 !important;
+      margin: 0 auto;
+      width: fit-content !important;
+
       grid-template-columns: auto auto !important;
-      grid-column-gap: 5px !important;
+      grid-column-gap: 10% !important;
       grid-row-gap: 20px !important;
       .service-card {
         min-height: 150px !important;
         width: 150px !important;
         padding: 0;
+        &:hover {
+          box-shadow: none !important;
+        }
       }
       .dot-parent {
         margin-right: 90px !important;
