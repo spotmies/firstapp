@@ -28,7 +28,7 @@ export default function PartnerPage() {
   const downloadAppData = {
     title: "Download Android App",
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable",
+      "Get spotmies partner App. Register with your mobile number. Signup by giving basic details, add your service, get work recommendations based on your location preferences, Do the service and get the money. That's it.",
     appLink: "https://play.google.com/store/apps/details?id=com.app.app.app",
   };
   const howItWorksData = [

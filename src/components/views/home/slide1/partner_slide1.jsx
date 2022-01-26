@@ -23,7 +23,8 @@ export default function PartnerSlide1(props) {
         <div className="main-content">
           <div className="content">
             <p className="head home-page-head">
-              Easy To Provide Service Online.
+              {/* Easy To Provide Service Online. */}
+              Start your online business Today.
             </p>
 
             <div className="spacer-span" />

@@ -25,7 +25,7 @@ export default function Whyspotmies() {
       icon: AiOutlineShop,
       title: "Create your own shop",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting",
+        "You can add your services list, so customers can get an idea of the basic pricing and services you offer",
       color: "#00b877",
     },
   ];

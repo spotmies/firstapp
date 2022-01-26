@@ -45,7 +45,7 @@ export default function Homepage() {
   const slide1Data = {
     title: "Make Your Life Easy.",
     description:
-      "In our Busy running life who wants to stop and go to market and get the service done or to get overwhelmed by the results from the internet? . There should be a source where a well qualified and well reviewed user-firendly service providers. Wondering where can we find them? You have already reached your destination.",
+      "In our Busy running life who wants to stop and go to market and get the service done. There should be a source where a well qualified and well reviewed user-firendly service partners. Wondering where can we find them? You have already reached your destination.",
     image: speechtotext,
   };
   const howItWorksData = [
@@ -59,13 +59,13 @@ export default function Homepage() {
       icon: AiOutlineUsergroupAdd,
       title: "Connect to nearest service partner",
       color: "#008fdb",
-      desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
+      desc: "We recommend you the best service partner who fulfills your request better than any other.",
     },
     {
       icon: FiCheckCircle,
       title: "Get service done",
       color: "#008fdb",
-      desc: "Wait untill your service provider reaches your location. He will work on your service or in some cases he might take your product to his place and will return back after service done.",
+      desc: "Wait untill our service partner reaches your location. He will work on your service or in some cases he might take your product to his place and will return back after service done.",
     },
   ];
   const benefits2Content = {
@@ -98,7 +98,9 @@ export default function Homepage() {
   const slide2Data = {
     title: "Get quality professional service",
     description:
-      "Never get too tied to search technician on market ,make your work with spotmies now. Lorem Ipsum has been the industry's standard dummy text There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable",
+      "We deliver the right service at the right time. Excellence is not achieved without experience. We are here to help you to get the best professional service. When we provide you service we make sure it's worth what you pay for.",
+    // description:
+    //   "Never get too tied to search service on market, We are here to help you to get the best professional service. You demand, We provide service cause that's what we are here for. When we provide you service we make sure it's worth what you pay for. ",
     image: speechtotext,
   };
 
@@ -129,7 +131,7 @@ export default function Homepage() {
   const showCardData = {
     title: "Get started with Spotmies Today",
     description:
-      "Do not hassle, we help you in expanding your business to the world,",
+      "Don't hassle, we help you in expanding your business to the world,",
     buttonText: "Join as service partner",
     buttonLink: "/service-partner",
   };
@@ -206,6 +208,25 @@ export default function Homepage() {
         <div className="home-footer">
           <FooterBar />
         </div>
+        {/* <div
+          className={`${
+            props.userDetails.uId !== undefined
+              ? "feedBack fbSlide fab"
+              : "feedBack fbSlide"
+          }`}
+          onClick={() => setOpen(true)}
+        >
+          {lockst === 1 ? (
+            <Fade right>
+              <h3 className="fbh3">Feedback</h3>
+            </Fade>
+          ) : null}
+          <span className="iconSpan">
+            {" "}
+            <MdFeedback className="feedBackIcon" />
+          </span>
+        </div>
+        <FeedbackForm open={open} close={closeModal} /> */}
       </ReactScrollWheelHandler>
     </div>
   );

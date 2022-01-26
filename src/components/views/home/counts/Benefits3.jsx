@@ -29,7 +29,7 @@ export default function Benefits3(props) {
     },
     {
       icon: MdOutlineQuickreply,
-      title: "Easy Engage with Customers",
+      title: "Connect with your customers",
       color: "#008fdb",
     },
   ];
@@ -55,8 +55,9 @@ export default function Benefits3(props) {
           <div className="content">
             <p className="head home-page-head">Why you choose Us</p>
             <p className="description">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text.
+              No need for world tours, we provide service orders near you. But
+              we won't limit you. No marketing and advertising are needed. We
+              will look after that for you.
             </p>
             <div>
               {data.map((item, index) => {
