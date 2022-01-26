@@ -220,7 +220,7 @@ function Navibar(props) {
                           <div className="logo-banner">
                             <img src={SmLogo} className="navbar-logo" />
                             <div className="nav-tag-title">
-                              <h1 className="navbar-title">SPOTMIES</h1>
+                              <h1 className="navbar-title">Spotmies</h1>
                               <p className="tag-line">
                                 Experience the Excellence
                               </p>

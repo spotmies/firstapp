@@ -49,7 +49,8 @@ body {
   height: calc(100vh - 60px);
 }
 
-.page-slide {
+.page-slide,
+.page-slide-web {
   width: 100%;
   margin: 0 auto;
   height: calc(100vh - 60px);
@@ -97,8 +98,9 @@ body {
   height: fit-content;
   background-image: url(../../../assets/svgs/speechtotext.svg);
   background-repeat: no-repeat;
-  background-position: 80% 50%;
+  background-position: 95% 50%;
   background-size: 600px;
+  width: 90%;
   .slide1Img {
     display: none;
   }
@@ -139,7 +141,7 @@ body {
 .slide-2 {
   background-image: url(../../../assets/svgs/speechtotext.svg);
   background-repeat: no-repeat;
-  background-position: 80% 50%;
+  background-position: 95% 50%;
   background-size: 600px;
   // height: calc(100vh - 60px);
   background-color: var(--secondary-color);
@@ -218,6 +220,10 @@ body {
 .image {
   max-width: 500px;
   max-height: 500px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 .grid-container-2 {
   display: grid;
@@ -248,6 +254,11 @@ body {
 }
 .read-more {
   color: var(--primary-color);
+  &:hover {
+    cursor: pointer;
+  }
+}
+.pointer {
   &:hover {
     cursor: pointer;
   }
@@ -401,11 +412,13 @@ body {
   }
 }
 .space-evenly {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   width: 100%;
   justify-content: space-evenly;
-  margin-top: 4em;
+  // margin-top: 4em;
 }
 
 .benefits {
@@ -511,14 +524,20 @@ body {
 }
 
 // why spotmies styles
+.why-spotmies {
+  width: 90%;
+  margin: 0 auto;
+}
 .whycard {
   width: fit-content;
-  max-width: 360px;
+  max-width: 300px;
   background-color: white;
   border-radius: 15px;
   padding: 20px;
+  box-shadow: var(--shadow);
   &:hover {
-    box-shadow: var(--shadow);
+    // border: 1px solid var(--primary-color);
+    // padding: 19px;
     cursor: pointer;
   }
   // box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
@@ -790,6 +809,11 @@ body {
 @media screen and (max-width: 600px) {
   .page-slide {
     height: 100vh !important;
+  }
+  .page-slide-web {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    height: fit-content !important;
   }
   .shead {
     font-size: 2.2vh !important;

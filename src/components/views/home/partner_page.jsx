@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import ReactScrollWheelHandler from "react-scroll-wheel-handler";
 import Benefits2 from "./counts/benefits2";
 import Benefits3 from "./counts/Benefits3";
 import HowItWorks from "./counts/how_it_works";
@@ -18,8 +19,11 @@ import {
 } from "react-icons/ai";
 
 import { FiCheckCircle } from "react-icons/fi";
+import { useStores } from "../../stateManagement";
 
 export default function PartnerPage() {
+  const { commonStore } = useStores();
+  const secondSlideRef = useRef(null);
   const downloadAppData = {
     title: "Download Android App",
     description:
@@ -29,19 +33,19 @@ export default function PartnerPage() {
   const howItWorksData = [
     {
       icon: AiOutlineMobile,
-      title: "Request a Service",
+      title: "Register on Partner App",
       color: "#008fdb",
       desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
     },
     {
       icon: AiOutlineUsergroupAdd,
-      title: "Connect to nearest service partner",
+      title: "Get orders from your Locality",
       color: "#008fdb",
       desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
     },
     {
       icon: FiCheckCircle,
-      title: "Get service done",
+      title: "Complete your order",
       color: "#008fdb",
       desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
     },
@@ -49,54 +53,80 @@ export default function PartnerPage() {
   const benefit2Data = [
     {
       icon: AiOutlineDashboard,
-      title: "Describe your Need",
+      title: "Track your Orders",
       color: "#008fdb",
     },
     {
       icon: AiOutlineNotification,
-      title: "Schedule",
+      title: "Orders from your Locality",
       color: "#008fdb",
     },
     {
       icon: AiOutlineCreditCard,
-      title: "Connect with partner",
+      title: "Hassle free Payments",
       color: "#008fdb",
     },
     {
       icon: AiOutlineYoutube,
-      title: "Get service Done",
+      title: "Learn New Skills",
       color: "#008fdb",
     },
   ];
   const benefits2Content = {
-    title: "Easy To Get Service Online",
+    title: "It's Easy To Use",
     description:
       "It's easy to convey your need to us through our platform. We provide you with a platform where you can easily find the best service partner for your service.",
   };
+
+  const scrollToSecondSlide = () => {
+    secondSlideRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+    setTimeout(() => {
+      commonStore.setNavBar(false);
+    }, 800);
+  };
+
   return (
     <div className="partner-page">
-      <div className="partner-slide-1 page-slide">
-        <PartnerSlide1 />
-      </div>
-      <div className="partner-slide-2 page-slide">
-        <ServicesList />
-      </div>
-      <div className="partner-slide-3 page-slide">
-        <HowItWorks data={howItWorksData} />
-      </div>
-      <div className="partner-slide-4 page-slide">
-        <Benefits3 />
-      </div>
-      <div className="partner-slide-5 page-slide">
-        <Benefits2 data={benefit2Data} content={benefits2Content} />
-      </div>
-      <div className="partner-slide-6 page-slide">
-        <DownloadMobileApp data={downloadAppData} />
-      </div>
+      <ReactScrollWheelHandler
+        upHandler={(e) => {
+          commonStore.setNavBar(true);
+        }}
+        downHandler={(e) => {
+          commonStore.setNavBar(false);
+        }}
+      >
+        <div className="partner-slide-1 page-slide-web">
+          <PartnerSlide1 onClick={scrollToSecondSlide} />
+        </div>
 
-      <div className="partner-slide-7 page-slide">
-        <Whyspotmies />
-      </div>
+        <div className="partner-slide-2 page-slide" ref={secondSlideRef}>
+          <ServicesList />
+        </div>
+        <div className="spacer-mobile" />
+        <div className="spacer-mobile" />
+        <div className="partner-slide-3 page-slide-web">
+          <HowItWorks data={howItWorksData} />
+        </div>
+        <div className="partner-slide-4 page-slide">
+          <Benefits3 />
+        </div>
+        <div className="spacer-mobile" />
+        <div className="partner-slide-5 page-slide">
+          <Benefits2 data={benefit2Data} content={benefits2Content} />
+        </div>
+        <div className="spacer-mobile" />
+        <div className="partner-slide-6 page-slide-web">
+          <DownloadMobileApp data={downloadAppData} />
+        </div>
+        <div className="spacer-mobile" />
+        <div className="partner-slide-7 page-slide-web">
+          <Whyspotmies />
+        </div>
+      </ReactScrollWheelHandler>
     </div>
   );
 }

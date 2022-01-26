@@ -5,24 +5,31 @@ import {
   AiOutlineDashboard,
   AiOutlineNotification,
 } from "react-icons/ai";
-import { BsWordpress } from "react-icons/bs";
+import { BsGlobe, BsWordpress } from "react-icons/bs";
+import { FaInternetExplorer } from "react-icons/fa";
+import { MdOutlineQuickreply, MdOutlineStore } from "react-icons/md";
 import workImage from "../../../../assets/svgs/programming.svg";
 
 export default function Benefits3(props) {
   let data = [
     {
-      icon: BsWordpress,
-      title: "No websites business",
+      icon: BsGlobe,
+      title: "No websites Required",
       color: "#008fdb",
     },
     {
       icon: AiOutlineNotification,
-      title: "No marketing business",
+      title: "No marketing Required",
       color: "#008fdb",
     },
     {
-      icon: AiOutlineCreditCard,
-      title: "Easy payments business",
+      icon: MdOutlineStore,
+      title: "Create your online Store",
+      color: "#008fdb",
+    },
+    {
+      icon: MdOutlineQuickreply,
+      title: "Easy Engage with Customers",
       color: "#008fdb",
     },
   ];
@@ -46,7 +53,7 @@ export default function Benefits3(props) {
       <div className="benefits2">
         <div className="main-content">
           <div className="content">
-            <p className="head">Why you choose Us</p>
+            <p className="head home-page-head">Why you choose Us</p>
             <p className="description">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text.
