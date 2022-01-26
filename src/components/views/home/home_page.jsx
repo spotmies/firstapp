@@ -129,7 +129,7 @@ export default function Homepage() {
   ];
 
   const showCardData = {
-    title: "Get started with Spotmies Today",
+    title: "Start with Us",
     description:
       "Don't hassle, we help you in expanding your business to the world,",
     buttonText: "Join as service partner",

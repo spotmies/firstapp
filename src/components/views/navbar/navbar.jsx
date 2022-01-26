@@ -358,7 +358,7 @@ function Navibar(props) {
                                   <Nav className="chaticon" id="signup">
                                     <MdStore />
                                     <p>
-                                      <b>&nbsp;Join as Service Partner</b>
+                                      <b>&nbsp;Become a Service Partner</b>
                                     </p>
                                   </Nav>
                                 </Link>

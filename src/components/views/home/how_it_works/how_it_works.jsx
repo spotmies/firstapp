@@ -90,33 +90,33 @@ function Home() {
         </div>
       </div>
 
-      <div className="spacer" />
-      <Benefits3 />
+      {/* <div className="spacer" />
+      <Benefits3 /> */}
       <div className="spacer" />
       <HomeCounts />
       <div className="spacer" />
-      <Benefits />
+      {/* <Benefits /> */}
 
-      <div className="spacer" />
+      {/* <div className="spacer" />
       <Benefits2 />
       <div className="spacer" />
       <Benefits5 />
       <div className="spacer" />
       <Benefits4 />
-      <div className="spacer" />
+      <div className="spacer" /> */}
 
       {/* <DownloadMobileApp /> */}
-      <div className="spacer" />
+      {/* <div className="spacer" />
       <Whyspotmies />
 
-      <div className="spacer" />
+      <div className="spacer" /> */}
 
       <Testimonial />
       <div className="spacer" />
 
       <HomeCounts />
-      <div className="spacer" />
-      <ShowCard />
+      {/* <div className="spacer" />
+      <ShowCard /> */}
 
       <div className="spacer" />
       <NewsLetter />

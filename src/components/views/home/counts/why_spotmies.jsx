@@ -56,7 +56,7 @@ export default function Whyspotmies() {
     // <div className="center">
     <div className="why-spotmies">
       <div>
-        <p className="head center-text home-page-head"> Why spotmies</p>
+        <p className="head center-text home-page-head"> Why Spotmies</p>
       </div>
       <div className="spacer" />
       <div className="whycard-parent space-evenly">

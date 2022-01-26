@@ -16,9 +16,9 @@ export default function NewsLetter() {
     <div className="center">
       <div className="show-card">
         <div className="show-card-content">
-          <p className="head-center">Subscribe our news letter</p>
+          <p className="head-center home-page-head">Stay tuned!</p>
           <p className="description">
-            Turn your idea into incredebil business with 30 days trial period.
+            Subscribe our newsletter and get notifications to stay update.
           </p>
 
           <div className="center-div">

@@ -17,7 +17,8 @@ body {
 }
 
 .home-page-head {
-  font-family: "Gilroy Bold";
+  // font-family: "Gilroy Bold";
+  font-family: "Gilroy Medium";
 }
 // .home-page {
 //   background: linear-gradient(60deg, #f0f0f0, #dddddd);
@@ -614,8 +615,8 @@ body {
 
 // showcard styles
 .show-card {
-  width: 70%;
-  min-height: 220px;
+  width: 55%;
+  min-height: 200px;
   height: fit-content;
   margin: 0 auto;
   background: linear-gradient(30deg, #008fdb, #03aca3);
@@ -635,7 +636,7 @@ body {
       width: 80%;
       margin: 0 auto;
       text-align: center;
-      font-size: 14px;
+      font-size: 16px;
       padding-top: 10px;
       color: white;
     }
@@ -785,7 +786,7 @@ body {
 }
 
 .input-icon {
-  background: #008fdb;
+  background: #009fbc;
   padding: 5px;
   font-size: 11px;
   border-radius: 50%;
@@ -942,6 +943,8 @@ body {
     }
   }
   .show-card {
+    height: fit-content !important;
+    padding-top: 20px !important;
     padding-bottom: 8px !important;
     .head-center {
       font-size: 3.5vh !important;
