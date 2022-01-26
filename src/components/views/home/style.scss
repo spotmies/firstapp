@@ -805,15 +805,25 @@ body {
 /* -------------------------------------------------------------------------- */
 /*                                 Mobile view                                */
 /* -------------------------------------------------------------------------- */
-
+@media screen and (min-height: 830px) {
+  .landing-page {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+    height: calc(100vh - 40px) !important;
+  }
+}
 @media screen and (max-width: 600px) {
+  .benefits2 {
+    margin: 0 auto !important;
+  }
   .page-slide {
     height: 100vh !important;
   }
-  .page-slide-web {
-    margin-top: 20px !important;
-    margin-bottom: 20px !important;
-    height: fit-content !important;
+  .page-slide-web,
+  .landing-page {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+    height: fit-content;
   }
   .shead {
     font-size: 2.2vh !important;

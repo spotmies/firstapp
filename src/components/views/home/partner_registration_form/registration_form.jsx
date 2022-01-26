@@ -85,36 +85,26 @@ export default function PartnerRegistrationForm(props) {
     }
   }
   return (
-    <div style={{ textAlign: "center", width: "100%" }} ref={ref1}>
-      {/* <h2 style={{ fontSize: "34px" }}>
-        {commonStore.getText("partner_reg_heading")}
-      </h2> */}
-      <Form
-        style={{
-          paddingBottom: "20px",
-          width: "80%",
-          margin: "0 auto",
-          textAlign: "left",
-        }}
-        onSubmit={formsubmit}
-      >
+    <div ref={ref1} className="reg-form-div">
+      <Form onSubmit={formsubmit}>
         <Form.Field>
-          <label>
+          {/* <label>
             <b>Select your Profession</b>
-          </label>
+          </label> */}
           <Select2
             placeholder="Select your Profession"
             value={pcate}
             onChange={handleChange2}
             options={services.mainServicesList}
             style={{ zIndex: "1" }}
+            className="reg-form-select"
           />
         </Form.Field>
         {showOtherProfession ? (
           <Form.Field>
-            <label>Enter Your profession</label>
+            {/* <label>Enter Your profession</label> */}
             <input
-              placeholder="Profession name"
+              placeholder="Enter Your profession"
               ref={otherProfession}
               maxLength="40"
               required
@@ -122,7 +112,7 @@ export default function PartnerRegistrationForm(props) {
           </Form.Field>
         ) : null}
         <Form.Field>
-          <label>First Name</label>
+          {/* <label>First Name</label> */}
           <input
             placeholder="First Name"
             id="pname"
@@ -133,7 +123,7 @@ export default function PartnerRegistrationForm(props) {
           />
         </Form.Field>
         <Form.Field>
-          <label>Mobile Number</label>
+          {/* <label>Mobile Number</label> */}
           <input
             ref={mobile}
             onClick={handleChange}
@@ -146,7 +136,7 @@ export default function PartnerRegistrationForm(props) {
           />
         </Form.Field>
         {sbtn === false ? (
-          <Button primary type="submit">
+          <Button primary type="submit" className="sub-button">
             Submit
           </Button>
         ) : (

@@ -38,12 +38,27 @@
 .partner-reg-form {
   margin-top: 20px;
   width: 55%;
+  font-family: "Gilroy Regular" !important;
+  div,
+  input {
+    font-family: "Gilroy Regular" !important;
+  }
+}
+.reg-form-div {
+  width: 100%;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 600px) {
   // .page-slide {
   //   align-items: flex-start !important;
   // }
+
+  .partner-reg-form {
+    padding-top: 20px;
+    width: 90%;
+    margin: 0 auto !important;
+  }
   .extra-hight {
     height: 150vh;
   }

@@ -20,6 +20,7 @@ import {
 
 import { FiCheckCircle } from "react-icons/fi";
 import { useStores } from "../../stateManagement";
+import FooterBar from "./footer_bar/footer_bar";
 
 export default function PartnerPage() {
   const { commonStore } = useStores();
@@ -99,7 +100,7 @@ export default function PartnerPage() {
           commonStore.setNavBar(false);
         }}
       >
-        <div className="partner-slide-1 page-slide-web">
+        <div className="partner-slide-1 page-slide-web landing-page">
           <PartnerSlide1 onClick={scrollToSecondSlide} />
         </div>
 
@@ -125,6 +126,9 @@ export default function PartnerPage() {
         <div className="spacer-mobile" />
         <div className="partner-slide-7 page-slide-web">
           <Whyspotmies />
+        </div>
+        <div>
+          <FooterBar />
         </div>
       </ReactScrollWheelHandler>
     </div>

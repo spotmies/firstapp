@@ -161,7 +161,7 @@ export default function Homepage() {
           commonStore.setNavBar(false);
         }}
       >
-        <div className="home-slide1 page-slide">
+        <div className="home-slide1 page-slide landing-page">
           <Slide1 data={slide1Data} onClick={scrollToSecondSlide} />
         </div>
         <div className="spacer-mobile" />
