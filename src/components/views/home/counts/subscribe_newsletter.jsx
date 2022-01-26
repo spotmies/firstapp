@@ -23,7 +23,7 @@ export default function NewsLetter() {
 
           <div className="center-div">
             <div className="input-div">
-              <FormControl className="form-control">
+              <FormControl className="form-controler">
                 <InputBase
                   // id="outlined-adornment-password"
                   type="text"
