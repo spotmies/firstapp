@@ -69,6 +69,9 @@ function About() {
         </p>
       </div> */}
       <section className="desc">
+      <div className="desc-img-m">
+          <img src={group} alt="meeting" />
+        </div>
         <div className="transperent-card">
           <p className="text-desc">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
@@ -77,7 +80,7 @@ function About() {
             dicta laborum!
           </p>
         </div>
-        <div>
+        <div className="img-web">
           <img src={group} alt="meeting" />
         </div>
       </section>

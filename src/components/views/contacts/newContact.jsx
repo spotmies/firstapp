@@ -152,36 +152,36 @@ class NewContact extends Component {
           <div style={{ paddingBottom: "5px" }} className="form-div">
             <Form className="contactForm" onSubmit={this.submitForm}>
               <h2 className="form-h2">Wanna Say Something?</h2>
-              <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Group controlId="exampleForm.ControlInput1" className="formControls">
                 {/* <Form.Label>Email address</Form.Label> */}
                 <Form.Control
                   type="email"
                   placeholder="Email"
                   value={det.email}
-                  className="form-control"
+                  className="form-control1"
                   name="email"
                   onChange={this.handlec}
                   required
                 />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Group controlId="exampleForm.ControlInput1"  className="formControls">
                 {/* <Form.Label>Name</Form.Label> */}
                 <Form.Control
                   type="text"
                   placeholder="Name"
-                  className="form-control"
+                  className="form-control1"
                   name="name"
                   value={det.name}
                   onChange={this.handlec}
                   required
                 />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Group controlId="exampleForm.ControlInput1" className="formControls">
                 {/* <Form.Label>Mobile no:</Form.Label> */}
                 <Form.Control
                   type="number"
                   placeholder="Mobile No"
-                  className="form-control"
+                  className="form-control1"
                   name="mobile"
                   value={det.mobile}
                   onChange={(e) => {
@@ -197,12 +197,12 @@ class NewContact extends Component {
                 />
               </Form.Group>
 
-              <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Group controlId="exampleForm.ControlTextarea1" className="formControls">
                 {/* <Form.Label>Subject</Form.Label> */}
                 <Form.Control
                   as="textarea"
                   placeholder="Subject"
-                  className="form-control"
+                  className="form-control1"
                   rows={1}
                   name="subject"
                   value={det.subject}
@@ -210,13 +210,13 @@ class NewContact extends Component {
                   required
                 />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Group controlId="exampleForm.ControlTextarea1" className="formControls">
                 {/* <Form.Label>Message</Form.Label> */}
                 <Form.Control
                   as="textarea"
                   rows={3}
                   placeholder="Your message"
-                  className="form-control"
+                  className="form-control1"
                   name="body"
                   value={det.body}
                   onChange={this.handlec}
