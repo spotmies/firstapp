@@ -57,7 +57,7 @@ export default function Homepage() {
     },
     {
       icon: AiOutlineUsergroupAdd,
-      title: "Connect to nearest service partner",
+      title: "Our service partner connect you",
       color: "#008fdb",
       desc: "We recommend you the best service partner who fulfills your request better than any other.",
     },

@@ -43,7 +43,8 @@ const Routing = () => {
     <>
       <ScrollToTop />
       <Switch>
-        <Route exact path="/" component={Firstslide} />
+        {/* <Route exact path="/" component={Firstslide} /> */}
+        <Route exact path="/" component={Homepage} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/firstapp" component={Firstslide} />
         <Route exact path="/mybookings">

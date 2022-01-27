@@ -16,6 +16,7 @@ import {
   AiOutlineDashboard,
   AiOutlineNotification,
   AiOutlineYoutube,
+  AiOutlineInbox,
 } from "react-icons/ai";
 
 import { FiCheckCircle } from "react-icons/fi";
@@ -40,8 +41,8 @@ export default function PartnerPage() {
       desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
     },
     {
-      icon: AiOutlineUsergroupAdd,
-      title: "Get orders from your Locality",
+      icon: AiOutlineInbox,
+      title: "Get Orders",
       color: "#008fdb",
       desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
     },

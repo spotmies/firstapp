@@ -135,19 +135,19 @@
   line-height: 6px;
   margin: 10px 25px;
 }
-
+.about-head {
+  text-align: center;
+  font-size: 40px !important;
+  font-weight: 600 !important;
+  color: #4a4a4a;
+  // font-family: "Gilroy Bold";
+  font-family: "Gilroy Regular";
+}
 .about-container {
   padding-top: 50px;
   width: 65%;
   margin: 0 auto;
-  .about-head {
-    text-align: center;
-    font-size: 40px;
-    font-weight: 600 !important;
-    color: #4a4a4a;
-    // font-family: "Gilroy Bold";
-    font-family: "Gilroy Regular";
-  }
+
   .about-desc {
     font-size: 18px;
     color: #565656;
@@ -192,7 +192,7 @@
     width: 100%;
   }
 
-  .desc-img-m{
+  .desc-img-m {
     display: block;
   }
 

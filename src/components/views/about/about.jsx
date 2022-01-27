@@ -1,9 +1,14 @@
 import React from "react";
-import group from "./group.jpg";
-import gunta1 from "./gunta1.jpg";
-import gunta2 from "./gunta2.jpg";
-import gunta3 from "./gunta3.jpg";
-import gunta4 from "./gunta4.jpg";
+// import group from "./group.jpg";
+import group from "./images/group1.jpeg";
+// import gunta1 from "./gunta1.jpg";
+// import gunta2 from "./gunta2.jpg";
+// import gunta3 from "./gunta3.jpg";
+// import gunta4 from "./gunta4.jpg";
+import gunta1 from "./images/sekhar1.jpeg";
+import gunta2 from "./images/sekhar2.jpeg";
+import gunta3 from "./images/sekhar3.jpeg";
+import gunta4 from "./images/sekhar5.png";
 import gunta5 from "./gunta5.jpg";
 import gunta6 from "./gunta6.jpg";
 import "./about.scss";
@@ -69,7 +74,7 @@ function About() {
         </p>
       </div> */}
       <section className="desc">
-      <div className="desc-img-m">
+        <div className="desc-img-m">
           <img src={group} alt="meeting" />
         </div>
         <div className="transperent-card">
@@ -86,7 +91,9 @@ function About() {
       </section>
 
       <section className="sec2">
-        <h2>Meet Our Team</h2>
+        <p className="about-head">
+          <u>Meet Our Team</u>
+        </p>
         <div className="team-div">
           <div className="desig1">
             <img src={gunta1} alt="name" />
