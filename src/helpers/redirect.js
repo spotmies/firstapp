@@ -7,4 +7,9 @@ const redirectToPartnerApp = () => {
   redirectToAnotherPage(url);
 };
 
-export { redirectToAnotherPage, redirectToPartnerApp };
+const redirectToPartnerPage = () => {
+  const url = "/service-partner";
+  window.location.href = url;
+};
+
+export { redirectToAnotherPage, redirectToPartnerApp, redirectToPartnerPage };

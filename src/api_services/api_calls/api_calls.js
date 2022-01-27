@@ -62,6 +62,15 @@ export async function apiPostPut(body, path, method) {
   } else return null;
 }
 
+export async function newSuggestionRequest(body) {
+  const uri = constants.api.new_suggestion;
+  let newBody = body;
+  newBody.suggestionFrom = "userWeb";
+  const response = await apiPostPut(body, uri, "POST");
+  if (response != null) return true;
+  return false;
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     updateLoader: (data) => {

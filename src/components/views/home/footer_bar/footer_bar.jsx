@@ -1,5 +1,5 @@
 import { Button } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import {
   AiOutlineArrowRight,
   AiOutlineMail,
@@ -13,17 +13,30 @@ import {
   FaWhatsapp,
   FaYoutube,
 } from "react-icons/fa";
-import { redirectToPartnerApp } from "../../../../helpers/redirect";
+import FeedbackForm from "../../../reusable/feedback_form";
+import {
+  redirectToPartnerApp,
+  redirectToPartnerPage,
+} from "../../../../helpers/redirect";
 import { Link } from "react-router-dom";
 import "./footer_bar.scss";
 
 export default function FooterBar() {
+  const [open, setOpen] = useState(false);
+  const closeModal = () => {
+    setOpen(false);
+  };
+  const openFeedbackForm = () => {
+    setOpen(true);
+  };
   return (
     <div className="footer-center">
+      <FeedbackForm open={open} close={closeModal} />
       <div className="footer1-section">
         <div className="footer1">
           <p className="footer-head">Start growing with spotmies Today</p>
           <Button
+            onClick={redirectToPartnerPage}
             variant="outlined"
             endIcon={<AiOutlineArrowRight />}
             className="join-button"
@@ -51,9 +64,9 @@ export default function FooterBar() {
                 {" "}
                 <Link to="/careers">Career </Link>
               </p>
-              <p className="footer-desc">
+              <p className="footer-desc" onClick={openFeedbackForm}>
                 {" "}
-                <Link to="/careers">Feedback </Link>
+                Feedback
               </p>
             </div>
             <div className="footer-child">

@@ -372,7 +372,7 @@ function Navibar(props) {
                                 </Link>
                               </>
                             ) : null}
-                            <Link className="nav-links" to="/newpost">
+                            {/* <Link className="nav-links" to="/newpost">
                               <Nav className="chaticon">
                                 <MdAddCircle
                                   size="1.4rem"
@@ -382,7 +382,7 @@ function Navibar(props) {
                                   <b>Get Service</b>
                                 </p>
                               </Nav>
-                            </Link>
+                            </Link> */}
                           </Nav>
                         </Navbar.Collapse>
                       </IconContext.Provider>

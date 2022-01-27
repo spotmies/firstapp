@@ -52,7 +52,7 @@
       //   width: fit-content;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      // justify-content: space-between;
       border-radius: 10px;
       padding: 20px;
 
@@ -73,12 +73,13 @@
         background-color: rgb(255, 255, 255);
       }
       .content {
+        margin-top: 20px;
         margin-left: 5px;
       }
       .chead {
         font-size: 16px;
         font-family: "Gilroy Bold";
-
+        line-height: 14px;
         margin-bottom: 10px;
       }
     }
@@ -157,6 +158,12 @@
         padding: 0;
         &:hover {
           box-shadow: none !important;
+        }
+        .content {
+          .description {
+            font-size: 1.6vh !important;
+            text-align: unset !important;
+          }
         }
       }
       .dot-parent {
