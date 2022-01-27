@@ -15,8 +15,14 @@ import {
 } from "react-icons/fa";
 import FeedbackForm from "../../../reusable/feedback_form";
 import {
+  redirectFB,
+  redirectInstagram,
+  redirectLinedin,
   redirectToPartnerApp,
   redirectToPartnerPage,
+  redirectTwitter,
+  redirectWhatsapp,
+  redirectYoutube,
 } from "../../../../helpers/redirect";
 import { Link } from "react-router-dom";
 import "./footer_bar.scss";
@@ -29,6 +35,23 @@ export default function FooterBar() {
   const openFeedbackForm = () => {
     setOpen(true);
   };
+
+  const socialMediaIcons = () => {
+    return (
+      <>
+        <FaFacebook className="sm-icon fb" onClick={redirectFB} />
+        <FaInstagram
+          className="sm-icon instagram"
+          onClick={redirectInstagram}
+        />
+        <FaWhatsapp className="sm-icon whatsapp" onClick={redirectWhatsapp} />
+        <FaLinkedin className="sm-icon linkedin" onClick={redirectLinedin} />
+        <FaTwitter className="sm-icon twitter" onClick={redirectTwitter} />
+        <FaYoutube className="sm-icon youtube" onClick={redirectYoutube} />
+      </>
+    );
+  };
+
   return (
     <div className="footer-center">
       <FeedbackForm open={open} close={closeModal} />
@@ -117,23 +140,25 @@ export default function FooterBar() {
                 <AiOutlinePhone /> &nbsp; +91 8341980196
               </p>
               <div className="social-media">
-                <FaFacebook className="sm-icon fb" />
+                {socialMediaIcons()}
+                {/* <FaFacebook className="sm-icon fb" />
                 <FaInstagram className="sm-icon instagram" />
                 <FaWhatsapp className="sm-icon whatsapp" />
                 <FaLinkedin className="sm-icon linkedin" />
                 <FaTwitter className="sm-icon twitter" />
-                <FaYoutube className="sm-icon youtube" />
+                <FaYoutube className="sm-icon youtube" /> */}
               </div>
             </div>
           </div>
         </div>
         <div className="social-media-mobile">
-          <FaFacebook className="sm-icon fb" />
-          <FaInstagram className="sm-icon instagram" />
-          <FaWhatsapp className="sm-icon whatsapp" />
-          <FaLinkedin className="sm-icon linkedin" />
-          <FaTwitter className="sm-icon twitter" />
-          <FaYoutube className="sm-icon youtube" />
+          {socialMediaIcons()}
+          {/* <FaFacebook className="sm-icon fb" onClick={redirectFB}/>
+          <FaInstagram className="sm-icon instagram" onClick={redirectInstagram}/>
+          <FaWhatsapp className="sm-icon whatsapp" onClick={redirectWhatsapp}/>
+          <FaLinkedin className="sm-icon linkedin" onClick={redirectLinedin}/>
+          <FaTwitter className="sm-icon twitter" onClick={redirectTwitter}/>
+          <FaYoutube className="sm-icon youtube" onClick={redirectYoutube}/> */}
         </div>
       </div>
       <div className="footer3-section">
