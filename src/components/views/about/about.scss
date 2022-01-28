@@ -93,11 +93,32 @@
   cursor: pointer;
 }
 
+.desig-gwr {
+  display: inline-flex;
+  padding: 5px 0;
+}
+
+.mem-name {
+  font-weight: 800 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.li-icon-div {
+  position: absolute;
+  right: 0;
+}
+
+.mem-deg {
+  margin-left: 0 !important;
+  font-size: 11px;
+}
+
 .li-icon {
-  margin-top: 70px;
+  // margin-top: 70px;
   color: rgb(4, 77, 173);
-  height: 50px;
-  width: 50px;
+  height: 20px;
+  width: 20px;
 }
 
 .desig1 {
@@ -128,6 +149,7 @@
   text-align: left;
   width: 200px;
   top: 150px;
+  margin-top: 10px;
   margin: 0 !important;
 }
 

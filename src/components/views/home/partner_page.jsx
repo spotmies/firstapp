@@ -23,6 +23,7 @@ import { FiCheckCircle } from "react-icons/fi";
 import { useStores } from "../../stateManagement";
 import FooterBar from "./footer_bar/footer_bar";
 import NewsLetter from "./counts/subscribe_newsletter";
+import PartnerRegistrationForm from "./partner_registration_form/registration_form";
 
 export default function PartnerPage() {
   const { commonStore } = useStores();
@@ -129,7 +130,12 @@ export default function PartnerPage() {
         <div className="partner-slide-7 page-slide-web">
           <Whyspotmies />
         </div>
-
+        <div className="partner-slide-8 page-slide-web">
+          <div className="partner-slide-8-sub">
+            <p className="head home-page-head">Register as a Service Partner</p>
+            <PartnerRegistrationForm />
+          </div>
+        </div>
         <div>
           <div className="spacer" />
           <NewsLetter />

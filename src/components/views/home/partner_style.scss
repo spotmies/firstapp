@@ -25,6 +25,26 @@
 .partner-slide-6 {
   background-color: var(--background-color);
 }
+.partner-slide-8 {
+  // width: fit-content;
+  height: fit-content !important;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin: 0 auto;
+  background-color: var(--background-color);
+  .partner-slide-8-sub {
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .reg-form-div {
+      margin-top: 40px !important;
+      width: unset;
+    }
+  }
+}
 .slide-button {
   display: flex;
   flex-direction: row;
@@ -53,7 +73,13 @@
   // .page-slide {
   //   align-items: flex-start !important;
   // }
-
+  .partner-slide-8-sub {
+    width: 80% !important;
+    .reg-form-div {
+      // margin-top: 40px !important;
+      width: 100% !important;
+    }
+  }
   .partner-reg-form {
     padding-top: 20px;
     width: 90%;

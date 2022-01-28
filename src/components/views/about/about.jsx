@@ -1,14 +1,14 @@
 import React from "react";
-// import group from "./group.jpg";
-import group from "./images/group1.jpeg";
-// import gunta1 from "./gunta1.jpg";
-// import gunta2 from "./gunta2.jpg";
-// import gunta3 from "./gunta3.jpg";
-// import gunta4 from "./gunta4.jpg";
-import gunta1 from "./images/sekhar1.jpeg";
-import gunta2 from "./images/sekhar2.jpeg";
-import gunta3 from "./images/sekhar3.jpeg";
-import gunta4 from "./images/sekhar5.png";
+import group from "./group.jpg";
+// import group from "./images/group-image.png";
+import satish from "./gunta1.jpg";
+import gunta2 from "./gunta2.jpg";
+import gunta3 from "./gunta3.jpg";
+import gunta4 from "./gunta4.jpg";
+// import satish from "./images/satish1.jpeg";
+// import gunta2 from "./images/sekhar2.jpeg";
+// import gunta3 from "./images/sekhar3.jpeg";
+// import gunta4 from "./images/sekhar5.png";
 import gunta5 from "./gunta5.jpg";
 import gunta6 from "./gunta6.jpg";
 import "./about.scss";
@@ -96,65 +96,81 @@ function About() {
         </p>
         <div className="team-div">
           <div className="desig1">
-            <img src={gunta1} alt="name" />
-            <div className="desig">
-              <p>Name</p>
-              <p>Designation</p>
-            </div>
-            <div className="Li-hover">
-              <BsLinkedin className="li-icon" />
+            <img src={satish} alt="name" />
+            <div className="desig desig-gwr">
+              <div>
+                <p className="mem-name">Satish kumar saride</p>
+                <p className="mem-deg">Designation</p>
+              </div>
+              <div className="li-icon-div">
+                <BsLinkedin className="li-icon" />
+              </div>
             </div>
           </div>
           <div className="desig1">
             <img src={gunta2} alt="name" />
-            <div className="desig">
-              <p>Name</p>
-              <p>Designation</p>
-            </div>
-            <div className="Li-hover">
-              <BsLinkedin className="li-icon" />
+            <div className="desig desig-gwr">
+              <div>
+                <p className="mem-name">Sekhar Javvadi</p>
+                <p className="mem-deg">Designation</p>
+              </div>
+              <div className="li-icon-div">
+                <BsLinkedin className="li-icon" />
+              </div>
             </div>
           </div>
           <div className="desig1">
             <img src={gunta3} alt="name" />
-            <div className="desig">
-              <p>Name</p>
-              <p>Designation</p>
-            </div>
-            <div className="Li-hover">
-              <BsLinkedin className="li-icon" />
+            <div className="desig desig-gwr">
+              <div>
+                <p className="mem-name">Naveen kumar</p>
+                <p className="mem-deg">Designation</p>
+              </div>
+              <div className="li-icon-div">
+                <BsLinkedin className="li-icon" />
+              </div>
             </div>
           </div>
         </div>
         <div className="team-div">
           <div className="desig1">
             <img src={gunta4} alt="name" />
-            <div className="desig">
-              <p>Name</p>
-              <p>Designation</p>
-            </div>
-            <div className="Li-hover">
-              <BsLinkedin className="li-icon" />
+            <div className="desig desig-gwr">
+              <div>
+                <p className="mem-name">Hemanth veeranala</p>
+                <p className="mem-deg">Designation</p>
+              </div>
+              <div className="li-icon-div">
+                <BsLinkedin className="li-icon" />
+              </div>
             </div>
           </div>
           <div className="desig1">
             <img src={gunta5} alt="name" />
-            <div className="desig">
-              <p>Name</p>
-              <p>Designation</p>
-            </div>
-            <div className="Li-hover">
-              <BsLinkedin className="li-icon" />
+            <div className="desig desig-gwr">
+              <div>
+                <p className="mem-name">Gowri shankar</p>
+                <p className="mem-deg">Co-Founder</p>
+              </div>
+              <div className="li-icon-div">
+                <BsLinkedin className="li-icon" />
+              </div>
             </div>
           </div>
+          {/* <div className="Li-hover">
+              <BsLinkedin className="li-icon" />
+            </div> */}
+
           <div className="desig1">
             <img src={gunta6} alt="name" />
-            <div className="desig">
-              <p>Name</p>
-              <p>Designation</p>
-            </div>
-            <div className="Li-hover">
-              <BsLinkedin className="li-icon" />
+            <div className="desig desig-gwr">
+              <div>
+                <p className="mem-name">Teja pekala</p>
+                <p className="mem-deg">Designation</p>
+              </div>
+              <div className="li-icon-div">
+                <BsLinkedin className="li-icon" />
+              </div>
             </div>
           </div>
         </div>
