@@ -3,6 +3,7 @@ import { FaGooglePlay } from "react-icons/fa";
 import { redirectToPartnerApp } from "../../../../helpers/redirect";
 import PartnerRegistrationForm from "../partner_registration_form/registration_form";
 import image from "../../../../assets/svgs/speechtotext.svg";
+import playStoreIcon from "../../../../assets/svgs/play-store-icon.svg";
 
 export default function PartnerSlide1(props) {
   const [showForm, setShowForm] = React.useState(false);
@@ -65,12 +66,20 @@ export default function PartnerSlide1(props) {
             <div className="spacer-span" />
             <p>
               Get App on Playstore&nbsp;&nbsp;
-              <FaGooglePlay
-                size="1rem"
-                color="gray"
-                className="pointer"
+              {/* <span className="icon-cover"> */}
+              <img
+                src={playStoreIcon}
+                alt="google play"
+                className="pointer google-play-icon"
                 onClick={redirectToPartnerApp}
-              />{" "}
+              />
+              {/* <FaGooglePlay
+                  size="1rem"
+                  color="gray"
+                  className="pointer"
+                  onClick={redirectToPartnerApp}
+                />{" "} */}
+              {/* </span> */}
             </p>
           </div>
         </div>

@@ -10,6 +10,15 @@
   --head-color: #2f2e41;
   --primary-color2: #1576bb;
 }
+.icon-cover {
+  padding: 10px;
+  border-radius: 50%;
+  background-color: var(--background-color);
+}
+.google-play-icon {
+  height: 1.6rem !important;
+  width: 1.6rem !important;
+}
 .partner-slide-2 {
   background-color: var(--background-color);
 }
