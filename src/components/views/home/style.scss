@@ -17,7 +17,8 @@ body {
 }
 
 .home-page-head {
-  font-family: "Gilroy Bold";
+  // font-family: "Gilroy Bold";
+  font-family: "Gilroy Medium";
 }
 // .home-page {
 //   background: linear-gradient(60deg, #f0f0f0, #dddddd);
@@ -49,7 +50,8 @@ body {
   height: calc(100vh - 60px);
 }
 
-.page-slide {
+.page-slide,
+.page-slide-web {
   width: 100%;
   margin: 0 auto;
   height: calc(100vh - 60px);
@@ -80,6 +82,9 @@ body {
   margin: 0 auto;
   background-color: var(--background-color);
 }
+.home-slide5 {
+  background-color: var(--background-color);
+}
 .home-slide6 {
   background-color: var(--secondary-color);
   .description {
@@ -94,8 +99,9 @@ body {
   height: fit-content;
   background-image: url(../../../assets/svgs/speechtotext.svg);
   background-repeat: no-repeat;
-  background-position: 80% 50%;
+  background-position: 95% 50%;
   background-size: 600px;
+  width: 90%;
   .slide1Img {
     display: none;
   }
@@ -136,7 +142,7 @@ body {
 .slide-2 {
   background-image: url(../../../assets/svgs/speechtotext.svg);
   background-repeat: no-repeat;
-  background-position: 80% 50%;
+  background-position: 95% 50%;
   background-size: 600px;
   // height: calc(100vh - 60px);
   background-color: var(--secondary-color);
@@ -215,6 +221,10 @@ body {
 .image {
   max-width: 500px;
   max-height: 500px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 .grid-container-2 {
   display: grid;
@@ -245,6 +255,11 @@ body {
 }
 .read-more {
   color: var(--primary-color);
+  &:hover {
+    cursor: pointer;
+  }
+}
+.pointer {
   &:hover {
     cursor: pointer;
   }
@@ -308,6 +323,7 @@ body {
       font-weight: 600;
       line-height: 1em;
       font-family: "Gilroy Bold";
+      letter-spacing: 1px;
     }
     .description {
       margin-top: -5px;
@@ -398,11 +414,13 @@ body {
   }
 }
 .space-evenly {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
   width: 100%;
   justify-content: space-evenly;
-  margin-top: 4em;
+  // margin-top: 4em;
 }
 
 .benefits {
@@ -508,14 +526,20 @@ body {
 }
 
 // why spotmies styles
+.why-spotmies {
+  width: 90%;
+  margin: 0 auto;
+}
 .whycard {
   width: fit-content;
-  max-width: 360px;
+  max-width: 300px;
   background-color: white;
   border-radius: 15px;
   padding: 20px;
+  box-shadow: var(--shadow);
   &:hover {
-    box-shadow: var(--shadow);
+    // border: 1px solid var(--primary-color);
+    // padding: 19px;
     cursor: pointer;
   }
   // box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
@@ -550,8 +574,8 @@ body {
   width: fit-content;
   background-color: white;
   border-radius: 10px;
-  padding: 14px;
-  margin: 10px 10px 10px 0px;
+  padding: 10px;
+  margin: 10px 10px 16px 0px;
   &:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -592,11 +616,11 @@ body {
 
 // showcard styles
 .show-card {
-  width: 70%;
-  min-height: 220px;
+  width: 55%;
+  min-height: 200px;
   height: fit-content;
   margin: 0 auto;
-  background: linear-gradient(45deg, #008fdb, #2cbad3);
+  background: linear-gradient(30deg, #008fdb, #03aca3);
   border-radius: 15px;
   .small-card {
     margin-top: 30px;
@@ -613,7 +637,7 @@ body {
       width: 80%;
       margin: 0 auto;
       text-align: center;
-      font-size: 14px;
+      font-size: 16px;
       padding-top: 10px;
       color: white;
     }
@@ -763,13 +787,16 @@ body {
 }
 
 .input-icon {
-  background: #008fdb;
+  background: #009fbc !important;
   padding: 5px;
   font-size: 11px;
   border-radius: 50%;
   color: white;
   height: 35px;
   width: 35px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 .form-controler {
   margin-top: 20px !important;
@@ -783,8 +810,29 @@ body {
 /* -------------------------------------------------------------------------- */
 /*                                 Mobile view                                */
 /* -------------------------------------------------------------------------- */
-
+@media screen and (min-height: 830px) {
+  .landing-page {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+    height: calc(100vh - 40px) !important;
+  }
+}
 @media screen and (max-width: 600px) {
+  .benefits2 {
+    margin: 0 auto !important;
+  }
+  .page-slide {
+    height: 100vh !important;
+  }
+  .page-slide-web,
+  .landing-page {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+    height: fit-content;
+  }
+  .shead {
+    font-size: 2.2vh !important;
+  }
   .spacer-mobile {
     display: block !important;
     height: 20px;
@@ -797,9 +845,9 @@ body {
     font-size: 2vh !important;
     text-align: justify;
   }
-  .view-hight {
-    height: fit-content !important;
-  }
+  // .view-hight {
+  //   height: fit-content !important;
+  // }
 
   .slide-1 {
     background-image: none;
@@ -838,11 +886,11 @@ body {
   .home-slide2 {
     height: fit-content !important;
   }
-  .home-slide1,
-  .home-slide3,
-  .home-slide6 {
-    height: calc(100vh - 74px) !important;
-  }
+  // .home-slide1,
+  // .home-slide3,
+  // .home-slide6 {
+  //   height: calc(100vh - 74px) !important;
+  // }
 
   .home-slide3 {
     .small-card {
@@ -899,12 +947,38 @@ body {
     }
   }
   .show-card {
+    height: fit-content !important;
+    padding-top: 20px !important;
+    padding-bottom: 8px !important;
     .head-center {
       font-size: 3.5vh !important;
-      letter-spacing: 1.3px !important;
+      letter-spacing: 1px !important;
     }
     .description {
-      font-size: 1.7vh !important;
+      font-size: 1.5vh !important;
+    }
+    .small-card {
+      min-width: fit-content !important;
+      max-width: none !important;
+      width: fit-content !important;
+      height: fit-content !important;
+      padding: 10px !important;
+
+      .shead2 {
+        font-size: 2vh !important;
+      }
+      .show-card-icon {
+        height: 3vh !important;
+        width: 3vh !important;
+      }
+    }
+  }
+  .child1,
+  .child2,
+  .child3 {
+    .shead {
+      font-size: 2.7vh !important;
+      letter-spacing: 1.2px !important;
     }
   }
 }

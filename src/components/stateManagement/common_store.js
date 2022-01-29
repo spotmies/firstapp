@@ -14,6 +14,7 @@ class CommonStore {
     makeAutoObservable(this);
   }
   setNavBar = (value) => {
+    if (window.innerWidth > 600) return;
     this.showNavBar = value ?? true;
   };
   setShadow = (value) => {

@@ -9,14 +9,14 @@ export default function Whyspotmies() {
   let data = [
     {
       icon: AiOutlineFileDone,
-      title: "Get certification",
+      title: "Ease of Doing Business",
       description:
         "Lorem Ipsum is simply dummy text of the printing and typesetting",
       color: "#9cb800",
     },
     {
       icon: AiOutlineUsergroupAdd,
-      title: "Get connect with us",
+      title: "Single Platform for all",
       description:
         "Lorem Ipsum is simply dummy text of the printing and typesetting",
       color: "#008fdb",
@@ -25,7 +25,7 @@ export default function Whyspotmies() {
       icon: AiOutlineShop,
       title: "Create your own shop",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting",
+        "You can add your services list, so customers can get an idea of the basic pricing and services you offer",
       color: "#00b877",
     },
   ];
@@ -53,21 +53,22 @@ export default function Whyspotmies() {
   };
 
   return (
-    <div className="center">
-      <div className="why-spotmies">
-        <div>
-          <p className="head center-text"> Why spotmies</p>
-        </div>
-        <div className="whycard-parent space-evenly">
-          {data.map((item, index) => {
-            return (
-              <div key={index} className="center">
-                {whyCard(item.title, item.description, item.icon, item.color)}
-              </div>
-            );
-          })}
-        </div>
+    // <div className="center">
+    <div className="why-spotmies">
+      <div>
+        <p className="head center-text home-page-head"> Why Spotmies</p>
+      </div>
+      <div className="spacer" />
+      <div className="whycard-parent space-evenly">
+        {data.map((item, index) => {
+          return (
+            <div key={index} className="center">
+              {whyCard(item.title, item.description, item.icon, item.color)}
+            </div>
+          );
+        })}
       </div>
     </div>
+    // </div>
   );
 }

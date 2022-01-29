@@ -4,20 +4,26 @@
   padding: 0;
   margin: 0;
   letter-spacing: 2px;
-  color: #1a237e;
+  color: #444354;
+  font-family: "Gilroy Bold" !important;
+  font-size: 32px;
 }
 .tag-line {
-  font-size: 13px;
-  color: rgb(116, 116, 116);
+  font-size: 11px;
+  color: rgb(184, 184, 184);
   margin: 0;
   padding: 0;
   line-height: 0.5;
+  font-family: "Gilroy Regular" !important;
 }
 .nav-tag-title {
   margin-top: 3px;
 }
 .logo-banner {
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .navbar-logo {
   width: 50px;
@@ -181,12 +187,14 @@
 }
 
 @media screen and (max-width: 420px) {
+  .nav-container {
+    width: 100% !important;
+  }
   .navbar-title {
     padding: 0;
     margin: 0;
     letter-spacing: 1px;
     font-size: 24px;
-    color: #1a237e;
   }
   .tag-line {
     font-size: 10px;

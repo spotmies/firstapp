@@ -52,7 +52,7 @@
       //   width: fit-content;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      // justify-content: space-between;
       border-radius: 10px;
       padding: 20px;
 
@@ -73,12 +73,13 @@
         background-color: rgb(255, 255, 255);
       }
       .content {
+        margin-top: 20px;
         margin-left: 5px;
       }
       .chead {
         font-size: 16px;
         font-family: "Gilroy Bold";
-
+        line-height: 14px;
         margin-bottom: 10px;
       }
     }
@@ -144,14 +145,26 @@
   .section-2 {
     max-width: 100%;
     .service-card-parent {
-      margin-left: 10px;
+      padding: 0 !important;
+      margin: 0 auto;
+      width: fit-content !important;
+
       grid-template-columns: auto auto !important;
-      grid-column-gap: 5px !important;
+      grid-column-gap: 10% !important;
       grid-row-gap: 20px !important;
       .service-card {
         min-height: 150px !important;
         width: 150px !important;
         padding: 0;
+        &:hover {
+          box-shadow: none !important;
+        }
+        .content {
+          .description {
+            font-size: 1.6vh !important;
+            text-align: unset !important;
+          }
+        }
       }
       .dot-parent {
         margin-right: 90px !important;

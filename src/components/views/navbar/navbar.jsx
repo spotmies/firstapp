@@ -220,7 +220,7 @@ function Navibar(props) {
                           <div className="logo-banner">
                             <img src={SmLogo} className="navbar-logo" />
                             <div className="nav-tag-title">
-                              <h1 className="navbar-title">SPOTMIES</h1>
+                              <h1 className="navbar-title">Spotmies</h1>
                               <p className="tag-line">
                                 Experience the Excellence
                               </p>
@@ -358,7 +358,7 @@ function Navibar(props) {
                                   <Nav className="chaticon" id="signup">
                                     <MdStore />
                                     <p>
-                                      <b>&nbsp;Join as Service Partner</b>
+                                      <b>&nbsp;Become a Service Partner</b>
                                     </p>
                                   </Nav>
                                 </Link>
@@ -372,7 +372,7 @@ function Navibar(props) {
                                 </Link>
                               </>
                             ) : null}
-                            <Link className="nav-links" to="/newpost">
+                            {/* <Link className="nav-links" to="/newpost">
                               <Nav className="chaticon">
                                 <MdAddCircle
                                   size="1.4rem"
@@ -382,7 +382,7 @@ function Navibar(props) {
                                   <b>Get Service</b>
                                 </p>
                               </Nav>
-                            </Link>
+                            </Link> */}
                           </Nav>
                         </Navbar.Collapse>
                       </IconContext.Provider>

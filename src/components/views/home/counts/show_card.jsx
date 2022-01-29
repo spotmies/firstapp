@@ -20,7 +20,7 @@ export default function ShowCard(props) {
               <AiOutlineUserAdd
                 size="2.2rem"
                 color="#008fdb"
-                className="horizontal-spacer"
+                className="horizontal-spacer show-card-icon"
               />
               <p className="shead2">{data.buttonText}</p>
             </div>
