@@ -30,10 +30,11 @@ class ServiceList {
         this.mainServicesList[key].label = item.nameOfService;
         this.mainServicesList[key].value = item.serviceId;
       });
-      this.mainServicesList.push({ label: "Other", serviceId: 100,nameOfService:"z",value:100 });
-     
+      // this.mainServicesList.push({ label: "Other", serviceId: 100,nameOfService:"z",value:100 });
+
       this.mainServicesList.sort(function (a, b) {
-        return a.nameOfService.localeCompare(b.nameOfService);
+        // return a?.sort2?.localeCompare(b?.sort2);
+        return a?.sort2 - b?.sort2;
       });
 
       console.log(res);
