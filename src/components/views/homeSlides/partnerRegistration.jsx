@@ -153,7 +153,10 @@ function PartnerRegistration(props) {
         {textContent.map((message, index) => (
           <section className="home-section">
             <Fade bottom>
-              <ScrollAnimation animateOut="m-img-in" animateIn="m-img-out">
+              <ScrollAnimation
+                //  animateOut="m-img-in"
+                animateIn="m-img-out"
+              >
                 <div
                   className={
                     (index === 1) | (index === 2) | (index === 3)
@@ -169,12 +172,12 @@ function PartnerRegistration(props) {
               <div className="home-textBox">
                 <ScrollAnimation
                   animateIn="headeranimate-in"
-                  animateOut="headeranimate-out"
+                  // animateOut="headeranimate-out"
                 >
                   <h1>{message.heading}</h1>
                 </ScrollAnimation>
                 <ScrollAnimation
-                  animateOut="fade-out-section"
+                  // animateOut="fade-out-section"
                   animateIn="fade-in-section"
                 >
                   <p>
@@ -365,14 +368,14 @@ function PartnerRegistration(props) {
                 <Zoom>
                   <div className="home-textBox">
                     <ScrollAnimation
-                      animateOut="headeranimate-out"
+                      // animateOut="headeranimate-out"
                       animateIn="headeranimate-in"
                     >
                       <h1>{message.heading}</h1>
                     </ScrollAnimation>
                     <ScrollAnimation
                       animateIn="fade-in-section"
-                      animateOut="fade-out-section"
+                      // animateOut="fade-out-section"
                     >
                       <p>
                         {/* <ReactReadMoreReadLess
