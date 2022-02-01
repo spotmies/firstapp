@@ -5,6 +5,7 @@ import {
   AiOutlineShop,
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
+import Fade from "react-reveal/Fade";
 export default function Whyspotmies() {
   let data = [
     {
@@ -54,21 +55,23 @@ export default function Whyspotmies() {
 
   return (
     // <div className="center">
-    <div className="why-spotmies">
-      <div>
-        <p className="head center-text home-page-head"> Why Spotmies</p>
+    <Fade>
+      <div className="why-spotmies">
+        <div>
+          <p className="head center-text home-page-head"> Why Spotmies</p>
+        </div>
+        <div className="spacer" />
+        <div className="whycard-parent space-evenly">
+          {data.map((item, index) => {
+            return (
+              <div key={index} className="center">
+                {whyCard(item.title, item.description, item.icon, item.color)}
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <div className="spacer" />
-      <div className="whycard-parent space-evenly">
-        {data.map((item, index) => {
-          return (
-            <div key={index} className="center">
-              {whyCard(item.title, item.description, item.icon, item.color)}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </Fade>
     // </div>
   );
 }

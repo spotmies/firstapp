@@ -8,13 +8,9 @@ import DownloadMobileApp from "./download_app/download_app";
 import "./partner_style.scss";
 import ServicesList from "./services_list/services_list";
 import PartnerSlide1 from "./slide1/partner_slide1";
-import Fade from "react-reveal/Fade";
-import Zoom from "react-reveal/Zoom";
-import ScrollAnimation from "react-animate-on-scroll";
 import "./style.scss";
 import {
   AiOutlineMobile,
-  AiOutlineUsergroupAdd,
   AiOutlineCreditCard,
   AiOutlineDashboard,
   AiOutlineNotification,
@@ -109,52 +105,47 @@ export default function PartnerPage() {
         <div className="partner-slide-1 page-slide-web landing-page">
           <PartnerSlide1 onClick={scrollToSecondSlide} />
         </div>
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="partner-slide-2 page-slide" ref={secondSlideRef}>
-            <ServicesList />
-          </div>
-        </ScrollAnimation>
+
+        <div className="partner-slide-2 page-slide" ref={secondSlideRef}>
+          <ServicesList />
+        </div>
 
         <div className="spacer-mobile" />
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="partner-slide-3 page-slide-web">
-            <HowItWorks data={howItWorksData} />
-          </div>
-        </ScrollAnimation>
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="partner-slide-4 page-slide">
-            <Benefits3 />
-          </div>
-        </ScrollAnimation>
+
+        <div className="partner-slide-3 page-slide-web">
+          <HowItWorks data={howItWorksData} />
+        </div>
+
+        <div className="partner-slide-4 page-slide">
+          <Benefits3 />
+        </div>
+
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="partner-slide-5 page-slide">
-            <Benefits2 data={benefit2Data} content={benefits2Content} />
-          </div>
-        </ScrollAnimation>
+
+        <div className="partner-slide-5 page-slide">
+          <Benefits2 data={benefit2Data} content={benefits2Content} />
+        </div>
+
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="partner-slide-6 page-slide-web">
-            <DownloadMobileApp data={downloadAppData} />
-          </div>
-        </ScrollAnimation>
+
+        <div className="partner-slide-6 page-slide-web">
+          <DownloadMobileApp data={downloadAppData} />
+        </div>
+
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="partner-slide-7 page-slide-web">
-            <Whyspotmies />
+
+        <div className="partner-slide-7 page-slide-web">
+          <Whyspotmies />
+        </div>
+
+        <div className="partner-slide-8 page-slide-web">
+          <div className="partner-slide-8-sub">
+            <p className="head home-page-head">Register as a Service Partner</p>
+            <PartnerRegistrationForm />
           </div>
-        </ScrollAnimation>
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="partner-slide-8 page-slide-web">
-            <div className="partner-slide-8-sub">
-              <p className="head home-page-head">
-                Register as a Service Partner
-              </p>
-              <PartnerRegistrationForm />
-            </div>
-          </div>
-        </ScrollAnimation>
+        </div>
+
         <div>
           <div className="spacer" />
           <NewsLetter />

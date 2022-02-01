@@ -13,22 +13,10 @@ import ShowCard from "./counts/show_card";
 import speechtotext from "../../../assets/svgs/speechtotext.svg";
 import ScrollAnimation from "react-animate-on-scroll";
 import { useStores } from "../../stateManagement";
-import {
-  AiOutlineMobile,
-  AiOutlineUsergroupAdd,
-  AiOutlineCreditCard,
-  AiOutlineDashboard,
-  AiOutlineNotification,
-  AiOutlineYoutube,
-  AiOutlineFileDone,
-  AiOutlineSchedule,
-  AiOutlineCalendar,
-} from "react-icons/ai";
+import { AiOutlineMobile, AiOutlineUsergroupAdd } from "react-icons/ai";
 import {
   MdAdminPanelSettings,
   MdChatBubbleOutline,
-  MdOutlineConnectWithoutContact,
-  MdOutlineNoteAlt,
   MdOutlinePrivacyTip,
 } from "react-icons/md";
 
@@ -164,54 +152,46 @@ export default function Homepage() {
           commonStore.setNavBar(false);
         }}
       >
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="home-slide1 page-slide landing-page">
-            <Slide1 data={slide1Data} onClick={scrollToSecondSlide} />
-          </div>
-        </ScrollAnimation>
+        <div className="home-slide1 page-slide landing-page">
+          <Slide1 data={slide1Data} onClick={scrollToSecondSlide} />
+        </div>
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div
-            className="home-slide5 view-hight center-divy page-slide"
-            ref={secondSlideRef}
-          >
-            <ServicesList />
-          </div>
-        </ScrollAnimation>
+
+        <div
+          className="home-slide5 view-hight center-divy page-slide"
+          ref={secondSlideRef}
+        >
+          <ServicesList />
+        </div>
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="home-slide2">
-            <HowItWorks data={howItWorksData} />
-          </div>
-        </ScrollAnimation>
+
+        <div className="home-slide2">
+          <HowItWorks data={howItWorksData} />
+        </div>
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="home-slide3 center-divy page-slide">
-            <Benefits2 data={benefit2Data} content={benefits2Content} />
-          </div>
-        </ScrollAnimation>
+
+        <div className="home-slide3 center-divy page-slide">
+          <Benefits2 data={benefit2Data} content={benefits2Content} />
+        </div>
 
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="home-slide6 center-divy view-hight page-slide">
-            <Slide2 data={slide2Data} />
-          </div>
-        </ScrollAnimation>
+
+        <div className="home-slide6 center-divy view-hight page-slide">
+          <Slide2 data={slide2Data} />
+        </div>
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="home-slide4">
-            <Benefits data={benefitData} />
-          </div>
-        </ScrollAnimation>
+
+        <div className="home-slide4">
+          <Benefits data={benefitData} />
+        </div>
 
         <div className="spacer-mobile" />
-        <ScrollAnimation animateIn="img-in" animateOut="img-out">
-          <div className="home-slide7">
-            <div className="spacer" />
-            <ShowCard data={showCardData} />
-            <div className="spacer" />
-          </div>
-        </ScrollAnimation>
+
+        <div className="home-slide7">
+          <div className="spacer" />
+          <ShowCard data={showCardData} />
+          <div className="spacer" />
+        </div>
 
         <div className="spacer-mobile" />
 
