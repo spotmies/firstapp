@@ -15,6 +15,8 @@ import { IoRocketOutline } from "react-icons/io5";
 import "./styles.scss";
 
 export default function ServicesList(props) {
+  const content = props?.content;
+
   const data1 = [
     {
       icon: AiOutlineHome,
@@ -136,12 +138,12 @@ export default function ServicesList(props) {
       <div className="center">
         <div className="service-list">
           <div className="section-1">
-            <p className="head home-page-head">Our Services</p>
+            <p className="head home-page-head">
+              {content?.title ?? "Professional Services Platform"}
+            </p>
             <p className="description">
-              {" "}
-              Hey! Would like to grow up your skills and if you are interested
-              to do this just start here your skills and if you are interested
-              to
+              {content?.description ??
+                "We provide a wide range of services to our customers. We have a team of experts who are ready to help you with any of your needs."}
             </p>
           </div>
           <div className="section-2">

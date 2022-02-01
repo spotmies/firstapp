@@ -25,12 +25,20 @@ export default function Benefits2(props) {
         <div className="benefits2">
           <div className="main-content">
             <div className="image easy-image">
-              <img src={workImage} alt="downloadApp" className="image-url" />
+              <img
+                src={content.image}
+                alt="downloadApp"
+                className="image-url"
+              />
             </div>
             <div className="content">
               <p className="head home-page-head">{content.title}</p>
               <div className="image mImage">
-                <img src={workImage} alt="downloadApp" className="image-url" />
+                <img
+                  src={content.image}
+                  alt="downloadApp"
+                  className="image-url"
+                />
               </div>
               <p className="description">{content.description}</p>
               <div className="grid-container-2">

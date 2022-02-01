@@ -5,7 +5,10 @@ export default function Slide1(props) {
   return (
     <Fade>
       <div className="center">
-        <div className="benefits2 slide-1">
+        <div
+          className="benefits2 slide-1"
+          style={{ backgroundImage: `url(${data.image})` }}
+        >
           <div className="main-content">
             <div className="content">
               <p className="head home-page-head">{data.title}</p>

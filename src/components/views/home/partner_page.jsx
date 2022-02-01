@@ -17,12 +17,18 @@ import {
   AiOutlineYoutube,
   AiOutlineInbox,
 } from "react-icons/ai";
-
+import { MdOutlineQuickreply, MdOutlineStore } from "react-icons/md";
+import { BsGlobe } from "react-icons/bs";
 import { FiCheckCircle } from "react-icons/fi";
 import { useStores } from "../../stateManagement";
 import FooterBar from "./footer_bar/footer_bar";
 import NewsLetter from "./counts/subscribe_newsletter";
 import PartnerRegistrationForm from "./partner_registration_form/registration_form";
+
+// import images
+import note_list from "../../../assets/svgs/note_list.svg";
+import work_rocket from "../../../assets/images/work_rocket.jpg";
+import confirmed from "../../../assets/svgs/confirmed.svg";
 
 export default function PartnerPage() {
   const { commonStore } = useStores();
@@ -79,8 +85,38 @@ export default function PartnerPage() {
     title: "It's Easy To Use",
     description:
       "It's easy to convey your need to us through our platform. We provide you with a platform where you can easily find the best service partner for your service.",
+    image: note_list,
   };
 
+  const benefit3Data = [
+    {
+      icon: BsGlobe,
+      title: "No websites Required",
+      color: "#008fdb",
+    },
+    {
+      icon: AiOutlineNotification,
+      title: "No marketing Required",
+      color: "#008fdb",
+    },
+    {
+      icon: MdOutlineStore,
+      title: "Create your online Store",
+      color: "#008fdb",
+    },
+    {
+      icon: MdOutlineQuickreply,
+      title: "Connect with your customers",
+      color: "#008fdb",
+    },
+  ];
+
+  const benefit3Content = {
+    title: "Why you choose Us",
+    description:
+      "  No need for world tours, we provide service orders near you. But we won't limit you. No marketing and advertising are needed. We will look after that for you.",
+    image: confirmed,
+  };
   const scrollToSecondSlide = () => {
     secondSlideRef.current.scrollIntoView({
       behavior: "smooth",
@@ -103,7 +139,7 @@ export default function PartnerPage() {
         }}
       >
         <div className="partner-slide-1 page-slide-web landing-page">
-          <PartnerSlide1 onClick={scrollToSecondSlide} />
+          <PartnerSlide1 onClick={scrollToSecondSlide} image={work_rocket} />
         </div>
 
         <div className="partner-slide-2 page-slide" ref={secondSlideRef}>
@@ -117,8 +153,8 @@ export default function PartnerPage() {
           <HowItWorks data={howItWorksData} />
         </div>
 
-        <div className="partner-slide-4 page-slide">
-          <Benefits3 />
+        <div className="partner-slide-4 page-slide-web">
+          <Benefits3 data={benefit3Data} content={benefit3Content} />
         </div>
 
         <div className="spacer-mobile" />

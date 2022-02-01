@@ -21,7 +21,11 @@ export default function PartnerSlide1(props) {
 
   return (
     <Fade>
-      <div className="slide-1" ref={formRef}>
+      <div
+        className="slide-1"
+        ref={formRef}
+        style={{ backgroundImage: `url(${props.image})` }}
+      >
         <div className="benefits2">
           <div className="main-content">
             <div className="content">

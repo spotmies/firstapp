@@ -11,7 +11,9 @@ import { useEffect } from "react";
 import ServicesList from "./services_list/services_list";
 import ShowCard from "./counts/show_card";
 import speechtotext from "../../../assets/svgs/speechtotext.svg";
-import ScrollAnimation from "react-animate-on-scroll";
+import quitting from "../../../assets/svgs/quitting.svg";
+import phone_call from "../../../assets/svgs/phone_call.svg";
+import expert from "../../../assets/svgs/experts.svg";
 import { useStores } from "../../stateManagement";
 import { AiOutlineMobile, AiOutlineUsergroupAdd } from "react-icons/ai";
 import {
@@ -35,7 +37,7 @@ export default function Homepage() {
     title: "Make Your Life Easy.",
     description:
       "In our Busy running life who wants to stop and go to market and get the service done. There should be a source where a well qualified and well reviewed user-firendly service partners. Wondering where can we find them? You have already reached your destination.",
-    image: speechtotext,
+    image: quitting,
   };
   const howItWorksData = [
     {
@@ -61,6 +63,7 @@ export default function Homepage() {
     title: "Easy To Get Service Online",
     description:
       "It's easy to convey your need to us through our platform. We provide you with a platform where you can easily find the best service partner for your service.",
+    image: phone_call,
   };
   const benefit2Data = [
     {
@@ -90,7 +93,7 @@ export default function Homepage() {
       "We deliver the right service at the right time. Excellence is not achieved without experience. We are here to help you to get the best professional service. When we provide you service we make sure it's worth what you pay for.",
     // description:
     //   "Never get too tied to search service on market, We are here to help you to get the best professional service. You demand, We provide service cause that's what we are here for. When we provide you service we make sure it's worth what you pay for. ",
-    image: speechtotext,
+    image: expert,
   };
 
   const benefitData = [

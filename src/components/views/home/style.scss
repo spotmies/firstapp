@@ -97,7 +97,7 @@ body {
 }
 .slide-1 {
   height: fit-content;
-  background-image: url(../../../assets/images/work_rocket.jpg);
+  // background-image: url(../../../assets/images/work_rocket.jpg);
   background-repeat: no-repeat;
   background-position: 95% 50%;
   background-size: 600px;
@@ -850,8 +850,8 @@ body {
   // }
 
   .slide-1 {
-    background-image: none;
-    background-size: none;
+    background-image: none !important;
+    background-size: none !important;
     .slide1Img {
       display: block;
       width: 100%;

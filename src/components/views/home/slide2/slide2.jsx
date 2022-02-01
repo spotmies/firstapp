@@ -4,7 +4,10 @@ export default function Slide2(props) {
   return (
     <Fade>
       <div className="center">
-        <div className="benefits2 slide-1 slide-2">
+        <div
+          className="benefits2 slide-1 slide-2"
+          style={{ backgroundImage: `url(${props.data.image})` }}
+        >
           <div className="main-content">
             <div className="content">
               <p className="head home-page-head">{props.data.title}</p>
