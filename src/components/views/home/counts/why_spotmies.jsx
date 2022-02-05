@@ -5,26 +5,27 @@ import {
   AiOutlineShop,
   AiOutlineUsergroupAdd,
 } from "react-icons/ai";
+import { MdOutlineQuickreply, MdOutlineStore } from "react-icons/md";
 import Fade from "react-reveal/Fade";
 export default function Whyspotmies() {
   let data = [
     {
-      icon: AiOutlineFileDone,
-      title: "Ease of Doing Business",
+      icon: MdOutlineStore,
+      title: "Platform for Business",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting",
+        "You can manage all your business things like earnings, orders, payments, customers, products, reviews and more.",
       color: "#9cb800",
     },
     {
-      icon: AiOutlineUsergroupAdd,
-      title: "Single Platform for all",
+      icon: MdOutlineQuickreply,
+      title: "Connect with your customers",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting",
+        "There are more ways than ever to interact with your customers.",
       color: "#008fdb",
     },
     {
       icon: AiOutlineShop,
-      title: "Create your own shop",
+      title: "Maintain your online store",
       description:
         "You can add your services list, so customers can get an idea of the basic pricing and services you offer",
       color: "#00b877",

@@ -17,9 +17,13 @@ import {
   AiOutlineYoutube,
   AiOutlineInbox,
 } from "react-icons/ai";
-import { MdOutlineQuickreply, MdOutlineStore } from "react-icons/md";
+import {
+  MdOutlinePermPhoneMsg,
+  MdOutlineQuickreply,
+  MdOutlineStore,
+} from "react-icons/md";
 import { BsGlobe } from "react-icons/bs";
-import { FiCheckCircle } from "react-icons/fi";
+import { BiRupee } from "react-icons/bi";
 import { useStores } from "../../stateManagement";
 import FooterBar from "./footer_bar/footer_bar";
 import NewsLetter from "./counts/subscribe_newsletter";
@@ -27,7 +31,7 @@ import PartnerRegistrationForm from "./partner_registration_form/registration_fo
 
 // import images
 import note_list from "../../../assets/svgs/note_list.svg";
-import work_rocket from "../../../assets/images/work_rocket.jpg";
+import work_rocket from "../../../assets/images/Work_7.png";
 import confirmed from "../../../assets/svgs/confirmed.svg";
 
 export default function PartnerPage() {
@@ -41,22 +45,23 @@ export default function PartnerPage() {
   };
   const howItWorksData = [
     {
-      icon: AiOutlineMobile,
-      title: "Register on Partner App",
-      color: "#008fdb",
-      desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
-    },
-    {
       icon: AiOutlineInbox,
-      title: "Get Orders",
+      title: "Get service Request",
       color: "#008fdb",
-      desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
+      desc: "Specify your work profession during Registration. Get the order recommendations from your selected profession and location.",
     },
     {
-      icon: FiCheckCircle,
-      title: "Complete your order",
+      icon: MdOutlinePermPhoneMsg,
+      iconSize: 4.5,
+      title: "Connect with Customer",
       color: "#008fdb",
-      desc: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour. the majority have suffered alteration in some form, by injected humour",
+      desc: "There are more ways than ever to interact with your customers. Chat, call, etc.",
+    },
+    {
+      icon: BiRupee,
+      title: "Earn Money",
+      color: "#008fdb",
+      desc: "Complete the work and get paid for your valuable skills and hard work.",
     },
   ];
   const benefit2Data = [
@@ -84,7 +89,7 @@ export default function PartnerPage() {
   const benefits2Content = {
     title: "It's Easy To Use",
     description:
-      "It's easy to convey your need to us through our platform. We provide you with a platform where you can easily find the best service partner for your service.",
+      "You can track your earnings, orders, and payments from your dashboard. You can also get notifications for new orders and payments. Connect to customers with in-app messaging & calling. Hassle-free payments, cost-effective promotions",
     image: note_list,
   };
 

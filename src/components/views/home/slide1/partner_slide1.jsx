@@ -35,7 +35,7 @@ export default function PartnerSlide1(props) {
               </p>
 
               <div className="spacer-span" />
-              <img src={image} className="slide1Img" />
+              <img src={props.image} className="slide1Img" />
               <div className="spacer-span" />
               <p className="description">
                 Do not hassle, We help you in expanding your business , We pave

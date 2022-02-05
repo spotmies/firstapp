@@ -4,7 +4,7 @@ import Fade from "react-reveal/Fade";
 export default function HowItWorks(props) {
   const data = props.data;
 
-  const children = (icon, color, title, desc, isBackground) => {
+  const children = (icon, color, title, desc, isBackground, iconSize) => {
     return (
       <div
         className={
@@ -13,7 +13,13 @@ export default function HowItWorks(props) {
       >
         <div className={isBackground ? "background-circle" : "circle"}>
           <span className="icon">
-            {React.createElement(icon, { color: color, size: "5rem" })}
+            {React.createElement(icon, {
+              color: color,
+              size:
+                iconSize != null || iconSize != undefined
+                  ? `${iconSize}rem`
+                  : "5rem",
+            })}
           </span>
         </div>
         <div className="content">
@@ -33,7 +39,14 @@ export default function HowItWorks(props) {
           {data.map((item, key) => {
             return (
               <div key={key}>
-                {children(item.icon, item.color, item.title, item.desc, true)}
+                {children(
+                  item.icon,
+                  item.color,
+                  item.title,
+                  item.desc,
+                  true,
+                  item.iconSize
+                )}
               </div>
             );
           })}
