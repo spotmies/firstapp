@@ -147,7 +147,7 @@ export default function PartnerPage() {
           <PartnerSlide1 onClick={scrollToSecondSlide} image={work_rocket} />
         </div>
 
-        <div className="partner-slide-2 page-slide" ref={secondSlideRef}>
+        <div className="partner-slide-2 page-slide-web" ref={secondSlideRef}>
           <ServicesList />
         </div>
 
@@ -164,7 +164,7 @@ export default function PartnerPage() {
 
         <div className="spacer-mobile" />
 
-        <div className="partner-slide-5 page-slide">
+        <div className="partner-slide-5 page-slide-web">
           <Benefits2 data={benefit2Data} content={benefits2Content} />
         </div>
 

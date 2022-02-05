@@ -81,15 +81,15 @@ export default function ServicesList(props) {
     {
       icon: AiOutlineLaptop,
       title: "Pc/Laptop Services",
-      color: "#80c6ff",
-      iconColor: "#0890ff",
+      color: "#ffe369",
+      iconColor: "#e3b900",
       desc: "Os Installation, Hardware replacements, Networking, Troubleshooting",
     },
     {
       icon: BiCctv,
       title: "CCTV Services",
-      color: "#ffe369",
-      iconColor: "#e3b900",
+      color: "#80c6ff",
+      iconColor: "#0890ff",
       desc: "wired/no-wired camera installation, troubleshooting, etc.",
     },
     {

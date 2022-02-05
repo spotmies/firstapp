@@ -161,7 +161,7 @@ export default function Homepage() {
         <div className="spacer-mobile" />
 
         <div
-          className="home-slide5 view-hight center-divy page-slide"
+          className="home-slide5 center-divy page-slide-web"
           ref={secondSlideRef}
         >
           <ServicesList />
