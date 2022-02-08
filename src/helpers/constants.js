@@ -1,5 +1,6 @@
 module.exports = Object.freeze({
-  baseUrl: "https://spotmiesserver.herokuapp.com/api",
+  // baseUrl: "https://spotmiesserver.herokuapp.com/api",
+  baseUrl: "https://spotmies.herokuapp.com/api",
   socketUrl: "https://spotmiesserver.herokuapp.com",
   localHostSocketUrl: "http://localhost:4000",
   localHostUrl: "http://localhost:4000/api",
@@ -50,6 +51,7 @@ module.exports = Object.freeze({
     userLogin: "/user/login",
     feedback_questions: "/suggestion/feedback-question/feedback-questions/",
     cloud_constants: "/constant/doc-id/user_web",
+    access_token: "/public/access-token",
   },
   servicesList: "/services/all-service-list",
   reviews: "/partner-feedback/feedbacks/partner/",
