@@ -28,7 +28,7 @@ async function getAccessToken() {
 async function fetchAccessToken() {
   const savedToken = loadState("accessToken");
   const currentTime = Math.round(new Date().getTime() / 1000);
-  if (savedToken.authData.exp <= currentTime) {
+  if (savedToken == null || savedToken?.authData?.exp <= currentTime) {
     const tokenData = await getAccessToken();
     if (tokenData != null) {
       return tokenData?.token;

@@ -84,7 +84,7 @@ date picker
 
 steps for deploy in firebase
 npm run-script build
-firebase deploy
+firebase deploy --only hosting:spotmiess
 read me updated
 
 task to do before deploy

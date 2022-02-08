@@ -48,7 +48,7 @@ module.exports = Object.freeze({
     NEW_INTERN_REGISTRATION: "/career/intern/new-intern-registration",
     new_partner_feedback: "/partner-feedback/new-feedback",
     new_suggestion: "/suggestion/new-suggestion",
-    userLogin: "/user/login",
+    userLogin: "/public/user/login",
     feedback_questions: "/suggestion/feedback-question/feedback-questions/",
     cloud_constants: "/constant/doc-id/user_web",
     access_token: "/public/access-token",
