@@ -59,6 +59,9 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import ImageViewerDialog from "./image_viewer";
 import PartnerOverview from "../partner/partnerOverview";
 import { useStores } from "../../stateManagement/index";
+import { getQuery } from "../../../helpers/convertions";
+import { Box, CircularProgress } from "@material-ui/core";
+import { createNewChat } from "../../controllers/chat/chat_controller";
 
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
@@ -105,9 +108,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Chat(props) {
+  const { commonStore, reviews } = useStores();
   const classes = useStyles();
   const [deviceHeight, deviceWidth] = useWindowSize();
   const [listChats, setListChats] = useState([]);
+  const [creatingChat, setCreatingChat] = useState(false);
   const [currentChat, setCurrentChat] = useState([]);
   const [currentMsgId, setCurrentMsgId] = useState(null);
   const [targetObject, setTargetObject] = useState(null);
@@ -128,13 +133,60 @@ function Chat(props) {
   const messageInput = useRef(null);
   const scrollRef = useRef(null);
 
-  const { reviews } = useStores();
-
   const viewProps = (state) => {
     setViewCard(state);
     console.log("veiwcard called");
   };
+  const selectOrCreateChat = async () => {
+    let ordId = getQuery("ordId");
+    let pId = getQuery("pId");
+    let respId = getQuery("respId");
+    console.log("ordId", ordId);
+    console.log("pId", pId);
+    console.log("chats", props.userChats);
+    if (ordId && pId) {
+      const index = props.userChats.findIndex((item) => {
+        return item.ordId === ordId && item.pId === pId;
+      });
+      if (index < 0) {
+        //create a chat with this order
+        console.log("creating chat");
+        const index2 = props.responses.findIndex((item) => {
+          return item.responseId == respId;
+        });
+        if (index2 < 0) return alert("Something went wrong");
+        const responseData = props.responses[index2];
+        setCreatingChat(true);
+        let result = await createNewChat({
+          ordId: ordId,
+          pId: pId,
+          uId: responseData?.uId,
+          uDetails: responseData?.uDetails,
+          pDetails: responseData?.pDetails,
+          orderDetails: responseData?.orderDetails?._id,
+        });
+        setCreatingChat(false);
+        console.log("result", result);
+        if (result != null) {
+          setCurrentMsgId(result.msgId);
+          props.addNewChat(result);
+          console.log("new chat created");
 
+          // setTimeout(() => {
+          //   setCreatingChat(true);
+          //   setCurrentMsgId(result.msgId);
+          //   setCreatingChat(false);
+          // }, 1000);
+        }
+      } else {
+        let tempMsgId = props.userChats[index]?.msgId;
+        //select that chat
+        console.log("selecting chat");
+        selectChat(tempMsgId);
+      }
+      console.log("index", index);
+    }
+  };
   const pDets = async (state, id) => {
     const reviewLists = await reviews.fetchReviews(id);
 
@@ -144,10 +196,12 @@ function Chat(props) {
   };
 
   const chatBox = (msgId) => {
-    const found = props.userChats.find((element) => element.msgId === msgId);
+    console.log("chats", props.userChats);
+    const found = props.userChats.find((element) => element?.msgId === msgId);
     let parsedMsgs = [];
     console.log(found);
-    for (let i = 0; i < found.msgs.length; i++) {
+    if (found === undefined || found === null) return;
+    for (let i = 0; i < found?.msgs?.length; i++) {
       parsedMsgs.push(JSON.parse(found.msgs[Number(i)]));
     }
     // console.log(parsedMsgs);
@@ -166,7 +220,9 @@ function Chat(props) {
     setUploadedFiles([]);
   };
   useEffect(() => {
+    console.log("chat changed", props.userChats);
     if (currentMsgId != null) chatBox(currentMsgId);
+    else console.log("chats", currentMsgId);
   }, [props.userChats]);
 
   //scroll to bottom useeffect below
@@ -175,9 +231,19 @@ function Chat(props) {
     setstatusBarValue(0);
   }, [currentChat]);
   useEffect(() => {
+    if (currentMsgId != null) {
+      props.disableChatResponseTab(true);
+      props.disableBottomBar(true);
+      commonStore.setNavBar(false);
+    } else {
+      props.disableChatResponseTab(false);
+      props.disableBottomBar(false);
+      commonStore.setNavBar(true);
+    }
     props.sendRemainingMessages();
   }, [currentMsgId]);
   useEffect(() => {
+    selectOrCreateChat();
     return () => {
       props.sendRemainingMessages();
     };
@@ -195,6 +261,7 @@ function Chat(props) {
       props.disableBottomBar(false);
     }
   };
+
   useEffect(() => {
     props.history.listen((location) => {
       let browserPath = location.pathname.split("/");
@@ -394,129 +461,133 @@ function Chat(props) {
   return (
     <div className={classes.mainScreen} id="complete-page">
       <div className="chatSection">
-      {deviceWidth > 700 ? (
-        <Grid
-          container
-          component={Paper}
-          className={classes.chatSection}
-          xs={12}
-        >
-          <Grid item xs={3} className={classes.borderRight500}>
-            <ListChatPersons
-              listChats={props.userChats}
-              currentMsgId={currentMsgId}
-              selectChat={selectChat}
-            />
-          </Grid>
+        {deviceWidth > 700 ? (
+          <Grid
+            container
+            component={Paper}
+            className={classes.chatSection}
+            xs={12}
+          >
+            <Grid item xs={3} className={classes.borderRight500}>
+              <ListChatPersons
+                listChats={props.userChats}
+                currentMsgId={currentMsgId}
+                selectChat={selectChat}
+              />
+            </Grid>
 
-          <Grid item xs={9}>
-            {/* appbar */}
-            {currentMsgId !== null ? (
-              <div style={{ position: "relative" }}>
-                {viewCard ? (
-                  <PartnerOverview
-                    className="overCard"
-                    prop={props}
-                    viewed={viewProps}
-                    review={reviewList}
-                    pDet={partnerDet}
-                    style={{ position: "absolute" }}
-                  />
-                ) : (
-                  <div>
-                    <ChatBanner
-                      orderDetails={orderDetails}
-                      view={viewProps}
-                      pDet={pDets}
+            <Grid item xs={9}>
+              {/* appbar */}
+              {currentMsgId !== null ? (
+                <div style={{ position: "relative" }}>
+                  {viewCard ? (
+                    <PartnerOverview
+                      className="overCard"
                       prop={props}
-                      onClick={partnerDet}
+                      viewed={viewProps}
+                      review={reviewList}
+                      pDet={partnerDet}
+                      style={{ position: "absolute" }}
                     />
-
-                    <div className="chat-main">
-                      <ChatArea
-                        chatListScrollControl={chatListScrollControl}
-                        scrollhandle={scrollhandle}
-                        currentChat={currentChat}
-                        scrollRef={scrollRef}
-                        // viewed={viewCard}
-                        dateBetweenMessages={dateBetweenMessages}
-                        sendStatus={sendStatus}
+                  ) : (
+                    <div>
+                      <ChatBanner
                         orderDetails={orderDetails}
+                        view={viewProps}
+                        pDet={pDets}
+                        prop={props}
+                        onClick={partnerDet}
                       />
 
-                      <Statusbar
-                        executeScroll={executeScroll}
-                        status={statusBarValue}
+                      <div className="chat-main">
+                        <ChatArea
+                          chatListScrollControl={chatListScrollControl}
+                          scrollhandle={scrollhandle}
+                          currentChat={currentChat}
+                          scrollRef={scrollRef}
+                          // viewed={viewCard}
+                          dateBetweenMessages={dateBetweenMessages}
+                          sendStatus={sendStatus}
+                          orderDetails={orderDetails}
+                        />
+
+                        <Statusbar
+                          executeScroll={executeScroll}
+                          status={statusBarValue}
+                        />
+                        <ListMediaFiles
+                          mediaFiles={localMedia}
+                          typeOfMode="offline"
+                          deleteMedia={deleteLocalMedia}
+                          addMore={getMediaFiles}
+                        />
+                        {loader ? (
+                          <div className="linear-progress">
+                            <LinearProgress />
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <Divider />
+                      <MessageTools
+                        onKeyDownHandler={onKeyDownHandler}
+                        messageInput={messageInput}
+                        sendMessage={sendMessage}
+                        uploadMediaToCloud={uploadMediaToCloud}
+                        clearMediaFiles={clearMediaFiles}
+                        getMediaFiles={getMediaFiles}
                       />
-                      <ListMediaFiles
-                        mediaFiles={localMedia}
-                        typeOfMode="offline"
-                        deleteMedia={deleteLocalMedia}
-                        addMore={getMediaFiles}
-                      />
-                      {loader ? (
-                        <div className="linear-progress">
-                          <LinearProgress />
-                        </div>
-                      ) : null}
                     </div>
-
-                    <Divider />
-                    <MessageTools
-                      onKeyDownHandler={onKeyDownHandler}
-                      messageInput={messageInput}
-                      sendMessage={sendMessage}
-                      uploadMediaToCloud={uploadMediaToCloud}
-                      clearMediaFiles={clearMediaFiles}
-                      getMediaFiles={getMediaFiles}
-                    />
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="introChatContainer">
-                <img src={emptychatPic} className="chat-intro-image" />
-              </div>
-            )}
+                  )}
+                </div>
+              ) : (
+                <div className="introChatContainer">
+                  {creatingChat ? (
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <CircularProgress />
+                    </Box>
+                  ) : null}
+                  <img src={emptychatPic} className="chat-intro-image" />
+                </div>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-      ) : (
-        <MobileChat
-          //list chat props
-          listChats={props.userChats}
-          currentChat={currentChat}
-          currentMsgId={currentMsgId}
-          selectChat={selectChat}
-          //chat banner props
-          orderDetails={orderDetails}
-          //chatArea props
-          chatListScrollControl={chatListScrollControl}
-          scrollhandle={scrollhandle}
-          currentChat={currentChat}
-          scrollRef={scrollRef}
-          dateBetweenMessages={dateBetweenMessages}
-          sendStatus={sendStatus}
-          //statusbar props
-          executeScroll={executeScroll}
-          status={statusBarValue}
-          //message tools props
-          onKeyDownHandler={onKeyDownHandler}
-          messageInput={messageInput}
-          sendMessage={sendMessage}
-          uploadMediaToCloud={uploadMediaToCloud}
-          clearMediaFiles={clearMediaFiles}
-          getMediaFiles={getMediaFiles}
-          //list media files props
-          mediaFiles={localMedia}
-          typeOfMode="offline"
-          deleteMedia={deleteLocalMedia}
-          addMore={getMediaFiles}
-          // loader props
-          loader={loader}
-          prop={props}
-        />
-      )}
-    </div>
+        ) : (
+          <MobileChat
+            //list chat props
+            listChats={props.userChats}
+            currentChat={currentChat}
+            currentMsgId={currentMsgId}
+            selectChat={selectChat}
+            //chat banner props
+            orderDetails={orderDetails}
+            //chatArea props
+            chatListScrollControl={chatListScrollControl}
+            scrollhandle={scrollhandle}
+            scrollRef={scrollRef}
+            dateBetweenMessages={dateBetweenMessages}
+            sendStatus={sendStatus}
+            //statusbar props
+            executeScroll={executeScroll}
+            status={statusBarValue}
+            //message tools props
+            onKeyDownHandler={onKeyDownHandler}
+            messageInput={messageInput}
+            sendMessage={sendMessage}
+            uploadMediaToCloud={uploadMediaToCloud}
+            clearMediaFiles={clearMediaFiles}
+            getMediaFiles={getMediaFiles}
+            //list media files props
+            mediaFiles={localMedia}
+            typeOfMode="offline"
+            deleteMedia={deleteLocalMedia}
+            addMore={getMediaFiles}
+            // loader props
+            loader={loader}
+            prop={props}
+          />
+        )}
+      </div>
     </div>
   );
 }
@@ -666,7 +737,7 @@ const ChatBanner = React.memo(
     );
   },
   (prevProps, nextProps) => {
-    if (prevProps.orderDetails.msgId !== nextProps.orderDetails.msgId) {
+    if (prevProps?.orderDetails?.msgId !== nextProps?.orderDetails?.msgId) {
       console.log("<<<<<<<<<<<<Refress chat banner>>>>>>>>>>>>>>>>>");
       return false; // props are not  equal update
     }
@@ -1164,6 +1235,7 @@ const mapStateToProps = (state) => {
     userDetails: state.userDetails,
     isUserLogin: state.isUserLogin,
     userChats: state.userChats,
+    responses: state.responses,
   };
 };
 
@@ -1183,6 +1255,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     sendRemainingMessages: () => {
       dispatch({ type: "SEND_REMAINING_MESSAGES", value: "data" });
+    },
+    addNewChat: (data) => {
+      dispatch({ type: "ADD_NEW_CHAT", value: data });
     },
   };
 };

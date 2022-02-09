@@ -52,6 +52,7 @@ module.exports = Object.freeze({
     feedback_questions: "/suggestion/feedback-question/feedback-questions/",
     cloud_constants: "/constant/doc-id/user_web",
     access_token: "/public/access-token",
+    CREATE_NEW_CHAT: "/chat/createNewChatRoom",
   },
   servicesList: "/services/all-service-list",
   reviews: "/partner-feedback/feedbacks/partner/",

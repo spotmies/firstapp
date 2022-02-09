@@ -121,7 +121,6 @@ const rootReducer = (state = initState, action) => {
         ...state,
         responses: newResponses,
       };
-
     case "ADD_NEW_ORDER":
       return {
         ...state,
@@ -230,6 +229,12 @@ const rootReducer = (state = initState, action) => {
         ...state,
         sendMessageQueue: [...state.sendMessageQueue, action.value],
       };
+    case "ADD_NEW_CHAT":
+      return {
+        ...state,
+        userChats: [...state.userChats, action.value],
+      };
+
     case "REMOVE_MESSAGE_FROM_QUEUE":
       let filtered = state.sendMessageQueue.filter(function (value) {
         return value != action.value;
