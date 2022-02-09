@@ -1,5 +1,6 @@
 import React from "react";
-import downloadApp from "../../../../assets/images/partnerAppUi.png";
+import downloadApp from "../../../../assets/images/m-1.png";
+
 import Fade from "react-reveal/Fade";
 import { FaGooglePlay } from "react-icons/fa";
 import { redirectToPartnerApp } from "../../../../helpers/redirect";

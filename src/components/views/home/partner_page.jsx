@@ -31,8 +31,13 @@ import PartnerRegistrationForm from "./partner_registration_form/registration_fo
 
 // import images
 import note_list from "../../../assets/svgs/note_list.svg";
-import work_rocket from "../../../assets/images/Work_7.png";
+import easy_to_use from "../../../assets/svgs/it-is-easy-to-use.svg";
+// import work_rocket from "../../../assets/images/Work_7.png";
+import work_rocket from "../../../assets/svgs/start-your-online-business-today-1.svg";
+
 import confirmed from "../../../assets/svgs/confirmed.svg";
+// import choose_us from "../../../assets/images/why.png";
+import choose_us from "../../../assets/svgs/why-you-choose-us.svg";
 
 export default function PartnerPage() {
   const { commonStore } = useStores();
@@ -90,7 +95,7 @@ export default function PartnerPage() {
     title: "It's Easy To Use",
     description:
       "You can track your earnings, orders, and payments from your dashboard. You can also get notifications for new orders and payments. Connect to customers with in-app messaging & calling. Hassle-free payments, cost-effective promotions",
-    image: note_list,
+    image: easy_to_use,
   };
 
   const benefit3Data = [
@@ -120,7 +125,7 @@ export default function PartnerPage() {
     title: "Why you choose Us",
     description:
       "  No need for world tours, we provide service orders near you. But we won't limit you. No marketing and advertising are needed. We will look after that for you.",
-    image: confirmed,
+    image: choose_us,
   };
   const scrollToSecondSlide = () => {
     secondSlideRef.current.scrollIntoView({
