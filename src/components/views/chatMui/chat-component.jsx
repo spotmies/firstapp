@@ -62,6 +62,7 @@ import { useStores } from "../../stateManagement/index";
 import { getQuery } from "../../../helpers/convertions";
 import { Box, CircularProgress } from "@material-ui/core";
 import { createNewChat } from "../../controllers/chat/chat_controller";
+import FullScreenWidget from "../../reusable/helpers";
 
 const storage = firebase.storage();
 const useStyles = makeStyles((theme) => ({
@@ -140,30 +141,28 @@ function Chat(props) {
   const selectOrCreateChat = async () => {
     let ordId = getQuery("ordId");
     let pId = getQuery("pId");
-    let respId = getQuery("respId");
-    console.log("ordId", ordId);
-    console.log("pId", pId);
-    console.log("chats", props.userChats);
-    if (ordId && pId) {
+    let pdet = getQuery("pdet");
+
+    if (ordId && pId && pdet) {
       const index = props.userChats.findIndex((item) => {
         return item.ordId === ordId && item.pId === pId;
       });
       if (index < 0) {
         //create a chat with this order
-        console.log("creating chat");
-        const index2 = props.responses.findIndex((item) => {
-          return item.responseId == respId;
+        console.log("creating chat>>>>>>>>>");
+        const index2 = props.orders.findIndex((item) => {
+          return item.ordId == ordId;
         });
         if (index2 < 0) return alert("Something went wrong");
-        const responseData = props.responses[index2];
+        const orderData = props.orders[index2];
         setCreatingChat(true);
         let result = await createNewChat({
           ordId: ordId,
           pId: pId,
-          uId: responseData?.uId,
-          uDetails: responseData?.uDetails,
-          pDetails: responseData?.pDetails,
-          orderDetails: responseData?.orderDetails?._id,
+          uId: orderData?.uId,
+          uDetails: orderData?.uDetails?._id,
+          pDetails: pdet,
+          orderDetails: orderData?._id,
         });
         setCreatingChat(false);
         console.log("result", result);
@@ -181,10 +180,12 @@ function Chat(props) {
       } else {
         let tempMsgId = props.userChats[index]?.msgId;
         //select that chat
-        console.log("selecting chat");
+        console.log("selecting chat >>>>>>>>>");
         selectChat(tempMsgId);
       }
       console.log("index", index);
+    } else {
+      console.log("went wrong");
     }
   };
   const pDets = async (state, id) => {
@@ -460,6 +461,11 @@ function Chat(props) {
   };
   return (
     <div className={classes.mainScreen} id="complete-page">
+      <FullScreenWidget
+        type="loader"
+        show={creatingChat}
+        data="Please wait..."
+      />
       <div className="chatSection">
         {deviceWidth > 700 ? (
           <Grid
@@ -1236,6 +1242,7 @@ const mapStateToProps = (state) => {
     isUserLogin: state.isUserLogin,
     userChats: state.userChats,
     responses: state.responses,
+    orders: state.orders,
   };
 };
 

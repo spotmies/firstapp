@@ -68,9 +68,9 @@ function MyResponses(props) {
     console.log("click", orderId);
     history.push(`mybookings/id/${orderId}`);
   };
-  const chatWithPartner = (orderId, pId, respId) => {
+  const chatWithPartner = (orderId, pId, pdet) => {
     console.log("click", orderId, pId);
-    history.push(`chat/?ordId=${orderId}&pId=${pId}&respId=${respId}`);
+    history.push(`chat/?ordId=${orderId}&pId=${pId}&pdet=${pdet}`);
   };
 
   const deleteResponse = async (iD) => {
@@ -395,7 +395,7 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
         <MenuItem onClick={openModal}>Partner Details</MenuItem>
         <MenuItem
           onClick={() => {
-            onChat(cap?.ordId, cap?.pId, cap?.responseId);
+            onChat(cap?.ordId, cap?.pId, cap?.pDetails?._id);
           }}
         >
           Chat with Partner{" "}
