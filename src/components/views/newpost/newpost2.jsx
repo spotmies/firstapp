@@ -728,22 +728,25 @@ function SimpleDialog(props) {
       </DialogTitle>
       <div className="categoryModalBody">
         <List>
-          {services.serviceList.map((data, key) => (
-            <ListItem
-              key={key}
-              button
-              onClick={() => handleListItemClick(data.serviceId)}
-              // key={key}
-              selected={data.serviceId === selectedValue}
-            >
-              <ListItemAvatar>
-                <Avatar className={classes.avatar}>
-                  <GetCategoryIcons iconId={data.userWebIcon} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={data.nameOfService} />
-            </ListItem>
-          ))}
+          {services.serviceList.map((data, key) => {
+            if (!data.isMainService) return;
+            return (
+              <ListItem
+                key={key}
+                button
+                onClick={() => handleListItemClick(data.serviceId)}
+                // key={key}
+                selected={data.serviceId === selectedValue}
+              >
+                <ListItemAvatar>
+                  <Avatar className={classes.avatar}>
+                    <GetCategoryIcons iconId={data.userWebIcon} />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={data.nameOfService} />
+              </ListItem>
+            );
+          })}
         </List>
       </div>
     </Dialog>
