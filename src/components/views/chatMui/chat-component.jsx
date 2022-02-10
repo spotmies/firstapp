@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import Badge from "@material-ui/core/Badge";
 import Fab from "@material-ui/core/Fab";
-import "./chat.css";
+import "./chat.scss";
 import constants from "../../../helpers/constants";
 import { connect } from "react-redux";
 import { getFileType, gettbystamps } from "../../../helpers/dateconv";
@@ -460,7 +460,11 @@ function Chat(props) {
     setlocalMedia(newPeople);
   };
   return (
-    <div className={classes.mainScreen} id="complete-page">
+    <div
+      // className={classes.mainScreen}
+      id="complete-page"
+      className="full-chat-page"
+    >
       <FullScreenWidget
         type="loader"
         show={creatingChat}
@@ -520,6 +524,7 @@ function Chat(props) {
                         <Statusbar
                           executeScroll={executeScroll}
                           status={statusBarValue}
+                          loader={loader}
                         />
                         <ListMediaFiles
                           mediaFiles={localMedia}
@@ -528,7 +533,7 @@ function Chat(props) {
                           addMore={getMediaFiles}
                         />
                         {loader ? (
-                          <div className="linear-progress">
+                          <div className="linear-progress z-index-high">
                             <LinearProgress />
                           </div>
                         ) : null}
@@ -641,6 +646,9 @@ const ChatBanner = React.memo(
         props.prop.disableBottomBar(false);
       };
     }, []);
+    const callPartner = () => {
+      window.open(`tel:${props.orderDetails?.pDetails?.phNum}`);
+    };
     return (
       <div>
         <AppBar position="static" className="chat-appbar" elevation="0">
@@ -682,7 +690,7 @@ const ChatBanner = React.memo(
               </p>
             </div>
 
-            <MdPhone className="message-icons" />
+            <MdPhone className="message-icons" onClick={callPartner} />
 
             {/* dropdown menu */}
             <Button color="inherit">
@@ -1117,6 +1125,7 @@ const Statusbar = React.memo(
   (props) => {
     return (
       <div>
+        {props.loader == true ? <LinearProgress /> : null}
         <div className="status-bar-icon">
           {(() => {
             switch (props.status) {
@@ -1170,7 +1179,7 @@ const MobileChat = React.memo(
             selectChat={props.selectChat}
           />
         ) : (
-          <div>
+          <div className="chat-sekhar">
             <ChatBanner
               orderDetails={props.orderDetails}
               mobile={true}
@@ -1189,6 +1198,7 @@ const MobileChat = React.memo(
             <Statusbar
               executeScroll={props.executeScroll}
               status={props.status}
+              loader={props.loader}
             />
             <ListMediaFiles
               mediaFiles={props.mediaFiles}

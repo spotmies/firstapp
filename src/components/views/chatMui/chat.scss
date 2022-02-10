@@ -1,3 +1,7 @@
+// .full-chat-page {
+//   height: 100vh !important;
+// }
+
 .chat-list {
   width: 20%;
   background: black;
@@ -6,12 +10,12 @@
 
 .chat-box {
   height: 450px;
-  background-color: aquamarine;
 }
 
 .chatSection {
   /* width: 80% !important; */
   margin: 0 auto !important;
+  height: calc(100vh - 150px);
 }
 
 .chat {
@@ -115,6 +119,9 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+  position: fixed;
+  width: 75%;
+  bottom: 0px;
 }
 .input-message {
   width: 80%;
@@ -138,6 +145,9 @@
   /* top: 500px; */
   background: black;
 }
+.z-index-high {
+  z-index: 1000 !important;
+}
 
 @media screen and (max-width: 700px) {
   .input-message {
@@ -150,6 +160,16 @@
   }
   .list-media-files {
     overflow-x: auto !important;
+  }
+  .message-tools {
+    width: 100% !important;
+  }
+  .chatSection {
+    height: 100vh !important;
+  }
+  .message-area {
+    overflow-y: auto;
+    height: calc(100vh - 150px) !important;
   }
 }
 .message-icons {
@@ -169,7 +189,7 @@ input:focus {
 }
 .message-area {
   overflow-y: auto;
-  height: 52vh;
+  height: calc(100vh - 315px);
 }
 .last-msg-list {
   overflow: hidden;
@@ -271,6 +291,7 @@ input:focus {
 @media screen and (max-width: 420px) {
   .message-area {
     padding: 0 !important;
+
     /* width: 100%; */
   }
 }

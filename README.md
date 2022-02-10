@@ -94,3 +94,7 @@ task to do before deploy
 login comming soon message
 
 changed
+
+change user git credentials
+git config --global user.name "username"
+git config --global user.email "sekharatece@gmail.com"

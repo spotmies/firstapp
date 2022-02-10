@@ -33,10 +33,10 @@ class ListMediaFiles extends Component {
       disableAddmore = false,
     } = this.props;
     return (
-      <div>
-        <Grid container justify="flex-start">
+      <div className="list-media-files">
+        <Grid container justify="flex-start" className="z-index-high">
           {mediaFiles.length > 0 && !disableAddmore ? (
-            <div>
+            <div className="z-index-high">
               <input
                 accept="image/*,video/*"
                 className="getMediaButton"
@@ -45,8 +45,8 @@ class ListMediaFiles extends Component {
                 type="file"
                 onChange={addMore}
               />
-              <label htmlFor="contained-button-file2">
-                <MdAddBox className="media-card" />
+              <label htmlFor="contained-button-file2" className="z-index-high">
+                <MdAddBox className="media-card z-index-high" />
               </label>
             </div>
           ) : null}
@@ -55,7 +55,7 @@ class ListMediaFiles extends Component {
             <Badge badgeContent=" " variant="dot" key={key}>
               {getFileType(nap) === "img" ? (
                 <CardMedia
-                  className="media-card"
+                  className="media-card z-index-high"
                   component="img"
                   src={
                     typeOfMode === "offline" ? URL.createObjectURL(nap) : nap
@@ -64,6 +64,7 @@ class ListMediaFiles extends Component {
                 />
               ) : getFileType(nap) === "video" ? (
                 <video
+                  className="z-index-high"
                   width="230"
                   height="154"
                   controls
@@ -74,6 +75,7 @@ class ListMediaFiles extends Component {
                 />
               ) : (
                 <audio
+                  className="z-index-high"
                   src={
                     typeOfMode === "offline" ? URL.createObjectURL(nap) : nap
                   }
@@ -82,6 +84,7 @@ class ListMediaFiles extends Component {
               )}
 
               <MdClear
+                className="z-index-high"
                 color="red"
                 onClick={() => {
                   deleteMedia(key, typeOfMode);
