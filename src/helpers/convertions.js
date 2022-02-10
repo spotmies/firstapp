@@ -17,4 +17,35 @@ const getNewTimeStamp = () => {
   const timestamp = Math.round(new Date().valueOf());
   return timestamp;
 };
-export { getQuery, getNewTimeStamp };
+
+const serviceReqAddressConvert = (address) => {
+  // let dummy = {
+  //   subLocality: "Madhavadhara",
+  //   locality: "Visakhapatnam",
+  //   latitude: "17.748195",
+  //   logitude: "83.261978",
+  //   addressLine:
+  //     "39-8-27, Muralinagar, Madhavadhara, Visakhapatnam, Andhra Pradesh 530018, India",
+  //   subAdminArea: "Vishakhapatnam",
+  //   postalCode: "530018",
+  //   adminArea: "Andhra Pradesh",
+  //   subThoroughfare: "null",
+  //   featureName: "39-8-27",
+  //   thoroughfare: "null",
+  // };
+  let newAddressObj = {
+    subLocality: address?.address?.suburb,
+    locality: address?.address?.city,
+    latitude: address?.lat,
+    logitude: address?.lon,
+    addressLine: address?.display_name,
+    subAdminArea: address?.address?.state_district,
+    postalCode: address?.address?.postcode,
+    adminArea: address?.address?.state,
+    subThoroughfare: "",
+    featureName: "",
+    thoroughfare: "",
+  };
+  return newAddressObj;
+};
+export { getQuery, getNewTimeStamp, serviceReqAddressConvert };
