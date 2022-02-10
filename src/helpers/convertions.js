@@ -38,13 +38,12 @@ const serviceReqAddressConvert = (address) => {
     locality: address?.address?.city,
     latitude: address?.lat,
     logitude: address?.lon,
-    addressLine: address?.display_name,
+    name: address?.name,
+    street: address?.neighbourhood,
     subAdminArea: address?.address?.state_district,
     postalCode: address?.address?.postcode,
     adminArea: address?.address?.state,
-    subThoroughfare: "",
-    featureName: "",
-    thoroughfare: "",
+    isoCountrycode: address?.address?.country_code,
   };
   return newAddressObj;
 };
