@@ -47,4 +47,36 @@ const serviceReqAddressConvert = (address) => {
   };
   return newAddressObj;
 };
-export { getQuery, getNewTimeStamp, serviceReqAddressConvert };
+
+const getRating = (ratings) => {
+  if (ratings.length < 1) return "0";
+  //average rating
+  console.log(ratings);
+  try {
+    let sum = 0;
+    for (let i = 0; i < ratings?.length; i++) {
+      sum += ratings[i]?.rating;
+    }
+    let avg = sum / ratings?.length;
+    return (avg / 20).toFixed(1);
+  } catch (error) {
+    console.log(error);
+    return "*";
+  }
+};
+
+const professionNRating = (pDetails) => {
+  let profession =
+    pDetails?.accountType === "business"
+      ? pDetails?.businessName
+      : pDetails?.accountType;
+  let rating = getRating(pDetails?.rate);
+  return `${profession} | ${rating}`;
+};
+export {
+  getQuery,
+  getNewTimeStamp,
+  serviceReqAddressConvert,
+  getRating,
+  professionNRating,
+};

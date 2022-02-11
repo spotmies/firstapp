@@ -3,6 +3,8 @@ import React from "react";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
 import Navibar from "./components/views/navbar/navbar";
 import Firstslide from "./components/views/homeSlides/slide1";
+import { MuiThemeProvider } from "@material-ui/core";
+import { createTheme } from "@mui/material";
 // import postview from "./components/views/viewpost/postview";
 import Mybooks from "./components/views/mybookings/mybooks";
 import NewBook from "./components/views/viewpost/newBook";
@@ -37,6 +39,7 @@ import NewHome from "./components/views/home/how_it_works/how_it_works";
 import LandingUser from "./components/views/homeSlides/newLandingUser";
 import Homepage from "./components/views/home/home_page";
 import PartnerPage from "./components/views/home/partner_page";
+import PartnerStore from "./components/views/partner_store/partner_store";
 
 const Routing = () => {
   return (
@@ -75,27 +78,43 @@ const Routing = () => {
         <Route path="/newhome" component={NewHome} />
         <Route path="/home-page" component={Homepage} />
         <Route path="/service-partner" component={PartnerPage} />
+        <Route path="/store" component={PartnerStore} />
       </Switch>
     </>
   );
 };
 
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: "#008fdb",
+      default: "#008fdb",
+    },
+    primary: {
+      main: "#008fdb",
+      default: "#008fdb",
+    },
+  },
+});
+
 function App() {
   return (
     <BrowserRouter>
-      <Navibar />
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={true}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Routing />
+      <MuiThemeProvider>
+        <Navibar />
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={true}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <Routing />
+      </MuiThemeProvider>
     </BrowserRouter>
   );
 }
