@@ -68,6 +68,10 @@ function MyResponses(props) {
     console.log("click", orderId);
     history.push(`mybookings/id/${orderId}`);
   };
+  const chatWithPartner = (orderId, pId, pdet) => {
+    console.log("click", orderId, pId);
+    history.push(`chat/?ordId=${orderId}&pId=${pId}&pdet=${pdet}`);
+  };
 
   const deleteResponse = async (iD) => {
     console.log("delete id", iD);
@@ -166,8 +170,8 @@ function MyResponses(props) {
                             title="Paella dish"
                           /> */}
 
-                        {/* this div for mobile view only */}
-                        {/* <div className="problemTitle-Mobile">
+                {/* this div for mobile view only */}
+                {/* <div className="problemTitle-Mobile">
                           <h3>{cap.pDetails.name}</h3>
                         </div>
                       </Grid>
@@ -193,12 +197,12 @@ function MyResponses(props) {
                               >
                                 <p className="orderDetails">
                                   {/* <MdPayment /> */}
-                                  {/* &nbsp;
+                {/* &nbsp;
                                   <b> Money : &#8377; {cap.money}</b>
                                 </p>
-                                <p className="orderDetails"> */} 
-                                  {/* <MdExplore /> */}
-                                  {/* &nbsp;
+                                <p className="orderDetails"> */}
+                {/* <MdExplore /> */}
+                {/* &nbsp;
                                   <b>Location : vizag</b>
                                 </p>
                               </Grid>
@@ -215,17 +219,17 @@ function MyResponses(props) {
                                     display: "inline-flex",
                                   }}
                                 > */}
-                                {/* <MdEventAvailable /> */}
-                                {/* &nbsp; */}
+                {/* <MdEventAvailable /> */}
+                {/* &nbsp; */}
 
-                                {/* <p className="orderDetails">
+                {/* <p className="orderDetails">
                                   {/* <MdNearMe /> */}
-                                  {/* &nbsp;
+                {/* &nbsp;
                                   <b>Distance: 5 km</b>
                                 </p> */}
-                                {/* </span> */}
+                {/* </span> */}
 
-                                {/* <p className="orderDetails">
+                {/* <p className="orderDetails">
                                   <b>
                                     {" "}
                                     Schedule :{" "}
@@ -244,12 +248,15 @@ function MyResponses(props) {
                       </Grid>
                     </Grid>
                   </CardContent>
-                </Cardd> */}  
+                </Cardd> */}
 
                 <div className="responseCard">
                   <div className="card-title">
                     <p>
-                      <BiTimeFive size="1.4rem" style={{marginRight:"15px"}} />{" "}
+                      <BiTimeFive
+                        size="1.4rem"
+                        style={{ marginRight: "15px" }}
+                      />{" "}
                       {`${gettbystamps(Number(cap.join), "fulldate")} 
                     ${gettbystamps(Number(cap.join), "time")}`}
                     </p>
@@ -260,6 +267,7 @@ function MyResponses(props) {
                       key={key}
                       viewPost={viewPost}
                       deleteResp={deleteResponse}
+                      onChat={chatWithPartner}
                     />
                   </div>
                   <div className="card-body">
@@ -270,8 +278,12 @@ function MyResponses(props) {
                         className="profile"
                       />
                       <div className="btn-div">
-                        <p className="sub-btn"><MdCheck /></p>
-                        <p className="dec-btn"><MdClose /></p>
+                        <p className="sub-btn">
+                          <MdCheck />
+                        </p>
+                        <p className="dec-btn">
+                          <MdClose />
+                        </p>
                       </div>
                     </div>
                     <div className="rest-body">
@@ -335,7 +347,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DotMenu({ cap, deleteResp, viewPost }) {
+function DotMenu({ cap, deleteResp, viewPost, onChat }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
@@ -369,7 +381,6 @@ function DotMenu({ cap, deleteResp, viewPost }) {
         id="long-menu"
         keepMounted
         anchorEl={anchorEl}
-        keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
@@ -382,7 +393,13 @@ function DotMenu({ cap, deleteResp, viewPost }) {
           ViewOrder
         </MenuItem>
         <MenuItem onClick={openModal}>Partner Details</MenuItem>
-        <MenuItem>Chat with Partner </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onChat(cap?.ordId, cap?.pId, cap?.pDetails?._id);
+          }}
+        >
+          Chat with Partner{" "}
+        </MenuItem>
         <MenuItem>Call Partner</MenuItem>
         <MenuItem
           onClick={() => {

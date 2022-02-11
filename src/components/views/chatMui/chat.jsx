@@ -14,7 +14,7 @@ import Box from "@material-ui/core/Box";
 import MyResponses from "../chats/responses";
 
 /*css*/
-import "./chat.css";
+import "./chat.scss";
 //import Chat from "../newChat/chating";
 import Chat from "./chat-component";
 

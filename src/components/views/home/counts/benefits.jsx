@@ -1,5 +1,5 @@
 import React from "react";
-
+import Fade from "react-reveal/Fade";
 export default function Benefits(props) {
   const data = props.data;
   const benefitCard = (icon, color, bg, shead, desc) => {
@@ -19,24 +19,26 @@ export default function Benefits(props) {
   };
 
   return (
-    <div className="center">
-      <div className="benefits">
-        <div className="benefit-card-parent">
-          {data.map((item, index) => {
-            return (
-              <div key={index}>
-                {benefitCard(
-                  item.icon,
-                  item.color,
-                  item.bg,
-                  item.title,
-                  item.description
-                )}
-              </div>
-            );
-          })}
+    <Fade>
+      <div className="center">
+        <div className="benefits">
+          <div className="benefit-card-parent">
+            {data.map((item, index) => {
+              return (
+                <div key={index}>
+                  {benefitCard(
+                    item.icon,
+                    item.color,
+                    item.bg,
+                    item.title,
+                    item.description
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </Fade>
   );
 }

@@ -11,23 +11,21 @@ import { useEffect } from "react";
 import ServicesList from "./services_list/services_list";
 import ShowCard from "./counts/show_card";
 import speechtotext from "../../../assets/svgs/speechtotext.svg";
+// import quitting from "../../../assets/svgs/quitting.svg";
+// import lifeEasy from "../../../assets/images/make_your_life_easy.png";
+import lifeEasy from "../../../assets/svgs/make-your-life-easy.svg";
+import phone_call from "../../../assets/svgs/phone_call.svg";
+// import get_service_online from "../../../assets/images/easy_to_get_service_online.png";
+import get_service_online from "../../../assets/svgs/easy-to-get-online-service.svg";
+
+// import quality_service from "../../../assets/images/g-1.png";
+import quality_service from "../../../assets/svgs/g-3.svg";
+import expert from "../../../assets/svgs/experts.svg";
 import { useStores } from "../../stateManagement";
-import {
-  AiOutlineMobile,
-  AiOutlineUsergroupAdd,
-  AiOutlineCreditCard,
-  AiOutlineDashboard,
-  AiOutlineNotification,
-  AiOutlineYoutube,
-  AiOutlineFileDone,
-  AiOutlineSchedule,
-  AiOutlineCalendar,
-} from "react-icons/ai";
+import { AiOutlineMobile, AiOutlineUsergroupAdd } from "react-icons/ai";
 import {
   MdAdminPanelSettings,
   MdChatBubbleOutline,
-  MdOutlineConnectWithoutContact,
-  MdOutlineNoteAlt,
   MdOutlinePrivacyTip,
 } from "react-icons/md";
 
@@ -46,7 +44,7 @@ export default function Homepage() {
     title: "Make Your Life Easy.",
     description:
       "In our Busy running life who wants to stop and go to market and get the service done. There should be a source where a well qualified and well reviewed user-firendly service partners. Wondering where can we find them? You have already reached your destination.",
-    image: speechtotext,
+    image: lifeEasy,
   };
   const howItWorksData = [
     {
@@ -72,6 +70,7 @@ export default function Homepage() {
     title: "Easy To Get Service Online",
     description:
       "It's easy to convey your need to us through our platform. We provide you with a platform where you can easily find the best service partner for your service.",
+    image: get_service_online,
   };
   const benefit2Data = [
     {
@@ -101,7 +100,7 @@ export default function Homepage() {
       "We deliver the right service at the right time. Excellence is not achieved without experience. We are here to help you to get the best professional service. When we provide you service we make sure it's worth what you pay for.",
     // description:
     //   "Never get too tied to search service on market, We are here to help you to get the best professional service. You demand, We provide service cause that's what we are here for. When we provide you service we make sure it's worth what you pay for. ",
-    image: speechtotext,
+    image: quality_service,
   };
 
   const benefitData = [
@@ -169,17 +168,19 @@ export default function Homepage() {
         <div className="spacer-mobile" />
 
         <div
-          className="home-slide5 view-hight center-divy page-slide"
+          className="home-slide5 center-divy page-slide-web"
           ref={secondSlideRef}
         >
           <ServicesList />
         </div>
         <div className="spacer-mobile" />
+
         <div className="home-slide2">
           <HowItWorks data={howItWorksData} />
         </div>
         <div className="spacer-mobile" />
-        <div className="home-slide3 center-divy page-slide">
+
+        <div className="home-slide3 center-divy page-slide-web">
           <Benefits2 data={benefit2Data} content={benefits2Content} />
         </div>
 
@@ -188,7 +189,6 @@ export default function Homepage() {
         <div className="home-slide6 center-divy view-hight page-slide">
           <Slide2 data={slide2Data} />
         </div>
-
         <div className="spacer-mobile" />
 
         <div className="home-slide4">

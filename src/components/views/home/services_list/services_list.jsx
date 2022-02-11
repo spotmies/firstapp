@@ -1,24 +1,22 @@
 import React from "react";
 import { useState } from "react";
+import Fade from "react-reveal/Fade";
 import {
   AiOutlineAreaChart,
   AiOutlineHome,
   AiOutlineLaptop,
-  AiOutlineVideoCamera,
 } from "react-icons/ai";
-import { BiCake, BiCctv, BiVideoRecording } from "react-icons/bi";
-import {
-  MdOutlineChair,
-  MdOutlineDesignServices,
-  MdOutlineFestival,
-} from "react-icons/md";
+import { BiCctv, BiVideoRecording } from "react-icons/bi";
+import { MdOutlineDesignServices, MdOutlineFestival } from "react-icons/md";
 import { RiKeynoteLine } from "react-icons/ri";
 import { BsFileCode } from "react-icons/bs";
-import { GiDesk, GiDoorHandle } from "react-icons/gi";
+import { GiDoorHandle } from "react-icons/gi";
 import { IoRocketOutline } from "react-icons/io5";
 import "./styles.scss";
 
-export default function ServicesList() {
+export default function ServicesList(props) {
+  const content = props?.content;
+
   const data1 = [
     {
       icon: AiOutlineHome,
@@ -83,15 +81,15 @@ export default function ServicesList() {
     {
       icon: AiOutlineLaptop,
       title: "Pc/Laptop Services",
-      color: "#80c6ff",
-      iconColor: "#0890ff",
+      color: "#ffe369",
+      iconColor: "#e3b900",
       desc: "Os Installation, Hardware replacements, Networking, Troubleshooting",
     },
     {
       icon: BiCctv,
       title: "CCTV Services",
-      color: "#ffe369",
-      iconColor: "#e3b900",
+      color: "#80c6ff",
+      iconColor: "#0890ff",
       desc: "wired/no-wired camera installation, troubleshooting, etc.",
     },
     {
@@ -136,61 +134,64 @@ export default function ServicesList() {
   };
 
   return (
-    <div className="center">
-      <div className="service-list">
-        <div className="section-1">
-          <p className="head home-page-head">Our Services</p>
-          <p className="description">
-            {" "}
-            Hey! Would like to grow up your skills and if you are interested to
-            do this just start here your skills and if you are interested to
-          </p>
-        </div>
-        <div className="section-2">
-          <div className="service-card-parent">
-            {data.map((item, key) => {
-              if (key == 5) {
-                return (
-                  <div key={key} className="dot-parent">
-                    <span
-                      className="dot-circle"
-                      onClick={changeCount}
-                      style={{
-                        backgroundColor:
-                          count === 0
-                            ? "rgb(17, 17, 17)"
-                            : "rgb(201, 201, 201)",
-                      }}
-                    />
+    <Fade>
+      <div className="center">
+        <div className="service-list">
+          <div className="section-1">
+            <p className="head home-page-head">
+              {content?.title ?? "Professional Services Platform"}
+            </p>
+            <p className="description">
+              {content?.description ??
+                "We provide a wide range of services to our customers. We have a team of experts who are ready to help you with any of your needs."}
+            </p>
+          </div>
+          <div className="section-2">
+            <div className="service-card-parent">
+              {data.map((item, key) => {
+                if (key == 5) {
+                  return (
+                    <div key={key} className="dot-parent">
+                      <span
+                        className="dot-circle"
+                        onClick={changeCount}
+                        style={{
+                          backgroundColor:
+                            count === 0
+                              ? "rgb(17, 17, 17)"
+                              : "rgb(201, 201, 201)",
+                        }}
+                      />
 
-                    <span
-                      className="dot-circle"
-                      onClick={changeCount}
-                      style={{
-                        backgroundColor:
-                          count === 1
-                            ? "rgb(17, 17, 17)"
-                            : "rgb(201, 201, 201)",
-                      }}
-                    />
+                      <span
+                        className="dot-circle"
+                        onClick={changeCount}
+                        style={{
+                          backgroundColor:
+                            count === 1
+                              ? "rgb(17, 17, 17)"
+                              : "rgb(201, 201, 201)",
+                        }}
+                      />
+                    </div>
+                  );
+                }
+                return (
+                  <div key={key}>
+                    {serviceCard(
+                      item.title,
+                      item.desc,
+                      item.color,
+                      item.icon,
+                      item.iconColor
+                    )}
                   </div>
                 );
-              }
-              return (
-                <div key={key}>
-                  {serviceCard(
-                    item.title,
-                    item.desc,
-                    item.color,
-                    item.icon,
-                    item.iconColor
-                  )}
-                </div>
-              );
-            })}
+              })}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Fade>
   );
 }

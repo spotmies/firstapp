@@ -35,6 +35,7 @@ import { getResponses } from "../../controllers/responses/responses_controller";
 import { getConversasions } from "../../controllers/chat/chat_controller";
 import LabelBottomNavigation from "./bottom_navigation";
 import { useStores } from "../../stateManagement/index";
+import { redirectToPartnerPage } from "../../../helpers/redirect";
 
 function Navibar(props) {
   const { services, commonStore } = useStores();
@@ -351,17 +352,22 @@ function Navibar(props) {
                             ) : null}
                             {commonStore.isUserLogin === false ? (
                               <>
-                                <Link
+                                {/* <Link
                                   className="nav-links"
                                   to="/service-partner"
+                                > */}
+                                <Nav
+                                  className="chaticon nav-links "
+                                  id="signup"
+                                  onClick={redirectToPartnerPage}
                                 >
-                                  <Nav className="chaticon" id="signup">
-                                    <MdStore />
-                                    <p>
-                                      <b>&nbsp;Become a Service Partner</b>
-                                    </p>
-                                  </Nav>
-                                </Link>
+                                  <MdStore />
+                                  <p>
+                                    <b>&nbsp;Become a Service Partner</b>
+                                  </p>
+                                </Nav>
+                                <br />
+                                {/* </Link> */}
                                 <Link className="nav-links" to="/signup">
                                   <Nav className="chaticon" id="signup">
                                     <MdAccountCircle />

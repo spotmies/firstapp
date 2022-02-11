@@ -15,7 +15,7 @@ import Fab from "@material-ui/core/Fab";
 import SendIcon from "@material-ui/icons/Send";
 import firebase from "../../../firebase";
 import { getConversasions } from "../../controllers/chat/chat_controller";
-import "./chat.css";
+import "./chat.scss";
 import constants from "../../../helpers/constants";
 import { connect } from "react-redux";
 import { gettbystamps } from "../../../helpers/dateconv";

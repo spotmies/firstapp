@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Button, Form } from "semantic-ui-react";
-
+import Fade from "react-reveal/Fade";
 import "../../../../assets/css/partner.css";
 
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ export default function PartnerRegistrationForm(props) {
   const mobile = useRef(null);
   const otherProfession = useRef(null);
   const [showOtherProfession, setShowOtherProfession] = useState(false);
-  const { services, commonStore } = useStores();
+  const { services } = useStores();
 
   const handleChange2 = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -90,68 +90,70 @@ export default function PartnerRegistrationForm(props) {
     <Observer>
       {() => (
         <>
-          <div ref={ref1} className="reg-form-div">
-            {/* <p className="head home-page-head">Become a Service Partner</p> */}
-            <Form onSubmit={formsubmit}>
-              <Form.Field>
-                {/* <label>
+          <Fade>
+            <div ref={ref1} className="reg-form-div">
+              {/* <p className="head home-page-head">Become a Service Partner</p> */}
+              <Form onSubmit={formsubmit}>
+                <Form.Field>
+                  {/* <label>
             <b>Select your Profession</b>
           </label> */}
-                <Select2
-                  placeholder="Select your Profession"
-                  value={pcate}
-                  onChange={handleChange2}
-                  options={services.mainServicesList}
-                  style={{ zIndex: "1" }}
-                  className="reg-form-select"
-                />
-              </Form.Field>
-              {showOtherProfession ? (
+                  <Select2
+                    placeholder="Select your Profession"
+                    value={pcate}
+                    onChange={handleChange2}
+                    options={services.mainServicesList}
+                    style={{ zIndex: "1" }}
+                    className="reg-form-select"
+                  />
+                </Form.Field>
+                {showOtherProfession ? (
+                  <Form.Field>
+                    {/* <label>Enter Your profession</label> */}
+                    <input
+                      placeholder="Enter Your profession"
+                      ref={otherProfession}
+                      maxLength="40"
+                      required
+                    />
+                  </Form.Field>
+                ) : null}
                 <Form.Field>
-                  {/* <label>Enter Your profession</label> */}
+                  {/* <label>First Name</label> */}
                   <input
-                    placeholder="Enter Your profession"
-                    ref={otherProfession}
-                    maxLength="40"
+                    placeholder="First Name"
+                    id="pname"
+                    name="pname"
+                    ref={name}
+                    maxLength="25"
                     required
                   />
                 </Form.Field>
-              ) : null}
-              <Form.Field>
-                {/* <label>First Name</label> */}
-                <input
-                  placeholder="First Name"
-                  id="pname"
-                  name="pname"
-                  ref={name}
-                  maxLength="25"
-                  required
-                />
-              </Form.Field>
-              <Form.Field>
-                {/* <label>Mobile Number</label> */}
-                <input
-                  ref={mobile}
-                  onClick={handleChange}
-                  name="pnum"
-                  id="pnum"
-                  onChange={handleChange}
-                  placeholder="Mobile Numer"
-                  maxLength="10"
-                  required
-                />
-              </Form.Field>
-              {sbtn === false ? (
-                <Button primary type="submit" className="sub-button">
-                  Submit
-                </Button>
-              ) : (
-                <Button loading primary>
-                  Submit
-                </Button>
-              )}
-            </Form>
-          </div>
+                <Form.Field>
+                  {/* <label>Mobile Number</label> */}
+                  <input
+                    ref={mobile}
+                    onClick={handleChange}
+                    name="pnum"
+                    id="pnum"
+                    onChange={handleChange}
+                    placeholder="Mobile Numer"
+                    maxLength="10"
+                    required
+                  />
+                </Form.Field>
+                {sbtn === false ? (
+                  <Button primary type="submit" className="sub-button">
+                    Submit
+                  </Button>
+                ) : (
+                  <Button loading primary>
+                    Submit
+                  </Button>
+                )}
+              </Form>
+            </div>
+          </Fade>
         </>
       )}
     </Observer>

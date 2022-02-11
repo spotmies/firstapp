@@ -1,6 +1,6 @@
 import React from "react";
 import firebase from "../../../firebase";
-import "./newbook.css";
+import "./newbook.scss";
 import {
   MdArrowBack,
   MdCancel,
@@ -13,6 +13,9 @@ import {
   MdClose,
   MdOutlineDescription,
   MdStarRate,
+  MdStar,
+  MdPhone,
+  MdChat,
 } from "react-icons/md";
 import {
   BsFillQuestionCircleFill,
@@ -56,7 +59,7 @@ import { useRef } from "react";
 const db = firebase.firestore();
 
 function NewBook(props) {
-  const { services } = useStores();
+  const { services, commonStore } = useStores();
   const history = useHistory();
   // const { postdata, posttime } = useTimes();
   const [postdata, setPostData] = useState({});
@@ -95,6 +98,14 @@ function NewBook(props) {
   useEffect(() => {
     setSchedule(new Date(postdata.schedule));
   }, [postdata]);
+
+  useEffect(() => {
+    commonStore.setNavBar(false);
+
+    return () => {
+      commonStore.setNavBar(true);
+    };
+  }, []);
 
   const delpost = async (ordId) => {
     eventLoader(true, "Deleting Order...");
@@ -232,8 +243,15 @@ function NewBook(props) {
     }
   };
 
+  const chatWithPartner = (orderId, pId, pdet) => {
+    console.log("click", orderId, pId);
+    history.push(`/chat/?ordId=${orderId}&pId=${pId}&pdet=${pdet}`);
+  };
+  const callPartner = () => {
+    window.open(`tel:${postdata?.pDetails?.phNum}`);
+  };
   return (
-    <div>
+    <div className="order-overview">
       <div className="head-card">
         <MdArrowBack
           className="head-icons1"
@@ -257,7 +275,7 @@ function NewBook(props) {
                 }}
               >
                 <MdCancel className="button-icons" />
-                 Cancel
+                Cancel
               </p>
               <p
                 className="head-buttons"
@@ -300,7 +318,7 @@ function NewBook(props) {
                 }}
               />
             </MuiPickersUtilsProvider>
-            <div style={{paddingTop:"10px"}}> 
+            <div style={{ paddingTop: "10px" }}>
               <p
                 className="ok-btn"
                 onClick={() => {
@@ -411,8 +429,88 @@ function NewBook(props) {
           {serviceStatus(postdata.orderState)}
         </div>
       </div>
+      {postdata.orderState > 7 ? partnerDetailsCard(postdata.pDetails) : null}
     </div>
   );
+
+  function partnerDetailsCard(props) {
+    const getRating = (ratings) => {
+      //average rating
+      console.log(ratings);
+      try {
+        let sum = 0;
+        for (let i = 0; i < ratings?.length; i++) {
+          sum += ratings[i]?.rate;
+        }
+        let avg = sum / ratings?.length;
+        return avg;
+      } catch (error) {
+        console.log(error);
+        return "*";
+      }
+    };
+    return (
+      <div className="sp-details">
+        <h2>Service partner details: </h2>
+        <div className="details-container">
+          <div className="details">
+            <img src={props.partnerPic} className="partner-pic" />
+            <div className="info">
+              <div className="info-1">
+                <p className="title">{props.name}</p>
+                <p className="title">
+                  &nbsp;{" "}
+                  {props.rate.length < 1 ? "No ratings" : getRating(props.rate)}{" "}
+                  &nbsp;
+                  <MdStar color="#f0a926" />{" "}
+                </p>
+              </div>
+              <div className="info-2">
+                <span className="info-3">
+                  <p>{services.getServiceNameById(props?.job)}</p>
+                  <p>
+                    {" "}
+                    {props.lang.map((item, key) => {
+                      if (key == props.lang.length - 1) return item;
+                      return item + ",  ";
+                    })}
+                  </p>
+                  {/* <p>Telugu, Hindi</p> */}
+                </span>
+                <span className="info-4">
+                  <p>
+                    <MdPhone /> {props.phNum}
+                  </p>
+                  <p>
+                    <MdLocationOn /> {props.workArea ?? "Vizag"}
+                  </p>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="communication">
+            <span className="pointer" onClick={callPartner}>
+              <MdPhone className="phone-msg" />
+              <h4>Call</h4>
+            </span>
+            <span
+              className="pointer"
+              onClick={() => {
+                chatWithPartner(
+                  postdata.ordId,
+                  postdata.pId,
+                  postdata?.pDetails?._id
+                );
+              }}
+            >
+              <MdChat className="phone-msg" />
+              <h4>Message</h4>
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {

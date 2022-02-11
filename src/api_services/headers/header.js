@@ -1,7 +1,8 @@
-export async function addHeader(requestObj, methodType) {
+export async function addHeader(requestObj, methodType, token) {
   const requestOptions = {
     method: methodType,
     headers: {
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
       "Content-Type": "application/json",
     },
@@ -10,10 +11,11 @@ export async function addHeader(requestObj, methodType) {
   return requestOptions;
 }
 
-export async function addHeaderWithOutBody(methodType) {
+export async function addHeaderWithOutBody(methodType, token) {
   const requestOptions = {
     method: methodType,
     headers: {
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
       "Content-Type": "application/json",
     },

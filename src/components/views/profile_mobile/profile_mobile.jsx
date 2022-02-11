@@ -167,7 +167,7 @@ const ProfileMobileUi = (props) => {
       {showUi ? (
         <div className="profileUi">
           <div className="profile-card">
-            <div className="profile">
+            <div className="profile-settings">
               <Badge
                 onClick={() => {
                   toggleEditUi(false);
@@ -187,7 +187,6 @@ const ProfileMobileUi = (props) => {
                   className="profile-avatar"
                   alt={user.name}
                   src={user.pic}
-                  
                 />
               </Badge>
               <div className="profile-name">
@@ -195,6 +194,7 @@ const ProfileMobileUi = (props) => {
                 <p>{user.phNum}</p>
               </div>
             </div>
+
             <div className="info">
               <div className="money">
                 <h3>₹ 123</h3>

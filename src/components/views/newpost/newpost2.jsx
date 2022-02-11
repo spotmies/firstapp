@@ -70,6 +70,7 @@ import Compressor from "compressorjs";
 import { getFileType, validURL } from "../../../helpers/dateconv";
 import GetLocationDialog from "./get_user_location";
 import { useStores } from "../../stateManagement/index";
+import { serviceReqAddressConvert } from "../../../helpers/convertions";
 
 const storage = firebase.storage();
 
@@ -304,6 +305,7 @@ class Postform extends Component {
       });
     }
     if (this.state.submitForm) {
+      this.setState({ submitForm: false });
       await this.handleSubmit();
     }
   }
@@ -320,10 +322,15 @@ class Postform extends Component {
       money: state.money,
       schedule: new Date(state.schedule).valueOf(),
       job: this.props.job,
-      loc:{
-        coordinates: [this.props.prop.reqGeocodes.lat, this.props.prop.reqGeocodes.lng],
+      loc: {
+        coordinates: [
+          this.props.prop.reqGeocodes.lat,
+          this.props.prop.reqGeocodes.lng,
+        ],
       },
-      address: JSON.stringify(this.props.prop.reqAddress),
+      address: JSON.stringify(
+        serviceReqAddressConvert(this.props.prop.reqAddress)
+      ),
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",
       ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
@@ -667,7 +674,8 @@ const GetCategoryIcons = (props) => {
   const bsIcon = BootStrap[props.iconId];
   const fontAwesome = FontAwesome[props.iconId];
 
-  if (props.iconId == null || props.iconId == undefined || props.iconId == "") return <MdLaptopMac />;
+  if (props.iconId == null || props.iconId == undefined || props.iconId == "")
+    return <MdLaptopMac />;
 
   switch (props.iconId.substring(0, 2)) {
     case "Md":
@@ -719,24 +727,26 @@ function SimpleDialog(props) {
         <u> Select Category here</u>
       </DialogTitle>
       <div className="categoryModalBody">
-  
         <List>
-          {services.serviceList.map((data, key) => (
-            <ListItem
-              key={key}
-              button
-              onClick={() => handleListItemClick(data.serviceId)}
-              // key={key}
-              selected={data.serviceId === selectedValue}
-            >
-              <ListItemAvatar>
-                <Avatar className={classes.avatar}>
-                  <GetCategoryIcons iconId={data.userWebIcon} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={data.nameOfService} />
-            </ListItem>
-          ))}
+          {services.serviceList.map((data, key) => {
+            if (!data.isMainService) return;
+            return (
+              <ListItem
+                key={key}
+                button
+                onClick={() => handleListItemClick(data.serviceId)}
+                // key={key}
+                selected={data.serviceId === selectedValue}
+              >
+                <ListItemAvatar>
+                  <Avatar className={classes.avatar}>
+                    <GetCategoryIcons iconId={data.userWebIcon} />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={data.nameOfService} />
+              </ListItem>
+            );
+          })}
         </List>
       </div>
     </Dialog>

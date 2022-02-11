@@ -84,7 +84,7 @@ date picker
 
 steps for deploy in firebase
 npm run-script build
-firebase deploy
+firebase deploy --only hosting:spotmiess
 read me updated
 
 task to do before deploy
@@ -92,3 +92,9 @@ task to do before deploy
 2.remove hover for service list
 
 login comming soon message
+
+changed
+
+change user git credentials
+git config --global user.name "username"
+git config --global user.email "sekharatece@gmail.com"
