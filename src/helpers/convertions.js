@@ -64,6 +64,22 @@ const getRating = (ratings) => {
     return "*";
   }
 };
+const getRatingPercent = (ratings) => {
+  if (ratings.length < 1) return 0;
+  //average rating
+  console.log(ratings);
+  try {
+    let sum = 0;
+    for (let i = 0; i < ratings?.length; i++) {
+      sum += ratings[i]?.rating;
+    }
+    let avg = sum / ratings?.length;
+    return avg;
+  } catch (error) {
+    console.log(error);
+    return 0;
+  }
+};
 
 const professionNRating = (pDetails) => {
   let profession =
@@ -73,10 +89,17 @@ const professionNRating = (pDetails) => {
   let rating = getRating(pDetails?.rate);
   return `${profession} | ${rating}`;
 };
+const getIdFromUrl = () => {
+  let id = window.location.pathname.split("/")[2];
+  if (id === undefined || id === null || id === "") return "null";
+  return id;
+};
 export {
   getQuery,
   getNewTimeStamp,
   serviceReqAddressConvert,
   getRating,
   professionNRating,
+  getIdFromUrl,
+  getRatingPercent,
 };

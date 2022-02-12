@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Observer } from "mobx-react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -15,30 +16,63 @@ import {
 import SwipeableViews from "react-swipeable-views";
 import { CircularProgress } from "@material-ui/core";
 import { Rating } from "@mui/material";
+import { useStores } from "../../stateManagement";
+import FullScreenWidget from "../../reusable/helpers";
+import {
+  getIdFromUrl,
+  getRating,
+  getRatingPercent,
+} from "../../../helpers/convertions";
+
 export default function PartnerStore() {
-  const [webview, setwebview] = useState(true);
-  const dummyimage =
-    "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60";
+  const [loader, setloader] = useState(true);
+  const [data, setdata] = useState({});
+  const { services } = useStores();
+
+  useEffect(async () => {
+    const pId = getIdFromUrl();
+    let temp = await services.getStore(pId);
+    if (temp != null) {
+      setdata(temp);
+      setloader(false);
+    } else {
+      alert("Store not found");
+    }
+
+    return () => {};
+  }, []);
+
   return (
     <div className="store-parent">
+      {loader ? (
+        <FullScreenWidget type="loader" show={loader} />
+      ) : (
+        mainComponent()
+      )}
+    </div>
+  );
+
+  function mainComponent() {
+    return (
       <div className="store-web">
         <div className="background colum-space-btn">
           <div className="info row-space-btn">
             <div className="info-child-1 row-space-btn">
               <img
-                src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+                src={data.partnerPic}
                 alt="store"
                 className="profie-avatar"
               />
               <span className="personal-info">
                 <p>
-                  <MdAccountCircle /> Naveen kumar{" "}
+                  <MdAccountCircle /> {data.name}
                 </p>
                 <p>
-                  <MdPhone /> 8341980196{" "}
+                  <MdPhone /> {data.phNum}
                 </p>
                 <p className="text-overflow">
-                  <MdLocationOn /> Madhavadhara,visakhapatnam{" "}
+                  <MdLocationOn />
+                  visakhapatnam{" "}
                 </p>
               </span>
             </div>
@@ -46,18 +80,18 @@ export default function PartnerStore() {
               <div className="progress-parent">
                 <CircularProgress
                   variant="determinate"
-                  value={75}
+                  value={getRatingPercent(data.rate)}
                   className="progress"
                 />
                 <p>
-                  4.5 <MdStar color="#19a73c" />{" "}
+                  {getRating(data.rate)} <MdStar color="#19a73c" />{" "}
                 </p>
               </div>
               <p>Total orders - 56</p>
             </div>
           </div>
           <div className="row-space-btn width-70">
-            <p>Entrepreneur&nbsp;|&nbsp;4000/-</p>
+            <p>{services.getServiceNameById(data.job)}&nbsp;|&nbsp;4000/-</p>
             <div className="roww">
               <span className="communication-icon pointer">
                 <MdPhone /> Call
@@ -69,11 +103,11 @@ export default function PartnerStore() {
           </div>
         </div>
         <div className="store relative">
-          <BasicTabs />
+          <BasicTabs data={data} />
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 function TabPanel(props) {
@@ -108,7 +142,8 @@ function a11yProps(index) {
     "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
-function BasicTabs() {
+function BasicTabs(props) {
+  const data = props.data;
   const [value, setValue] = React.useState(0);
   const dummyimage =
     "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60";
@@ -138,61 +173,66 @@ function BasicTabs() {
       <SwipeableViews index={value} onChangeIndex={handleChangeIndex}>
         <TabPanel value={value} index={0}>
           <div className="catelogs-parent">
-            {catelogCard(342)}
-            {catelogCard(232)}
-            {catelogCard(3452)}
-            {catelogCard(2532)}
-            {catelogCard(3452)}
-            {catelogCard(342)}
-            {catelogCard(232)}
-            {catelogCard(3452)}
-            {catelogCard(3452)}
-            {catelogCard(342)}
-            {catelogCard(232)}
-            {catelogCard(3452)}
+            {data.catelogs.map((item, index) => {
+              return (
+                <div key={index}>
+                  {catelogCard(
+                    item?.media[0]?.url,
+                    item.name,
+                    item.description,
+                    item.price
+                  )}
+                </div>
+              );
+            })}
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <div className="reviews-parent">
-            <div className="reviews">
-              <div className="child-1">
-                {" "}
-                <img
-                  src={dummyimage}
-                  alt="store"
-                  className="profie-avatar-small"
-                />
-              </div>
-              <div>
-                <p className="rtitle">Sekhar javvadi</p>
-                <Rating name="disabled" value={4} disabled />
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Dolorem, unde perferendis consequatur, quaerat facilis eum,
-                  quisquam aut error eius quibusdam totam laboriosam ex
-                  assumenda sed inventore tempore voluptate ipsa dolores!
-                </p>
-              </div>
-            </div>
+            {data?.rate?.map((item, index) => {
+              return (
+                <div key={index}>
+                  {reviewCard(
+                    item?.uDetails?.pic,
+                    item?.uDetails?.name,
+                    item?.rating,
+                    item?.description
+                  )}
+                </div>
+              );
+            })}
           </div>
         </TabPanel>
       </SwipeableViews>
     </Box>
   );
 
-  function catelogCard(rate) {
+  function reviewCard(pic, name, rating, review) {
+    return (
+      <div className="reviews">
+        <div className="child-1">
+          {" "}
+          <img src={pic} alt="store" className="profie-avatar-small" />
+        </div>
+        <div>
+          <p className="rtitle">{name}</p>
+          <Rating name="disabled" value={rating / 4} disabled />
+          <p>{review}</p>
+        </div>
+      </div>
+    );
+  }
+
+  function catelogCard(img, title, desc, rate) {
     return (
       <div className="catelog pointer">
-        <img src={dummyimage} alt="" className="cardProfile" />
+        <img src={img} alt="" className="cardProfile" />
         <div className="c-details">
           <div className="more-details">
-            <p className="ctitle">Title</p>
+            <p className="ctitle">{title}</p>
             <p className="cprice">{`₹ ${rate}/-`}</p>
           </div>
-          <p className="cdesc">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua
-          </p>
+          <p className="cdesc">{desc}</p>
         </div>
       </div>
     );

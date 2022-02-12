@@ -8,6 +8,7 @@ import {
 class ServiceList {
   serviceList = [];
   mainServicesList = [];
+  partnerStores = [];
   loading = false;
 
   constructor() {
@@ -137,6 +138,17 @@ class ServiceList {
     console.log("index:", index);
     if (index < 0) return "this service is unavailable";
     return this.serviceList[index].nameOfService;
+  };
+
+  getStore = async (pId) => {
+    const index = this.partnerStores.findIndex((item) => item.pId == pId);
+    if (index < 0) {
+      const res = await apiGetMethod(`/store/${pId}`);
+      if (res !== null) {
+        this.partnerStores.push(res);
+      }
+      return res;
+    } else return this.partnerStores[index];
   };
 }
 
