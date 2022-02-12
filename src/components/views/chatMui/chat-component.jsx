@@ -61,7 +61,10 @@ import PartnerOverview from "../partner/partnerOverview";
 import { useStores } from "../../stateManagement/index";
 import { getQuery, professionNRating } from "../../../helpers/convertions";
 import { Box, CircularProgress } from "@material-ui/core";
-import { createNewChat } from "../../controllers/chat/chat_controller";
+import {
+  createNewChat,
+  createNewNormalChat,
+} from "../../controllers/chat/chat_controller";
 import FullScreenWidget from "../../reusable/helpers";
 
 const storage = firebase.storage();
@@ -135,13 +138,51 @@ function Chat(props) {
   const scrollRef = useRef(null);
 
   const viewProps = (state) => {
-    setViewCard(state);
+    // setViewCard(state);
     console.log("veiwcard called");
   };
   const selectOrCreateChat = async () => {
+    // if (!commonStore.isUserLogin) {
+    //   if (
+    //     window.confirm(
+    //       "You need to login to chat with someone. Do you want to login?"
+    //     )
+    //   ) {
+    //     props.history.push("/signup");
+    //   } else {
+    //     props.history.goBack();
+    //   }
+    //   return;
+    // }
     let ordId = getQuery("ordId");
     let pId = getQuery("pId");
     let pdet = getQuery("pdet");
+    let normalChat = getQuery("normalChat");
+    console.log("normalChat", normalChat);
+    console.log("pid", pId);
+    if (normalChat) {
+      // this is the normal chat creation without an order
+      const index = props.userChats.findIndex((chat) => chat.pId === pId);
+      if (index < 0) {
+        console.log("creating chat");
+        setCreatingChat(true);
+        let result = await createNewNormalChat({
+          uId: commonStore?.userDetails?.uId,
+          pId: pId,
+          pDetails: pdet,
+          uDetails: commonStore?.userDetails?._id,
+        });
+        setCreatingChat(false);
+        if (result != null) {
+          setCurrentMsgId(result.msgId);
+          props.addNewChat(result);
+          console.log("new chat created");
+        }
+      } else {
+        selectChat(props.userChats[index]?.msgId);
+      }
+      return;
+    }
 
     if (ordId && pId && pdet) {
       const index = props.userChats.findIndex((item) => {
@@ -170,12 +211,6 @@ function Chat(props) {
           setCurrentMsgId(result.msgId);
           props.addNewChat(result);
           console.log("new chat created");
-
-          // setTimeout(() => {
-          //   setCreatingChat(true);
-          //   setCurrentMsgId(result.msgId);
-          //   setCreatingChat(false);
-          // }, 1000);
         }
       } else {
         let tempMsgId = props.userChats[index]?.msgId;
@@ -189,18 +224,19 @@ function Chat(props) {
     }
   };
   const pDets = async (state, id) => {
-    const reviewLists = await reviews.fetchReviews(id);
+    props.history.push(`/store/${id}`);
+    // const reviewLists = await reviews.fetchReviews(id);
 
-    setReviewList(reviewLists);
-    setPartnerDet(state);
-    console.log("partnerDetails sent on click", id, reviewLists);
+    // setReviewList(reviewLists);
+    // setPartnerDet(state);
+    // console.log("partnerDetails sent on click", id, reviewLists);
   };
 
   const chatBox = (msgId) => {
     console.log("chats", props.userChats);
     const found = props.userChats.find((element) => element?.msgId === msgId);
     let parsedMsgs = [];
-    console.log(found);
+    console.log("found", found);
     if (found === undefined || found === null) return;
     for (let i = 0; i < found?.msgs?.length; i++) {
       parsedMsgs.push(JSON.parse(found.msgs[Number(i)]));
@@ -667,6 +703,13 @@ const ChatBanner = React.memo(
               className={classes.menuButton}
               color="inherit"
               aria-label="menu"
+              onClick={() => {
+                // props.view(true);
+                props.pDet(
+                  props.orderDetails?.pDetails,
+                  props.orderDetails?.pId
+                );
+              }}
             >
               <Avatar
                 className="appbar-avatar"
@@ -674,9 +717,9 @@ const ChatBanner = React.memo(
               />
             </IconButton>
             <div
-              className="appbar-title"
+              className="appbar-title pointer"
               onClick={() => {
-                props.view(true);
+                // props.view(true);
                 props.pDet(
                   props.orderDetails?.pDetails,
                   props.orderDetails?.pId
@@ -687,7 +730,7 @@ const ChatBanner = React.memo(
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
               <p className="businessName">
-                {professionNRating(props.orderDetails?.pDetails)}
+                {professionNRating(props?.orderDetails?.pDetails)}
                 <MdStar color="gold" />
               </p>
             </div>
