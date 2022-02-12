@@ -1,112 +1,112 @@
 .main {
-    display: inline-flex;
-    /* padding: 50px; */
-    width: 100%;
+  display: inline-flex;
+  /* padding: 50px; */
+  width: 100%;
 }
 
 .profile {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
 }
 
 .progress {
-    color: rgb(34, 240, 34) !important;
-    height: 70px !important;
-    width: 70px !important;
-    background: white !important;
-    /* fill: white !important; */
+  color: #19a73c !important;
+  height: 80px !important;
+  width: 80px !important;
+  background: rgb(238, 238, 238) !important;
+  border-radius: 50% !important;
+  /* fill: white !important; */
 }
 
-.cardProfile {
-    height: 80px;
-    width: 80px;
-    border-radius: 20px;
-    margin-right: 20px;
-}
+/* .cardProfile {
+  height: 80px;
+  width: 80px;
+  border-radius: 20px;
+  margin-right: 20px;
+} */
 
 .leftDiv {
-    text-align: center;
-    width: auto;
-    padding: 50px;
-    border-right: 2px solid rgb(202, 202, 202);
+  text-align: center;
+  width: auto;
+  padding: 50px;
+  border-right: 2px solid rgb(202, 202, 202);
 }
 
 .leftDiv p {
-    text-align: center;
+  text-align: center;
 }
 
 .job {
-    display: inline-flex;
-    width: 100%;
+  display: inline-flex;
+  width: 100%;
 }
 
 .rightDiv {
-    width: 100%;
-    padding: 50px;
+  width: 100%;
+  padding: 50px;
 }
 
 .name {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 1px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1px;
 }
 
 .mobile {
-    font-size: 11px;
-    line-height: 2px;
-    font-weight: 400;
-    color: rgb(60, 60, 60);
+  font-size: 11px;
+  line-height: 2px;
+  font-weight: 400;
+  color: rgb(60, 60, 60);
 }
 
 .order {
-    font-size: 13px;
-    font-weight: 600;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .price {
-    font-weight: 600;
-    font-size: 13px;
-    float: right;
-    margin-left: 25px;
+  font-weight: 600;
+  font-size: 13px;
+  float: right;
+  margin-left: 25px;
 }
 
 .city {
-    font-size: 24px;
-    font-weight: 500;
+  font-size: 24px;
+  font-weight: 500;
 }
 
 /* catalog part */
 
 .catDiv {
-    display: inline-flex;
-    width: 100%;
+  display: inline-flex;
+  width: 100%;
 }
 
 .catDiv h3 {
-    width: 50%;
-    text-align: center;
+  width: 50%;
+  text-align: center;
 }
 
-.jobDiv {
-    display: inline-flex;
-    margin-top: 10px;
-    width: 100%;
-}
+/* .jobDiv {
+  display: inline-flex;
+  margin-top: 10px;
+  width: 100%;
+} */
 
-.jobDiv p{
-    position: absolute;
-    float: right;
-    right: 80px;
-    font-weight: 800;
-    /* width: 100%; */
+/* .jobDiv p {
+  position: absolute;
+  float: right;
+  right: 80px;
+  font-weight: 800;
 }
 
 .jobCard {
-    display: inline-flex;
-    margin: 20px;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 1px 1px 10px rgb(218, 218, 218);
-    width: 100%;
-}
+  display: inline-flex;
+  margin: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px rgb(218, 218, 218);
+  width: 100%;
+} */

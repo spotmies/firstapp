@@ -55,6 +55,7 @@ import {
 } from "@material-ui/pickers";
 import ServiceStatus from "./serviceStatus";
 import { useRef } from "react";
+import { getRating } from "../../../helpers/convertions";
 
 const db = firebase.firestore();
 
@@ -434,21 +435,6 @@ function NewBook(props) {
   );
 
   function partnerDetailsCard(props) {
-    const getRating = (ratings) => {
-      //average rating
-      console.log(ratings);
-      try {
-        let sum = 0;
-        for (let i = 0; i < ratings?.length; i++) {
-          sum += ratings[i]?.rate;
-        }
-        let avg = sum / ratings?.length;
-        return avg;
-      } catch (error) {
-        console.log(error);
-        return "*";
-      }
-    };
     return (
       <div className="sp-details">
         <h2>Service partner details: </h2>
@@ -459,9 +445,7 @@ function NewBook(props) {
               <div className="info-1">
                 <p className="title">{props.name}</p>
                 <p className="title">
-                  &nbsp;{" "}
-                  {props.rate.length < 1 ? "No ratings" : getRating(props.rate)}{" "}
-                  &nbsp;
+                  &nbsp; {getRating(props.rate)}
                   <MdStar color="#f0a926" />{" "}
                 </p>
               </div>

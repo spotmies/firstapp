@@ -49,7 +49,7 @@ export async function apiGetMethod(path) {
   console.log(response);
   //   return response;
   // store.dispatch(testAction(false));
-  if (response.status === 200 || response.status === 304) {
+  if (response.status === 200) {
     const data = await response.json();
     return data;
   } else return null;

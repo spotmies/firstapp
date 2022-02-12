@@ -59,7 +59,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import ImageViewerDialog from "./image_viewer";
 import PartnerOverview from "../partner/partnerOverview";
 import { useStores } from "../../stateManagement/index";
-import { getQuery } from "../../../helpers/convertions";
+import { getQuery, professionNRating } from "../../../helpers/convertions";
 import { Box, CircularProgress } from "@material-ui/core";
 import { createNewChat } from "../../controllers/chat/chat_controller";
 import FullScreenWidget from "../../reusable/helpers";
@@ -596,6 +596,8 @@ function Chat(props) {
             // loader props
             loader={loader}
             prop={props}
+            view={viewProps}
+            pDet={pDets}
           />
         )}
       </div>
@@ -652,7 +654,7 @@ const ChatBanner = React.memo(
     return (
       <div>
         <AppBar position="static" className="chat-appbar" elevation="0">
-          <Toolbar>
+          <Toolbar className="chat-appbar-toolbar">
             {props.mobile ? (
               <MdKeyboardArrowLeft
                 size="3rem"
@@ -685,7 +687,7 @@ const ChatBanner = React.memo(
                 <u>{props.orderDetails?.pDetails?.name ?? "unknown"}</u>
               </h2>
               <p className="businessName">
-                business name | 4.5
+                {professionNRating(props.orderDetails?.pDetails)}
                 <MdStar color="gold" />
               </p>
             </div>
@@ -1185,6 +1187,8 @@ const MobileChat = React.memo(
               mobile={true}
               selectChat={props.selectChat}
               prop={props.prop}
+              pDet={props.pDet}
+              view={props.view}
             />
             <ChatArea
               chatListScrollControl={props.chatListScrollControl}
