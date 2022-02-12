@@ -171,6 +171,10 @@
     overflow-y: auto;
     height: calc(100vh - 150px) !important;
   }
+  .chat-appbar-toolbar {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 .message-icons {
   font-size: 30px;

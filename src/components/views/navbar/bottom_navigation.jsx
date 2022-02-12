@@ -5,8 +5,25 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { useHistory } from "react-router-dom";
 import "./navbar.css";
 import { IconContext } from "react-icons";
-import { MdAccountCircle, MdChatBubble, MdHome, MdWork } from "react-icons/md";
+import {
+  MdOutlineAccountCircle,
+  MdOutlineHome,
+  MdOutlineQuickreply,
+  MdOutlineWorkOutline,
+} from "react-icons/md";
+import { MuiThemeProvider } from "@material-ui/core";
+import { createTheme } from "@mui/material";
 
+const theme = createTheme({
+  palette: {
+    // secondary: {
+    //   main: "#E33E7F",
+    // },
+    primary: {
+      main: "#008fdb",
+    },
+  },
+});
 function LabelBottomNavigation(props) {
   var history = useHistory();
 
@@ -40,30 +57,40 @@ function LabelBottomNavigation(props) {
   };
 
   return (
-    <div>
-      <IconContext.Provider value={{ size: "1.5em", className: "nav-icons" }}>
-        <BottomNavigation value={props.bottomBarState} onChange={handleChange}>
-          <BottomNavigationAction label="Home" value="" icon={<MdHome />} />
-          <BottomNavigationAction
-            label="Chats"
-            value="chat"
-            icon={<MdChatBubble />}
-          />
+    <MuiThemeProvider theme={theme}>
+      <div>
+        <IconContext.Provider value={{ size: "1.5em", className: "nav-icons" }}>
+          <BottomNavigation
+            value={props.bottomBarState}
+            onChange={handleChange}
+            color="black"
+          >
+            <BottomNavigationAction
+              label="Home"
+              value=""
+              icon={<MdOutlineHome />}
+            />
+            <BottomNavigationAction
+              label="Chats"
+              value="chat"
+              icon={<MdOutlineQuickreply />}
+            />
 
-          <BottomNavigationAction
-            label="My Orders"
-            value="mybookings"
-            icon={<MdWork />}
-          />
+            <BottomNavigationAction
+              label="My Orders"
+              value="mybookings"
+              icon={<MdOutlineWorkOutline />}
+            />
 
-          <BottomNavigationAction
-            label="Account"
-            value="account"
-            icon={<MdAccountCircle size="1.7rem" />}
-          />
-        </BottomNavigation>
-      </IconContext.Provider>
-    </div>
+            <BottomNavigationAction
+              label="Account"
+              value="account"
+              icon={<MdOutlineAccountCircle size="1.7rem" />}
+            />
+          </BottomNavigation>
+        </IconContext.Provider>
+      </div>
+    </MuiThemeProvider>
   );
 }
 const mapStateToProps = (state) => {
