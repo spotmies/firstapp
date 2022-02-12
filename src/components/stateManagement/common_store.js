@@ -25,7 +25,6 @@ class CommonStore {
     this.isUserLogin = value ?? true;
   };
   setUserDetails = (value) => {
-    alert("setUserDetails");
     this.userDetails = value ?? {};
   };
 
