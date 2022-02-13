@@ -55,7 +55,7 @@ import {
 } from "@material-ui/pickers";
 import ServiceStatus from "./serviceStatus";
 import { useRef } from "react";
-import { getRating } from "../../../helpers/convertions";
+import { getbookingLocation2, getRating } from "../../../helpers/convertions";
 
 const db = firebase.firestore();
 
@@ -379,14 +379,7 @@ function NewBook(props) {
               <MdLocationOn className="detail-icons" />
               <div>
                 <h4>Location</h4>
-                <p>
-                  {/* {JSON.parse(postdata.address).featureName} */}
-                  {/* , <br />
-                  {JSON.parse(postdata.address).subLocality},
-                  <br />
-                  {JSON.parse(postdata.address).locality} - {postdata.address.postalCode} */}
-                  {/* {postdata.address.featureName} <br /> */}
-                </p>
+                <p>{getbookingLocation2(postdata?.address)}</p>
               </div>
             </div>
           </div>
