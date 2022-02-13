@@ -6,6 +6,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import "./partner_store.scss";
+import { useHistory } from "react-router-dom";
 import {
   MdAccountCircle,
   MdLocationOn,
@@ -25,6 +26,7 @@ import {
 } from "../../../helpers/convertions";
 
 export default function PartnerStore() {
+  const history = useHistory();
   const [loader, setloader] = useState(true);
   const [data, setdata] = useState({});
   const { services } = useStores();
@@ -53,6 +55,16 @@ export default function PartnerStore() {
   );
 
   function mainComponent() {
+    const minPrice = (price) => {
+      if (price === undefined || price === null || price === "") return "";
+      return `₹${price} /-`;
+    };
+    const callPartner = () => {
+      window.open(`tel:${data?.phNum}`);
+    };
+    const chatPartner = () => {
+      history.push(`/chat/?normalChat=true&pId=${data?.pId}&pdet=${data?._id}`);
+    };
     return (
       <div className="store-web">
         <div className="background colum-space-btn">
@@ -68,7 +80,7 @@ export default function PartnerStore() {
                   <MdAccountCircle /> {data.name}
                 </p>
                 <p>
-                  <MdPhone /> {data.phNum}
+                  <MdPhone /> {`${data?.phNum}, ${data?.altNum}`}
                 </p>
                 <p className="text-overflow">
                   <MdLocationOn />
@@ -87,16 +99,25 @@ export default function PartnerStore() {
                   {getRating(data.rate)} <MdStar color="#19a73c" />{" "}
                 </p>
               </div>
-              <p>Total orders - 56</p>
+              <p>Total orders - {data?.orders?.length ?? 0}</p>
             </div>
           </div>
           <div className="row-space-btn width-70">
-            <p>{services.getServiceNameById(data.job)}&nbsp;|&nbsp;4000/-</p>
+            <p>
+              {services.getServiceNameById(data.job)}&nbsp;|&nbsp;{" "}
+              {minPrice(data.minServicePrice)}
+            </p>
             <div className="roww">
-              <span className="communication-icon pointer">
+              <span
+                className="communication-icon pointer"
+                onClick={callPartner}
+              >
                 <MdPhone /> Call
               </span>
-              <span className="communication-icon pointer">
+              <span
+                className="communication-icon pointer"
+                onClick={chatPartner}
+              >
                 <MdQuickreply /> Chat
               </span>
             </div>

@@ -43,3 +43,30 @@ export async function createNewChat({
   }
   return response;
 }
+
+export async function createNewNormalChat({
+  uId,
+  uDetails,
+  pId,
+  pDetails,
+  msg,
+} = {}) {
+  const msgId = getNewTimeStamp();
+  const body = {
+    msgId: msgId,
+    msgs: `{"msg":"${msg ?? "new chat created"}","type":"text","sender":"${
+      msg ? "user" : "bot"
+    }","time":${msgId}}`,
+    uId: uId,
+    pId: pId,
+    uDetails: uDetails,
+    pDetails: pDetails,
+    isNormalChat: true,
+  };
+  console.log(body);
+  let response = await apiPostPut(body, constants.api.CREATE_NEW_CHAT, "POST");
+  if (response === null) {
+    alert("Something went wrong while creating chat");
+  }
+  return response;
+}

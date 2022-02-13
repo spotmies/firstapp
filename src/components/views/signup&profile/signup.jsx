@@ -30,7 +30,7 @@ export default class signup extends Component {
             <Card.Content>
               <Card.Header>
                 <MdAccountCircle size="2rem" />
-                <u>Signup or Login</u>
+                <u>Signups or Login</u>
               </Card.Header>
             </Card.Content>
             <Card.Content extra>

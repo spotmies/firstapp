@@ -14,6 +14,7 @@ import FooterBar from "../home/footer_bar/footer_bar";
 import { MdOutlineShield } from "react-icons/md";
 import { BsFillKeyFill, BsFillShieldLockFill } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
+
 var loginDetails;
 class Login extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Login extends Component {
       nameController: React.createRef(),
       otpController: React.createRef(),
       checkController: React.createRef(),
+
       otpSection: false,
       registrationSection: false,
       userName: null,
@@ -64,6 +66,7 @@ class Login extends Component {
     );
     const phno = "+91" + phNumber;
     console.log(phno);
+
     firebase
       .auth()
       .signInWithPhoneNumber(phno, window.recaptchaVerifier)
@@ -291,9 +294,5 @@ function LoginUser(props) {
     commonStore.setUserDetails(props.userDetails);
     commonStore.setUserLogin(true);
   }, []);
-  return (
-    <div>
-      <h1>login successfully</h1>
-    </div>
-  );
+  return <div>{/* <h1>login successfully</h1> */}</div>;
 }

@@ -1,6 +1,8 @@
 import "./App.css";
-import React from "react";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import React, { useState } from "react";
+import { Switch, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Observer } from "mobx-react";
+import { useStores } from "./components/stateManagement";
 import Navibar from "./components/views/navbar/navbar";
 import Firstslide from "./components/views/homeSlides/slide1";
 import { MuiThemeProvider } from "@material-ui/core";
@@ -41,48 +43,81 @@ import Homepage from "./components/views/home/home_page";
 import PartnerPage from "./components/views/home/partner_page";
 import PartnerStore from "./components/views/partner_store/partner_store";
 
-const Routing = () => {
+function Routing() {
+  const { commonStore } = useStores();
+  const [isLogin, setIsLogin] = useState(false);
+  console.log("commonStore.isLogin", commonStore.isLogin);
   return (
-    <>
-      <ScrollToTop />
-      <Switch>
-        {/* <Route exact path="/" component={Firstslide} /> */}
-        <Route exact path="/" component={Homepage} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/firstapp" component={Firstslide} />
-        <Route exact path="/mybookings">
-          <Mybooks />
-          {/* <NewBook /> */}
-        </Route>
-        <Route path="/landing-user" component={LandingUser} />
-        <Route path="/newpost" component={newpost2} />
-        <Route path="/chat" component={ChatResponseTab} />
-        <Route path="/response" component={ChatResponseTab} />
-        <Route path="/chats-section" component={chatssection} />
-        <Route path="/newChat" component={chatComponent} />
-        <Route path="/signup" component={login} />
-        <Route path="/mybookings/id/edit" component={editpost2} />
-        <Route path="/mybookings/id" component={NewBook} />
-        {/* <Route path="/contact" component={SimpleMap} /> */}
-        <Route path="/contact" component={NewContact} />
-        <Route path="/rentals" component={Rentals} />
-        <Route path="/pdetails" component={pdetails} />
-        <Route path="/partnerRegistration" component={partnerRegistration} />
-        <Route path="/privacy" component={Privacy} />
-        {/* <Route path="/partner-privacy" component={PartnerPrivacy} /> */}
-        <Route path="/tabs" component={Tab} />
-        <Route path="/careers" component={Careers} />
-        <Route path="/success-form" component={SuccessForm} />
-        <Route path="/account" component={ProfileWebMobileUi} />
-        <Route path="/about" component={About} />
-        <Route path="/newhome" component={NewHome} />
-        <Route path="/home-page" component={Homepage} />
-        <Route path="/service-partner" component={PartnerPage} />
-        <Route path="/store" component={PartnerStore} />
-      </Switch>
-    </>
+    <Observer>
+      {() => (
+        <>
+          <ScrollToTop />
+          {isLogin || commonStore.isUserLogin ? (
+            /* ----------------------- LOGIN AND LOGOUT USER PATHS ---------------------- */
+            <Switch>
+              <Route exact path="/" component={Homepage} />
+              <Route exact path="/home" component={Home} />
+              <Route exact path="/firstapp" component={Firstslide} />
+              <Route exact path="/mybookings">
+                <Mybooks />
+              </Route>
+              <Route path="/landing-user" component={LandingUser} />
+              <Route path="/newpost" component={newpost2} />
+              <Route path="/chat" component={ChatResponseTab} />
+              <Route path="/response" component={ChatResponseTab} />
+              <Route path="/chats-section" component={chatssection} />
+              <Route path="/newChat" component={chatComponent} />
+
+              <Route path="/mybookings/id/edit" component={editpost2} />
+              <Route path="/mybookings/id" component={NewBook} />
+              <Route path="/contact" component={NewContact} />
+              <Route path="/rentals" component={Rentals} />
+              <Route path="/pdetails" component={pdetails} />
+              <Route
+                path="/partnerRegistration"
+                component={partnerRegistration}
+              />
+              <Route path="/privacy" component={Privacy} />
+              {/* <Route path="/partner-privacy" component={PartnerPrivacy} /> */}
+              <Route path="/tabs" component={Tab} />
+              <Route path="/careers" component={Careers} />
+              <Route path="/success-form" component={SuccessForm} />
+              <Route path="/account" component={ProfileWebMobileUi} />
+              <Route path="/about" component={About} />
+              <Route path="/newhome" component={NewHome} />
+              <Route path="/home-page" component={Homepage} />
+              <Route path="/service-partner" component={PartnerPage} />
+              <Route path="/store" component={PartnerStore} />
+            </Switch>
+          ) : (
+            /* ---------------------------- LOGOUT USER PATHS --------------------------- */
+            <Switch>
+              <Route exact path="/" component={Homepage} />
+              <Route exact path="/home" component={Homepage} />
+              <Route exact path="/firstapp" component={Firstslide} />
+              <Route path="/store" component={PartnerStore} />
+              <Route path="/about" component={About} />
+              <Route path="/newhome" component={NewHome} />
+              <Route path="/home-page" component={Homepage} />
+              <Route path="/service-partner" component={PartnerPage} />
+              <Route path="/newpost" component={newpost2} />
+              <Route
+                path="/partnerRegistration"
+                component={partnerRegistration}
+              />
+              <Route path="/privacy" component={Privacy} />
+              <Route path="/contact" component={NewContact} />
+              <Route path="/signup" component={login} />
+              <Route path="/careers" component={Careers} />
+              <Route path="/success-form" component={SuccessForm} />
+              <Route path="/chat" component={login} />
+            </Switch>
+          )}
+        </>
+      )}
+    </Observer>
   );
-};
+}
 
 const theme = createTheme({
   palette: {

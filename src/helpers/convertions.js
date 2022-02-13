@@ -49,10 +49,8 @@ const serviceReqAddressConvert = (address) => {
 };
 
 const getRating = (ratings) => {
-  if (ratings.length < 1) return "0";
-  //average rating
-  console.log(ratings);
   try {
+    if (ratings.length < 1) return "0";
     let sum = 0;
     for (let i = 0; i < ratings?.length; i++) {
       sum += ratings[i]?.rating;
@@ -65,10 +63,10 @@ const getRating = (ratings) => {
   }
 };
 const getRatingPercent = (ratings) => {
-  if (ratings.length < 1) return 0;
   //average rating
   console.log(ratings);
   try {
+    if (ratings.length < 1) return 0;
     let sum = 0;
     for (let i = 0; i < ratings?.length; i++) {
       sum += ratings[i]?.rating;
@@ -82,12 +80,17 @@ const getRatingPercent = (ratings) => {
 };
 
 const professionNRating = (pDetails) => {
-  let profession =
-    pDetails?.accountType === "business"
-      ? pDetails?.businessName
-      : pDetails?.accountType;
-  let rating = getRating(pDetails?.rate);
-  return `${profession} | ${rating}`;
+  console.log("pDetails:", pDetails);
+  try {
+    let profession =
+      pDetails?.accountType === "business"
+        ? pDetails?.businessName
+        : pDetails?.accountType;
+    let rating = getRating(pDetails?.rate);
+    return `${profession} | ${rating}`;
+  } catch (error) {
+    return "";
+  }
 };
 const getIdFromUrl = () => {
   let id = window.location.pathname.split("/")[2];
