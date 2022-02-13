@@ -3,15 +3,26 @@ import firebase from "../../../firebase";
 import { useState, useEffect } from "react";
 import "../../../index.css";
 import "../../../post.css";
-import { gettbystamps } from "../../../helpers/dateconv";
+import { getFileType, gettbystamps } from "../../../helpers/dateconv";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getbookingLocation } from "../../../helpers/convertions";
 import "./my_book.css";
 
 //import icons
 import { IconContext } from "react-icons";
 
-import { BiTimeFive } from "react-icons/bi";
+import { BiTimeFive, BiCctv, BiVideoRecording } from "react-icons/bi";
+import {
+  AiOutlineAreaChart,
+  AiOutlineHome,
+  AiOutlineLaptop,
+} from "react-icons/ai";
+
+import { RiKeynoteLine } from "react-icons/ri";
+import { BsFileCode } from "react-icons/bs";
+import { GiDoorHandle } from "react-icons/gi";
+import { IoRocketOutline } from "react-icons/io5";
 
 import {
   MdChatBubble,
@@ -23,6 +34,8 @@ import {
   MdNotificationsActive,
   MdPayment,
   MdWatchLater,
+  MdOutlineDesignServices,
+  MdOutlineFestival,
 } from "react-icons/md";
 import { connect } from "react-redux";
 import FullScreenWidget from "../../reusable/helpers";
@@ -117,20 +130,20 @@ function Mybookings(props) {
     }
   };
   useEffect(async () => {
-    let tempOrders = orders;
-    tempOrders.forEach(async (order, key) => {
-      if (order.addressLine == undefined) {
-        let addressObject = await reverseGeocode({
-          lat: order?.loc?.coordinates[0],
-          long: order?.loc?.coordinates[1],
-        });
-        tempOrders[key].addressLine = addressObject?.display_name;
-      }
-      if (key == tempOrders.length - 1) {
-        //   console.log("setting..");
-        setOrders(tempOrders);
-      }
-    });
+    // let tempOrders = orders;
+    // tempOrders.forEach(async (order, key) => {
+    //   if (order.addressLine == undefined) {
+    //     let addressObject = await reverseGeocode({
+    //       lat: order?.loc?.coordinates[0],
+    //       long: order?.loc?.coordinates[1],
+    //     });
+    //     tempOrders[key].addressLine = addressObject?.display_name;
+    //   }
+    //   if (key == tempOrders.length - 1) {
+    //     //   console.log("setting..");
+    //     setOrders(tempOrders);
+    //   }
+    // });
     // setOrders(props.orders);
   }, [orders]);
   useEffect(() => {
@@ -154,6 +167,35 @@ function Mybookings(props) {
       toast.info("Order Deleted Successfully");
     } else toast.info("Unable To Delete Order");
     eventLoader(false);
+  };
+
+  const getSerivceIcon = (service) => {
+    switch (service) {
+      case 0:
+        return AiOutlineLaptop;
+      case 1:
+        return BsFileCode;
+      case 2:
+        return AiOutlineHome;
+      case 3:
+        return MdOutlineFestival;
+      case 4:
+        return BiCctv;
+      case 5:
+        return MdOutlineDesignServices;
+      case 6:
+        return BiVideoRecording;
+      case 7:
+        return GiDoorHandle;
+      case 8:
+        return MdWatchLater;
+      case 9:
+        return IoRocketOutline;
+      case 10:
+        return RiKeynoteLine;
+      default:
+        return AiOutlineLaptop;
+    }
   };
 
   return (
@@ -191,28 +233,41 @@ function Mybookings(props) {
                     <Grid item className="mediaPic">
                       <CardMedia
                         className="post-img"
-                        image={
-                          cap.media[0] ??
-                          "https://png.pngtree.com/element_pic/16/12/05/cf1b62b08a9b360b932cb93db844675a.jpg"
-                        }
+                        component={() => {
+                          return (
+                            <>
+                              {getFileType(cap.media[0] ?? "") === "img" ? (
+                                <img
+                                  className="post-img"
+                                  src={cap?.media[0]}
+                                  alt="post"
+                                />
+                              ) : (
+                                React.createElement(getSerivceIcon(cap.job), {
+                                  size: "5rem",
+                                })
+                              )}
+                            </>
+                          );
+                        }}
                         title="Paella dish"
                       />
                       {/* this below div show only in mobile view */}
                       <div className="msg-quote-count-mobile">
                         <Tooltip title="Messages">
                           <Badge
-                            badgeContent={cap.messages.length}
+                            badgeContent={cap?.messages?.length}
                             color="primary"
-                            showZero={cap.messages.length === 0}
+                            showZero={cap?.messages?.length === 0}
                           >
                             <MdChatBubble size="3rem" />
                           </Badge>
                         </Tooltip>
                         <Tooltip title="Quotes">
                           <Badge
-                            badgeContent={cap.responses.length}
+                            badgeContent={cap?.responses?.length}
                             color="primary"
-                            showZero={cap.responses.length === 0}
+                            showZero={cap?.responses?.length === 0}
                           >
                             <MdNotificationsActive size="3rem" />
                           </Badge>
@@ -279,7 +334,9 @@ function Mybookings(props) {
                               <p className="orderDetails">
                                 <MdExplore />
                                 &nbsp;
-                                <b>Location : {cap.addressLine}</b>
+                                <b>
+                                  Location : {getbookingLocation(cap.address)}
+                                </b>
                               </p>
                             </Grid>
                           </Grid>

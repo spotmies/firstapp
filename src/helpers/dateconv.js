@@ -129,6 +129,9 @@ function validURL(str) {
 }
 
 function getFileType(file) {
+  if (file === undefined || file === null || file === false || file === "")
+    return "null";
+  console.log("sgsdfads", file);
   const getUrlExtension = (url) => {
     return url.split(/[#?]/)[0].split(".").pop().trim();
   };
