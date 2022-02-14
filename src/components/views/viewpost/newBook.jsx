@@ -433,12 +433,12 @@ function NewBook(props) {
         <h2>Service partner details: </h2>
         <div className="details-container">
           <div className="details">
-            <img src={props.partnerPic} className="partner-pic" />
+            <img src={props?.partnerPic} className="partner-pic" />
             <div className="info">
               <div className="info-1">
-                <p className="title">{props.name}</p>
+                <p className="title">{props?.name}</p>
                 <p className="title">
-                  &nbsp; {getRating(props.rate)}
+                  &nbsp; {getRating(props?.rate)}
                   <MdStar color="#f0a926" />{" "}
                 </p>
               </div>
@@ -447,8 +447,8 @@ function NewBook(props) {
                   <p>{services.getServiceNameById(props?.job)}</p>
                   <p>
                     {" "}
-                    {props.lang.map((item, key) => {
-                      if (key == props.lang.length - 1) return item;
+                    {props?.lang?.map((item, key) => {
+                      if (key == props?.lang?.length - 1) return item;
                       return item + ",  ";
                     })}
                   </p>
@@ -456,10 +456,10 @@ function NewBook(props) {
                 </span>
                 <span className="info-4">
                   <p>
-                    <MdPhone /> {props.phNum}
+                    <MdPhone /> {props?.phNum}
                   </p>
                   <p>
-                    <MdLocationOn /> {props.workArea ?? "Vizag"}
+                    <MdLocationOn /> {props?.workArea ?? "Vizag"}
                   </p>
                 </span>
               </div>
@@ -474,8 +474,8 @@ function NewBook(props) {
               className="pointer"
               onClick={() => {
                 chatWithPartner(
-                  postdata.ordId,
-                  postdata.pId,
+                  postdata?.ordId,
+                  postdata?.pId,
                   postdata?.pDetails?._id
                 );
               }}
