@@ -52,7 +52,11 @@
     display: inline-flex;
     .india-emoji {
       font-size: 26px;
-      margin-top: -8px;
+      margin-top: -1px;
+      margin-left: 6px !important;
+      width: 32px;
+      height: 20px;
+      border-radius: 4px;
     }
   }
   .rights-reserved {
@@ -225,7 +229,11 @@
     font-weight: bold !important;
     .india-emoji {
       font-size: 20px !important;
-      margin-top: -4px !important;
+      margin-top: 0px !important;
+      margin-left: 6px !important;
+      width: 30px;
+      height: 20px;
+      border-radius: 5px;
     }
   }
 }
