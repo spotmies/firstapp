@@ -50,13 +50,16 @@
   .made-in-india {
     width: fit-content;
     display: inline-flex;
+    p {
+      font-family: "Gilroy Medium";
+    }
     .india-emoji {
       font-size: 26px;
-      margin-top: -1px;
+      margin-top: 0px;
       margin-left: 6px !important;
-      width: 32px;
-      height: 20px;
-      border-radius: 4px;
+      width: 30px;
+      height: 18px;
+      border-radius: 3px;
     }
   }
   .rights-reserved {
@@ -229,10 +232,10 @@
     font-weight: bold !important;
     .india-emoji {
       font-size: 20px !important;
-      margin-top: 0px !important;
+      margin-top: 2px !important;
       margin-left: 6px !important;
-      width: 30px;
-      height: 20px;
+      width: 28px !important;
+      height: 16px !important;
       border-radius: 5px;
     }
   }
