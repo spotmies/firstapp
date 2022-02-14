@@ -3,7 +3,6 @@ import { FaGooglePlay } from "react-icons/fa";
 import { redirectToPartnerApp } from "../../../../helpers/redirect";
 import PartnerRegistrationForm from "../partner_registration_form/registration_form";
 // import image from "../../../../assets/svgs/speechtotext.svg";
-import image from "../../../../assets/images/work_rocket.jpg";
 import playStoreIcon from "../../../../assets/svgs/play-store-icon.svg";
 import Fade from "react-reveal/Fade";
 export default function PartnerSlide1(props) {
