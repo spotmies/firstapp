@@ -26,8 +26,9 @@
   justify-content: center;
 }
 .navbar-logo {
-  width: 185px;
-  height: 65px;
+  width: 165px;
+  height: 40px;
+  margin-top: 10px;
 
   margin-right: 4px;
 }
@@ -93,7 +94,7 @@
 }
 
 .nav-links {
-  margin-right: 20px;
+  margin-right: 30px;
   /* color: white !important; */
 }
 
@@ -203,7 +204,7 @@
 
   .navbar-logo {
     width: 130px;
-    height: 45px;
+    height: 35px;
     margin-top: 2px;
   }
 

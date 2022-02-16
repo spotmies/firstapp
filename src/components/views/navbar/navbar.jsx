@@ -9,7 +9,7 @@ import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
 import { Observer } from "mobx-react";
 // import SmLogo from "../../../images/spotmies_logo2.png";
-import SmLogo from "../../../images/spotmies_logo3.png";
+import SmLogo from "../../../images/spotmies_logo4.png";
 
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
