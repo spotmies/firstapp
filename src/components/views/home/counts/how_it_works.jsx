@@ -15,6 +15,7 @@ export default function HowItWorks(props) {
           <span className="icon">
             {React.createElement(icon, {
               color: color,
+              // color: "#696969",
               size:
                 iconSize != null || iconSize != undefined
                   ? `${iconSize}rem`

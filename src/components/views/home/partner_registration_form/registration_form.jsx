@@ -103,7 +103,11 @@ export default function PartnerRegistrationForm(props) {
                     value={pcate}
                     onChange={handleChange2}
                     options={services.mainServicesList}
-                    style={{ zIndex: "1" }}
+                    // style={{ zIndex: "1" }}
+                    menuPortalTarget={document.body}
+                    styles={{
+                      menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                    }}
                     className="reg-form-select"
                   />
                 </Form.Field>

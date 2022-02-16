@@ -9,7 +9,9 @@
   --lite-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
   --head-color: #2f2e41;
   --primary-color2: #1576bb;
+  --how-it-works-color: #696969;
 }
+
 body {
   // font-family: "Roboto", sans-serif;
   font-family: "Gilroy Regular";
@@ -198,6 +200,13 @@ body {
     flex-direction: row;
     justify-content: space-around;
   }
+  .content {
+    color: var(--primary-color) !important;
+    // color: #036092 !important;
+    .description {
+      color: var(--how-it-works-color) !important;
+    }
+  }
 }
 .head {
   // font-size: 40px;
@@ -287,7 +296,7 @@ body {
 .background-container {
   padding: 20px;
   border-radius: 15px;
-  background-color: var(--primary-color);
+  background-color: var(--background-color);
   // box-shadow: var(--shadow_for_white);
   &:hover {
     box-shadow: var(--shadow);
@@ -345,8 +354,8 @@ body {
 }
 
 .background-circle {
-  width: 85px;
-  height: 85px;
+  width: 105px;
+  height: 105px;
   border-radius: 50%;
   background-color: var(--secondary-color);
   text-align: center;
