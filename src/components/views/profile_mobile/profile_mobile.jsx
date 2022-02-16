@@ -92,8 +92,13 @@ const ProfileMobileUi = (props) => {
     }
     let blob = await fetch(userPic).then((r) => r.blob());
     let cfile = blob;
+    cfile.name =
+      cfile.name ??
+      firebase?.auth()?.currentUser?.uid +
+        Math.floor(Math.random() * (999 - 100 + 1) + 100);
+    console.log(cfile);
     var storageref = storage.ref(
-      `users/${firebase.auth().currentUser.uid}/profile/` + cfile.name
+      `userPics/` + cfile.name + `.` + cfile.type.split("/")[1]
     );
 
     var task = storageref.put(cfile);

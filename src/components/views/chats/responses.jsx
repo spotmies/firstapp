@@ -238,7 +238,7 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -255,7 +255,7 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
   };
 
   return (
-    <div id={cap.ordId}>
+    <div id={cap?.ordId}>
       <IconButton
         aria-label="settings"
         aria-haspopup="true"
@@ -290,7 +290,7 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
         <MenuItem
           onClick={() => {
             setAnchorEl(null);
-            deleteResp(cap.responseId);
+            deleteResp(cap?.responseId);
           }}
         >
           Delete
@@ -314,11 +314,11 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
                   <div className={classes.centerDiv}>
                     <Avatar
                       alt="Remy Sharp"
-                      src={cap.pDetails.partnerPic}
-                      className={classes.partnerPic}
+                      src={cap?.pDetails?.partnerPic}
+                      className={classes?.partnerPic}
                       // className="partnerPic"
                     />
-                    <h3>{cap.pDetails.name}</h3>
+                    <h3>{cap?.pDetails?.name}</h3>
                     <div className="partnerThings">
                       <p>online</p>
                       <p>5 stars</p>
@@ -328,17 +328,17 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
                 </Grid>
                 <div className="otherDetails">
                   <div className="miniCards">
-                    <p>{cap.pDetails.phNum}</p>
+                    <p>{cap?.pDetails?.phNum}</p>
                   </div>
                   <div className="miniCards">
-                    <p>{cap.pDetails.eMail}</p>
+                    <p>{cap?.pDetails?.eMail}</p>
                   </div>
                   <div className="miniCards">
-                    <p>{cap.pDetails.businessName}</p>
+                    <p>{cap?.pDetails?.businessName}</p>
                   </div>
                   <div className="miniCards">
-                    <p>{cap.pDetails.lang[0]}</p>
-                    <p>{cap.pDetails.lang[1]}</p>
+                    <p>{cap?.pDetails?.lang[0]}</p>
+                    <p>{cap?.pDetails?.lang[1]}</p>
                   </div>
                 </div>
               </Grid>
@@ -360,8 +360,8 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
 
 const mapStateToProps = (state) => {
   return {
-    userDetails: state.userDetails,
-    responses: state.responses,
+    userDetails: state?.userDetails,
+    responses: state?.responses,
   };
 };
 const mapDispatchToProps = (dispatch) => {

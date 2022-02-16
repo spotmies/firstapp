@@ -425,11 +425,7 @@ function Chat(props) {
       try {
         let k = Number(i);
         const uploadTask = storage
-          .ref(
-            `users/${firebase.auth().currentUser.uid}/chatMedia/${
-              tempFiles[k].name
-            }`
-          )
+          .ref(`chat/${currentMsgId}/${tempFiles[k].name}`)
           .put(tempFiles[k]);
         uploadTask.on(
           "state_changed",
@@ -445,7 +441,7 @@ function Chat(props) {
           () => {
             try {
               storage
-                .ref(`users/${firebase.auth().currentUser.uid}/chatMedia/`)
+                .ref(`chat/${currentMsgId}/`)
                 .child(tempFiles[k].name)
                 .getDownloadURL()
                 .then((url) => {

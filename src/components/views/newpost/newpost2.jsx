@@ -261,6 +261,7 @@ class Postform extends Component {
       editFormFillFlag: false,
       editDateForm: this.props.editDate,
       ordId: null,
+      newOrdId: null,
 
       //controllers
       problem: null,
@@ -338,7 +339,7 @@ class Postform extends Component {
       ),
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",
-      ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
+      ordId: !state.editFormFillFlag ? state.newOrdId : state.ordId,
       uDetails: this.props.prop.userDetails._id,
       uId: state.uId,
     };
@@ -429,19 +430,18 @@ class Postform extends Component {
 
   uploadImageToCloud = async () => {
     // e.preventDefault();
+    const tempOrdId = this.state.editFormFillFlag
+      ? this.state.ordId
+      : new Date().valueOf();
+    this.setState({ newOrdId: tempOrdId });
     console.log("media upload >>>");
     this.props.eventLoader(true, "Uploading Media...");
-
     for (let i = 0; i < this.state.image.length; i++) {
       console.log(`img no ${i}`);
       try {
         let k = Number(i);
         const uploadTask = storage
-          .ref(
-            `users/${firebase.auth().currentUser.uid}/adpost/${
-              this.state.image[k].name
-            }`
-          )
+          .ref(`orders/${tempOrdId}/${this.state?.image[k]?.name}`)
           .put(this.state.image[k]);
         uploadTask.on(
           "state_changed",
@@ -457,7 +457,7 @@ class Postform extends Component {
           () => {
             try {
               storage
-                .ref(`users/${firebase.auth().currentUser.uid}/adpost/`)
+                .ref(`orders/${tempOrdId}/`)
                 .child(this.state.image[k].name)
                 .getDownloadURL()
                 .then((url) => {
