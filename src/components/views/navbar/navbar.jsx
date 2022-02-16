@@ -8,7 +8,8 @@ import "./navbar.css";
 import firebase from "../../../firebase";
 import { useHistory } from "react-router-dom";
 import { Observer } from "mobx-react";
-import SmLogo from "../../../images/spotmies_logo2.png";
+// import SmLogo from "../../../images/spotmies_logo2.png";
+import SmLogo from "../../../images/spotmies_logo3.png";
 
 import { connect } from "react-redux";
 import { validURL } from "../../../helpers/dateconv";
@@ -220,12 +221,12 @@ function Navibar(props) {
                         <Link to="/">
                           <div className="logo-banner">
                             <img src={SmLogo} className="navbar-logo" />
-                            <div className="nav-tag-title">
+                            {/* <div className="nav-tag-title">
                               <h1 className="navbar-title">Spotmies</h1>
                               <p className="tag-line">
                                 Experience the Excellence
                               </p>
-                            </div>
+                            </div> */}
                           </div>
                         </Link>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

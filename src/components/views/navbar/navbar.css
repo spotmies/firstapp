@@ -26,9 +26,9 @@
   justify-content: center;
 }
 .navbar-logo {
-  width: 50px;
+  width: 185px;
   height: 65px;
-  margin-top: -2px;
+
   margin-right: 4px;
 }
 .navi-bar {
@@ -202,8 +202,9 @@
   }
 
   .navbar-logo {
-    width: 40px;
-    height: 55px;
+    width: 130px;
+    height: 45px;
+    margin-top: 2px;
   }
 
   .title img {
