@@ -25,6 +25,7 @@ import {
   redirectYoutube,
 } from "../../../../helpers/redirect";
 import { Link } from "react-router-dom";
+import flag from "../../../../assets/images/india_flg.png";
 import "./footer_bar.scss";
 
 export default function FooterBar() {
@@ -181,7 +182,8 @@ export default function FooterBar() {
           </span>
           <span className="made-in-india">
             <p>Made in</p>
-            <p className="india-emoji">&nbsp;🇮🇳</p>
+            <img src={flag} alt="flag" className="india-emoji" />
+            {/* <p className="india-emoji">&nbsp;🇮🇳</p> */}
           </span>
         </div>
       </div>

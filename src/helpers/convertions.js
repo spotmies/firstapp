@@ -38,14 +38,28 @@ const serviceReqAddressConvert = (address) => {
     locality: address?.address?.city,
     latitude: address?.lat,
     logitude: address?.lon,
-    name: address?.name,
-    street: address?.neighbourhood,
+    name: address?.name ?? address?.address?.display_name,
+    street: address?.address?.neighbourhood,
     subAdminArea: address?.address?.state_district,
     postalCode: address?.address?.postcode,
     adminArea: address?.address?.state,
     isoCountrycode: address?.address?.country_code,
+    from: "web",
   };
   return newAddressObj;
+};
+
+const getbookingLocation = (location) => {
+  const parsedLocation = JSON.parse(location);
+  return `${parsedLocation?.street ?? ""}`;
+};
+const getbookingLocation2 = (location) => {
+  try {
+    const parsedLocation = JSON.parse(location);
+    return `${parsedLocation?.street} ${parsedLocation?.locality}`;
+  } catch (error) {
+    return "";
+  }
 };
 
 const getRating = (ratings) => {
@@ -97,6 +111,31 @@ const getIdFromUrl = () => {
   if (id === undefined || id === null || id === "") return "null";
   return id;
 };
+
+//This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+function distanceBetweenCoordinates(lat1, lon1, lat2, lon2) {
+  try {
+    const toRad = (Value) => {
+      return (Value * Math.PI) / 180;
+    };
+    var R = 6371; // km
+    var dLat = toRad(lat2 - lat1);
+    var dLon = toRad(lon2 - lon1);
+    var lat1 = toRad(lat1);
+    var lat2 = toRad(lat2);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d.toFixed(1);
+  } catch (error) {
+    return "";
+  }
+}
+
+// Converts numeric degrees to radians
+
 export {
   getQuery,
   getNewTimeStamp,
@@ -105,4 +144,7 @@ export {
   professionNRating,
   getIdFromUrl,
   getRatingPercent,
+  getbookingLocation,
+  getbookingLocation2,
+  distanceBetweenCoordinates,
 };

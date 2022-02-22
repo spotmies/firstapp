@@ -17,6 +17,11 @@ import { withStyles } from "@material-ui/core/styles";
 import * as MaterialDesign from "react-icons/md"; // import * as FontAwesome from "react-icons/fa";
 import * as BootStrap from "react-icons/bs";
 import * as FontAwesome from "react-icons/fa";
+import * as AntIcons from "react-icons/ai";
+import * as BoxIcons from "react-icons/bi";
+import * as RemixIcons from "react-icons/ri";
+import * as GameIcons from "react-icons/gi";
+import * as IonicIcons from "react-icons/io5";
 
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -163,7 +168,7 @@ class Postnew extends Component {
           }}
         >
           <Card className="orderCard">
-            <CardHeader className="cardHeaderPost" title="new post" />
+            <CardHeader className="cardHeaderPost" title="Service request" />
             <CardContent>
               <Postform
                 job={this.state.job}
@@ -256,11 +261,12 @@ class Postform extends Component {
       editFormFillFlag: false,
       editDateForm: this.props.editDate,
       ordId: null,
+      newOrdId: null,
 
       //controllers
       problem: null,
       description: null,
-      money: "",
+      money: null,
 
       //auido files
       audioFile: null,
@@ -333,7 +339,7 @@ class Postform extends Component {
       ),
       media: state.media,
       ordState: !state.editFormFillFlag ? "req" : "updated",
-      ordId: !state.editFormFillFlag ? new Date().valueOf() : state.ordId,
+      ordId: !state.editFormFillFlag ? state.newOrdId : state.ordId,
       uDetails: this.props.prop.userDetails._id,
       uId: state.uId,
     };
@@ -424,19 +430,18 @@ class Postform extends Component {
 
   uploadImageToCloud = async () => {
     // e.preventDefault();
+    const tempOrdId = this.state.editFormFillFlag
+      ? this.state.ordId
+      : new Date().valueOf();
+    this.setState({ newOrdId: tempOrdId });
     console.log("media upload >>>");
     this.props.eventLoader(true, "Uploading Media...");
-
     for (let i = 0; i < this.state.image.length; i++) {
       console.log(`img no ${i}`);
       try {
         let k = Number(i);
         const uploadTask = storage
-          .ref(
-            `users/${firebase.auth().currentUser.uid}/adpost/${
-              this.state.image[k].name
-            }`
-          )
+          .ref(`orders/${tempOrdId}/${this.state?.image[k]?.name}`)
           .put(this.state.image[k]);
         uploadTask.on(
           "state_changed",
@@ -452,7 +457,7 @@ class Postform extends Component {
           () => {
             try {
               storage
-                .ref(`users/${firebase.auth().currentUser.uid}/adpost/`)
+                .ref(`orders/${tempOrdId}/`)
                 .child(this.state.image[k].name)
                 .getDownloadURL()
                 .then((url) => {
@@ -556,7 +561,7 @@ class Postform extends Component {
               ),
             }}
           />
-          <TextField
+          {/* <TextField
             id="filled-basic"
             label="Want to mention Price"
             variant="filled"
@@ -576,7 +581,7 @@ class Postform extends Component {
                 <InputAdornment position="start">₹</InputAdornment>
               ),
             }}
-          />
+          /> */}
           <Grid container justify="flex-start">
             <input
               accept="image/*,video/*"
@@ -673,6 +678,11 @@ const GetCategoryIcons = (props) => {
   const mdIcon = MaterialDesign[props.iconId];
   const bsIcon = BootStrap[props.iconId];
   const fontAwesome = FontAwesome[props.iconId];
+  const antIcons = AntIcons[props.iconId];
+  const boxIcons = BoxIcons[props.iconId];
+  const remixIcons = RemixIcons[props.iconId];
+  const gameIcons = GameIcons[props.iconId];
+  const ionicIcons = IonicIcons[props.iconId];
 
   if (props.iconId == null || props.iconId == undefined || props.iconId == "")
     return <MdLaptopMac />;
@@ -695,6 +705,36 @@ const GetCategoryIcons = (props) => {
       return (
         <IconContext.Provider value={{ size: "1.5rem" }}>
           {React.createElement(fontAwesome)}
+        </IconContext.Provider>
+      );
+    case "Ai":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(antIcons)}
+        </IconContext.Provider>
+      );
+    case "Ri":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(remixIcons)}
+        </IconContext.Provider>
+      );
+    case "Bi":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(boxIcons)}
+        </IconContext.Provider>
+      );
+    case "Gi":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(gameIcons)}
+        </IconContext.Provider>
+      );
+    case "Io":
+      return (
+        <IconContext.Provider value={{ size: "1.5rem" }}>
+          {React.createElement(ionicIcons)}
         </IconContext.Provider>
       );
 

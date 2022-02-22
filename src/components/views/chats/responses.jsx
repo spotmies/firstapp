@@ -50,6 +50,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { deleteResponseById } from "../../controllers/responses/responses_controller";
 import Avatar from "@material-ui/core/Avatar";
+import { distanceBetweenCoordinates } from "../../../helpers/convertions";
 
 function MyResponses(props) {
   const [orders, setOrders] = useState([]);
@@ -78,7 +79,7 @@ function MyResponses(props) {
     eventLoader(true, "Deleting response...");
     let response = await deleteResponseById(iD);
     if (response) {
-      setOrders(orders.filter((item) => item.responseId !== iD));
+      setOrders(orders?.filter((item) => item.responseId !== iD));
       toast.info("Order Deleted Successfully");
       props.deleteResponse(iD);
     } else toast.info("Unable To Delete Order");
@@ -86,16 +87,41 @@ function MyResponses(props) {
   };
 
   //compoent didmount and willunMount
+  const calculateDistance = async () => {
+    let tempResponses = props?.responses;
+    for (let i = 0; i < tempResponses?.length; i++) {
+      const element = tempResponses[i];
+      tempResponses[i].distance = distanceBetweenCoordinates(
+        element.loc[0],
+        element.loc[1],
+        element?.orderDetails?.loc?.coordinates[0],
+        element?.orderDetails?.loc?.coordinates[1]
+      );
+      // setOrders(tempResponses);
+      if (i === tempResponses?.length - 1) {
+        setOrders(tempResponses);
+      }
+    }
 
+    // tempResponses.distance = distanceBetweenCoordinates(tempResponses)
+  };
   useEffect(() => {
     console.log("use effect prop", props.responses);
     setOrders(props.responses);
     eventLoader(false);
+    calculateDistance();
   }, [props.responses]);
-
+  const acceptResp = (id) => {
+    console.log("accept", id);
+    props.acceptResponse(id);
+  };
+  const rejectResp = (id) => {
+    console.log("reject", id);
+    props.rejectResponse(id);
+  };
   return (
     <div>
-      {loader === false && orders.length === 0 ? (
+      {loader === false && orders?.length === 0 ? (
         <FullScreenWidget
           type="noDataPlaceHolder"
           show={true}
@@ -104,221 +130,22 @@ function MyResponses(props) {
       ) : null}
       <FullScreenWidget type="loader" show={loader} data={loaderData} />
 
-      {orders.length > 0 ? (
+      {orders?.length > 0 ? (
         <div style={{ paddingTop: "30px" }}>
           {orders
             .slice(0)
             .reverse()
             .map((cap, key) => (
-              <div className="cardDiv" key={cap._id} id={cap._id}>
-                {/* <Cardd className="orderCard">
-                  <CardHeader
-                    className="cardHeader"
-                    avatar={<BiTimeFive size="1.4rem" />}
-                    action={
-                      <DotMenu
-                        cap={cap}
-                        key={key}
-                        viewPost={viewPost}
-                        deleteResp={deleteResponse}
-                      />
-                    }
-                    title={`${gettbystamps(Number(cap.join), "fulldate")} 
-                    ${gettbystamps(Number(cap.join), "time")}`}
-                    //  title={cap.orderDetails.problem}
-                  />
-                  <CardContent>
-                    <Grid container spacing={2}>
-                      <Grid item className="mediaPic">
-                        <div className="pic">
-                          <img
-                            src={cap.pDetails.partnerPic}
-                            className="profile"
-                          />
-                          <CardActions>
-                            <Grid
-                              item
-                              xs={12}
-                              sm
-                              container
-                              justify="space-between"
-                              alignItems="center"
-                            >
-                              <Chip
-                                // icon={<MdWatchLater size="1rem" />}
-                                label="Accept"
-                                color="primary"
-                              />
-                              <Chip
-                                // icon={<MdWatchLater size="1rem" />}
-                                label="Decline"
-                                color="secondary"
-                                onClick={() => {
-                                  deleteResponse(cap.responseId);
-                                }}
-                              />
-                            </Grid>
-                          </CardActions>
-                        </div>
-
-                        {/* <CardMedia
-                            className="post-img"
-                            image={
-                              cap.orderDetails.media[0] ??
-                              "https://png.pngtree.com/element_pic/16/12/05/cf1b62b08a9b360b932cb93db844675a.jpg"
-                            }
-                            title="Paella dish"
-                          /> */}
-
-                {/* this div for mobile view only */}
-                {/* <div className="problemTitle-Mobile">
-                          <h3>{cap.pDetails.name}</h3>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm container>
-                        <IconContext.Provider
-                          value={{
-                            size: "1.2rem",
-                            color: "grey",
-                          }}
-                        >
-                          <Grid item xs container direction="column">
-                            <Grid item xs className="orderMaingrid">
-                              <h3 className="problemTitle">
-                                {cap.orderDetails.problem}
-                              </h3>
-                              <Grid
-                                item
-                                md
-                                container
-                                direction="row"
-                                // justify="space-evenly"
-                                className="orderGrid"
-                              >
-                                <p className="orderDetails">
-                                  {/* <MdPayment /> */}
-                {/* &nbsp;
-                                  <b> Money : &#8377; {cap.money}</b>
-                                </p>
-                                <p className="orderDetails"> */}
-                {/* <MdExplore /> */}
-                {/* &nbsp;
-                                  <b>Location : vizag</b>
-                                </p>
-                              </Grid>
-                              <Grid
-                                item
-                                md
-                                container
-                                direction="row" 
-                                // justify="space-evenly"
-                                className="orderGrid"
-                              >
-                                {/* <span
-                                  style={{
-                                    display: "inline-flex",
-                                  }}
-                                > */}
-                {/* <MdEventAvailable /> */}
-                {/* &nbsp; */}
-
-                {/* <p className="orderDetails">
-                                  {/* <MdNearMe /> */}
-                {/* &nbsp;
-                                  <b>Distance: 5 km</b>
-                                </p> */}
-                {/* </span> */}
-
-                {/* <p className="orderDetails">
-                                  <b>
-                                    {" "}
-                                    Schedule :{" "}
-                                    {gettbystamps(
-                                      Number(cap.schedule),
-                                      "fulldate"
-                                    )}{" "}
-                                    &nbsp;
-                                    {gettbystamps(Number(cap.schedule), "time")}
-                                  </b>
-                                </p>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </IconContext.Provider>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </Cardd> */}
-
-                <div className="responseCard">
-                  <div className="card-title">
-                    <p>
-                      <BiTimeFive
-                        size="1.4rem"
-                        style={{ marginRight: "15px" }}
-                      />{" "}
-                      {`${gettbystamps(Number(cap.join), "fulldate")} 
-                    ${gettbystamps(Number(cap.join), "time")}`}
-                    </p>
-                    <h2>{cap.orderDetails.problem}</h2>
-                    <DotMenu
-                      className="dotMenu"
-                      cap={cap}
-                      key={key}
-                      viewPost={viewPost}
-                      deleteResp={deleteResponse}
-                      onChat={chatWithPartner}
-                    />
-                  </div>
-                  <div className="card-body">
-                    <div className="pic">
-                      <img
-                        src={cap.pDetails.partnerPic}
-                        alt="profile"
-                        className="profile"
-                      />
-                      <div className="btn-div">
-                        <p className="sub-btn">
-                          <MdCheck />
-                        </p>
-                        <p className="dec-btn">
-                          <MdClose />
-                        </p>
-                      </div>
-                    </div>
-                    <div className="rest-body">
-                      <h3>{cap.pDetails.name}</h3>
-                      <div className="p-div">
-                        <p>
-                          {" "}
-                          <b> Money: &#8377; {cap.money}</b>
-                        </p>
-                        <p>
-                          <b>Location: vizag</b>
-                        </p>
-                      </div>
-                      <div className="p-div">
-                        <p>
-                          {" "}
-                          <b>Distance: 5 km</b>
-                        </p>
-                        <p>
-                          {" "}
-                          <b>
-                            {" "}
-                            Schedule:{" "}
-                            {gettbystamps(
-                              Number(cap.schedule),
-                              "fulldate"
-                            )}{" "}
-                            &nbsp;
-                            {gettbystamps(Number(cap.schedule), "time")}
-                          </b>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="cardDiv" key={cap?._id} id={cap?._id}>
+                {ResponseCard(
+                  cap,
+                  key,
+                  viewPost,
+                  deleteResponse,
+                  chatWithPartner,
+                  acceptResp,
+                  rejectResp
+                )}
               </div>
             ))}
         </div>
@@ -347,12 +174,98 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function ResponseCard(
+  cap,
+  key,
+  viewPost,
+  deleteResponse,
+  chatWithPartner,
+  acceptResp,
+  rejectResp
+) {
+  // const [distance, setdistance] = useState(null);
+  return (
+    <div className="responseCard">
+      <div className="card-title">
+        <p>
+          <BiTimeFive size="1.4rem" style={{ marginRight: "15px" }} />{" "}
+          {`${gettbystamps(Number(cap?.join), "fulldate")} 
+                    ${gettbystamps(Number(cap?.join), "time")}`}
+        </p>
+        <h2>{cap?.orderDetails?.problem}</h2>
+        <DotMenu
+          className="dotMenu"
+          cap={cap}
+          key={key}
+          viewPost={viewPost}
+          deleteResp={deleteResponse}
+          onChat={chatWithPartner}
+        />
+      </div>
+      <div className="card-body">
+        <div className="pic">
+          <img
+            src={cap?.pDetails?.partnerPic}
+            alt="profile"
+            className="profile"
+          />
+          <div className="btn-div">
+            <p
+              className="sub-btn pointer"
+              onClick={() => {
+                acceptResp(cap?.responseId);
+              }}
+            >
+              <MdCheck />
+            </p>
+            <p
+              className="dec-btn pointer"
+              onClick={() => {
+                rejectResp(cap?.responseId);
+              }}
+            >
+              <MdClose />
+            </p>
+          </div>
+        </div>
+        <div className="rest-body">
+          <h3>{cap?.pDetails?.name}</h3>
+          <div className="p-div">
+            <p>
+              {" "}
+              <b> Money: &#8377; {cap?.money}</b>
+            </p>
+            <p>
+              <b>Location: vizag</b>
+            </p>
+          </div>
+          <div className="p-div">
+            <p>
+              {" "}
+              <b>{`Distance: ${cap.distance}  km`}</b>
+            </p>
+            <p>
+              {" "}
+              <b>
+                {" "}
+                Schedule: {gettbystamps(Number(cap?.schedule), "fulldate")}{" "}
+                &nbsp;
+                {gettbystamps(Number(cap?.schedule), "time")}
+              </b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function DotMenu({ cap, deleteResp, viewPost, onChat }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event?.currentTarget);
   };
 
   const handleClose = () => {
@@ -369,7 +282,7 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
   };
 
   return (
-    <div id={cap.ordId}>
+    <div id={cap?.ordId}>
       <IconButton
         aria-label="settings"
         aria-haspopup="true"
@@ -404,7 +317,7 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
         <MenuItem
           onClick={() => {
             setAnchorEl(null);
-            deleteResp(cap.responseId);
+            deleteResp(cap?.responseId);
           }}
         >
           Delete
@@ -428,11 +341,11 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
                   <div className={classes.centerDiv}>
                     <Avatar
                       alt="Remy Sharp"
-                      src={cap.pDetails.partnerPic}
-                      className={classes.partnerPic}
+                      src={cap?.pDetails?.partnerPic}
+                      className={classes?.partnerPic}
                       // className="partnerPic"
                     />
-                    <h3>{cap.pDetails.name}</h3>
+                    <h3>{cap?.pDetails?.name}</h3>
                     <div className="partnerThings">
                       <p>online</p>
                       <p>5 stars</p>
@@ -442,17 +355,17 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
                 </Grid>
                 <div className="otherDetails">
                   <div className="miniCards">
-                    <p>{cap.pDetails.phNum}</p>
+                    <p>{cap?.pDetails?.phNum}</p>
                   </div>
                   <div className="miniCards">
-                    <p>{cap.pDetails.eMail}</p>
+                    <p>{cap?.pDetails?.eMail}</p>
                   </div>
                   <div className="miniCards">
-                    <p>{cap.pDetails.businessName}</p>
+                    <p>{cap?.pDetails?.businessName}</p>
                   </div>
                   <div className="miniCards">
-                    <p>{cap.pDetails.lang[0]}</p>
-                    <p>{cap.pDetails.lang[1]}</p>
+                    <p>{cap?.pDetails?.lang[0]}</p>
+                    <p>{cap?.pDetails?.lang[1]}</p>
                   </div>
                 </div>
               </Grid>
@@ -474,8 +387,8 @@ function DotMenu({ cap, deleteResp, viewPost, onChat }) {
 
 const mapStateToProps = (state) => {
   return {
-    userDetails: state.userDetails,
-    responses: state.responses,
+    userDetails: state?.userDetails,
+    responses: state?.responses,
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -488,6 +401,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteResponse: (responseId) => {
       dispatch({ type: "DELETE_RESPONSE", value: responseId });
+    },
+    acceptResponse: (responseId) => {
+      dispatch({ type: "ACCEPT_RESPONSE", value: responseId });
+    },
+    rejectResponse: (responseId) => {
+      dispatch({ type: "REJECT_RESPONSE", value: responseId });
     },
   };
 };

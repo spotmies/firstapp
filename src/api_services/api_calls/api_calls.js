@@ -46,7 +46,7 @@ export async function apiGetMethod(path) {
       : constants.baseUrl) + path,
     await addHeaderWithOutBody("GET", token)
   );
-  console.log(response);
+  // console.log(response);
   //   return response;
   // store.dispatch(testAction(false));
   if (response.status === 200) {

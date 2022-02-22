@@ -1,19 +1,23 @@
 import React from "react";
 import group from "./group.jpg";
 // import group from "./images/group-image.png";
-import satish from "./gunta1.jpg";
-import gunta2 from "./gunta2.jpg";
-import gunta3 from "./gunta3.jpg";
-import gunta4 from "./gunta4.jpg";
-// import satish from "./images/satish1.jpeg";
-// import gunta2 from "./images/sekhar2.jpeg";
-// import gunta3 from "./images/sekhar3.jpeg";
-// import gunta4 from "./images/sekhar5.png";
-import gunta5 from "./gunta5.jpg";
-import gunta6 from "./gunta6.jpg";
+import sekharImage from "./images/sekhar6.jpeg";
+import ank from "./images/ANK.png";
+import hemanth from "./images/hemanth_image.jpeg";
+import satish from "./images/satish1.jpeg";
+import gowri from "./images/gowri_image.jpeg";
+import teja from "./images/teja.jpeg";
 import "./about.scss";
 import { BsLinkedin } from "react-icons/bs";
 import FooterBar from "../home/footer_bar/footer_bar";
+import {
+  satishLinkedin,
+  sekharLinkedin,
+  naveenLinkedin,
+  gowriLinkedin,
+  hemanthLinkedin,
+  tejaLinkedin,
+} from "../../../helpers/redirect";
 
 function About() {
   return (
@@ -22,7 +26,7 @@ function About() {
         <p className="about-head">
           ABOUT &nbsp;<b>SPOTMIES</b>
         </p>
-        <p className="about-desc">
+        {/* <p className="about-desc">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
           optio, incidunt et nam provident exercitationem quo dolor error
           facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum, dicta
@@ -33,7 +37,7 @@ function About() {
           elit. Aperiam optio, incidunt et nam provident exercitationem quo
           dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
           Eum, dicta laborum.
-        </p>
+        </p> */}
       </div>
       {/* 
       <div className="about-container">
@@ -100,33 +104,33 @@ function About() {
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Satish kumar saride</p>
-                <p className="mem-deg">Designation</p>
+                {/* <p className="mem-deg">Designation</p> */}
               </div>
-              <div className="li-icon-div">
+              <div className="li-icon-div pointer" onClick={satishLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
           </div>
           <div className="desig1">
-            <img src={gunta2} alt="name" />
+            <img src={sekharImage} alt="name" />
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Sekhar Javvadi</p>
-                <p className="mem-deg">Designation</p>
+                {/* <p className="mem-deg">Designation</p> */}
               </div>
-              <div className="li-icon-div">
+              <div className="li-icon-div pointer" onClick={sekharLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
           </div>
           <div className="desig1">
-            <img src={gunta3} alt="name" />
+            <img src={ank} alt="name" />
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Naveen kumar</p>
-                <p className="mem-deg">Designation</p>
+                {/* <p className="mem-deg">Designation</p> */}
               </div>
-              <div className="li-icon-div">
+              <div className="li-icon-div pointer" onClick={naveenLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
@@ -134,25 +138,25 @@ function About() {
         </div>
         <div className="team-div">
           <div className="desig1">
-            <img src={gunta4} alt="name" />
+            <img src={hemanth} alt="name" />
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Hemanth veeranala</p>
-                <p className="mem-deg">Designation</p>
+                {/* <p className="mem-deg">Designation</p> */}
               </div>
-              <div className="li-icon-div">
+              <div className="li-icon-div pointer" onClick={hemanthLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
           </div>
           <div className="desig1">
-            <img src={gunta5} alt="name" />
+            <img src={gowri} alt="name" />
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Gowri shankar</p>
-                <p className="mem-deg">Co-Founder</p>
+                {/* <p className="mem-deg">Co-Founder</p> */}
               </div>
-              <div className="li-icon-div">
+              <div className="li-icon-div pointer" onClick={gowriLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
@@ -162,13 +166,13 @@ function About() {
             </div> */}
 
           <div className="desig1">
-            <img src={gunta6} alt="name" />
+            <img src={teja} alt="name" />
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Teja pekala</p>
-                <p className="mem-deg">Designation</p>
+                {/* <p className="mem-deg">Designation</p> */}
               </div>
-              <div className="li-icon-div">
+              <div className="li-icon-div pointer" onClick={tejaLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>

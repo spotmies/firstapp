@@ -42,6 +42,36 @@ const redirectLinedin = () => {
   redirectToAnotherPage(url);
 };
 
+const sekharLinkedin = () => {
+  const url = "www.linkedin.com/in/sekhar-javvadi-987380158";
+  redirectToAnotherPage(url);
+};
+
+const satishLinkedin = () => {
+  const url = "www.linkedin.com/in/saride-satish-kumar-59a26a187";
+  redirectToAnotherPage(url);
+};
+
+const naveenLinkedin = () => {
+  const url = "www.linkedin.com/in/naveen-kumar-atava-318ba318a";
+  redirectToAnotherPage(url);
+};
+
+const gowriLinkedin = () => {
+  const url = "www.linkedin.com/in/gowrishankar-sonaila-b463981b1";
+  redirectToAnotherPage(url);
+};
+
+const hemanthLinkedin = () => {
+  const url = "www.linkedin.com/in/hemanth-kumar-veeranala-967ba318a";
+  redirectToAnotherPage(url);
+};
+
+const tejaLinkedin = () => {
+  const url = "www.linkedin.com/in/teja-pekala-3418231b6";
+  redirectToAnotherPage(url);
+};
+
 export {
   redirectToAnotherPage,
   redirectToPartnerApp,
@@ -52,4 +82,10 @@ export {
   redirectYoutube,
   redirectWhatsapp,
   redirectLinedin,
+  satishLinkedin,
+  sekharLinkedin,
+  naveenLinkedin,
+  gowriLinkedin,
+  hemanthLinkedin,
+  tejaLinkedin,
 };
