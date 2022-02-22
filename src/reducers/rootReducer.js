@@ -1,3 +1,6 @@
+import { apiGetMethod, apiPostPut } from "../api_services/api_calls/api_calls";
+import { api } from "../helpers/constants";
+import { getNewTimeStamp } from "../helpers/convertions";
 import { loadState, saveState } from "../helpers/localStorage";
 const initState = {
   userDetails: {},
@@ -91,6 +94,77 @@ const rootReducer = (state = initState, action) => {
       };
     },
   };
+  const responseRoot = {
+    acceptRejectResponse: async function (respId, respType) {
+      console.log(action.value);
+
+      let index = state.responses.findIndex(
+        (element) => element.responseId === respId
+      );
+      if (index < 0) {
+        console.log("unable to find response");
+        return {
+          ...state,
+          response: state.responses,
+        };
+      }
+      let responseData = state.responses[index];
+      let body = {
+        deviceToken: responseData?.pDetails?.partnerDeviceToken,
+        notificationTitle: "Your order alert",
+      };
+      if (respType == "accept") {
+        body.responseType = respType;
+        body.ordId = responseData?.orderDetails.ordId;
+        body.pId = responseData?.pId;
+        body.uId = responseData?.orderDetails?.uId;
+        body.orderState = "8";
+        body.acceptBy = "user";
+        body.acceptAt = getNewTimeStamp();
+        body.acceptResponse = responseData?._id;
+        body.pDetails = responseData?.pDetails?._id;
+        body.userName = state.userDetails?.name;
+        body.userPic = state.userDetails?.pic;
+        body.notificationBody = `${state.userDetails?.name} accepted your request start your service`;
+      } else {
+        body.responseType = respType;
+        body.acceptResponse = responseData._id;
+        body.notificationBody = `${state.userDetails?.name} Rejected your request`;
+      }
+      // turn on loader
+      let response = await apiPostPut(body, api.confirmDeclineOrder, "POST");
+      if (response != null) {
+        let filterResponses = state.responses.filter(
+          (element) => element._id !== responseData._id
+        );
+        if (respType !== "accept") {
+          return {
+            ...state,
+            responses: filterResponses,
+          };
+        }
+        let updateOrder = await apiGetMethod(
+          api.ORDER_DETAILS + "/" + responseData?.orderDetails?.ordId
+        );
+        if (updateOrder != null) {
+          return {
+            ...state,
+            orders: [...state.orders, updateOrder],
+            responses: filterResponses,
+          };
+        }
+        return {
+          ...state,
+          responses: filterResponses,
+        };
+      } else {
+        alert("Something went wrong 2");
+        return {
+          ...state,
+        };
+      }
+    },
+  };
   switch (action.type) {
     case "ADD_NEW_MESSAGE":
       return chatingRoot.addNewMessage();
@@ -112,6 +186,10 @@ const rootReducer = (state = initState, action) => {
         ...state,
         responses: action.value,
       };
+    case "ACCEPT_RESPONSE":
+      responseRoot.acceptRejectResponse(action.value, "accept");
+    case "REJECT_RESPONSE":
+      responseRoot.acceptRejectResponse(action.value, "reject");
 
     case "DELETE_RESPONSE":
       let newResponses = state.responses.filter((response) => {

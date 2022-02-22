@@ -79,7 +79,7 @@ function MyResponses(props) {
     eventLoader(true, "Deleting response...");
     let response = await deleteResponseById(iD);
     if (response) {
-      setOrders(orders.filter((item) => item.responseId !== iD));
+      setOrders(orders?.filter((item) => item.responseId !== iD));
       toast.info("Order Deleted Successfully");
       props.deleteResponse(iD);
     } else toast.info("Unable To Delete Order");
@@ -88,8 +88,8 @@ function MyResponses(props) {
 
   //compoent didmount and willunMount
   const calculateDistance = async () => {
-    let tempResponses = props.responses;
-    for (let i = 0; i < tempResponses.length; i++) {
+    let tempResponses = props?.responses;
+    for (let i = 0; i < tempResponses?.length; i++) {
       const element = tempResponses[i];
       tempResponses[i].distance = distanceBetweenCoordinates(
         element.loc[0],
@@ -98,7 +98,7 @@ function MyResponses(props) {
         element?.orderDetails?.loc?.coordinates[1]
       );
       // setOrders(tempResponses);
-      if (i === tempResponses.length - 1) {
+      if (i === tempResponses?.length - 1) {
         setOrders(tempResponses);
       }
     }
@@ -111,10 +111,17 @@ function MyResponses(props) {
     eventLoader(false);
     calculateDistance();
   }, [props.responses]);
-
+  const acceptResp = (id) => {
+    console.log("accept", id);
+    props.acceptResponse(id);
+  };
+  const rejectResp = (id) => {
+    console.log("reject", id);
+    props.rejectResponse(id);
+  };
   return (
     <div>
-      {loader === false && orders.length === 0 ? (
+      {loader === false && orders?.length === 0 ? (
         <FullScreenWidget
           type="noDataPlaceHolder"
           show={true}
@@ -123,7 +130,7 @@ function MyResponses(props) {
       ) : null}
       <FullScreenWidget type="loader" show={loader} data={loaderData} />
 
-      {orders.length > 0 ? (
+      {orders?.length > 0 ? (
         <div style={{ paddingTop: "30px" }}>
           {orders
             .slice(0)
@@ -135,7 +142,9 @@ function MyResponses(props) {
                   key,
                   viewPost,
                   deleteResponse,
-                  chatWithPartner
+                  chatWithPartner,
+                  acceptResp,
+                  rejectResp
                 )}
               </div>
             ))}
@@ -165,7 +174,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ResponseCard(cap, key, viewPost, deleteResponse, chatWithPartner) {
+function ResponseCard(
+  cap,
+  key,
+  viewPost,
+  deleteResponse,
+  chatWithPartner,
+  acceptResp,
+  rejectResp
+) {
   // const [distance, setdistance] = useState(null);
   return (
     <div className="responseCard">
@@ -193,10 +210,20 @@ function ResponseCard(cap, key, viewPost, deleteResponse, chatWithPartner) {
             className="profile"
           />
           <div className="btn-div">
-            <p className="sub-btn">
+            <p
+              className="sub-btn pointer"
+              onClick={() => {
+                acceptResp(cap?.responseId);
+              }}
+            >
               <MdCheck />
             </p>
-            <p className="dec-btn">
+            <p
+              className="dec-btn pointer"
+              onClick={() => {
+                rejectResp(cap?.responseId);
+              }}
+            >
               <MdClose />
             </p>
           </div>
@@ -374,6 +401,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteResponse: (responseId) => {
       dispatch({ type: "DELETE_RESPONSE", value: responseId });
+    },
+    acceptResponse: (responseId) => {
+      dispatch({ type: "ACCEPT_RESPONSE", value: responseId });
+    },
+    rejectResponse: (responseId) => {
+      dispatch({ type: "REJECT_RESPONSE", value: responseId });
     },
   };
 };
