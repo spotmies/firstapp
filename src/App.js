@@ -29,6 +29,7 @@ import "react-toastify/dist/ReactToastify.css";
 import partnerRegistration from "./components/views/homeSlides/partnerRegistration";
 import ScrollToTop from "./scrolltotop";
 import Privacy from "./components/views/privacyPolicy/privacy";
+import Terms from "./components/views/privacyPolicy/terms";
 // import PartnerPrivacy from "./components/views/privacyPolicy/partner-privacy";
 import Tab from "./components/views/chatMui/chat";
 import Careers from "./components/views/careers/careers";
@@ -78,6 +79,7 @@ function Routing() {
                 component={partnerRegistration}
               />
               <Route path="/privacy" component={Privacy} />
+              <Route path="/terms" component={Terms} />
               {/* <Route path="/partner-privacy" component={PartnerPrivacy} /> */}
               <Route path="/tabs" component={Tab} />
               <Route path="/careers" component={Careers} />
@@ -106,6 +108,7 @@ function Routing() {
                 component={partnerRegistration}
               />
               <Route path="/privacy" component={Privacy} />
+              <Route path="/terms" component={Terms} />
               <Route path="/contact" component={NewContact} />
               <Route path="/signup" component={login} />
               <Route path="/careers" component={Careers} />
