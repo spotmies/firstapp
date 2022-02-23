@@ -95,7 +95,9 @@ export default function FooterBar() {
             </div>
             <div className="footer-child">
               <p className="footer-shead">Resources</p>
-              <p className="footer-desc">Terms</p>{" "}
+              <p className="footer-desc">
+                <Link to="/terms">Terms</Link>
+              </p>
               <p className="footer-desc">
                 <Link to="/privacy">Privacy </Link>
               </p>
