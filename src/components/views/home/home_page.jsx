@@ -43,7 +43,7 @@ export default function Homepage() {
   const slide1Data = {
     title: "Make Your Life Easy.",
     description:
-      "In our Busy running life who wants to stop and go to market and get the service done. There should be a source where a well qualified and well reviewed user-firendly service partners. Wondering where can we find them? You have already reached your destination.",
+      "In our Busy running life who wants to stop and go to marketplace and get the service done. There should be a source where we can get a well qualified and well reviewed user-firendly service partners. Wondering where can we find them? You have already reached your destination.",
     image: lifeEasy,
   };
   const howItWorksData = [
@@ -55,7 +55,7 @@ export default function Homepage() {
     },
     {
       icon: AiOutlineUsergroupAdd,
-      title: "Our service partner connect you",
+      title: "Our service partner connects with you",
       color: "#008fdb",
       desc: "We recommend you the best service partner who fulfills your request better than any other.",
     },
