@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
@@ -17,6 +17,7 @@ ReactDOM.render(
     <Provider store={store}>
     <App />
     </Provider>
+    
   </Router>,
   document.getElementById("root")
   

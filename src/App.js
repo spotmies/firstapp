@@ -1,6 +1,10 @@
 import "./App.css";
-import React, { useState } from "react";
-import { Switch, Route, BrowserRouter, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+// import { useBeforeunload } from "react-beforeunload";
+import useExitPrompt from "./useExitPrompt.js";
+// import MyContext from "./MyContext.js";
+
+import { Switch, Route, BrowserRouter, Navigate, Prompt } from "react-router-dom";
 import { Observer } from "mobx-react";
 import { useStores } from "./components/stateManagement";
 import Navibar from "./components/views/navbar/navbar";
@@ -42,11 +46,32 @@ import LandingUser from "./components/views/homeSlides/newLandingUser";
 import Homepage from "./components/views/home/home_page";
 import PartnerPage from "./components/views/home/partner_page";
 import PartnerStore from "./components/views/partner_store/partner_store";
+import UserConfirmation from "./userConfirmation";
+import FeedbackForm from "./components/reusable/feedback_form";
 
 function Routing() {
   const { commonStore } = useStores();
   const [isLogin, setIsLogin] = useState(false);
   console.log("commonStore.isLogin", commonStore.isLogin);
+
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", alertUser);
+  //   window.addEventListener("unload", handleTabClosing);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", alertUser);
+  //     window.removeEventListener("unload", handleTabClosing);
+  //   };
+  // });
+
+  // const handleTabClosing = () => {
+  //   console.log("event triggered");
+  // };
+
+  // const alertUser = (event) => {
+  //   event.preventDefault();
+  //   event.returnValue = "";
+  // };
+
   return (
     <Observer>
       {() => (
@@ -133,8 +158,69 @@ const theme = createTheme({
 });
 
 function App() {
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", (ev) => {
+  //     ev.preventDefault();
+  //     return ev.returnValue = "Are you sure you want to close?";
+  //   });
+  // }, []);
+
+   const [open, setOpen] = useState(false);
+   const closeModal = () => {
+     setOpen(false);
+   };
+   const openFeedbackForm = () => {
+     setOpen(true);
+   };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    window.addEventListener("unload", handleTabClosing);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+      window.removeEventListener("unload", handleTabClosing);
+      handleTabClosing();
+    };
+  }, []);
+  const alertUser = (e) => {
+    e.preventDefault();
+    e.returnValue = "Would you like to give a feedback?";
+    setOpen(true);
+  };
+  const handleTabClosing = () => {
+    console.log("event triggered");
+  };
+
+  // const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false);
+
+  // const handleClick = (e) => {
+  //   e.preventDefault();
+  //   setShowExitPrompt(!showExitPrompt);
+  // };
+
+  // //NOTE: this similar to componentWillUnmount()
+  // useEffect(() => {
+  //   return () => {
+  //     setShowExitPrompt(false);
+  //   };
+  // }, []);
+
+ 
+  
   return (
-    <BrowserRouter>
+    <BrowserRouter
+    // getUserConfirmation={(message, callback) => {
+    //   // this is the default behavior
+    //   const allowTransition = window.confirm(message);
+    //   UserConfirmation(message, callback)
+    //   setIsFormIncomplete(true);
+    //   callback(allowTransition);
+    // }}
+    >
+      {/* <Prompt
+        when={isFormIncomplete}
+        message="Would you like to give a feedback?"
+      /> */}
       <MuiThemeProvider>
         <Navibar />
         <ToastContainer
@@ -148,6 +234,7 @@ function App() {
           draggable
           pauseOnHover
         />
+        <FeedbackForm open={open} close={closeModal} />;
         <Routing />
       </MuiThemeProvider>
     </BrowserRouter>
