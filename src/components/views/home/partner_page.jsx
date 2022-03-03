@@ -122,7 +122,7 @@ export default function PartnerPage() {
   ];
 
   const benefit3Content = {
-    title: "Why you choose Us",
+    title: "Why choose Us",
     description:
       "  No need for world tours, we provide service orders near you. But we won't limit you. No marketing and advertising are needed. We will look after that for you.",
     image: choose_us,

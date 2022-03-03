@@ -69,14 +69,13 @@ export default function PartnerSlide1(props) {
               ) : null}
               <div className="spacer-span" />
               <div className="spacer-span" />
-              <p>
+              <p className="pointer" onClick={redirectToPartnerApp}>
                 Get App on Playstore&nbsp;&nbsp;
                 {/* <span className="icon-cover"> */}
                 <img
                   src={playStoreIcon}
                   alt="google play"
                   className="pointer google-play-icon"
-                  onClick={redirectToPartnerApp}
                 />
                 {/* <FaGooglePlay
                   size="1rem"
