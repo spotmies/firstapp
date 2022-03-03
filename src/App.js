@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { Observer } from "mobx-react";
 import { useStores } from "./components/stateManagement";
@@ -43,6 +43,7 @@ import LandingUser from "./components/views/homeSlides/newLandingUser";
 import Homepage from "./components/views/home/home_page";
 import PartnerPage from "./components/views/home/partner_page";
 import PartnerStore from "./components/views/partner_store/partner_store";
+import ReactGA from "react-ga";
 
 function Routing() {
   const { commonStore } = useStores();
@@ -136,6 +137,15 @@ const theme = createTheme({
 });
 
 function App() {
+  const setGA = () => {
+    ReactGA.initialize("UA-221901673-1");
+    ReactGA.pageview('Init page view');
+  }
+
+  useEffect(()=>{
+    setGA();
+  });
+
   return (
     <BrowserRouter>
       <MuiThemeProvider>
