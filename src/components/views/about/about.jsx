@@ -26,18 +26,18 @@ function About() {
         <p className="about-head">
           ABOUT &nbsp;<b>SPOTMIES</b>
         </p>
-        {/* <p className="about-desc">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-          optio, incidunt et nam provident exercitationem quo dolor error
-          facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum, dicta
-          laborum! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Aperiam optio, incidunt et nam provident exercitationem quo dolor
-          error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum,
-          dicta laborum!Lorem ipsum dolor sit amet, consectetur adipisicing
-          elit. Aperiam optio, incidunt et nam provident exercitationem quo
-          dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
-          Eum, dicta laborum.
-        </p> */}
+        <p className="about-desc">
+          Spotmies aims to be the best of platforms to bring service providers
+          and customers together. Our team is working passionately to provide
+          the best solutions for the problems faced by customers and service
+          providers. We have 50+ service providers covering 10 different
+          services to the entire city and selecting more best providers
+          ourselves to improve the quality of service. What makes us stand alone
+          from our competitors is the problem set we are trying to solve Along
+          with additional modifications to the existing solutions. Our team
+          believes user data privacy is as important as the quality of service
+          and that is what makes our application user's first choice.
+        </p>
       </div>
       {/* 
       <div className="about-container">
