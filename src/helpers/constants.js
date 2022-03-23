@@ -1,7 +1,7 @@
 module.exports = Object.freeze({
   // baseUrl: "https://spotmiesserver.herokuapp.com/api",
   baseUrl: "https://spotmies.herokuapp.com/api",
-  socketUrl: "https://spotmiesserver.herokuapp.com",
+  socketUrl: "https://spotmies.herokuapp.com",
   localHostSocketUrl: "http://localhost:4000",
   localHostUrl: "http://localhost:4000/api",
   devBaseUrl:
