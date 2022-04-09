@@ -57,7 +57,7 @@ module.exports = Object.freeze({
   },
   servicesList: "/services/all-service-list",
   reviews: "/partner-feedback/feedbacks/partner/",
-  get_faq: "/support/faq/all-faqs",
+  get_faq: "/support/faq/all-faqs?platform=userApp",
   routeConstants: {
     home: "home",
     partnerRegistration: "others",

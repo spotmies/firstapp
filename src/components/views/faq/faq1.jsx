@@ -38,6 +38,7 @@ export default function Faq1() {
   return (
     <>
       <div className="faq-parent">
+        <p className="head center-text">Frequently Asked Questions</p>
         {loading ? (
           <FullScreenWidget type="loader" show={true} />
         ) : (
