@@ -19,6 +19,7 @@ import {
   redirectInstagram,
   redirectLinedin,
   redirectToPartnerApp,
+  redirectToUserApp,
   redirectToPartnerPage,
   redirectTwitter,
   redirectWhatsapp,
@@ -113,7 +114,9 @@ export default function FooterBar() {
               <p className="footer-desc">
                 <Link to="/partnerRegistration">Join as Service partner </Link>
               </p>
-              <p className="footer-desc">Download Spotmies App</p>
+              <p className="footer-desc" onClick={redirectToUserApp}>
+                Download Spotmies App
+              </p>
               <p className="footer-desc" onClick={redirectToPartnerApp}>
                 Download Spotmies Partner App
               </p>

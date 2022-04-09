@@ -36,6 +36,8 @@ import {
   BsClipboard,
   BsPeople,
 } from "react-icons/bs";
+import DownloadMobileApp from "./download_app/download_app";
+import Testimonial from "./testimonial/testimonial";
 export default function Homepage() {
   const { commonStore } = useStores();
   const secondSlideRef = useRef(null);
@@ -134,6 +136,12 @@ export default function Homepage() {
     buttonText: "Join as service partner",
     buttonLink: "/service-partner",
   };
+  const downloadAppData = {
+    title: "Download Android App",
+    description:
+      "Use our Android App to describe about your required Service, and Select your location to get the best serivce. We recommend you the best service partner who fulfills your request better than any other.",
+    appLink: "https://play.google.com/store/apps/details?id=com.spotmies",
+  };
 
   useEffect(() => {
     return () => {
@@ -196,18 +204,25 @@ export default function Homepage() {
         </div>
 
         <div className="spacer-mobile" />
+        <div className="home-slide7">
+          <DownloadMobileApp data={downloadAppData} />
+        </div>
+        <div className="spacer-mobile" />
 
         <div className="home-slide7">
           <div className="spacer" />
           <ShowCard data={showCardData} />
           <div className="spacer" />
         </div>
+        {/* <Testimonial />
+        <div className="spacer" /> */}
 
         <div className="spacer-mobile" />
 
         <div className="home-footer">
           <FooterBar />
         </div>
+
         {/* <div
           className={`${
             props.userDetails.uId !== undefined

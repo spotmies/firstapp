@@ -11,7 +11,7 @@ export default function DownloadMobileApp(props) {
       <Fade>
         <div className="main-content">
           <div className="image">
-            <img src={downloadApp} alt="downloadApp" />
+            <img src={data.image ?? downloadApp} alt="downloadApp" />
           </div>
           <div className="content">
             <p className="head home-page-head">{data.title}</p>
