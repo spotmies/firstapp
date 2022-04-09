@@ -170,19 +170,11 @@ export default function FooterBar() {
         <div className="horizontal-line" />
         <div className="footer3">
           <span className="rights-reserved">
-            <Link>
-              {" "}
-              <p className="footer-shead">
-                © 2021-2022 Spotmies&nbsp;|&nbsp;All rights reserved&nbsp;|
-              </p>
-            </Link>
-            <Link>
-              <p> &nbsp;Privacy Policy&nbsp;</p>
-            </Link>
-            <Link>
-              {" "}
-              <p>|&nbsp;Terms & Conditions</p>
-            </Link>
+            {" "}
+            <p className="footer-shead">
+              © 2021-2022 Spotmies&nbsp;|&nbsp;All rights reserved&nbsp;|
+            </p>
+            <p> &nbsp;Privacy Policy&nbsp;</p> <p>|&nbsp;Terms & Conditions</p>
           </span>
           <span className="made-in-india">
             <p>Made in</p>
