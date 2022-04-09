@@ -101,7 +101,9 @@ export default function FooterBar() {
               <p className="footer-desc">
                 <Link to="/privacy">Privacy </Link>
               </p>
-              <p className="footer-desc">FAQ'S</p>
+              <p className="footer-desc">
+                <Link to="/faq"> FAQ'S</Link>
+              </p>
               {/* <p className="footer-desc"> Info company</p> */}
             </div>
           </div>
