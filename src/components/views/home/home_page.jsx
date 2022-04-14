@@ -140,7 +140,7 @@ export default function Homepage() {
     title: "Download Android App",
     description:
       "Use our Android App to describe about your required Service, and Select your location to get the best serivce. We recommend you the best service partner who fulfills your request better than any other.",
-    appLink: "https://play.google.com/store/apps/details?id=com.spotmies",
+    link: "play.google.com/store/apps/details?id=com.spotmies",
   };
 
   useEffect(() => {

@@ -112,7 +112,7 @@ export default function FooterBar() {
             <div className="footer-child footer-child-web">
               <p className="footer-shead">Important links</p>
               <p className="footer-desc">
-                <Link to="/partnerRegistration">Join as Service partner </Link>
+                <Link to="/service-partner">Join as Service partner </Link>
               </p>
               <p className="footer-desc" onClick={redirectToUserApp}>
                 Download Spotmies App
@@ -124,7 +124,7 @@ export default function FooterBar() {
             <div className="footer-child-mobile">
               <p className="footer-shead">Links</p>
               <p className="footer-desc">
-                <Link to="/partnerRegistration">Join Now</Link>
+                <Link to="/service-partner">Join Now</Link>
               </p>
               <p className="footer-desc">Spotmies App</p>
               <p className="footer-desc" onClick={redirectToPartnerApp}>
