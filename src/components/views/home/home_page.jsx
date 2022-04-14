@@ -17,6 +17,7 @@ import lifeEasy from "../../../assets/svgs/make-your-life-easy.svg";
 import phone_call from "../../../assets/svgs/phone_call.svg";
 // import get_service_online from "../../../assets/images/easy_to_get_service_online.png";
 import get_service_online from "../../../assets/svgs/easy-to-get-online-service.svg";
+import spotmiesUserDownload from "../../../assets/images/m-2.png";
 
 // import quality_service from "../../../assets/images/g-1.png";
 import quality_service from "../../../assets/svgs/g-3.svg";
@@ -141,6 +142,7 @@ export default function Homepage() {
     description:
       "Use our Android App to describe about your required Service, and Select your location to get the best serivce. We recommend you the best service partner who fulfills your request better than any other.",
     link: "play.google.com/store/apps/details?id=com.spotmies",
+    image: spotmiesUserDownload,
   };
 
   useEffect(() => {

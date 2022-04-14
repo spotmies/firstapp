@@ -126,7 +126,9 @@ export default function FooterBar() {
               <p className="footer-desc">
                 <Link to="/service-partner">Join Now</Link>
               </p>
-              <p className="footer-desc">Spotmies App</p>
+              <p className="footer-desc" onClick={redirectToUserApp}>
+                Spotmies App
+              </p>
               <p className="footer-desc" onClick={redirectToPartnerApp}>
                 Partner App
               </p>
