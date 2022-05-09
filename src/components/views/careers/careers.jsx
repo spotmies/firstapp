@@ -56,16 +56,9 @@ export default function Careers() {
     "AfterEffects",
     "Premier Pro",
   ];
-  const otherSkills = [
-    "Digital Marketing",
-    "Social Media Marketing",
-    "Content Creator",
-    "SEO",
-  ];
   const softwaresTag = [
     "Languages / Frameworks Known?",
-    "Designing Softwares you Known?",
-    "Skills you have?",
+    "Design Softwares you Known?",
   ];
   const [softwareTagName, setSoftwareTagName] = useState(softwaresTag[0]);
   const [targetLangs, setTargetLangs] = useState([]);
@@ -77,9 +70,6 @@ export default function Careers() {
     if (job === "Designing") {
       setTargetLangs(designingTools);
       setSoftwareTagName(softwaresTag[1]);
-    } else if (job === "Content Creator" || job === "Digital Marketing") {
-      setTargetLangs(otherSkills);
-      setSoftwareTagName(softwaresTag[2]);
     } else {
       setTargetLangs(listLanguages);
       setSoftwareTagName(softwaresTag[0]);
@@ -362,8 +352,6 @@ export default function Careers() {
                   <option value="React Js">React.js</option>
                   <option value="Flutter">Flutter</option>
                   <option value="Designing">Designer</option>
-                  <option value="Content Creator">Content Creator</option>
-                  <option value="Digital Marketing">Digital Marketing</option>
                 </NativeSelect>
               </FormControl>
             </div>
