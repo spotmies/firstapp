@@ -9,7 +9,6 @@ import gowri from "./images/gowri_image.jpeg";
 import teja from "./images/teja.jpeg";
 import "./about.scss";
 import { BsLinkedin } from "react-icons/bs";
-import Carouseltimeline from "./Carouseltimeline.js";
 import FooterBar from "../home/footer_bar/footer_bar";
 import {
   satishLinkedin,
@@ -182,7 +181,6 @@ function About() {
       </section>
 
       <section></section>
-      <Carouseltimeline />
       <FooterBar />
     </div>
   );
