@@ -57,7 +57,7 @@
 .team-div {
   display: inline-flex;
   margin: 0 auto;
-  width: 57%;
+  width: 70%;
   position: relative;
 }
 
@@ -172,7 +172,8 @@
 
   .about-desc {
     font-size: 18px;
-    color: #565656;
+    color: #292828;
+    font-family: "Gilroy Regular";
   }
 }
 @media screen and (max-width: 700px) {
@@ -188,7 +189,9 @@
   }
 
   .desig1 {
-    left: 23%;
+    left: 20%;
+    // margin: 0 auto;
+    // width: 80%;
     /* margin-left: auto;
         margin-right: auto;
         left: 0;

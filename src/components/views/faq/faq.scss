@@ -1,0 +1,30 @@
+.faq-parent {
+  background-color: rgb(215, 218, 222);
+  height: fit-content;
+  width: 100%;
+  padding-bottom: 150px;
+  padding-top: 50px;
+}
+.faq-div {
+  padding-top: 30px;
+  margin: 0 auto;
+  width: 80%;
+}
+.faq-question {
+  font-family: "Gilroy Regular" !important;
+}
+.faq-answer {
+  font-family: "Gilroy Light" !important;
+}
+.div-center {
+  margin: 0 auto;
+  width: 100%;
+}
+.center-text {
+  text-align: center;
+}
+@media screen and (max-width: 700px) {
+  .faq-div {
+    width: 95%;
+  }
+}
