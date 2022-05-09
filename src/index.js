@@ -8,7 +8,6 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux'
 import rootReducer from "./reducers/rootReducer";
 import 'leaflet/dist/leaflet.css';
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const store = createStore(rootReducer);
 
