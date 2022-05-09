@@ -46,7 +46,7 @@ export default function PartnerPage() {
     title: "Download Android App",
     description:
       "Get spotmies partner App. Register with your mobile number. Signup by giving basic details, add your service, get work recommendations based on your location preferences, Do the service and get the money. That's it.",
-    link: "play.google.com/store/apps/details?id=com.spotmiespartner",
+    appLink: "https://play.google.com/store/apps/details?id=com.app.app.app",
   };
   const howItWorksData = [
     {
