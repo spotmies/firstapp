@@ -26,18 +26,18 @@ function About() {
         <p className="about-head">
           ABOUT &nbsp;<b>SPOTMIES</b>
         </p>
-        {/* <p className="about-desc">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam
-          optio, incidunt et nam provident exercitationem quo dolor error
-          facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum, dicta
-          laborum! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Aperiam optio, incidunt et nam provident exercitationem quo dolor
-          error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi. Eum,
-          dicta laborum!Lorem ipsum dolor sit amet, consectetur adipisicing
-          elit. Aperiam optio, incidunt et nam provident exercitationem quo
-          dolor error facilis fugit? Qui dignissimos, ipsa quam quaerat ex nisi.
-          Eum, dicta laborum.
-        </p> */}
+        <p className="about-desc">
+          Spotmies aims to be the best of platforms to bring service providers
+          and customers together. Our team is working passionately to provide
+          the best solutions for the problems faced by customers and service
+          providers. We have 50+ service providers covering 10 different
+          services to the entire city and selecting more best providers
+          ourselves to improve the quality of service. What makes us stand alone
+          from our competitors is the problem set we are trying to solve Along
+          with additional modifications to the existing solutions. Our team
+          believes user data privacy is as important as the quality of service
+          and that is what makes our application user's first choice.
+        </p>
       </div>
       {/* 
       <div className="about-container">
@@ -77,7 +77,7 @@ function About() {
           Eum, dicta laborum!
         </p>
       </div> */}
-      <section className="desc">
+      {/* <section className="desc">
         <div className="desc-img-m">
           <img src={group} alt="meeting" />
         </div>
@@ -92,7 +92,7 @@ function About() {
         <div className="img-web">
           <img src={group} alt="meeting" />
         </div>
-      </section>
+      </section> */}
 
       <section className="sec2">
         <p className="about-head">
@@ -104,7 +104,7 @@ function About() {
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Satish kumar saride</p>
-                {/* <p className="mem-deg">Designation</p> */}
+                <p className="mem-deg">CEO, Co-founder</p>
               </div>
               <div className="li-icon-div pointer" onClick={satishLinkedin}>
                 <BsLinkedin className="li-icon" />
@@ -116,7 +116,7 @@ function About() {
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Sekhar Javvadi</p>
-                {/* <p className="mem-deg">Designation</p> */}
+                <p className="mem-deg">CTO, Co-founder</p>
               </div>
               <div className="li-icon-div pointer" onClick={sekharLinkedin}>
                 <BsLinkedin className="li-icon" />
@@ -128,21 +128,33 @@ function About() {
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Naveen kumar</p>
-                {/* <p className="mem-deg">Designation</p> */}
+                <p className="mem-deg">Chief Designer, Co-founder</p>
               </div>
               <div className="li-icon-div pointer" onClick={naveenLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
           </div>
-        </div>
-        <div className="team-div">
           <div className="desig1">
             <img src={hemanth} alt="name" />
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Hemanth veeranala</p>
-                {/* <p className="mem-deg">Designation</p> */}
+                <p className="mem-deg">Marketing, Co-founder</p>
+              </div>
+              <div className="li-icon-div pointer" onClick={hemanthLinkedin}>
+                <BsLinkedin className="li-icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <div className="team-div">
+          <div className="desig1">
+            <img src={hemanth} alt="name" />
+            <div className="desig desig-gwr">
+              <div>
+                <p className="mem-name">Hemanth veeranala</p>
+                <p className="mem-deg">Marketing, Co-founder</p>
               </div>
               <div className="li-icon-div pointer" onClick={hemanthLinkedin}>
                 <BsLinkedin className="li-icon" />
@@ -154,30 +166,27 @@ function About() {
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Gowri shankar</p>
-                {/* <p className="mem-deg">Co-Founder</p> */}
+                <p className="mem-deg">Co-Founder</p>
               </div>
               <div className="li-icon-div pointer" onClick={gowriLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
           </div>
-          {/* <div className="Li-hover">
-              <BsLinkedin className="li-icon" />
-            </div> */}
-
+        
           <div className="desig1">
             <img src={teja} alt="name" />
             <div className="desig desig-gwr">
               <div>
                 <p className="mem-name">Teja pekala</p>
-                {/* <p className="mem-deg">Designation</p> */}
+                <p className="mem-deg">Designation</p>
               </div>
               <div className="li-icon-div pointer" onClick={tejaLinkedin}>
                 <BsLinkedin className="li-icon" />
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
 
       <section></section>
