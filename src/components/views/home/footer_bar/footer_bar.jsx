@@ -19,7 +19,6 @@ import {
   redirectInstagram,
   redirectLinedin,
   redirectToPartnerApp,
-  redirectToUserApp,
   redirectToPartnerPage,
   redirectTwitter,
   redirectWhatsapp,
@@ -102,9 +101,7 @@ export default function FooterBar() {
               <p className="footer-desc">
                 <Link to="/privacy">Privacy </Link>
               </p>
-              <p className="footer-desc">
-                <Link to="/faq"> FAQ'S</Link>
-              </p>
+              <p className="footer-desc">FAQ'S</p>
               {/* <p className="footer-desc"> Info company</p> */}
             </div>
           </div>
@@ -112,11 +109,9 @@ export default function FooterBar() {
             <div className="footer-child footer-child-web">
               <p className="footer-shead">Important links</p>
               <p className="footer-desc">
-                <Link to="/service-partner">Join as Service partner </Link>
+                <Link to="/partnerRegistration">Join as Service partner </Link>
               </p>
-              <p className="footer-desc" onClick={redirectToUserApp}>
-                Download Spotmies App
-              </p>
+              <p className="footer-desc">Download Spotmies App</p>
               <p className="footer-desc" onClick={redirectToPartnerApp}>
                 Download Spotmies Partner App
               </p>
@@ -124,11 +119,9 @@ export default function FooterBar() {
             <div className="footer-child-mobile">
               <p className="footer-shead">Links</p>
               <p className="footer-desc">
-                <Link to="/service-partner">Join Now</Link>
+                <Link to="/partnerRegistration">Join Now</Link>
               </p>
-              <p className="footer-desc" onClick={redirectToUserApp}>
-                Spotmies App
-              </p>
+              <p className="footer-desc">Spotmies App</p>
               <p className="footer-desc" onClick={redirectToPartnerApp}>
                 Partner App
               </p>
@@ -175,11 +168,19 @@ export default function FooterBar() {
         <div className="horizontal-line" />
         <div className="footer3">
           <span className="rights-reserved">
-            {" "}
-            <p className="footer-shead">
-              © 2021-2022 Spotmies&nbsp;|&nbsp;All rights reserved&nbsp;|
-            </p>
-            <p> &nbsp;Privacy Policy&nbsp;</p> <p>|&nbsp;Terms & Conditions</p>
+            <Link>
+              {" "}
+              <p className="footer-shead">
+                © 2021-2022 Spotmies&nbsp;|&nbsp;All rights reserved&nbsp;|
+              </p>
+            </Link>
+            <Link>
+              <p> &nbsp;Privacy Policy&nbsp;</p>
+            </Link>
+            <Link>
+              {" "}
+              <p>|&nbsp;Terms & Conditions</p>
+            </Link>
           </span>
           <span className="made-in-india">
             <p>Made in</p>

@@ -7,11 +7,6 @@ const redirectToPartnerApp = () => {
   redirectToAnotherPage(url);
 };
 
-const redirectToUserApp = () => {
-  const url = "play.google.com/store/apps/details?id=com.spotmies";
-  redirectToAnotherPage(url);
-};
-
 const redirectToPartnerPage = () => {
   const url = "/service-partner";
   window.location.href = url;
@@ -93,5 +88,4 @@ export {
   gowriLinkedin,
   hemanthLinkedin,
   tejaLinkedin,
-  redirectToUserApp,
 };

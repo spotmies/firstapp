@@ -17,7 +17,6 @@ import lifeEasy from "../../../assets/svgs/make-your-life-easy.svg";
 import phone_call from "../../../assets/svgs/phone_call.svg";
 // import get_service_online from "../../../assets/images/easy_to_get_service_online.png";
 import get_service_online from "../../../assets/svgs/easy-to-get-online-service.svg";
-import spotmiesUserDownload from "../../../assets/images/m-2.png";
 
 // import quality_service from "../../../assets/images/g-1.png";
 import quality_service from "../../../assets/svgs/g-3.svg";
@@ -37,8 +36,6 @@ import {
   BsClipboard,
   BsPeople,
 } from "react-icons/bs";
-import DownloadMobileApp from "./download_app/download_app";
-import Testimonial from "./testimonial/testimonial";
 export default function Homepage() {
   const { commonStore } = useStores();
   const secondSlideRef = useRef(null);
@@ -137,13 +134,6 @@ export default function Homepage() {
     buttonText: "Join as service partner",
     buttonLink: "/service-partner",
   };
-  const downloadAppData = {
-    title: "Download Android App",
-    description:
-      "Use our Android App to describe about your required Service, and Select your location to get the best serivce. We recommend you the best service partner who fulfills your request better than any other.",
-    link: "play.google.com/store/apps/details?id=com.spotmies",
-    image: spotmiesUserDownload,
-  };
 
   useEffect(() => {
     return () => {
@@ -206,25 +196,18 @@ export default function Homepage() {
         </div>
 
         <div className="spacer-mobile" />
-        <div className="home-slide7">
-          <DownloadMobileApp data={downloadAppData} />
-        </div>
-        <div className="spacer-mobile" />
 
         <div className="home-slide7">
           <div className="spacer" />
           <ShowCard data={showCardData} />
           <div className="spacer" />
         </div>
-        {/* <Testimonial />
-        <div className="spacer" /> */}
 
         <div className="spacer-mobile" />
 
         <div className="home-footer">
           <FooterBar />
         </div>
-
         {/* <div
           className={`${
             props.userDetails.uId !== undefined

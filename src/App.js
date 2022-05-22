@@ -44,7 +44,6 @@ import Homepage from "./components/views/home/home_page";
 import PartnerPage from "./components/views/home/partner_page";
 import PartnerStore from "./components/views/partner_store/partner_store";
 import ReactGA from "react-ga";
-import Faq1 from "./components/views/faq/faq1";
 
 function Routing() {
   const { commonStore } = useStores();
@@ -92,7 +91,6 @@ function Routing() {
               <Route path="/home-page" component={Homepage} />
               <Route path="/service-partner" component={PartnerPage} />
               <Route path="/store" component={PartnerStore} />
-              <Route path="/faq" component={Faq1} />
             </Switch>
           ) : (
             /* ---------------------------- LOGOUT USER PATHS --------------------------- */
@@ -117,7 +115,6 @@ function Routing() {
               <Route path="/careers" component={Careers} />
               <Route path="/success-form" component={SuccessForm} />
               <Route path="/chat" component={login} />
-              <Route path="/faq" component={Faq1} />
             </Switch>
           )}
         </>
@@ -142,10 +139,10 @@ const theme = createTheme({
 function App() {
   const setGA = () => {
     ReactGA.initialize("UA-221901673-1");
-    ReactGA.pageview("Init page view");
-  };
+    ReactGA.pageview('Init page view');
+  }
 
-  useEffect(() => {
+  useEffect(()=>{
     setGA();
   });
 
