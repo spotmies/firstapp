@@ -5,6 +5,7 @@ import sekharImage from "./images/sekhar6.jpeg";
 import ank from "./images/ANK.png";
 import hemanth from "./images/hemanth_image.jpeg";
 import satish from "./images/satish1.jpeg";
+import Carouseltimeline from "./Carouseltimeline.js";
 import gowri from "./images/gowri_image.jpeg";
 import teja from "./images/teja.jpeg";
 import "./about.scss";
@@ -190,6 +191,7 @@ function About() {
       </section>
 
       <section></section>
+      <Carouseltimeline />
       <FooterBar />
     </div>
   );

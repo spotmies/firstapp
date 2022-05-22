@@ -4,10 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-import {createStore} from 'redux';
-import {Provider} from 'react-redux'
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 import rootReducer from "./reducers/rootReducer";
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const store = createStore(rootReducer);
 
@@ -15,11 +16,10 @@ ReactDOM.render(
   <Router>
     {" "}
     <Provider store={store}>
-    <App />
+      <App />
     </Provider>
   </Router>,
   document.getElementById("root")
-  
 );
 
 // history.listen((location, action) => {
