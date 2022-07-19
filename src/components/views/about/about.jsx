@@ -191,7 +191,7 @@ function About() {
       </section>
 
       <section></section>
-      <Carouseltimeline />
+      {/* <Carouseltimeline /> */}
       <FooterBar />
     </div>
   );
