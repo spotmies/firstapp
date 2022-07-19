@@ -20,7 +20,7 @@ import profile from "./components/views/signup&profile/profile";
 import SimpleMap from "./components/views/contacts/contact";
 import NewContact from "./components/views/contacts/newContact";
 import chatssection from "./components/views/chats/chats-section";
-import Rentals from "./components/views/rentals/bikerental";
+// import Rentals from "./components/views/rentals/bikerental";
 import pdetails from "./components/views/partnerDetails/pdetails";
 import newpost2 from "./components/views/newpost/newpost2";
 import editpost2 from "./components/views/editpost/editpost2";
@@ -74,7 +74,7 @@ function Routing() {
               <Route path="/mybookings/id/edit" component={editpost2} />
               <Route path="/mybookings/id" component={NewBook} />
               <Route path="/contact" component={NewContact} />
-              <Route path="/rentals" component={Rentals} />
+              {/* <Route path="/rentals" component={Rentals} /> */}
               <Route path="/pdetails" component={pdetails} />
               <Route
                 path="/partnerRegistration"
